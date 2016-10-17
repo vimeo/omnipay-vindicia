@@ -186,7 +186,8 @@ class RefundRequestTest extends SoapTestCase
 
         // behavior should be the same whether the sum of the item amounts is provided
         // as the total amount or the total amount is not provided
-        foreach ([null, $sumOfItems] as $amount) {
+        $amounts = array(null, $sumOfItems);
+        foreach ($amounts as $amount) {
             $data = $this->request->setAmount($amount)->setItems($refundItems)->getData();
 
             $this->assertSame($amount, $data['refunds'][0]->amount);
