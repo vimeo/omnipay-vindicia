@@ -3,6 +3,8 @@
 **Vindicia driver for the Omnipay PHP payment processing library**
 
 [![Build Status](https://travis-ci.org/vimeo/omnipay-vindicia.png?branch=master)](https://travis-ci.org/vimeo/omnipay-vindicia)
+[![Latest Stable Version](https://poser.pugx.org/vimeo/omnipay-vindicia/version.png)](https://packagist.org/packages/vimeo/omnipay-vindicia)
+[![Total Downloads](https://poser.pugx.org/vimeo/omnipay-vindicia/d/total.png)](https://packagist.org/packages/vimeo/omnipay-vindicia)
 
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements Vindicia support for Omnipay.
