@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <initializeResponse xmlns="http://soap.vindicia.com/v18_0/WebSession">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">400</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">Unable to initialize WebSession: Insert or update ("insert into web_session (ip_id, error_url_id, method, version, expire_time, merchant_id, entity_id) VALUES ('123456789', '123456789', 'Account_UpdatePaymentMethod', '18.0', '2016-08-15 08:04:32', '123456789', '123456789')") failed:  ORA-01400: cannot insert NULL into ("VINDICIA"."WEB_SESSION"."RETURN_URL_ID") (DBD ERROR: OCIStmtExecute)</returnString>
+      </return>
+    </initializeResponse>
+  </soap:Body>
+</soap:Envelope>

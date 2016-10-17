@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <calculateSalesTaxResponse xmlns="http://soap.vindicia.com/v18_0/Transaction">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <transaction xmlns="" xsi:type="vin:Transaction">
+        <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+        <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-05T14:45:22-07:00</timestamp>
+        <account xmlns="" xsi:type="vin:Account">
+          <emailTypePreference xmlns="" xsi:type="vin:EmailPreference">html</emailTypePreference>
+        </account>
+        <sourcePaymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+          <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+          <creditCard xmlns="" xsi:type="vin:CreditCard">
+            <account xmlns="" xsi:type="xsd:string" />
+            <lastDigits xmlns="" xsi:type="xsd:string">0000</lastDigits>
+            <expirationDate xmlns="" xsi:type="xsd:string">199912</expirationDate>
+          </creditCard>
+          <billingAddress xmlns="" xsi:type="vin:Address">
+            <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+          </billingAddress>
+          <active xmlns="" xsi:type="xsd:boolean">1</active>
+        </sourcePaymentMethod>
+        <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <indexNumber xmlns="" xsi:type="xsd:int">1</indexNumber>
+          <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
+          <name xmlns="" xsi:type="xsd:string">Generic item</name>
+          <price xmlns="" xsi:type="xsd:decimal">[AMOUNT]</price>
+          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
+          <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
+          <subtotal xmlns="" xsi:type="xsd:decimal">[AMOUNT]</subtotal>
+          <total xmlns="" xsi:type="xsd:decimal">[AMOUNT]</total>
+        </transactionItems>
+        <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <sku xmlns="" xsi:type="xsd:string">Total Tax</sku>
+          <indexNumber xmlns="" xsi:type="xsd:int">2</indexNumber>
+          <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
+          <name xmlns="" xsi:type="xsd:string">Total Tax</name>
+          <price xmlns="" xsi:type="xsd:decimal">0</price>
+          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+          <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
+          <tax xmlns="" xsi:type="vin:TaxItem">
+            <jurisdiction xmlns="" xsi:type="xsd:string">COUNTRY</jurisdiction>
+            <name xmlns="" xsi:type="xsd:string">[COUNTRY] COUNTRY SALES TAX</name>
+            <amount xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</amount>
+          </tax>
+          <discount xmlns="" xsi:type="xsd:decimal">0</discount>
+          <subtotal xmlns="" xsi:type="xsd:decimal">0</subtotal>
+          <total xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</total>
+        </transactionItems>
+        <salesTaxAddress xmlns="" xsi:type="vin:Address">
+          <VID xmlns="" xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+          <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+        </salesTaxAddress>
+      </transaction>
+      <addressType xmlns="" xsi:type="vin:AddressType">Billing</addressType>
+      <originalAddress xmlns="" xsi:type="vin:Address">
+        <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+      </originalAddress>
+      <correctedAddress xmlns="" xsi:type="vin:Address">
+        <VID xmlns="" xsi:type="xsd:string">19de437845ffe22d5e39c7c4c0a58a6bd808ca00</VID>
+        <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+      </correctedAddress>
+      <taxItems xmlns="" xsi:type="vin:SalesTax">
+        <description xmlns="" xsi:type="xsd:string">Country</description>
+        <tax xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</tax>
+      </taxItems>
+      <totalTax xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</totalTax>
+    </calculateSalesTaxResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <fetchByVidResponse xmlns="http://soap.vindicia.com/v18_0/Product">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <product xmlns="" xsi:type="vin:Product">
+        <VID xmlns="" xsi:type="xsd:string">[PRODUCT_REFERENCE]</VID>
+        <merchantProductId xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</merchantProductId>
+        <status xmlns="" xsi:type="vin:ProductStatus">Active</status>
+        <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+        <defaultBillingPlan xmlns="" xsi:type="vin:BillingPlan">
+          <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
+          <merchantBillingPlanId xmlns="" xsi:type="xsd:string">123456</merchantBillingPlanId>
+          <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
+          <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+          <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
+            <type xmlns="" xsi:type="vin:BillingPeriodType">Month</type>
+            <quantity xmlns="" xsi:type="xsd:int">2</quantity>
+            <cycles xmlns="" xsi:type="xsd:int">0</cycles>
+            <doNotNotifyFirstBill xmlns="" xsi:type="xsd:boolean">0</doNotNotifyFirstBill>
+            <free xmlns="" xsi:type="xsd:boolean">0</free>
+          </periods>
+          <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Statement descriptor for plan</billingStatementIdentifier>
+          <timesToRun xmlns="" xsi:type="xsd:string">1</timesToRun>
+          <daysBeforeSeasonToBill xmlns="" xsi:type="xsd:int">0</daysBeforeSeasonToBill>
+          <daysEntitledBeforeSeason xmlns="" xsi:type="xsd:int">0</daysEntitledBeforeSeason>
+          <daysEntitledAfterSeason xmlns="" xsi:type="xsd:int">0</daysEntitledAfterSeason>
+          <skipInitialFreeWhenRepeating xmlns="" xsi:type="xsd:boolean">1</skipInitialFreeWhenRepeating>
+        </defaultBillingPlan>
+        <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Statement descriptor for product</billingStatementIdentifier>
+        <prices xmlns="" xsi:type="vin:ProductPrice">
+          <amount xmlns="" xsi:type="xsd:decimal">3.50</amount>
+          <currency xmlns="" xsi:type="xsd:string">USD</currency>
+        </prices>
+        <prices xmlns="" xsi:type="vin:ProductPrice">
+          <amount xmlns="" xsi:type="xsd:decimal">200</amount>
+          <currency xmlns="" xsi:type="xsd:string">KRW</currency>
+        </prices>
+      </product>
+    </fetchByVidResponse>
+  </soap:Body>
+</soap:Envelope>

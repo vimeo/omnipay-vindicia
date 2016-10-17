@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <initializeResponse xmlns="http://soap.vindicia.com/v18_0/WebSession">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <session xmlns="" xsi:type="vin:WebSession">
+        <VID xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</VID>
+        <method xmlns="" xsi:type="xsd:string">AutoBill_Update</method>
+        <version xmlns="" xsi:type="xsd:string">18.0</version>
+        <returnURL xmlns="" xsi:type="xsd:string">[RETURN_URL]</returnURL>
+        <errorURL xmlns="" xsi:type="xsd:string">[ERROR_URL]</errorURL>
+        <ipAddress xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</ipAddress>
+        <expireTime xmlns="" xsi:type="xsd:dateTime">2016-10-03T11:26:39-07:00</expireTime>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_immediateAuthFailurePolicy</name>
+          <value xmlns="" xsi:type="xsd:string">doNotSaveAutoBill</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_validateForFuturePayment</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_ignoreAvsPolicy</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_ignoreCvnPolicy</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_campaignCode</name>
+          <value xmlns="" xsi:type="xsd:string">null</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_dryrun</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_cancelReasonCode</name>
+          <value xmlns="" xsi:type="xsd:string">null</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_Update_minChargebackProbability</name>
+          <value xmlns="" xsi:type="xsd:string">[MIN_CHARGEBACK_PROBABILITY]</value>
+        </methodParamValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_paymentMethod_merchantPaymentMethodId</name>
+          <value xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_items_0_product_merchantProductId</name>
+          <value xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_billingPlan_merchantBillingPlanId</name>
+          <value xmlns="" xsi:type="xsd:string">[PLAN_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_account_merchantAccountId</name>
+          <value xmlns="" xsi:type="xsd:string">[CUSTOMER_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_statementFormat</name>
+          <value xmlns="" xsi:type="xsd:string">DoNotSend</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_startTimestamp</name>
+          <value xmlns="" xsi:type="xsd:string">2016-12-01T12:00:00-04:00</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_sourceIp</name>
+          <value xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_merchantAutoBillId</name>
+          <value xmlns="" xsi:type="xsd:string">[SUBSCRIPTION_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_currency</name>
+          <value xmlns="" xsi:type="xsd:string">[CURRENCY]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">AutoBill_billingStatementIdentifier</name>
+          <value xmlns="" xsi:type="xsd:string">[STATEMENT_DESCRIPTOR]</value>
+        </privateFormValues>
+        <apiReturn xmlns="" xsi:type="vin:Return">
+          <returnCode xmlns="" xsi:type="vin:ReturnCode">200</returnCode>
+          <returnString xmlns="" xsi:type="xsd:string">OK</returnString>
+        </apiReturn>
+        <apiReturnValues xmlns="" xsi:type="vin:WebSessionMethodReturn" />
+      </session>
+    </initializeResponse>
+  </soap:Body>
+</soap:Envelope>

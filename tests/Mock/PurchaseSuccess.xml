@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <authCaptureResponse xmlns="http://soap.vindicia.com/v18_0/Transaction">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <transaction xmlns="" xsi:type="vin:Transaction">
+        <VID xmlns="" xsi:type="xsd:string">[TRANSACTION_REFERENCE]</VID>
+        <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+        <divisionNumber xmlns="" xsi:type="xsd:string">12345</divisionNumber>
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
+        <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-08T12:24:26-07:00</timestamp>
+        <account xmlns="" xsi:type="vin:Account">
+          <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
+          <merchantAccountId xmlns="" xsi:type="xsd:string">[CUSTOMER_ID]</merchantAccountId>
+          <emailTypePreference xmlns="" xsi:type="vin:EmailPreference">html</emailTypePreference>
+          <name xmlns="" xsi:type="xsd:string">Test Customer</name>
+        </account>
+        <sourcePaymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+          <VID xmlns="" xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+          <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+          <creditCard xmlns="" xsi:type="vin:CreditCard">
+            <account xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]XXXXXX[CARD_LAST_FOUR]</account>
+            <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+            <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
+            <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
+            <expirationDate xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</expirationDate>
+            <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+              <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+              <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+              <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+              <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+              <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+              <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+              <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+              <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+              <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+            </extendedCardAttributes>
+            <VID xmlns="" xsi:type="xsd:string">12345abcdef6789012345abcdef67890</VID>
+          </creditCard>
+          <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
+          <active xmlns="" xsi:type="xsd:boolean">0</active>
+        </sourcePaymentMethod>
+        <statusLog xmlns="" xsi:type="vin:TransactionStatus">
+          <status xmlns="" xsi:type="vin:TransactionStatusType">Authorized</status>
+          <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-08T12:24:27-07:00</timestamp>
+          <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
+          <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
+            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+              <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+              <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+              <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+              <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+              <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+              <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+              <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+              <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+              <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+            </extendedCardAttributes>
+          </creditCardStatus>
+        </statusLog>
+        <statusLog xmlns="" xsi:type="vin:TransactionStatus">
+          <status xmlns="" xsi:type="vin:TransactionStatusType">New</status>
+          <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-08T12:24:25-07:00</timestamp>
+          <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
+          <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
+            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+              <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+              <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+              <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+              <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+              <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+              <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+              <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+              <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+              <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+            </extendedCardAttributes>
+          </creditCardStatus>
+        </statusLog>
+        <paymentProcessor xmlns="" xsi:type="xsd:string">ProcessorName</paymentProcessor>
+        <paymentProcessorTransactionId xmlns="" xsi:type="xsd:string">123XYZ</paymentProcessorTransactionId>
+        <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <indexNumber xmlns="" xsi:type="xsd:int">1</indexNumber>
+          <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
+          <name xmlns="" xsi:type="xsd:string">Item Name</name>
+          <price xmlns="" xsi:type="xsd:decimal">10</price>
+          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <taxClassification xmlns="" xsi:type="xsd:string">OtherTaxable</taxClassification>
+          <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
+          <subtotal xmlns="" xsi:type="xsd:decimal">10</subtotal>
+          <total xmlns="" xsi:type="xsd:decimal">10</total>
+        </transactionItems>
+        <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <sku xmlns="" xsi:type="xsd:string">Total Tax</sku>
+          <indexNumber xmlns="" xsi:type="xsd:int">2</indexNumber>
+          <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
+          <name xmlns="" xsi:type="xsd:string">Total Tax</name>
+          <price xmlns="" xsi:type="xsd:decimal">0</price>
+          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+          <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
+          <discount xmlns="" xsi:type="xsd:decimal">0</discount>
+          <subtotal xmlns="" xsi:type="xsd:decimal">0</subtotal>
+          <total xmlns="" xsi:type="xsd:decimal">0</total>
+        </transactionItems>
+      </transaction>
+      <score xmlns="" xsi:type="xsd:int">-1</score>
+    </authCaptureResponse>
+  </soap:Body>
+</soap:Envelope>

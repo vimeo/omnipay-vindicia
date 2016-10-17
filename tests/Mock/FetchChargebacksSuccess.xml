@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <fetchByMerchantTransactionIdResponse xmlns="http://soap.vindicia.com/v18_0/Chargeback">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <chargebacks xmlns="" xsi:type="vin:Chargeback">
+        <VID xmlns="" xsi:type="xsd:string">654321abcdef654321abcdef654321abcdef</VID>
+        <amount xmlns="" xsi:type="xsd:decimal">140</amount>
+        <currency xmlns="" xsi:type="xsd:string">USD</currency>
+        <reasonCode xmlns="" xsi:type="xsd:string" />
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ123456</merchantTransactionId>
+        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">2016-10-11T08:06:50-07:00</merchantTransactionTimestamp>
+        <merchantUserId xmlns="" xsi:type="xsd:string">123456abcdef</merchantUserId>
+      </chargebacks>
+      <chargebacks xmlns="" xsi:type="vin:Chargeback">
+        <VID xmlns="" xsi:type="xsd:string">abcdef654321abcdef654321abcdef654321</VID>
+        <amount xmlns="" xsi:type="xsd:decimal">100</amount>
+        <currency xmlns="" xsi:type="xsd:string">USD</currency>
+        <reasonCode xmlns="" xsi:type="xsd:string" />
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ654321</merchantTransactionId>
+        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">2016-10-11T08:06:50-07:00</merchantTransactionTimestamp>
+        <merchantUserId xmlns="" xsi:type="xsd:string">123456abcdef</merchantUserId>
+      </chargebacks>
+    </fetchByMerchantTransactionIdResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <captureResponse xmlns="http://soap.vindicia.com/v18_0/Transaction">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">Ok</returnString>
+      </return>
+      <qtySuccess xmlns="" xsi:type="xsd:int">0</qtySuccess>
+      <qtyFail xmlns="" xsi:type="xsd:int">1</qtyFail>
+      <results xmlns="" xsi:type="vin:CaptureResult">
+        <returnCode xmlns="" xsi:type="xsd:int">404</returnCode>
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
+      </results>
+    </captureResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <cancelResponse xmlns="http://soap.vindicia.com/v18_0/AutoBill">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <autobill xmlns="" xsi:type="vin:AutoBill">
+        <VID xmlns="" xsi:type="xsd:string">[SUBSCRIPTION_REFERENCE]</VID>
+        <merchantAutoBillId xmlns="" xsi:type="xsd:string">[SUBSCRIPTION_ID]</merchantAutoBillId>
+        <account xmlns="" xsi:type="vin:Account">
+          <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
+          <merchantAccountId xmlns="" xsi:type="xsd:string">[CUSTOMER_ID]</merchantAccountId>
+          <emailAddress xmlns="" xsi:type="xsd:string">email@example.com</emailAddress>
+          <emailTypePreference xmlns="" xsi:type="vin:EmailPreference">html</emailTypePreference>
+          <name xmlns="" xsi:type="xsd:string">Test Customer</name>
+        </account>
+        <billingPlan xmlns="" xsi:type="vin:BillingPlan">
+          <VID xmlns="" xsi:type="xsd:string">abcdefabcdef01234567890123456789</VID>
+          <merchantBillingPlanId xmlns="" xsi:type="xsd:string">[PLAN_ID]</merchantBillingPlanId>
+          <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
+          <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+          <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
+            <type xmlns="" xsi:type="vin:BillingPeriodType">Month</type>
+            <quantity xmlns="" xsi:type="xsd:int">2</quantity>
+            <cycles xmlns="" xsi:type="xsd:int">0</cycles>
+            <doNotNotifyFirstBill xmlns="" xsi:type="xsd:boolean">0</doNotNotifyFirstBill>
+            <free xmlns="" xsi:type="xsd:boolean">0</free>
+          </periods>
+          <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Plan statement descriptor</billingStatementIdentifier>
+          <timesToRun xmlns="" xsi:type="xsd:string">1</timesToRun>
+          <daysBeforeSeasonToBill xmlns="" xsi:type="xsd:int">0</daysBeforeSeasonToBill>
+          <daysEntitledBeforeSeason xmlns="" xsi:type="xsd:int">0</daysEntitledBeforeSeason>
+          <daysEntitledAfterSeason xmlns="" xsi:type="xsd:int">0</daysEntitledAfterSeason>
+          <skipInitialFreeWhenRepeating xmlns="" xsi:type="xsd:boolean">1</skipInitialFreeWhenRepeating>
+        </billingPlan>
+        <paymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+          <VID xmlns="" xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+          <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+          <creditCard xmlns="" xsi:type="vin:CreditCard">
+            <account xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]XXXXXX[CARD_LAST_FOUR]</account>
+            <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+            <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
+            <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
+            <expirationDate xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</expirationDate>
+            <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+              <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+              <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+              <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+              <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+              <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+              <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+              <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+              <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+              <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+            </extendedCardAttributes>
+            <VID xmlns="" xsi:type="xsd:string">abcdef0123456789abcdef0123456789</VID>
+          </creditCard>
+          <billingAddress xmlns="" xsi:type="vin:Address">
+            <VID xmlns="" xsi:type="xsd:string">fedcba9876543210fedcba9876543210</VID>
+            <country xmlns="" xsi:type="xsd:string">US</country>
+          </billingAddress>
+          <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+          <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
+          <active xmlns="" xsi:type="xsd:boolean">1</active>
+        </paymentMethod>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+        <status xmlns="" xsi:type="vin:AutoBillStatus">Pending Cancel</status>
+        <billingState xmlns="" xsi:type="vin:BillingState">Billing Completed</billingState>
+        <startTimestamp xmlns="" xsi:type="xsd:dateTime">2016-12-01T12:00:00-08:00</startTimestamp>
+        <endTimestamp xmlns="" xsi:type="xsd:dateTime">2016-12-01T23:59:59-08:00</endTimestamp>
+        <items xmlns="" xsi:type="vin:AutoBillItem">
+          <VID xmlns="" xsi:type="xsd:string">1234098765fabcdeffabcdef1234098765</VID>
+          <index xmlns="" xsi:type="xsd:int">0</index>
+          <product xmlns="" xsi:type="vin:Product">
+            <VID xmlns="" xsi:type="xsd:string">fabcdef12340987651234098765fabcdef</VID>
+            <merchantProductId xmlns="" xsi:type="xsd:string">654321</merchantProductId>
+            <status xmlns="" xsi:type="vin:ProductStatus">Active</status>
+            <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+            <defaultBillingPlan xmlns="" xsi:type="vin:BillingPlan">
+              <VID xmlns="" xsi:type="xsd:string">1234098765fabcdef1234098765fabcdef</VID>
+              <merchantBillingPlanId xmlns="" xsi:type="xsd:string">123456</merchantBillingPlanId>
+              <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
+              <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+              <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
+                <type xmlns="" xsi:type="vin:BillingPeriodType">Month</type>
+                <quantity xmlns="" xsi:type="xsd:int">2</quantity>
+                <cycles xmlns="" xsi:type="xsd:int">0</cycles>
+                <doNotNotifyFirstBill xmlns="" xsi:type="xsd:boolean">0</doNotNotifyFirstBill>
+                <free xmlns="" xsi:type="xsd:boolean">0</free>
+              </periods>
+              <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Plan statment descriptor</billingStatementIdentifier>
+              <timesToRun xmlns="" xsi:type="xsd:string">1</timesToRun>
+              <daysBeforeSeasonToBill xmlns="" xsi:type="xsd:int">0</daysBeforeSeasonToBill>
+              <daysEntitledBeforeSeason xmlns="" xsi:type="xsd:int">0</daysEntitledBeforeSeason>
+              <daysEntitledAfterSeason xmlns="" xsi:type="xsd:int">0</daysEntitledAfterSeason>
+              <skipInitialFreeWhenRepeating xmlns="" xsi:type="xsd:boolean">1</skipInitialFreeWhenRepeating>
+            </defaultBillingPlan>
+            <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Product statement descriptor</billingStatementIdentifier>
+            <prices xmlns="" xsi:type="vin:ProductPrice">
+              <amount xmlns="" xsi:type="xsd:decimal">3.50</amount>
+              <currency xmlns="" xsi:type="xsd:string">USD</currency>
+            </prices>
+          </product>
+          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <addedDate xmlns="" xsi:type="xsd:dateTime">2016-09-20T14:47:07-07:00</addedDate>
+          <removedDate xmlns="" xsi:type="xsd:dateTime">2016-12-01T00:00:00-08:00</removedDate>
+          <startDate xmlns="" xsi:type="xsd:string">2016-12-01T00:00:00-08:00</startDate>
+        </items>
+        <sourceIp xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</sourceIp>
+        <billingStatementIdentifier xmlns="" xsi:type="xsd:string">[STATEMENT_DESCRIPTOR]</billingStatementIdentifier>
+        <billingDay xmlns="" xsi:type="xsd:int">1</billingDay>
+        <minimumCommitment xmlns="" xsi:type="xsd:int">0</minimumCommitment>
+        <warnOnExpiration xmlns="" xsi:type="xsd:boolean">0</warnOnExpiration>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <subscriptionBalance xmlns="" xsi:type="xsd:decimal">0</subscriptionBalance>
+        <statementFormat xmlns="" xsi:type="vin:StatementFormat">DoNotSend</statementFormat>
+      </autobill>
+    </cancelResponse>
+  </soap:Body>
+</soap:Envelope>

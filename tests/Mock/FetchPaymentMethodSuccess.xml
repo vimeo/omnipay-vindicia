@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <fetchByMerchantPaymentMethodIdResponse xmlns="http://soap.vindicia.com/v18_0/PaymentMethod">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <paymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+        <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+        <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+        <creditCard xmlns="" xsi:type="vin:CreditCard">
+          <account xmlns="" xsi:type="xsd:string">555555XXXXXX4444</account>
+          <bin xmlns="" xsi:type="xsd:string">555555</bin>
+          <lastDigits xmlns="" xsi:type="xsd:string">4444</lastDigits>
+          <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
+          <expirationDate xmlns="" xsi:type="xsd:string">201610</expirationDate>
+          <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+            <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+            <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+            <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+            <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+            <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+            <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+            <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+            <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+            <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+          </extendedCardAttributes>
+          <VID xmlns="" xsi:type="xsd:string">654321abcdef654321abcdef654321abcdef</VID>
+        </creditCard>
+        <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+        <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
+        <active xmlns="" xsi:type="xsd:boolean">1</active>
+      </paymentMethod>
+    </fetchByMerchantPaymentMethodIdResponse>
+  </soap:Body>
+</soap:Envelope>

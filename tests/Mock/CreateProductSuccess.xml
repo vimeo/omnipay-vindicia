@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <updateResponse xmlns="http://soap.vindicia.com/v18_0/Product">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <product xmlns="" xsi:type="vin:Product">
+        <VID xmlns="" xsi:type="xsd:string">[PRODUCT_REFERENCE]</VID>
+        <merchantProductId xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</merchantProductId>
+        <status xmlns="" xsi:type="vin:ProductStatus">Active</status>
+        <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
+        <defaultBillingPlan xmlns="" xsi:type="vin:BillingPlan">
+          <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
+          <merchantBillingPlanId xmlns="" xsi:type="xsd:string">[PLAN_ID]</merchantBillingPlanId>
+          <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
+          <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+          <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
+            <type xmlns="" xsi:type="vin:BillingPeriodType">Month</type>
+            <quantity xmlns="" xsi:type="xsd:int">2</quantity>
+            <cycles xmlns="" xsi:type="xsd:int">0</cycles>
+            <doNotNotifyFirstBill xmlns="" xsi:type="xsd:boolean">0</doNotNotifyFirstBill>
+            <free xmlns="" xsi:type="xsd:boolean">0</free>
+          </periods>
+          <nameValues xmlns="" xsi:type="vin:NameValuePair">
+            <name xmlns="" xsi:type="xsd:string">attributeName</name>
+            <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+          </nameValues>
+          <billingStatementIdentifier xmlns="" xsi:type="xsd:string">Billing plan statement descriptor</billingStatementIdentifier>
+          <timesToRun xmlns="" xsi:type="xsd:string">1</timesToRun>
+          <daysBeforeSeasonToBill xmlns="" xsi:type="xsd:int">0</daysBeforeSeasonToBill>
+          <daysEntitledBeforeSeason xmlns="" xsi:type="xsd:int">0</daysEntitledBeforeSeason>
+          <daysEntitledAfterSeason xmlns="" xsi:type="xsd:int">0</daysEntitledAfterSeason>
+          <skipInitialFreeWhenRepeating xmlns="" xsi:type="xsd:boolean">1</skipInitialFreeWhenRepeating>
+        </defaultBillingPlan>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <billingStatementIdentifier xmlns="" xsi:type="xsd:string">[STATEMENT_DESCRIPTOR]</billingStatementIdentifier>
+        <prices xmlns="" xsi:type="vin:ProductPrice">
+          <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+          <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+        </prices>
+      </product>
+      <created xmlns="" xsi:type="xsd:boolean">1</created>
+    </updateResponse>
+  </soap:Body>
+</soap:Envelope>
