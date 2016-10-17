@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/vindicia",
+    "name": "vimeo/omnipay-vindicia",
     "type": "library",
     "description": "Vindicia driver for the Omnipay payment processing library",
     "keywords": [
