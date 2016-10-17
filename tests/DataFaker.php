@@ -417,7 +417,7 @@ class DataFaker
             default:
                 $card['expiryYear'] = strval($this->intBetween(
                     $now->modify('-15 year')->format('Y'),
-                    $now->modify('-1 year')->format('Y')
+                    $now2->modify('-1 year')->format('Y')
                 ));
                 break;
         }
