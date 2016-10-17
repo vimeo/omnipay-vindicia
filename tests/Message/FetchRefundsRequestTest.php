@@ -125,9 +125,10 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getRefunds()));
-        $this->assertSame(1, count($response->getRefunds()));
-        $this->assertNotNull($response->getRefunds()[0]->merchantRefundId);
+        $refunds = $response->getRefunds();
+        $this->assertTrue(is_array($refunds));
+        $this->assertSame(1, count($refunds));
+        $this->assertNotNull($refunds[0]->merchantRefundId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
@@ -142,9 +143,10 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getRefunds()));
-        $this->assertSame(1, count($response->getRefunds()));
-        $this->assertNotNull($response->getRefunds()[0]->merchantRefundId);
+        $refunds = $response->getRefunds();
+        $this->assertTrue(is_array($refunds));
+        $this->assertSame(1, count($refunds));
+        $this->assertNotNull($refunds[0]->merchantRefundId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }

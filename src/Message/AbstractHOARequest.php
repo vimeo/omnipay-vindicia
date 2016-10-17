@@ -165,7 +165,8 @@ abstract class AbstractHOARequest extends AbstractRequest
         $objectParamNames = $this->getObjectParamNames();
 
         foreach ($objectParamNames as $object_name => $param_name) {
-            $object = $this->regularRequest->getData()[$param_name];
+            $data = $this->regularRequest->getData();
+            $object = $data[$param_name];
             $values = array_merge($values, $this->buildPrivateFormValues($object_name, $object));
         }
 

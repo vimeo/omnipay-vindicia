@@ -125,10 +125,11 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getTransactions()));
-        $this->assertSame(2, count($response->getTransactions()));
-        $this->assertNotNull($response->getTransactions()[0]->merchantTransactionId);
-        $this->assertNotNull($response->getTransactions()[1]->merchantTransactionId);
+        $transactions = $response->getTransactions();
+        $this->assertTrue(is_array($transactions));
+        $this->assertSame(2, count($transactions));
+        $this->assertNotNull($transactions[0]->merchantTransactionId);
+        $this->assertNotNull($transactions[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -143,10 +144,11 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getTransactions()));
-        $this->assertSame(2, count($response->getTransactions()));
-        $this->assertNotNull($response->getTransactions()[0]->merchantTransactionId);
-        $this->assertNotNull($response->getTransactions()[1]->merchantTransactionId);
+        $transactions = $response->getTransactions();
+        $this->assertTrue(is_array($transactions));
+        $this->assertSame(2, count($transactions));
+        $this->assertNotNull($transactions[0]->merchantTransactionId);
+        $this->assertNotNull($transactions[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

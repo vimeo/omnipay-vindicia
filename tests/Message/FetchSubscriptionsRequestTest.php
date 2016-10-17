@@ -116,10 +116,11 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getSubscriptions()));
-        $this->assertSame(2, count($response->getSubscriptions()));
-        $this->assertNotNull($response->getSubscriptions()[0]->merchantAutoBillId);
-        $this->assertNotNull($response->getSubscriptions()[1]->merchantAutoBillId);
+        $subscriptions = $response->getSubscriptions();
+        $this->assertTrue(is_array($subscriptions));
+        $this->assertSame(2, count($subscriptions));
+        $this->assertNotNull($subscriptions[0]->merchantAutoBillId);
+        $this->assertNotNull($subscriptions[1]->merchantAutoBillId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
@@ -134,10 +135,11 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getSubscriptions()));
-        $this->assertSame(2, count($response->getSubscriptions()));
-        $this->assertNotNull($response->getSubscriptions()[0]->merchantAutoBillId);
-        $this->assertNotNull($response->getSubscriptions()[1]->merchantAutoBillId);
+        $subscriptions = $response->getSubscriptions();
+        $this->assertTrue(is_array($subscriptions));
+        $this->assertSame(2, count($subscriptions));
+        $this->assertNotNull($subscriptions[0]->merchantAutoBillId);
+        $this->assertNotNull($subscriptions[1]->merchantAutoBillId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

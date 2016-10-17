@@ -75,10 +75,11 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertTrue(is_array($response->getPaymentMethods()));
-        $this->assertSame(2, count($response->getPaymentMethods()));
-        $this->assertNotNull($response->getPaymentMethods()[0]->merchantPaymentMethodId);
-        $this->assertNotNull($response->getPaymentMethods()[1]->merchantPaymentMethodId);
+        $paymentMethods = $response->getPaymentMethods();
+        $this->assertTrue(is_array($paymentMethods));
+        $this->assertSame(2, count($paymentMethods));
+        $this->assertNotNull($paymentMethods[0]->merchantPaymentMethodId);
+        $this->assertNotNull($paymentMethods[1]->merchantPaymentMethodId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
