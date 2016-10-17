@@ -266,6 +266,13 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($payPalTransactionReference, $this->request->getPayPalTransactionReference());
     }
 
+    public function testPrices()
+    {
+        $prices = $this->faker->prices();
+        $this->assertSame($this->request, $this->request->setPrices($prices));
+        $this->assertSame($prices, $this->request->getPrices());
+    }
+
     public function testSendData()
     {
         $object = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER, $this->faker->intBetween(5, 10));

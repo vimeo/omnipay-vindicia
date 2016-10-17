@@ -2,8 +2,6 @@
 
 namespace Omnipay\Vindicia;
 
-use Omnipay\Common\AbstractGateway;
-
 /**
  * Vindicia PayPal Gateway
  *
@@ -18,10 +16,8 @@ use Omnipay\Common\AbstractGateway;
  *   $gateway->setTestMode(false);
  * </code>
  */
-class PayPalGateway extends AbstractGateway
+class PayPalGateway extends AbstractVindiciaGateway
 {
-    use SharedGatewayFunctions;
-
     /**
      * Get the gateway name.
      *
@@ -171,6 +167,6 @@ class PayPalGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 
-    // see the SharedGatewayFunctions trait for more functions and documentation
+    // see AbstractVindiciaGateway for more functions and documentation
     // NOTE: PayPal transactions cannot be voided/canceld and should be refunded instead.
 }

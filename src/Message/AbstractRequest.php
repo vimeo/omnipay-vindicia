@@ -7,6 +7,7 @@ use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
 use Omnipay\Vindicia\AttributeBag;
 use Omnipay\Vindicia\NameValue;
+use Omnipay\Vindicia\PriceBag;
 use Omnipay\Common\Exception\InvalidRequestException;
 use SoapFault;
 use stdClass;
@@ -505,6 +506,33 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('payPalTransactionReference', $value);
     }
 
+    /**
+     * A list of prices (currency and amount)
+     *
+     * @return PriceBag|null
+     */
+    public function getPrices()
+    {
+        return $this->getParameter('prices');
+    }
+
+    /**
+     * Set the prices (currency and amount)
+     * If you only need a price for one currency, you can also use setAmount and setCurrency.
+     *
+     * @param PriceBag|array $prices
+     * @return AbstractRequest
+     * @throws InvalidPriceBagException if multiple prices have the same currency
+     */
+    public function setPrices($prices)
+    {
+        if ($prices && !$prices instanceof PriceBag) {
+            $prices = new PriceBag($prices);
+        }
+
+        return $this->setParameter('prices', $prices);
+    }
+
     abstract protected function getObject();
 
     abstract protected function getFunction();
@@ -752,5 +780,41 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $nameValues;
+    }
+
+    /**
+     * Builds the value for Vindicia's prices field
+     *
+     * @return array of stdClass
+     */
+    protected function makePricesForVindicia()
+    {
+        $prices = $this->getPrices();
+        $amount = $this->getAmount();
+        $currency = $this->getCurrency();
+        if (!empty($prices) && (isset($amount) || isset($currency))) {
+            throw new InvalidRequestException(
+                'The amount and currency parameters cannot be set if the prices parameter is set.'
+            );
+        }
+
+        $vindiciaPrices = array();
+        if (!empty($prices)) {
+            foreach ($prices as $price) {
+                $vindiciaPrice = new stdClass();
+                $vindiciaPrice->amount = $price->getAmount();
+                $vindiciaPrice->currency = $price->getCurrency();
+                $vindiciaPrices[] = $vindiciaPrice;
+            }
+        } else {
+            if (isset($amount)) {
+                $price = new stdClass();
+                $price->amount = $amount;
+                $price->currency = $currency;
+                $vindiciaPrices[] = $price;
+            }
+        }
+
+        return $vindiciaPrices;
     }
 }

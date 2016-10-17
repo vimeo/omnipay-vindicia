@@ -2,8 +2,6 @@
 
 namespace Omnipay\Vindicia;
 
-use Omnipay\Common\AbstractGateway;
-
 /**
  * Vindicia HOA Gateway
  *
@@ -26,10 +24,8 @@ use Omnipay\Common\AbstractGateway;
  *   $gateway->setTestMode(false);
  * </code>
  */
-class HOAGateway extends AbstractGateway
+class HOAGateway extends AbstractVindiciaGateway
 {
-    use SharedGatewayFunctions;
-
     /**
      * Get the gateway name.
      *
@@ -174,4 +170,6 @@ class HOAGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Vindicia\Message\CompleteHOARequest', $parameters);
     }
+
+    // see AbstractVindiciaGateway for more functions and documentation
 }

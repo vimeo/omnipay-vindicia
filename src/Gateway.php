@@ -2,8 +2,6 @@
 
 namespace Omnipay\Vindicia;
 
-use Omnipay\Common\AbstractGateway;
-
 /**
  * Vindicia Gateway
  *
@@ -15,10 +13,8 @@ use Omnipay\Common\AbstractGateway;
  *   $gateway->setTestMode(false);
  * </code>
  */
-class Gateway extends AbstractGateway
+class Gateway extends AbstractVindiciaGateway
 {
-    use SharedGatewayFunctions;
-
     /**
      * Get the gateway name.
      *
@@ -274,5 +270,5 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 
-    // see the SharedGatewayFunctions trait for more functions and documentation
+    // see AbstractVindiciaGateway for more functions and documentation
 }

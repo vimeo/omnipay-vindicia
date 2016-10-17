@@ -7,10 +7,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
 
 class CreateProductRequest extends AbstractRequest
 {
-    // defines setPrices and getPrices, allowing you to set lists
-    // of prices in multiple currencies
-    use HasPrices;
-
     /**
      * Possible values of the duplicateBehavior parameter, used for specifying
      * what to do when a duplicate product is added.

@@ -2,10 +2,12 @@
 
 namespace Omnipay\Vindicia;
 
+use Omnipay\Common\AbstractGateway;
+
 /**
- * Defines the functions that are shared between the Vindicia and Vindicia_PayPal gateways.
+ * Defines the functions that are shared between the Vindicia gateways.
  */
-trait SharedGatewayFunctions
+abstract class AbstractVindiciaGateway extends AbstractGateway
 {
     /**
      * Get the gateway parameters.

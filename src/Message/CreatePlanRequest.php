@@ -7,10 +7,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
 
 class CreatePlanRequest extends AbstractRequest
 {
-    // defines setPrices and getPrices, allowing you to set lists
-    // of prices in multiplie currencies
-    use HasPrices;
-
     /**
      * The name of the function to be called in Vindicia's API
      *
