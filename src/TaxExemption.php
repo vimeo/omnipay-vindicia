@@ -19,7 +19,7 @@ class TaxExemption
      *
      * @param array $parameters An array of parameters to set on the new object
      */
-    public function __construct($parameters = [])
+    public function __construct($parameters = array())
     {
         if (!array_key_exists('active', $parameters)) {
             $parameters['active'] = true;

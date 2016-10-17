@@ -35,10 +35,10 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->attributes = $this->faker->attributes(true);
         $this->returnUrl = $this->faker->url();
         $this->cancelUrl = $this->faker->url();
-        $this->card = [
+        $this->card = array(
             'country' => $this->faker->region(),
             'postcode' => $this->faker->postcode()
-        ];
+        );
 
         $this->request = new CreatePayPalSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(

@@ -30,10 +30,10 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->taxClassification = $this->faker->taxClassification();
         $this->returnUrl = $this->faker->url();
         $this->cancelUrl = $this->faker->url();
-        $this->card = [
+        $this->card = array(
             'country' => $this->faker->region(),
             'postcode' => $this->faker->postcode()
-        ];
+        );
 
         $this->request = new PayPalPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(

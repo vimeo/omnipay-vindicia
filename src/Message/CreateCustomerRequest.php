@@ -93,7 +93,7 @@ class CreateCustomerRequest extends AbstractRequest
 
         $taxExemptions = $this->getTaxExemptions();
         if (!empty($taxExemptions)) {
-            $vindiciaTaxExemptions = [];
+            $vindiciaTaxExemptions = array();
 
             foreach ($taxExemptions as $taxExemption) {
                 $vindiciaTaxExemption = new stdClass();
