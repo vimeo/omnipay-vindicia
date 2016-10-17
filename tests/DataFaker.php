@@ -382,12 +382,14 @@ class DataFaker
      */
     public function card()
     {
+        $now = new DateTime();
+        $now2 = clone $now;
         return array(
             'number' => $this->intBetween(0, 1) ? '4242424242424242' : '5555555555554444',
             'expiryMonth' => strval($this->intBetween(1, 12)),
             'expiryYear' => strval($this->intBetween(
-                (new DateTime())->modify('+1 year')->format('Y'),
-                (new DateTime())->modify('+50 year')->format('Y')
+                $now->modify('+1 year')->format('Y'),
+                $now2->modify('+50 year')->format('Y')
             )),
             'cvv' => strval($this->intBetween(100, 999)),
             'country' => $this->region(),
@@ -402,6 +404,8 @@ class DataFaker
      */
     public function invalidCard()
     {
+        $now = new DateTime();
+        $now2 = clone $now;
         $card = $this->card();
         switch ($this->intBetween(0, 2)) {
             case 0:
@@ -412,8 +416,8 @@ class DataFaker
                 break;
             default:
                 $card['expiryYear'] = strval($this->intBetween(
-                    (new DateTime())->modify('-15 year')->format('Y'),
-                    (new DateTime())->modify('-1 year')->format('Y')
+                    $now->modify('-15 year')->format('Y'),
+                    $now->modify('-1 year')->format('Y')
                 ));
                 break;
         }
