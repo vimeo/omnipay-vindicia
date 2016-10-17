@@ -133,8 +133,8 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getChargebacks()));
         $this->assertSame(2, count($response->getChargebacks()));
-        $this->assertTrue(isset($response->getChargebacks()[0]->merchantTransactionId));
-        $this->assertTrue(isset($response->getChargebacks()[1]->merchantTransactionId));
+        $this->assertNotNull($response->getChargebacks()[0]->merchantTransactionId);
+        $this->assertNotNull($response->getChargebacks()[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
@@ -151,8 +151,8 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getChargebacks()));
         $this->assertSame(2, count($response->getChargebacks()));
-        $this->assertTrue(isset($response->getChargebacks()[0]->merchantTransactionId));
-        $this->assertTrue(isset($response->getChargebacks()[1]->merchantTransactionId));
+        $this->assertNotNull($response->getChargebacks()[0]->merchantTransactionId);
+        $this->assertNotNull($response->getChargebacks()[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }

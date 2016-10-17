@@ -127,7 +127,7 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getRefunds()));
         $this->assertSame(1, count($response->getRefunds()));
-        $this->assertTrue(isset($response->getRefunds()[0]->merchantRefundId));
+        $this->assertNotNull($response->getRefunds()[0]->merchantRefundId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
@@ -144,7 +144,7 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getRefunds()));
         $this->assertSame(1, count($response->getRefunds()));
-        $this->assertTrue(isset($response->getRefunds()[0]->merchantRefundId));
+        $this->assertNotNull($response->getRefunds()[0]->merchantRefundId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }

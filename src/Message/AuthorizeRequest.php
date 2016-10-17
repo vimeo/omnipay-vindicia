@@ -33,12 +33,16 @@ class AuthorizeRequest extends AbstractRequest
 
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
-        if (empty($this->getAmount()) && empty($this->getItems())) {
+        $amount = $this->getAmount();
+        $items = $this->getItems();
+        if (empty($amount) && empty($items)) {
             throw new InvalidRequestException('Either the amount or items parameter is required.');
         }
 
         // if it's not an update, the customer must be specified
-        if (!$this->isUpdate() && empty($this->getCustomerId()) && empty($this->getCustomerReference())) {
+        $customerId = $this->getCustomerId();
+        $customerReference = $this->getCustomerReference();
+        if (!$this->isUpdate() && empty($customerId) && empty($customerReference)) {
             throw new InvalidRequestException('Either the customerId or customerReference parameter is required.');
         }
 

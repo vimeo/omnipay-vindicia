@@ -127,8 +127,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getTransactions()));
         $this->assertSame(2, count($response->getTransactions()));
-        $this->assertTrue(isset($response->getTransactions()[0]->merchantTransactionId));
-        $this->assertTrue(isset($response->getTransactions()[1]->merchantTransactionId));
+        $this->assertNotNull($response->getTransactions()[0]->merchantTransactionId);
+        $this->assertNotNull($response->getTransactions()[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -145,8 +145,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertTrue(is_array($response->getTransactions()));
         $this->assertSame(2, count($response->getTransactions()));
-        $this->assertTrue(isset($response->getTransactions()[0]->merchantTransactionId));
-        $this->assertTrue(isset($response->getTransactions()[1]->merchantTransactionId));
+        $this->assertNotNull($response->getTransactions()[0]->merchantTransactionId);
+        $this->assertNotNull($response->getTransactions()[1]->merchantTransactionId);
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
