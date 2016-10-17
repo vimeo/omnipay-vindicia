@@ -432,11 +432,9 @@ class DataFaker
      */
     public function name()
     {
-        $makeOneName = function () {
-            return ucfirst($this->randomCharacters(self::ALPHABET_LOWER, $this->intBetween(3, 10)));
-        };
-
-        return $makeOneName() . ' ' . $makeOneName();
+        return ucfirst($this->randomCharacters(self::ALPHABET_LOWER, $this->intBetween(3, 10)))
+            . ' '
+            . ucfirst($this->randomCharacters(self::ALPHABET_LOWER, $this->intBetween(3, 10)));
     }
 
     /**
