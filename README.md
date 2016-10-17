@@ -17,7 +17,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "omnipay/vindicia": "~2.0"
+        "vimeo/omnipay-vindicia": "~2.0"
     }
 }
 ```
