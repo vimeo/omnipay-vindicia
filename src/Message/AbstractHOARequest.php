@@ -25,8 +25,8 @@ abstract class AbstractHOARequest extends AbstractRequest
     public function __construct(ClientInterface $httpClient, HttpRequest $httpRequest, $isUpdate = false)
     {
         // construct a corresponding instance of the regular (non HOA) request
-        $this->regularRequest = (new ReflectionClass(static::$REGULAR_REQUEST_CLASS))
-                                     ->newInstanceArgs(array($httpClient, $httpRequest, $isUpdate));
+        $reflectionClass = new ReflectionClass(static::$REGULAR_REQUEST_CLASS);
+        $this->regularRequest = $reflectionClass->newInstanceArgs(array($httpClient, $httpRequest, $isUpdate));
 
         parent::__construct($httpClient, $httpRequest, $isUpdate);
     }
