@@ -725,4 +725,18 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest', $parameters);
     }
+
+    /**
+     * Method override to support $isUpdate flag.
+     *
+     * @param string $class The request class name
+     * @param array $parameters
+     * @pram bool $isUpdate default false
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    protected function createRequest($class, array $parameters, $isUpdate = false)
+    {
+        $obj = new $class($this->httpClient, $this->httpRequest, $isUpdate);
+        return $obj->initialize(array_replace($this->getParameters(), $parameters));
+    }
 }
