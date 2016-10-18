@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<codeinspector
+    name="PSALM for Vindicia Omnipay driver"
+    stopOnFirstError="true"
+    useDocblockTypes="true"
+    >
+  <inspectFiles>
+    <directory name="src" />
+    <directory name="tests" />
+  </inspectFiles>
+
+  <fileExtensions>
+    <extension name=".php" />
+  </fileExtensions>
+
+  <issueHandler>
+    <MixedArgument errorLevel="suppress" />
+    <MixedMethodCall errorLevel="suppress" />
+    <MixedPropertyFetch errorLevel="suppress" />
+    <MixedPropertyAssignment errorLevel="suppress" />
+    <FailedTypeResolution errorLevel="info" />
+
+    <!-- Thrown on Mockery::mock -->
+    <TooManyArguments>
+      <excludeFiles>
+        <directory name="tests" />
+      </excludeFiles>
+    </TooManyArguments>
+
+    <!-- Unit tests set lots of instance variables inline -->
+    <UndefinedThisPropertyAssignment>
+      <excludeFiles>
+        <directory name="tests" />
+      </excludeFiles>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch>
+      <excludeFiles>
+        <directory name="tests" />
+      </excludeFiles>
+    </UndefinedThisPropertyFetch>
+    <MissingPropertyDeclaration>
+      <excludeFiles>
+        <directory name="tests" />
+      </excludeFiles>
+    </MissingPropertyDeclaration>
+  </issueHandler>
+  <mockClasses>
+    <class name="Mockery\MockInterface" />
+  </mockClasses>
+</codeinspector>

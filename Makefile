@@ -5,3 +5,6 @@ style:
 
 test:
 	vendor/bin/phpunit
+
+psalm:
+	vendor/bin/psalm
