@@ -42,6 +42,9 @@ class CompleteHOARequest extends AbstractRequest
         return $this->setParameter('webSessionReference', $value);
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData()
     {
         $this->validate('webSessionReference');

@@ -31,7 +31,7 @@ class HOACreatePaymentMethodRequestTest extends SoapTestCase
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
         $this->validate = $this->faker->bool();
-        $this->HOAAttributes = $this->faker->attributes(true);
+        $this->HOAAttributes = $this->faker->attributesAsArray();
 
         $this->request = new HOACreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(

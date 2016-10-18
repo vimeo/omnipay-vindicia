@@ -27,7 +27,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->customerReference = $this->faker->customerReference();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
         $this->card['attributes'] = $this->attributes;
 
         $this->request = new CreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());

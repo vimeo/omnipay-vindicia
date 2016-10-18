@@ -67,6 +67,9 @@ class CreateProductRequest extends AbstractRequest
         return $this->setParameter('duplicateBehavior', $value);
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData()
     {
         $productId = $this->getProductId();
@@ -102,10 +105,10 @@ class CreateProductRequest extends AbstractRequest
             $product->nameValues = $this->buildNameValues($attributes);
         }
 
-        $data['product'] = $product;
-        $data['duplicateBehavior'] = $this->getDuplicateBehavior();
-        $data['action'] = $this->getFunction();
-
-        return $data;
+        return array(
+            'product' => $product,
+            'duplicateBehavior' => $this->getDuplicateBehavior(),
+            'action' => $this->getFunction()
+        );
     }
 }

@@ -41,7 +41,5 @@ class FetchPaymentMethodsRequest extends AbstractRequest
             'account' => $account,
             'includeChildren' => false
         );
-
-        return $data;
     }
 }

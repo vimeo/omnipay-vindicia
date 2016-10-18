@@ -32,7 +32,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->ip = $this->faker->ipAddress();
         $this->startTime = $this->faker->timestamp();
         $this->paymentMethodId = $this->faker->paymentMethodId();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
         $this->returnUrl = $this->faker->url();
         $this->cancelUrl = $this->faker->url();
         $this->card = array(

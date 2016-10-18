@@ -32,8 +32,8 @@ class HOAPurchaseRequestTest extends SoapTestCase
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
-        $this->attributes = $this->faker->attributes(true);
-        $this->HOAAttributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
+        $this->HOAAttributes = $this->faker->attributesAsArray();
 
         $this->request = new HOAPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -56,7 +56,7 @@ class HOAPurchaseRequestTest extends SoapTestCase
         );
 
         $this->webSessionReference = $this->faker->webSessionReference();
-        $this->items = $this->faker->items($this->currency, true);
+        $this->items = $this->faker->itemsAsArray($this->currency);
     }
 
     public function testMinChargebackProbability()

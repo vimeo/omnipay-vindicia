@@ -17,8 +17,6 @@ abstract class AbstractHOARequest extends AbstractRequest
     /**
      * The corresponding regular (non-HOA) request. This is used to fake
      * double inheritance since PHP doesn't support it.
-     *
-     * @var AbstractRequest
      */
     protected $regularRequest;
 
@@ -106,7 +104,7 @@ abstract class AbstractHOARequest extends AbstractRequest
      * Get the attributes for the HOA WebSession object itself. (getAttributes returns
      * the attributes for the regular request object, such as the Customer or Transaction)
      *
-     * @return string
+     * @return AttributeBag
      */
     public function getHOAAttributes()
     {
@@ -117,7 +115,7 @@ abstract class AbstractHOARequest extends AbstractRequest
      * Set the attributes for the HOA WebSession object itself. (setAttributes returns
      * the attributes for the regular request object, such as the Customer or Transaction)
      *
-     * @param string $value
+     * @param array|AttributeBag $attributes
      * @return static
      */
     public function setHOAAttributes($attributes)
@@ -129,6 +127,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         return $this->setParameter('HOAAttributes', $attributes);
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData()
     {
         $this->validate('returnUrl', 'ip');
@@ -139,7 +140,7 @@ abstract class AbstractHOARequest extends AbstractRequest
         $getFunction->setAccessible(true);
 
         $session = new stdClass();
-        $session->method = $this->regularRequest->getObject() . '_' . $getFunction->invoke($this->regularRequest);
+        $session->method = $this->regularRequest->getObject() . '_' . $getFunction->invoke($this->regularRequest, null);
         $session->ipAddress = $this->getIp();
         $session->returnURL = $this->getReturnUrl();
         $session->errorURL = $this->getErrorUrl();

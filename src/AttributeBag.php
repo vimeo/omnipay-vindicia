@@ -51,7 +51,7 @@ class AttributeBag implements \IteratorAggregate, \Countable
         $this->attributes = array();
 
         foreach ($attributes as $key => $value) {
-            if (is_array($value) || is_object($value)) {
+            if (is_array($value) || $value instanceof Attribute) {
                 $this->add($value);
             } else {
                 $this->add(array(
@@ -67,7 +67,7 @@ class AttributeBag implements \IteratorAggregate, \Countable
      * Can add an Attribute object or an associative array of attribute
      * parameters (`['name' => XXX, 'value' => XXX]`)
      *
-     * @param AttributeInterface|array $attribute
+     * @param Attribute|array $attribute
      */
     public function add($attribute)
     {

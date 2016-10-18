@@ -24,8 +24,8 @@ class CreateProductRequestTest extends SoapTestCase
         $this->duplicateBehavior = $this->faker->duplicateBehavior();
         $this->statementDescriptor = $this->faker->statementDescriptor();
         $this->taxClassification = $this->faker->taxClassification();
-        $this->prices = $this->faker->prices(true);
-        $this->attributes = $this->faker->attributes(true);
+        $this->prices = $this->faker->pricesAsArray();
+        $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateProductRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -126,7 +126,7 @@ class CreateProductRequestTest extends SoapTestCase
         $request->initialize();
 
         // $prices is an array
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $this->assertSame($request, $request->setPrices($prices));
 
         $returnedPrices = $request->getPrices();

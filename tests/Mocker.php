@@ -16,7 +16,7 @@ class Mocker extends Mockery
      * needed to mock them correctly.
      *
      * @param string $requestClass The full class name of the HOA request to mock
-     * @return mock
+     * @return Mockery\MockInterface
      */
     public static function mockHOARequest($requestClass)
     {

@@ -28,7 +28,7 @@ class PurchaseRequestTest extends SoapTestCase
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->statementDescriptor = $this->faker->statementDescriptor();
         $this->ip = $this->faker->ipAddress();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
         $this->taxClassification = $this->faker->taxClassification();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
 
@@ -52,7 +52,7 @@ class PurchaseRequestTest extends SoapTestCase
 
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
-        $this->items = $this->faker->items($this->currency, true);
+        $this->items = $this->faker->itemsAsArray($this->currency);
     }
 
     public function testMinChargebackProbability()

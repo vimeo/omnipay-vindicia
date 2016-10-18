@@ -36,7 +36,7 @@ class RefundRequestTest extends SoapTestCase
             $this->faker->intBetween(10, 50)
         );
 
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -120,7 +120,7 @@ class RefundRequestTest extends SoapTestCase
         $request->initialize();
 
         // $items is an array
-        $items = $this->faker->refundItems($this->currency, true);
+        $items = $this->faker->refundItemsAsArray($this->currency);
         $this->assertSame($request, $request->setItems($items));
 
         $returnedItems = $request->getItems();
@@ -175,14 +175,14 @@ class RefundRequestTest extends SoapTestCase
 
     public function testGetDataItems()
     {
-        $refundItems = $this->faker->refundItems($this->currency, true);
+        $refundItems = $this->faker->refundItemsAsArray($this->currency);
         $sumOfItems = '0';
         foreach ($refundItems as $refundItem) {
             // strval to eliminate floating point errors
             $sumOfItems = strval($sumOfItems + $refundItem['amount']);
         }
         // make sure sumOfItems is formatted properly
-        $sumOfItems = number_format($sumOfItems, Currency::find($this->currency)->getDecimals(), '.', '');
+        $sumOfItems = number_format(floatval($sumOfItems), Currency::find($this->currency)->getDecimals(), '.', '');
 
         // behavior should be the same whether the sum of the item amounts is provided
         // as the total amount or the total amount is not provided
@@ -216,14 +216,14 @@ class RefundRequestTest extends SoapTestCase
      */
     public function testRefundItemsMustEqualTotalAmount()
     {
-        $refundItems = $this->faker->refundItems($this->currency, true);
+        $refundItems = $this->faker->refundItemsAsArray($this->currency);
         $sumOfItems = '0.0';
         foreach ($refundItems as $refundItem) {
             // strval to eliminate floating point errors
             $sumOfItems = strval($sumOfItems + $refundItem['amount']);
         }
         $sumOfItems = strval($sumOfItems * $this->faker->intBetween(2, 5));
-        $sumOfItems = number_format($sumOfItems, Currency::find($this->currency)->getDecimals(), '.', '');
+        $sumOfItems = number_format(floatval($sumOfItems), Currency::find($this->currency)->getDecimals(), '.', '');
         $data = $this->request->setAmount($sumOfItems)->setItems($refundItems)->getData();
     }
 
@@ -235,7 +235,7 @@ class RefundRequestTest extends SoapTestCase
      */
     public function testTransactionItemIndexNumberOrSkuRequired()
     {
-        $refundItems = $this->faker->refundItems($this->currency, true);
+        $refundItems = $this->faker->refundItemsAsArray($this->currency);
         $badItem = &$refundItems[$this->faker->intBetween(0, count($refundItems) - 1)];
         $badItem['sku'] = null;
         $badItem['transactionItemIndexNumber'] = null;

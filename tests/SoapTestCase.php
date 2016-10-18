@@ -14,8 +14,9 @@ require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 use Omnipay\Tests\TestCase;
 use Omnipay\Vindicia\TestableSoapClient;
-use DomDocument;
+use DOMDocument;
 use Omnipay\VindiciaTest\Mocker;
+use Omnipay\Common\Exception\OmnipayException;
 
 class SoapTestCase extends TestCase
 {
@@ -29,21 +30,26 @@ class SoapTestCase extends TestCase
      * then the function will replace all instances of `'[NAME]'` in the
      * XML with `'Fake Name'`. This is useful for randomizing tests, but
      * is not required.
-     * Will throw an error if a response has already been set and not used.
+     * Will throw an error if a response has already been set and not used
+     * or if the file can't be opened.
      *
-     * @param object $response
-     * @param array of string to string $substitutions default array()
+     * @param string $filename
+     * @param array<string, string> $substitutions default array()
      * @throws Omnipay\Common\Exception\BadMethodCallException
      */
     public function setMockSoapResponse($filename, $substitutions = array())
     {
-        $soapResponse = file_get_contents(__DIR__ . '/Mock/' . $filename);
+        $path = __DIR__ . '/Mock/' . $filename;
+        $soapResponse = file_get_contents($path);
+        if ($soapResponse === false) {
+            throw new OmnipayException('Could not open file ' . $path);
+        }
 
         foreach ($substitutions as $search => $replace) {
             $soapResponse = str_replace('[' . $search . ']', $replace, $soapResponse);
         }
 
-        $responseDom = new DOMDocument;
+        $responseDom = new DOMDocument();
         $responseDom->loadXML($soapResponse);
         $simpleXmlResponse = simplexml_import_dom($responseDom->documentElement->childNodes->item(1)->childNodes->item(1));
         // convert SimpleXMLElement to normal object

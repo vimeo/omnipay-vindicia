@@ -26,7 +26,7 @@ class VindiciaCreditCardTest extends TestCase
     public function testAttributesAsArray()
     {
         // $attributes is an array
-        $attributes = $this->faker->attributes(true);
+        $attributes = $this->faker->attributesAsArray();
         $this->assertSame($this->card, $this->card->setAttributes($attributes));
 
         $returnedAttributes = $this->card->getAttributes();

@@ -53,6 +53,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
+     * @psalm-suppress InvalidScalarArgument because we're testing to ensure that a bool can't be passed
      */
     public function testNameMustNotBeBool()
     {
@@ -61,6 +62,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
+     * @psalm-suppress NullReference because we're testing to ensure that null can't be passed
      */
     public function testNameMustNotBeNull()
     {
@@ -69,6 +71,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
+     * @psalm-suppress InvalidArgument because we're testing to ensure that an array can't be passed
      */
     public function testValueMustNotBeArray()
     {
@@ -77,6 +80,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
+     * @psalm-suppress InvalidArgument because we're testing to ensure that an object can't be passed
      */
     public function testValueMustNotBeObject()
     {

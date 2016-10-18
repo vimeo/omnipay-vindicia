@@ -21,9 +21,9 @@ class Attribute
     /**
      * Create a new attribute with the specified parameters
      *
-     * @param array|null $parameters An array of parameters to set on the new object
+     * @param array $parameters An array of parameters to set on the new object
      */
-    public function __construct($parameters = null)
+    public function __construct($parameters = array())
     {
         $this->initialize($parameters);
     }
@@ -31,10 +31,10 @@ class Attribute
     /**
      * Initialize this attribute with the specified parameters
      *
-     * @param array|null $parameters An array of parameters to set on this object
+     * @param array $parameters An array of parameters to set on this object
      * @return static
      */
-    public function initialize($parameters = null)
+    public function initialize($parameters = array())
     {
         $this->parameters = new ParameterBag;
 

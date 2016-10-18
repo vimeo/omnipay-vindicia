@@ -77,8 +77,8 @@ class DataFaker
             return $integerComponent;
         }
 
-        $decimalComponent = $this->intBetween($integerComponent > 0 ? 0 : 1, intval(str_repeat(9, $currencyPrecision)));
-        $decimalComponent = str_pad($decimalComponent, $currencyPrecision, '0', STR_PAD_LEFT);
+        $decimalComponent = $this->intBetween($integerComponent > 0 ? 0 : 1, intval(str_repeat('9', $currencyPrecision)));
+        $decimalComponent = str_pad(strval($decimalComponent), $currencyPrecision, '0', STR_PAD_LEFT);
 
         return $integerComponent . '.' . $decimalComponent;
     }
@@ -240,7 +240,7 @@ class DataFaker
     /**
      * Return a billing interval count
      *
-     * @return string
+     * @return int
      */
     public function billingIntervalCount()
     {
@@ -326,7 +326,7 @@ class DataFaker
     /**
      * Return a timestamp
      *
-     * @return int
+     * @return string
      */
     public function timestamp()
     {
@@ -492,16 +492,25 @@ class DataFaker
     }
 
     /**
-     * Return an item, either as a VindiciaItem (default) or as an
-     * array, if $asArray is set to true.
+     * Return an item
      *
      * @param string $currency
-     * @param bool $asArray default false
-     * @return VindiciaItem|array
+     * @return VindiciaItem
      */
-    public function item($currency, $asArray = false)
+    public function item($currency)
     {
-        $params = array(
+        return new VindiciaItem($this->itemAsArray($currency));
+    }
+
+    /**
+     * Return an item as an array
+     *
+     * @param string $currency
+     * @return array
+     */
+    public function itemAsArray($currency)
+    {
+        return array(
             'name' => $this->randomCharacters(
                 DataFaker::ALPHABET_LOWER,
                 $this->intBetween(3, 15)
@@ -514,44 +523,56 @@ class DataFaker
             'price' => $this->monetaryAmount($currency),
             'sku' => $this->sku()
         );
-
-        if ($asArray) {
-            return $params;
-        }
-        return new VindiciaItem($params);
     }
 
     /**
-     * Return some items, either as a VindiciaItemBag (default) or as an
-     * array, if $asArray is set to true.
+     * Return some items
      *
      * @param string $currency
-     * @param bool $asArray default false
-     * @return VindiciaItemBag|array
+     * @return VindiciaItemBag
      */
-    public function items($currency, $asArray = false)
+    public function items($currency)
     {
-        $items = $asArray ? array() : new VindiciaItemBag();
+        $items = new VindiciaItemBag();
         for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
-            if ($asArray) {
-                $items[] = $this->item($currency, true);
-            } else {
-                $items->add($this->item($currency));
-            }
+            $items->add($this->item($currency));
         }
         return $items;
     }
 
     /**
-     * Return an attribute, either as an Attribute (default) or as an
-     * array, if $asArray is set to true.
+     * Return some items as an array
      *
-     * @param bool $asArray default false
-     * @return Attribute|array
+     * @param string $currency
+     * @return array
      */
-    public function attribute($asArray = false)
+    public function itemsAsArray($currency)
     {
-        $params = array(
+        $items = array();
+        for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
+            $items[] = $this->itemAsArray($currency);
+        }
+        return $items;
+    }
+
+    /**
+     * Return an attribute
+     *
+     * @return Attribute
+     */
+    public function attribute()
+    {
+        return new Attribute($this->attributeAsArray());
+    }
+
+    /**
+     * Return an attribute as an array
+     *
+     * @return array
+     */
+    public function attributeAsArray()
+    {
+        return array(
             'name' => $this->randomCharacters(
                 DataFaker::ALPHABET_LOWER,
                 $this->intBetween(3, 15)
@@ -561,121 +582,150 @@ class DataFaker
                 $this->intBetween(1, 3)
             )
         );
-
-        if ($asArray) {
-            return $params;
-        }
-        return new Attribute($params);
     }
 
     /**
-     * Return some attributes, either as an AttributeBag (default) or as an
-     * array, if $asArray is set to true.
+     * Return some attributes
      *
-     * @param bool $asArray default false
-     * @return AttributeBag|array
+     * @return AttributeBag
      */
-    public function attributes($asArray = false)
+    public function attributes()
     {
-        $attributes = $asArray ? array() : new AttributeBag();
+        $attributes = new AttributeBag();
         for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
-            if ($asArray) {
-                $attributes[] = $this->attribute(true);
-            } else {
-                $attributes->add($this->attribute());
-            }
+            $attributes->add($this->attribute());
         }
         return $attributes;
     }
 
     /**
-     * Return a price, either as a Price (default) or as an
-     * array, if $asArray is set to true.
+     * Return some attributes as an array
      *
-     * @param bool $asArray default false
-     * @return Price|array
+     * @return array
      */
-    public function price($asArray = false)
+    public function attributesAsArray()
     {
-        $currency = $this->currency();
-        $params = array(
-            'currency' => $currency,
-            'amount' => $this->monetaryAmount($currency)
-        );
-
-        if ($asArray) {
-            return $params;
+        $attributes = array();
+        for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
+            $attributes[] = $this->attributeAsArray();
         }
-        return new Price($params);
+        return $attributes;
     }
 
     /**
-     * Return some prices, either as a PriceBag (default) or as an
-     * array, if $asArray is set to true.
+     * Return a price
      *
-     * @param bool $asArray default false
-     * @return PriceBag|array
+     * @return Price
      */
-    public function prices($asArray = false)
+    public function price()
+    {
+        return new Price($this->priceAsArray());
+    }
+
+    /**
+     * Return a price as an array
+     *
+     * @return array
+     */
+    public function priceAsArray()
+    {
+        $currency = $this->currency();
+        return array(
+            'currency' => $currency,
+            'amount' => $this->monetaryAmount($currency)
+        );
+    }
+
+    /**
+     * Return some prices
+     *
+     * @return PriceBag
+     */
+    public function prices()
     {
         $currencies = array_keys(Currency::all());
-        $prices = $asArray ? array() : new PriceBag();
+        $prices = new PriceBag();
         for ($i = 0; $i < $this->intBetween(1, count($currencies) - 1); $i++) {
             $currency = $currencies[$i];
-            if ($asArray) {
-                $prices[] = array(
-                    'currency' => $currency,
-                    'amount' => $this->monetaryAmount($currency)
-                );
-            } else {
-                $prices->add(new Price(array(
-                    'currency' => $currency,
-                    'amount' => $this->monetaryAmount($currency)
-                )));
-            }
+            $prices->add(new Price(array(
+                'currency' => $currency,
+                'amount' => $this->monetaryAmount($currency)
+            )));
         }
         return $prices;
     }
 
     /**
-     * Return a refund item, either as a VindiciaRefundItem (default) or as an
-     * array, if $asArray is set to true.
+     * Return some prices as an array
+     *
+     * @return array
+     */
+    public function pricesAsArray()
+    {
+        $currencies = array_keys(Currency::all());
+        $prices = array();
+        for ($i = 0; $i < $this->intBetween(1, count($currencies) - 1); $i++) {
+            $currency = $currencies[$i];
+            $prices[] = array(
+                'currency' => $currency,
+                'amount' => $this->monetaryAmount($currency)
+            );
+        }
+        return $prices;
+    }
+
+    /**
+     * Return a refund item
      *
      * @param string $currency
-     * @param bool $asArray default false
-     * @return VindiciaRefundItem|array
+     * @return VindiciaRefundItem
      */
-    public function refundItem($currency, $asArray = false)
+    public function refundItem($currency)
     {
-        $params = array(
+        return new VindiciaRefundItem($this->refundItemAsArray($currency));
+    }
+
+    /**
+     * Return a refund item as an array
+     *
+     * @param string $currency
+     * @return array
+     */
+    public function refundItemAsArray($currency)
+    {
+        return array(
             'amount' => $this->monetaryAmount($currency),
             'sku' => $this->sku(),
             'transactionItemIndexNumber' => $this->intBetween(1, 15)
         );
-
-        if ($asArray) {
-            return $params;
-        }
-        return new VindiciaRefundItem($params);
     }
 
     /**
-     * Return some refund items, either as a VindiciaRefundItemBag (default) or as an
-     * array, if $asArray is set to true.
+     * Return some refund items
      *
      * @param string $currency
-     * @param bool $asArray default false
-     * @return VindiciaRefundItemBag|array
+     * @return VindiciaRefundItemBag
      */
-    public function refundItems($currency, $asArray = false)
+    public function refundItems($currency)
     {
-        $items = $asArray ? array() : new VindiciaRefundItemBag();
+        $items = new VindiciaRefundItemBag();
         for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
-            if ($asArray) {
-                $items[] = $this->refundItem($currency, true);
-            } else {
-                $items->add($this->refundItem($currency));
-            }
+            $items->add($this->refundItem($currency));
+        }
+        return $items;
+    }
+
+    /**
+     * Return some refund items
+     *
+     * @param string $currency
+     * @return array
+     */
+    public function refundItemsAsArray($currency)
+    {
+        $items = array();
+        for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
+            $items[] = $this->refundItemAsArray($currency);
         }
         return $items;
     }
@@ -734,42 +784,53 @@ class DataFaker
     }
 
     /**
-     * Return a tax exemption, either as a TaxExemption (default) or as an
-     * array, if $asArray is set to true.
+     * Return a tax exemption
      *
-     * @param bool $asArray default false
-     * @return TaxExemption|array
+     * @return TaxExemption
      */
-    public function taxExemption($asArray = false)
+    public function taxExemption()
     {
-        $params = array(
+        return new TaxExemption($this->taxExemptionAsArray());
+    }
+
+    /**
+     * Return a tax exemption as an array
+     *
+     * @return array
+     */
+    public function taxExemptionAsArray()
+    {
+        return array(
             'exemptionId' => $this->taxExemptionId(),
             'region' => $this->region(),
             'active' => $this->bool()
         );
-
-        if ($asArray) {
-            return $params;
-        }
-        return new TaxExemption($params);
     }
 
     /**
-     * Return some tax exemptions, either as a TaxExemptionBag (default) or as an
-     * array, if $asArray is set to true.
+     * Return some tax exemptions
      *
-     * @param bool $asArray default false
-     * @return TaxExemptionBag|array
+     * @return TaxExemptionBag
      */
-    public function taxExemptions($asArray = false)
+    public function taxExemptions()
     {
-        $exemptions = $asArray ? array() : new TaxExemptionBag();
+        $exemptions = new TaxExemptionBag();
         for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
-            if ($asArray) {
-                $exemptions[] = $this->taxExemption(true);
-            } else {
-                $exemptions->add($this->taxExemption());
-            }
+            $exemptions->add($this->taxExemption());
+        }
+        return $exemptions;
+    }
+
+    /**
+     * Return some tax exemptions as an array
+     *
+     * @return array
+     */
+    public function taxExemptionsAsArray()
+    {
+        $exemptions = array();
+        for ($i = 0; $i < $this->intBetween(1, 5); $i++) {
+            $exemptions[] = $this->taxExemptionAsArray();
         }
         return $exemptions;
     }

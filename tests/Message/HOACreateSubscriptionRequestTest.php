@@ -33,8 +33,8 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         $this->startTime = $this->faker->timestamp();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
-        $this->attributes = $this->faker->attributes(true);
-        $this->HOAAttributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
+        $this->HOAAttributes = $this->faker->attributesAsArray();
         $this->returnUrl = $this->faker->url();
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();

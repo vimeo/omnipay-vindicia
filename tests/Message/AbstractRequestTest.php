@@ -161,7 +161,7 @@ class AbstractRequestTest extends SoapTestCase
     public function testItemsAsArray()
     {
         // $items is an array
-        $items = $this->faker->items($this->faker->currency(), true);
+        $items = $this->faker->itemsAsArray($this->faker->currency());
         $this->assertSame($this->request, $this->request->setItems($items));
 
         $returnedItems = $this->request->getItems();
@@ -186,7 +186,7 @@ class AbstractRequestTest extends SoapTestCase
     public function testAttributesAsArray()
     {
         // $attributes is an array
-        $attributes = $this->faker->attributes(true);
+        $attributes = $this->faker->attributesAsArray();
         $this->assertSame($this->request, $this->request->setAttributes($attributes));
 
         $returnedAttributes = $this->request->getAttributes();
@@ -280,7 +280,7 @@ class AbstractRequestTest extends SoapTestCase
         $param = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(3, 10));
         $value = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER . DataFaker::DIGITS, $this->faker->intBetween(1, 6));
 
-        TestableSoapClient::setNextResponse('');
+        TestableSoapClient::setNextResponse(new stdClass());
 
         $this->request->shouldReceive('getObject')->andReturn($object);
         $this->request->shouldReceive('buildResponse')->andReturn(null);

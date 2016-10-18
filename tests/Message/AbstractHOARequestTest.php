@@ -10,6 +10,7 @@ use Omnipay\Vindicia\Message\AbstractHOARequest;
 use Omnipay\VindiciaTest\Mocker;
 use ReflectionClass;
 use Omnipay\Vindicia\Attribute;
+use Omnipay\Vindicia\Message\AbstractRequest;
 
 class AbstractHOARequestTest extends SoapTestCase
 {
@@ -54,8 +55,7 @@ class AbstractHOARequestTest extends SoapTestCase
 
     public function testHOAAttributesAsArray()
     {
-        // $attributes is an array
-        $attributes = $this->faker->attributes(true);
+        $attributes = $this->faker->attributesAsArray();
         $this->assertSame($this->request, $this->request->setHOAAttributes($attributes));
 
         $returnedAttributes = $this->request->getHOAAttributes();
@@ -97,7 +97,7 @@ class AbstractHOARequestTest extends SoapTestCase
         $this->assertSame($this->errorUrl, $data['session']->errorURL);
         $this->assertSame($this->ip, $data['session']->ipAddress);
         $this->assertSame($functionName, $data['action']);
-        $this->assertSame($regularObjectName . '_' . $regularFunctionName);
+        $this->assertSame($regularObjectName . '_' . $regularFunctionName, $data['session']->method);
         $this->assertSame(AbstractRequest::API_VERSION, $data['session']->version);
 
         $this->assertEquals(

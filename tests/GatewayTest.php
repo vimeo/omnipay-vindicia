@@ -249,7 +249,7 @@ class GatewayTest extends GatewayTestCase
         $planId = $this->faker->planId();
         $interval = $this->faker->billingInterval();
         $intervalCount = $this->faker->billingIntervalCount();
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $statementDescriptor = $this->faker->statementDescriptor();
         $taxClassification = $this->faker->taxClassification();
 
@@ -278,7 +278,7 @@ class GatewayTest extends GatewayTestCase
         $planId = $this->faker->planId();
         $interval = $this->faker->billingInterval();
         $intervalCount = $this->faker->billingIntervalCount();
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $statementDescriptor = $this->faker->statementDescriptor();
         $taxClassification = $this->faker->taxClassification();
 
@@ -307,7 +307,7 @@ class GatewayTest extends GatewayTestCase
     {
         $productId = $this->faker->productId();
         $planId = $this->faker->planId();
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $statementDescriptor = $this->faker->statementDescriptor();
         $taxClassification = $this->faker->taxClassification();
         $duplicateBehavior = $this->faker->duplicateBehavior();
@@ -336,7 +336,7 @@ class GatewayTest extends GatewayTestCase
     {
         $productId = $this->faker->productId();
         $planId = $this->faker->planId();
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $statementDescriptor = $this->faker->statementDescriptor();
         $taxClassification = $this->faker->taxClassification();
         $duplicateBehavior = $this->faker->duplicateBehavior();

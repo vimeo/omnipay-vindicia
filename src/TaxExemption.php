@@ -36,7 +36,7 @@ class TaxExemption
      * @param array $parameters An associative array of parameters
      * @return static
      */
-    public function initialize($parameters = null)
+    public function initialize($parameters = array())
     {
         $this->parameters = new ParameterBag;
 

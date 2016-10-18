@@ -64,7 +64,7 @@ class PriceBag implements \IteratorAggregate, \Countable
         $this->currencies = array();
 
         foreach ($prices as $key => $value) {
-            if (is_array($value) || is_object($value)) {
+            if (is_array($value) || $value instanceof Price) {
                 $this->add($value);
             } else {
                 $this->add(array(
@@ -78,7 +78,7 @@ class PriceBag implements \IteratorAggregate, \Countable
     /**
      * Add an price to the bag
      *
-     * @param PriceInterface|array $price An existing price, or associative array of price parameters
+     * @param Price|array $price An existing price, or associative array of price parameters
                                           (`['currency' => XXX, 'amount' => XXX]`)
      * @throws InvalidPriceBagException if a price for this currency is already in the bag
      */

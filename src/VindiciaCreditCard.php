@@ -20,7 +20,7 @@ class VindiciaCreditCard extends CreditCard
      * Set the attributes in this order
      *
      * @param AttributeBag|array $attributes
-     * @return AbstractRequest
+     * @return static
      */
     public function setAttributes($attributes)
     {
@@ -29,5 +29,18 @@ class VindiciaCreditCard extends CreditCard
         }
 
         return $this->setParameter('attributes', $attributes);
+    }
+
+    /**
+     * Override to document the correct return type.
+     *
+     * @return static
+     */
+    protected function setParameter($key, $value)
+    {
+        /**
+         * @var VindiciaCreditCard
+         */
+        return parent::setParameter($key, $value);
     }
 }

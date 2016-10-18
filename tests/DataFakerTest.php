@@ -284,9 +284,11 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_int($item->getQuantity()));
         $this->assertTrue(is_numeric($item->getPrice()));
         $this->assertTrue(is_string($item->getSku()));
+    }
 
-        // test as array
-        $itemArray = $this->faker->item($this->faker->currency(), true);
+    public function testItemAsArray()
+    {
+        $itemArray = $this->faker->itemAsArray($this->faker->currency());
         $item = new VindiciaItem($itemArray);
         $item->validate();
         $this->assertTrue(is_string($item->getName()));
@@ -301,9 +303,11 @@ class DataFakerTest extends TestCase
         $items = $this->faker->items($this->faker->currency());
         $this->assertInstanceOf('Omnipay\Vindicia\VindiciaItemBag', $items);
         $this->assertTrue(0 < $items->count());
+    }
 
-        // test as array
-        $itemsArray = $this->faker->items($this->faker->currency(), true);
+    public function testItemsAsArray()
+    {
+        $itemsArray = $this->faker->itemsAsArray($this->faker->currency());
         $items = new VindiciaItemBag($itemsArray);
         $this->assertTrue(0 < $items->count());
     }
@@ -314,9 +318,11 @@ class DataFakerTest extends TestCase
         $this->assertInstanceOf('Omnipay\Vindicia\Attribute', $attribute);
         $this->assertTrue(is_string($attribute->getName()));
         $this->assertTrue(is_string($attribute->getValue()));
+    }
 
-        // test as array
-        $attributeArray = $this->faker->attribute(true);
+    public function testAttributeAsArray()
+    {
+        $attributeArray = $this->faker->attributeAsArray();
         $attribute = new Attribute($attributeArray);
         $this->assertTrue(is_string($attribute->getName()));
         $this->assertTrue(is_string($attribute->getValue()));
@@ -327,9 +333,11 @@ class DataFakerTest extends TestCase
         $attributes = $this->faker->attributes();
         $this->assertInstanceOf('Omnipay\Vindicia\AttributeBag', $attributes);
         $this->assertTrue(0 < $attributes->count());
+    }
 
-        // test as array
-        $attributesArray = $this->faker->attributes(true);
+    public function testAttributesAsArray()
+    {
+        $attributesArray = $this->faker->attributesAsArray();
         $attributes = new AttributeBag($attributesArray);
         $this->assertTrue(0 < $attributes->count());
     }
@@ -340,9 +348,11 @@ class DataFakerTest extends TestCase
         $this->assertInstanceOf('Omnipay\Vindicia\Price', $price);
         $this->assertTrue(Currency::find($price->getCurrency()) !== false);
         $this->assertTrue(is_numeric($price->getAmount()));
+    }
 
-        // test as array
-        $priceArray = $this->faker->price(true);
+    public function testPriceAsArray()
+    {
+        $priceArray = $this->faker->priceAsArray();
         $price = new Price($priceArray);
         $this->assertTrue(Currency::find($price->getCurrency()) !== false);
         $this->assertTrue(is_numeric($price->getAmount()));
@@ -353,9 +363,11 @@ class DataFakerTest extends TestCase
         $prices = $this->faker->prices();
         $this->assertInstanceOf('Omnipay\Vindicia\PriceBag', $prices);
         $this->assertTrue(0 < $prices->count());
+    }
 
-        // test as array
-        $pricesArray = $this->faker->prices(true);
+    public function testPricesAsArray()
+    {
+        $pricesArray = $this->faker->pricesAsArray();
         $prices = new PriceBag($pricesArray);
         $this->assertTrue(0 < $prices->count());
     }
@@ -368,9 +380,11 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_int($item->getTransactionItemIndexNumber()));
         $this->assertTrue(is_numeric($item->getAmount()));
         $this->assertTrue(is_string($item->getSku()));
+    }
 
-        // test as array
-        $itemArray = $this->faker->refundItem($this->faker->currency(), true);
+    public function testRefundItemAsArray()
+    {
+        $itemArray = $this->faker->refundItemAsArray($this->faker->currency());
         $item = new VindiciaRefundItem($itemArray);
         $item->validate();
         $this->assertTrue(is_int($item->getTransactionItemIndexNumber()));
@@ -383,9 +397,11 @@ class DataFakerTest extends TestCase
         $items = $this->faker->refundItems($this->faker->currency());
         $this->assertInstanceOf('Omnipay\Vindicia\VindiciaRefundItemBag', $items);
         $this->assertTrue(0 < $items->count());
+    }
 
-        // test as array
-        $itemsArray = $this->faker->refundItems($this->faker->currency(), true);
+    public function testRefundItemsAsarray()
+    {
+        $itemsArray = $this->faker->refundItemsAsArray($this->faker->currency());
         $items = new VindiciaItemBag($itemsArray);
         $this->assertTrue(0 < $items->count());
     }
@@ -436,9 +452,11 @@ class DataFakerTest extends TestCase
         $this->assertTrue(ctype_upper($taxExemption->getRegion()));
         $this->assertSame(2, strlen($taxExemption->getRegion()));
         $this->assertTrue(is_bool($taxExemption->getActive()));
+    }
 
-        // test as array
-        $taxExemptionArray = $this->faker->taxExemption(true);
+    public function testTaxExemptionAsArray()
+    {
+        $taxExemptionArray = $this->faker->taxExemptionAsArray();
         $taxExemption = new TaxExemption($taxExemptionArray);
         $this->assertTrue(is_string($taxExemption->getExemptionId()));
         $this->assertTrue(ctype_upper($taxExemption->getRegion()));
@@ -451,9 +469,11 @@ class DataFakerTest extends TestCase
         $taxExemptions = $this->faker->taxExemptions();
         $this->assertInstanceOf('Omnipay\Vindicia\TaxExemptionBag', $taxExemptions);
         $this->assertTrue(0 < $taxExemptions->count());
+    }
 
-        // test as array
-        $taxExemptionsArray = $this->faker->taxExemptions(true);
+    public function testTaxExemptionsAsArray()
+    {
+        $taxExemptionsArray = $this->faker->taxExemptionsAsArray();
         $taxExemptions = new TaxExemptionBag($taxExemptionsArray);
         $this->assertTrue(0 < $taxExemptions->count());
     }

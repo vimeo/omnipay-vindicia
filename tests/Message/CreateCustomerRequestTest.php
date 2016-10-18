@@ -22,7 +22,7 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->customerId = $this->faker->customerId();
         $this->customerReference = $this->faker->customerReference();
         $this->email = $this->faker->email();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -35,7 +35,7 @@ class CreateCustomerRequestTest extends SoapTestCase
             )
         );
 
-        $this->cardAttributes = $this->faker->attributes(true);
+        $this->cardAttributes = $this->faker->attributesAsArray();
         $this->card = $this->faker->card();
         $this->card['attributes'] = $this->cardAttributes;
         $this->paymentMethodId = $this->faker->paymentMethodId();
@@ -95,7 +95,7 @@ class CreateCustomerRequestTest extends SoapTestCase
         $request->initialize();
 
         // $exemptions is an array
-        $exemptions = $this->faker->taxExemptions(true);
+        $exemptions = $this->faker->taxExemptionsAsArray();
         $this->assertSame($request, $request->setTaxExemptions($exemptions));
 
         $returnedExemptions = $request->getTaxExemptions();
@@ -169,7 +169,7 @@ class CreateCustomerRequestTest extends SoapTestCase
 
     public function testGetDataWithTaxExemptions()
     {
-        $exemptions = $this->faker->taxExemptions(true);
+        $exemptions = $this->faker->taxExemptionsAsArray();
         $this->request->setTaxExemptions($exemptions);
 
         $data = $this->request->getData();

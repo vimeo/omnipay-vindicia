@@ -33,7 +33,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(

@@ -21,10 +21,10 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->planReference = $this->faker->planReference();
         $this->interval = $this->faker->billingInterval();
         $this->intervalCount = $this->faker->billingIntervalCount();
-        $this->prices = $this->faker->prices(true);
+        $this->prices = $this->faker->pricesAsArray();
         $this->statementDescriptor = $this->faker->statementDescriptor();
         $this->taxClassification = $this->faker->taxClassification();
-        $this->attributes = $this->faker->attributes(true);
+        $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreatePlanRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -115,7 +115,7 @@ class CreatePlanRequestTest extends SoapTestCase
         $request->initialize();
 
         // $prices is an array
-        $prices = $this->faker->prices(true);
+        $prices = $this->faker->pricesAsArray();
         $this->assertSame($request, $request->setPrices($prices));
 
         $returnedPrices = $request->getPrices();

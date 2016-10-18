@@ -66,6 +66,9 @@ class CreatePlanRequest extends AbstractRequest
         return $this->setParameter('intervalCount', $value);
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData()
     {
         $this->validate('interval', 'intervalCount');
@@ -101,9 +104,9 @@ class CreatePlanRequest extends AbstractRequest
             $plan->nameValues = $this->buildNameValues($attributes);
         }
 
-        $data['billingPlan'] = $plan;
-        $data['action'] = $this->getFunction();
-
-        return $data;
+        return array(
+            'billingPlan' => $plan,
+            'action' => $this->getFunction()
+        );
     }
 }

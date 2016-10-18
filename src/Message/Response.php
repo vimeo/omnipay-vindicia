@@ -254,7 +254,7 @@ class Response extends AbstractResponse
         // that was added in the request, but this way we ensure it is actually returned
         // in the response
         foreach ($this->data->account->paymentMethods as $paymentMethod) {
-            if ($paymentMethod->merchantPaymentMethodId === $this->request->getPaymentMethodId()) {
+            if ($paymentMethod->merchantPaymentMethodId === $this->getRequest()->getPaymentMethodId()) {
                 return $paymentMethod;
             }
         }
@@ -356,5 +356,18 @@ class Response extends AbstractResponse
             return $this->data->totalTax;
         }
         return null;
+    }
+
+    /**
+     * Override to set return type correctly
+     *
+     * @return AbstractRequest
+     */
+    public function getRequest()
+    {
+        /**
+         * @var AbstractRequest
+         */
+        return parent::getRequest();
     }
 }

@@ -57,6 +57,9 @@ class CreateCustomerRequest extends AbstractRequest
         return $this->setParameter('taxExemptions', $value);
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData()
     {
         $customerId = $this->getCustomerId();
@@ -68,6 +71,7 @@ class CreateCustomerRequest extends AbstractRequest
         }
 
         $card = $this->getCard();
+        $paymentMethod = null;
         if ($card) {
             if ($this->isUpdate()) {
                 throw new InvalidRequestException(
@@ -82,7 +86,7 @@ class CreateCustomerRequest extends AbstractRequest
         $account->emailAddress = $this->getEmail();
         $account->merchantAccountId = $customerId;
         $account->VID = $customerReference;
-        if (isset($paymentMethod)) {
+        if ($paymentMethod !== null) {
             $account->paymentMethods = array($paymentMethod);
         }
 
@@ -106,9 +110,9 @@ class CreateCustomerRequest extends AbstractRequest
             $account->taxExemptions = $vindiciaTaxExemptions;
         }
 
-        $data['account'] = $account;
-        $data['action'] = $this->getFunction();
-
-        return $data;
+        return array(
+            'account' => $account,
+            'action' => $this->getFunction()
+        );
     }
 }

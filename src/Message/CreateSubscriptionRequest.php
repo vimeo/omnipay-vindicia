@@ -22,6 +22,9 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         return self::$SUBSCRIPTION_OBJECT;
     }
 
+    /**
+     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
+     */
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $subscriptionId = $this->getSubscriptionId();

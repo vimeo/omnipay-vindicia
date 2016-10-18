@@ -285,6 +285,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Gets the card
+     *
+     * @return VindiciaCreditCard
+     */
+    public function getCard()
+    {
+        /**
+         * @var VindiciaCreditCard will always be a VindiciaCreditCard because setCard forces it
+         */
+        return parent::getCard();
+    }
+
+    /**
      * Sets the card.
      *
      * @param VindiciaCreditCard|array $value
@@ -587,7 +600,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                                             . '/soap.pl'
                 )
             );
-            $client->timeout = $client->response_timeout = $this->getTimeout();
             $response = $client->__soapCall($action, $params);
         } catch (SoapFault $exception) {
             throw $exception;
@@ -817,4 +829,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         return $vindiciaPrices;
     }
+
+    /**
+     * This method is only overriden to provide type hinting for static type checking
+     * by PSALM.
+     * This is necessary because Omnipay\Common\AbstractRequest::setParameter says it
+     * returns AbstractRequest instead of static.
+     *
+     * @return static
+     */
+    protected function setParameter($key, $value)
+    {
+        /**
+         * @var static
+         */
+        return parent::setParameter($key, $value);
+    }
+
+    abstract public function getData();
 }
