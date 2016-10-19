@@ -146,6 +146,21 @@ class HOAGateway extends AbstractVindiciaGateway
     }
 
     /**
+     * Voids, or cancels, a previously authorized transaction. Will not work if the transaction
+     * has already been captured, either by the capture function or purchase function. This is
+     * identical to a regular void request.
+     *
+     * See Message\VoidRequest for more details.
+     *
+     * @param array $parameters
+     * @return Message\Response
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
+    }
+
+    /**
      * Initialize a HOA Web Session to collect new card details.
      *
      * See Message\HOACreatePaymentMethodRequest for more details.
