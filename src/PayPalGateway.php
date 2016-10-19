@@ -8,12 +8,73 @@ namespace Omnipay\Vindicia;
  * Vindicia also supports purchases via PayPal Express. This gateway provides
  * that functionality. Note that PayPal Express is an offsite gateway.
  *
- * Example setup:
+ * You use the same username and password as you do with the regular Vindicia
+ * gateway.
+ *
+ * NOTE: PayPal transactions cannot be voided/canceld and should be refunded instead.
+ *
+ * Example:
  * <code>
+ *   // set up the gateway
  *   $gateway = \Omnipay\Omnipay::create('Vindicia_PayPal');
  *   $gateway->setUsername('your_username');
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
+ *
+ *   // create a customer (unlike many gateways, Vindicia requires a customer exist
+ *   // before a transaction can occur)
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // now we start the purchase process
+ *   $purchaseResponse = $gateway->purchase(array(
+ *       'amount' => '9.99',
+ *       'currency' => 'USD',
+ *       'customerId' => $customerResponse->getCustomerId(), // could do this by customerReference also
+ *       'card' => array(
+ *           'postcode' => '12345'
+ *       ),
+ *       'paymentMethodId' => 'pp-123456', // this ID will be assigned to the PayPal account
+ *       'returnUrl' => 'http://www.example.com/order_summary,
+ *       'cancelUrl' => 'http://www.example.com/cart
+ *   ))->send();
+ *
+ *   if ($purchaseResponse->isSuccessful()) {
+ *       echo "Transaction id: " . $purchaseResponse->getTransactionId() . PHP_EOL;
+ *       echo "Transaction reference: " . $purchaseResponse->getTransactionReference() . PHP_EOL;
+ *       echo "Redirecting to: " . $purchaseResponse->getRedirectUrl();
+ *       $purchaseResponse->redirect();
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // ... now the user is filling out info on PayPal's site. Then they get redirected back
+ *   // to your site, where you will complete the purchase ...
+ *
+ *   // get the PayPal transaction reference from the URL
+ *   $payPalTransactionReference = $_GET['vindicia_vid'];
+ *
+ *   // complete the purchase
+ *   $completeResponse = $gateway->completePurchase(array(
+ *       'success' => true,
+ *       'payPalTransactionReference' => $payPalTransactionReference
+ *   ))->send();
+ *
+ *   if ($completeResponse->isSuccessful()) {
+ *       // these are the same transaction ids you saw after the purchase call
+ *       echo "Transaction id: " . $completeResponse->getTransactionId() . PHP_EOL;
+ *       echo "Transaction reference: " . $completeResponse->getTransactionReference() . PHP_EOL;
+ *   }
  * </code>
  */
 class PayPalGateway extends AbstractVindiciaGateway
@@ -32,37 +93,10 @@ class PayPalGateway extends AbstractVindiciaGateway
      * Begin a PayPal purchase. A redirect URL will be returned to send the user to PayPal's
      * website.
      *
-     * Uses all the same parameters as a regular purchase request. A card does not need to be
-     * specified, but you may choose to in order to provide address or customer name information.
-     * Providing a card number is meaningless and it will be ignored.
+     * See Message\PayPalPurchaseRequest for more details.
      *
-     * Requires two additional parameters:
-     * - returnUrl: The URL to which the user should be redirected after they complete the
-     * purchase on PayPal's site.
-     * - cancelUrl: The URL to which the user should be redirected if they cancel their purchase
-     * on PayPal's site.
-     *
-     * Example:
-     * <code>
-     *   $response = $gateway->purchase(array(
-     *       'amount' => '9.99',
-     *       'currency' => 'USD',
-     *       'customerId' => '123456789',
-     *       'card' => array(
-     *           'postcode' => '12345'
-     *       ),
-     *       'paymentMethodId' => 'pp-123456', // this ID will be assigned to the PayPal account
-     *       'returnUrl' => 'http://www.example.com/order_summary,
-     *       'cancelUrl' => 'http://www.example.com/cart
-     *   ))->send();
-     *
-     *   if ($response->isSuccessful()) {
-     *       echo "Transaction id: " . $response->getTransactionId() . PHP_EOL;
-     *       echo "Transaction reference: " . $response->getTransactionReference() . PHP_EOL;
-     *       echo "Redirecting to: " . $response->getRedirectUrl();
-     *       $response->redirect();
-     *   }
-     * </code>
+     * @param array $parameters
+     * @return Message\Response
      */
     public function purchase(array $parameters = array())
     {
@@ -72,30 +106,10 @@ class PayPalGateway extends AbstractVindiciaGateway
     /**
      * Complete a PayPal purchase.
      *
-     * After the user completes the purchase on PayPal's site, they will be redirected to
-     * the returnUrl you specified in the purchase request. On this page, you should call
-     * this function to finalize the purchase.
+     * See Message\CompletePayPalPurchaseRequest for more details.
      *
-     * Parameters:
-     * - success: Denotes whether the user successfully completed the purchase on PayPal.
-     * If they user is redirected to your returnUrl, you can set this to true. You could
-     * set it to false and call this function on your cancelUrl to cancel the transaction,
-     * or you can just leave it in the AuthorizePending state and it will never be completed.
-     * - payPalTransactionReference: When PayPal redirects to the returnUrl or cancelUrl,
-     * a vindicia_vid parameter will be added to the URL. It's value must be set here.
-     *
-     * Example:
-     * <code>
-     *   $response = $gateway->completePurchase(array(
-     *       'success' => true,
-     *       'payPalTransactionReference' => '1234567890abcdef1234567890abcdef'
-     *   ))->send();
-     *
-     *   if ($response->isSuccessful()) {
-     *       echo "Transaction id: " . $response->getTransactionId() . PHP_EOL;
-     *       echo "Transaction reference: " . $response->getTransactionReference() . PHP_EOL;
-     *   }
-     * </code>
+     * @param array $parameters
+     * @return Message\Response
      */
     public function completePurchase(array $parameters = array())
     {
@@ -106,8 +120,10 @@ class PayPalGateway extends AbstractVindiciaGateway
      * Create a subscription through PayPal. A redirect URL will be returned to send
      * the user to PayPal's website.
      *
-     * Uses the same parameters as a regular create subscription request and the additional
-     * parameters used on the PayPal purchase request.
+     * See Message\CreatePayPalSubscriptionRequest for more details.
+     *
+     * @param array $parameters
+     * @return Message\Response
      */
     public function createSubscription(array $parameters = array())
     {
@@ -118,10 +134,10 @@ class PayPalGateway extends AbstractVindiciaGateway
      * Update a subscription through PayPal. A redirect URL will be returned to send
      * the user to PayPal's website.
      *
-     * Uses the same parameters as a regular update subscription request and the additional
-     * parameters used on the PayPal purchase request.
+     * See Message\CreatePayPalSubscriptionRequest for more details.
      *
-     * You should NOT change the currency of an existing subscription.
+     * @param array $parameters
+     * @return Message\Response
      */
     public function updateSubscription(array $parameters = array())
     {
@@ -131,7 +147,10 @@ class PayPalGateway extends AbstractVindiciaGateway
     /**
      * Complete a subscription creation through PayPal.
      *
-     * Usage and parameters are the same as completePurchase.
+     * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
+     *
+     * @param array $parameters
+     * @return Message\Response
      */
     public function completeCreateSubscription(array $parameters = array())
     {
@@ -141,7 +160,10 @@ class PayPalGateway extends AbstractVindiciaGateway
     /**
      * Complete a subscription update through PayPal.
      *
-     * Usage and parameters are the same as completePurchase.
+     * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
+     *
+     * @param array $parameters
+     * @return Message\Response
      */
     public function completeUpdateSubscription(array $parameters = array())
     {
@@ -155,12 +177,14 @@ class PayPalGateway extends AbstractVindiciaGateway
     /**
      * Update a payment method.
      *
-     * Parameters and usage are the same as for createPaymentMethod, except that the
-     * payment method can be referenced by the paymentMethodId or the paymentMethodReference
-     * (the gateway's identifier for this payment method).
+     * Although you cannot create a PayPal payment method with createPaymentMethod,
+     * (because you need to be on PayPal's site) you could update it to change stuff
+     * like the customer's name.
      *
-     * Although you cannot create a PayPal payment method with createPaymentMethod, you
-     * could update it to change stuff like the customer's name.
+     * See Message\CreatePaymentMethodRequest for more details.
+     *
+     * @param array $parameters
+     * @return Message\Response
      */
     public function updatePaymentMethod(array $parameters = array())
     {
@@ -168,5 +192,4 @@ class PayPalGateway extends AbstractVindiciaGateway
     }
 
     // see AbstractVindiciaGateway for more functions and documentation
-    // NOTE: PayPal transactions cannot be voided/canceld and should be refunded instead.
 }

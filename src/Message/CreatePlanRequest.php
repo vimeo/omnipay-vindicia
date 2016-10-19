@@ -5,6 +5,35 @@ namespace Omnipay\Vindicia\Message;
 use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Create a new plan or update an existing one (if called via updatePlan).
+ * A plan defines the behavior of a subscription, such as how
+ * often the customer is billed.
+ *
+ * It is rare that you will need many different plans since you can attach the same
+ * plan to multiple different subscriptions. You may find it easier to create the
+ * plans through Vindicia's web portal, which will also give you more control over
+ * their features.
+ *
+ * Parameters:
+ * - planId: Your identifier to represent this plan. Required.
+ * - interval: The units of the billing period (day, week, month, year). Required.
+ * - intervalCount: The frequency to bill, using the units specified by interval. (eg,
+ * if interval is week and intervalCount is 2, the customer will be billed every two
+ * weeks. Required.
+ * - prices: Prices in multiple currencies associated with the billing plan. These
+ * are a fallback in case the product does not specify prices. Optional.
+ * - taxClassification: The tax classification of the plan. Values may vary depending
+ * on your tax engine, consult with Vindicia to learn what values are available to you.
+ * Common options include 'TaxExempt' (default) and 'OtherTaxable'.
+ * - statementDescriptor: The description shown on the customers billing statement from the bank
+ * This field’s value and its format are constrained by your payment processor; consult with
+ * Vindicia Client Services before setting the value.
+ * - attributes: Custom values you wish to have stored with the plan. They have
+ * no affect on anything.
+ *
+ * See CreateSubscriptionRequest for a code example.
+ */
 class CreatePlanRequest extends AbstractRequest
 {
     /**

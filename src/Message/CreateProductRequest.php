@@ -5,6 +5,39 @@ namespace Omnipay\Vindicia\Message;
 use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Create a new product or update an existing one (if called via updateProduct).
+ *
+ * Products are attached to subscriptions to define what the customer is purchasing
+ * and what the price is in different currencies.
+ *
+ * Parameters:
+ * - productId: Your identifier to represent the product.
+ * - planId: Your identifier to represent the default billing plan for this product.
+ * - planReference: The gateway's identifier to represent the default billing plan for this
+ * product.
+ * - prices: Prices in multiple currencies for this product. If provided, this will override
+ * the prices specified by a plan.
+ * - taxClassification: The tax classification of the plan. Values may vary depending
+ * on your tax engine, consult with Vindicia to learn what values are available to you.
+ * Common options include 'TaxExempt' (default) and 'OtherTaxable'.
+ * - taxClassification: The tax classification of the plan. Values may vary depending
+ * on your tax engine, consult with Vindicia to learn what values are available to you.
+ * Common options include 'TaxExempt' (default) and 'OtherTaxable'.
+ * - statementDescriptor: The description shown on the customers billing statement from the bank
+ * This field’s value and its format are constrained by your payment processor; consult with
+ * Vindicia Client Services before setting the value.
+ * - attributes: Custom values you wish to have stored with the plan. They have
+ * no affect on anything.
+ * - duplicateBehavior: The behavior when the exact same product is submitted twice
+ * with no id or reference. Options:
+ *   CreateProductRequest::BEHAVIOR_DUPLICATE: Create the product as normal, resulting in two
+ *       identical products
+ *   CreateProductRequest::BEHAVIOR_FAIL: Does nothing and returns failure
+ *   CreateProductRequest::BEHAVIOR_SUCCEED_IGNORE: Does nothing and returns success (default)
+ *
+ * See CreateSubscriptionRequest for a code example.
+ */
 class CreateProductRequest extends AbstractRequest
 {
     /**

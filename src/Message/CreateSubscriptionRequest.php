@@ -5,6 +5,140 @@ namespace Omnipay\Vindicia\Message;
 use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Creates or updates a subscription (recurring payment), depending on whether it's
+ * called from createSubscription or updateSubscription.
+ *
+ * If you are updating a subscription, you should NOT change its currency.
+ *
+ * Takes the same parameters as authorize or purchase except it does not use the amount
+ * parameter. The amount is determined by the prices on the product plus the currency on
+ * the subscription. See Message\Authorize for parameter details.
+ *
+ * Also uses the following parameters:
+ * - subscriptionId: Your identifier to represent this subscription. Unlike in the authorize
+ * and purchase requests, Vindicia does not automatically create an ID for the subscription,
+ * so you must specify it.
+ * - productId: Your identifier for the product that the customer is subscribing to. Either
+ * the productId or productReference is required. The product defines the prices.
+ * - productReference: The gateway's identifier for the product that the customer is
+ * subscribing to. Either the productId or productReference is required.
+ * - planId: Your identifier for the plan defining the subscription's characteristics (eg,
+ * frequency of billing). A billing plan specified here will take precedence over one specified
+ * on the product.
+ * - planReference: The gateway's identifier for the plan defining the subscription's
+ * characteristics (eg, frequency of billing). A billing plan specified here will take
+ * precedence over one specified on the product.
+ * - startTimestamp: The time to start billing. If not specified, defaults to the current
+ * time. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
+ *
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // create a customer (unlike many gateways, Vindicia requires a customer exist
+ *   // before a transaction can occur)
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // create a plan to govern the behavior of the subscription (eg billing frequency)
+ *   $planResponse = $gateway->createPlan(array(
+ *       'planId' => '123456789', // you choose this
+ *       'interval' => 'week',
+ *       'intervalCount' => 2,
+ *       'prices' => array(
+ *           'USD' => '9.99',
+ *           'CAD' => '12.99'
+ *       )
+ *   ))->send();
+ *
+ *   if ($planResponse->isSuccessful()) {
+ *       echo "Plan id: " . $planResponse->getPlanId() . PHP_EOL;
+ *       echo "Plan reference: " . $planResponse->getPlanReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // create a product using that plan for the user to subscribe to
+ *   $productResponse = $gateway->createProduct(array(
+ *       'productId' => '123456789', // you choose this
+ *       'planId' => $planResponse->getPlanId(), // assign the plan you created above to it
+ *       'statementDescriptor' => 'Statement descriptor',
+ *       'duplicateBehavior' => CreateProductRequest::BEHAVIOR_SUCCEED_IGNORE,
+ *       'prices' => array(
+ *           'USD' => '9.99',
+ *           'CAD' => '12.99'
+ *       )
+ *   ))->send();
+ *
+ *   if ($productResponse->isSuccessful()) {
+ *       echo "Product id: " . $productResponse->getProductId() . PHP_EOL;
+ *       echo "Product reference: " . $productResponse->getProductReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // finally we can create the subscription!
+ *   $subscriptionResponse = $gateway->createSubscription(array(
+ *       'currency' => 'GBP',
+ *       'customerId' => '123456789',
+ *       'card' => array(
+ *           'number' => '5555555555554444',
+ *           'expiryMonth' => '01',
+ *           'expiryYear' => '2020',
+ *           'cvv' => '123',
+ *           'postcode' => '12345'
+ *       ),
+ *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
+ *       'subscriptionId' => '111111', // you choose this
+ *       'productId' => $productResponse->getProductId(),
+ *       'planId' => $planResponse->getPlanId() // not necessary since it's already on the product
+ *   ))->send();
+ *
+ *   if ($subscriptionResponse->isSuccessful()) {
+ *       echo "Subscription id: " . $subscriptionResponse->getSubscriptionId() . PHP_EOL;
+ *       echo "Subscription reference: " . $subscriptionResponse->getSubscriptionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // now maybe we want to update the subscription to switch it to a different card
+ *   $updateResponse = $gateway->createSubscription(array(
+ *       'card' => array(
+ *           'number' => '5555555555554444',
+ *           'expiryMonth' => '01',
+ *           'expiryYear' => '2020',
+ *           'cvv' => '123',
+ *           'postcode' => '12345'
+ *       ),
+ *       'paymentMethodId' => 'cc-234567', // this ID will be assigned to the card
+ *        // reference the subscription created above. you could also reference it by subscriptionReference:
+ *       'subscriptionId' => $subscriptionResponse->getSubscriptionId()
+ *   ))->send();
+ *
+ *   if ($updateResponse->isSuccessful()) {
+ *       // These are the same as from the original $subscriptionResponse, since it's the same subscription
+ *       echo "Subscription id: " . $updateResponse->getSubscriptionId() . PHP_EOL;
+ *       echo "Subscription reference: " . $updateResponse->getSubscriptionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ * </code>
+ */
 class CreateSubscriptionRequest extends AuthorizeRequest
 {
     /**
