@@ -39,6 +39,22 @@ class SoapTestCase extends TestCase
      */
     public function setMockSoapResponse($filename, $substitutions = array())
     {
+        self::setNextSoapResponse($filename, $substitutions);
+    }
+
+    /**
+     * This function does the same thing as setMockSoapResponse. This function
+     * is declared statically so you can use it and the mock data in your own
+     * unit tests. setMockSoapResponse is declared in the same style as the
+     * Omnipay setMockHttpResponse function in order to provide a more uniform
+     * interface across tests.
+     *
+     * @param string $filename
+     * @param array<string, string> $substitutions default array()
+     * @throws Omnipay\Common\Exception\BadMethodCallException
+     */
+    public static function setNextSoapResponse($filename, $substitutions = array())
+    {
         $path = __DIR__ . '/Mock/' . $filename;
         $soapResponse = file_get_contents($path);
         if ($soapResponse === false) {
