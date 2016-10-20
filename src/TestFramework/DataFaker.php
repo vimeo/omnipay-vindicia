@@ -929,4 +929,17 @@ class DataFaker
     {
         return 'B-' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
     }
+
+    /**
+     * Return a soap id
+     *
+     * @return string
+     */
+    public function soapId()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while (!$result);
+        return $result;
+    }
 }

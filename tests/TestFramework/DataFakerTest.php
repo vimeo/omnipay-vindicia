@@ -534,4 +534,12 @@ class DataFakerTest extends TestCase
         $this->assertSame(0, strpos($token, 'B-'));
         $this->assertSame(19, strlen($token));
     }
+
+    public function testSoapId()
+    {
+        $soapId = $this->faker->soapId();
+        $this->assertTrue(is_string($soapId));
+        $this->assertSame(40, strlen($soapId));
+        $this->assertNotEquals(0, $soapId);
+    }
 }

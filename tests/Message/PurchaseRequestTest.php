@@ -50,6 +50,7 @@ class PurchaseRequestTest extends SoapTestCase
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
         $this->items = $this->faker->itemsAsArray($this->currency);
+        $this->soapId = $this->faker->soapId();
     }
 
     public function testMinChargebackProbability()
@@ -364,6 +365,7 @@ class PurchaseRequestTest extends SoapTestCase
     public function testSendSuccessPaymentMethodIdOnly()
     {
         $this->setMockSoapResponse('PurchaseSuccess.xml', array(
+            'SOAP_ID' => $this->soapId,
             'CURRENCY' => $this->currency,
             'AMOUNT' => $this->amount,
             'CUSTOMER_ID' => $this->customerId,
@@ -380,13 +382,16 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
+        $this->assertSame($this->soapId, $response->getSoapId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
     public function testSendFailure()
     {
-        $this->setMockSoapResponse('PurchaseFailure.xml');
+        $this->setMockSoapResponse('PurchaseFailure.xml', array(
+            'SOAP_ID' => $this->soapId
+        ));
 
         $response = $this->request->send();
 
@@ -399,5 +404,6 @@ class PurchaseRequestTest extends SoapTestCase
         // no id or reference since Vindicia creates them both
         $this->assertNull($response->getTransactionId());
         $this->assertNull($response->getTransactionReference());
+        $this->assertSame($this->soapId, $response->getSoapId());
     }
 }

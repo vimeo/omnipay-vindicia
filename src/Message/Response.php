@@ -359,6 +359,19 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Return the soap ID from the soap response.
+     *
+     * @return string
+     */
+    public function getSoapId()
+    {
+        if (isset($this->data->return)) {
+            return $this->data->return->soapId;
+        }
+        throw new InvalidResponseException('Response has no soap id.');
+    }
+
+    /**
      * Override to set return type correctly
      *
      * @return AbstractRequest
