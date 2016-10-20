@@ -87,7 +87,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\AuthorizeRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function authorize(array $parameters = array())
     {
@@ -101,7 +101,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\PurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -114,7 +114,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CaptureRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function capture(array $parameters = array())
     {
@@ -128,7 +128,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\VoidRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function void(array $parameters = array())
     {
@@ -141,7 +141,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createSubscription(array $parameters = array())
     {
@@ -154,7 +154,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updateSubscription(array $parameters = array())
     {
@@ -167,7 +167,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createPaymentMethod(array $parameters = array())
     {
@@ -180,7 +180,7 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {

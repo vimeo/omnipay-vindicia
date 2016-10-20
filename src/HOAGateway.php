@@ -110,7 +110,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOAAuthorizeRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function authorize(array $parameters = array())
     {
@@ -123,7 +123,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOAPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -138,7 +138,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * example in HOA context.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function capture(array $parameters = array())
     {
@@ -153,7 +153,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\VoidRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function void(array $parameters = array())
     {
@@ -166,7 +166,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createPaymentMethod(array $parameters = array())
     {
@@ -179,7 +179,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {
@@ -192,7 +192,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createSubscription(array $parameters = array())
     {
@@ -205,7 +205,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updateSubscription(array $parameters = array())
     {
@@ -218,7 +218,7 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\CompleteHOARequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function complete(array $parameters = array())
     {
