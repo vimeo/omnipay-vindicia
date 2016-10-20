@@ -12,8 +12,6 @@ namespace Omnipay\Vindicia\TestFramework;
 
 use Omnipay\Tests\TestCase;
 use Omnipay\Vindicia\TestableSoapClient;
-use DOMDocument;
-use Omnipay\Common\Exception\OmnipayException;
 
 class SoapTestCase extends TestCase
 {
@@ -36,65 +34,7 @@ class SoapTestCase extends TestCase
      */
     public function setMockSoapResponse($filename, $substitutions = array())
     {
-        self::setNextSoapResponse($filename, $substitutions);
-    }
-
-    /**
-     * This function does the same thing as setMockSoapResponse. This function
-     * is declared statically so you can use it and the mock data in your own
-     * unit tests. setMockSoapResponse is declared in the same style as the
-     * Omnipay setMockHttpResponse function in order to provide a more uniform
-     * interface across tests.
-     *
-     * @param string $filename
-     * @param array<string, string> $substitutions default array()
-     * @throws Omnipay\Common\Exception\BadMethodCallException
-     */
-    public static function setNextSoapResponse($filename, $substitutions = array())
-    {
-        $path = dirname(dirname(__DIR__)) . '/tests/Mock/' . $filename;
-        $soapResponse = file_get_contents($path);
-        if ($soapResponse === false) {
-            throw new OmnipayException('Could not open file ' . $path);
-        }
-
-        foreach ($substitutions as $search => $replace) {
-            $soapResponse = str_replace('[' . $search . ']', $replace, $soapResponse);
-        }
-
-        $responseDom = new DOMDocument();
-        $responseDom->loadXML($soapResponse);
-        $simpleXmlResponse = simplexml_import_dom(
-            $responseDom->documentElement->childNodes->item(1)->childNodes->item(1)
-        );
-        // convert SimpleXMLElement to normal object
-        $responseObject = json_decode(json_encode($simpleXmlResponse));
-
-        // When SOAP fields are supposed to be arrays but they only have one element in them,
-        // the above method of parsing the XML just returns an object instead of a one element
-        // array. The following code is a hack to restore the one element array structure for
-        // the affected fields.
-        $fields = array();
-        if (isset($responseObject->results)) {
-            $fields[] = &$responseObject->results;
-        }
-        if (isset($responseObject->account->paymentMethods)) {
-            $fields[] = &$responseObject->account->paymentMethods;
-        }
-        if (isset($responseObject->refunds)) {
-            $fields[] = &$responseObject->refunds;
-        }
-
-        // also affects the payment methods on the accounts on the transactions in the refunds, but
-        // then we have to hack through all the refunds and we don't need that field anyway
-
-        foreach ($fields as &$field) {
-            if (is_object($field)) {
-                $field = array($field);
-            }
-        }
-
-        TestableSoapClient::setNextResponse($responseObject);
+        TestableSoapClient::setNextResponseFromFile($filename, $substitutions);
     }
 
     public function getLastEndpoint()
