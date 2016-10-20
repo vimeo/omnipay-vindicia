@@ -96,7 +96,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\PayPalPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -109,7 +109,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompletePayPalPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function completePurchase(array $parameters = array())
     {
@@ -123,7 +123,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createSubscription(array $parameters = array())
     {
@@ -137,7 +137,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updateSubscription(array $parameters = array())
     {
@@ -150,7 +150,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function completeCreateSubscription(array $parameters = array())
     {
@@ -163,7 +163,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function completeUpdateSubscription(array $parameters = array())
     {
@@ -184,7 +184,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {

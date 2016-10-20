@@ -49,7 +49,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\RefundRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function refund(array $parameters = array())
     {
@@ -62,7 +62,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateCustomerRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createCustomer(array $parameters = array())
     {
@@ -75,7 +75,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateCustomerRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updateCustomer(array $parameters = array())
     {
@@ -89,7 +89,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreatePlanRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createPlan(array $parameters = array())
     {
@@ -102,7 +102,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreatePlanRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updatePlan(array $parameters = array())
     {
@@ -115,7 +115,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateProductRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function createProduct(array $parameters = array())
     {
@@ -128,7 +128,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateProductRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function updateProduct(array $parameters = array())
     {
@@ -141,7 +141,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CancelSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function cancelSubscription(array $parameters = array())
     {
@@ -155,7 +155,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CancelSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function cancelSubscriptions(array $parameters = array())
     {
@@ -168,7 +168,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchTransactionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchTransaction(array $parameters = array())
     {
@@ -181,7 +181,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchTransactionsRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchTransactions(array $parameters = array())
     {
@@ -194,7 +194,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchProductRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchProduct(array $parameters = array())
     {
@@ -207,7 +207,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchSubscription(array $parameters = array())
     {
@@ -220,7 +220,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionsRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchSubscriptions(array $parameters = array())
     {
@@ -233,7 +233,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionsRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchCustomer(array $parameters = array())
     {
@@ -246,7 +246,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchPaymentMethod(array $parameters = array())
     {
@@ -259,7 +259,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPaymentMethodsRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchPaymentMethods(array $parameters = array())
     {
@@ -272,7 +272,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPlanRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchPlan(array $parameters = array())
     {
@@ -285,7 +285,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchRefundsRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchRefunds(array $parameters = array())
     {
@@ -298,7 +298,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchChargebacksRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function fetchChargebacks(array $parameters = array())
     {
@@ -311,7 +311,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CalculateSalesTaxRequest for more details.
      *
      * @param array $parameters
-     * @return Message\Response
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function calculateSalesTax(array $parameters = array())
     {
