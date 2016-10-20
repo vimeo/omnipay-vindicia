@@ -8,14 +8,11 @@
  * Omnipay\Vindicia\TestableSoapClient, allow you to have the same testing
  * interface while still using PHP's SOAP client.
  */
-namespace Omnipay\VindiciaTest;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+namespace Omnipay\Vindicia\TestFramework;
 
 use Omnipay\Tests\TestCase;
 use Omnipay\Vindicia\TestableSoapClient;
 use DOMDocument;
-use Omnipay\VindiciaTest\Mocker;
 use Omnipay\Common\Exception\OmnipayException;
 
 class SoapTestCase extends TestCase
@@ -55,7 +52,7 @@ class SoapTestCase extends TestCase
      */
     public static function setNextSoapResponse($filename, $substitutions = array())
     {
-        $path = __DIR__ . '/Mock/' . $filename;
+        $path = dirname(dirname(__DIR__)) . '/tests/Mock/' . $filename;
         $soapResponse = file_get_contents($path);
         if ($soapResponse === false) {
             throw new OmnipayException('Could not open file ' . $path);

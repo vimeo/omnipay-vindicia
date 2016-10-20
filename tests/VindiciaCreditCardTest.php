@@ -1,10 +1,10 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
+namespace Omnipay\Vindicia;
 
 use Omnipay\Tests\TestCase;
-use Omnipay\VindiciaTest\Mocker;
-use Omnipay\Vindicia\Attribute;
+use Omnipay\Vindicia\TestFramework\Mocker;
+use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class VindiciaCreditCardTest extends TestCase
 {

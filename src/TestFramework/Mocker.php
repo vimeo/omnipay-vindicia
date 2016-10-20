@@ -1,8 +1,6 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+namespace Omnipay\Vindicia\TestFramework;
 
 use Mockery;
 use ReflectionClass;

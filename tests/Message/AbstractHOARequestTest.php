@@ -1,16 +1,12 @@
 <?php
 
-namespace Omnipay\VindiciaTest\Message;
+namespace Omnipay\Vindicia\Message;
 
-require_once(dirname(dirname(__DIR__)) . '/vendor/autoload.php');
-
-use Omnipay\VindiciaTest\DataFaker;
-use Omnipay\VindiciaTest\SoapTestCase;
-use Omnipay\Vindicia\Message\AbstractHOARequest;
-use Omnipay\VindiciaTest\Mocker;
+use Omnipay\Vindicia\TestFramework\DataFaker;
+use Omnipay\Vindicia\TestFramework\SoapTestCase;
+use Omnipay\Vindicia\TestFramework\Mocker;
 use ReflectionClass;
 use Omnipay\Vindicia\Attribute;
-use Omnipay\Vindicia\Message\AbstractRequest;
 
 class AbstractHOARequestTest extends SoapTestCase
 {

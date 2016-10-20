@@ -1,12 +1,9 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+namespace Omnipay\Vindicia;
 
 use Omnipay\Tests\TestCase;
-use Omnipay\Vindicia\AttributeBag;
-use Omnipay\Vindicia\Attribute;
+use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class AttributeBagTest extends TestCase
 {
