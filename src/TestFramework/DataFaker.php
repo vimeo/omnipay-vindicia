@@ -77,7 +77,10 @@ class DataFaker
             return $integerComponent;
         }
 
-        $decimalComponent = $this->intBetween($integerComponent > 0 ? 0 : 1, intval(str_repeat('9', $currencyPrecision)));
+        $decimalComponent = $this->intBetween(
+            $integerComponent > 0 ? 0 : 1,
+            intval(str_repeat('9', $currencyPrecision))
+        );
         $decimalComponent = str_pad(strval($decimalComponent), $currencyPrecision, '0', STR_PAD_LEFT);
 
         return $integerComponent . '.' . $decimalComponent;
@@ -277,7 +280,8 @@ class DataFaker
      */
     public function transactionId()
     {
-        return $this->randomCharacters(self::ALPHABET_UPPER, $this->intBetween(2, 4)) . $this->randomCharacters(self::DIGITS, $this->intBetween(6, 9));
+        return $this->randomCharacters(self::ALPHABET_UPPER, $this->intBetween(2, 4))
+               . $this->randomCharacters(self::DIGITS, $this->intBetween(6, 9));
     }
 
     /**
@@ -471,7 +475,10 @@ class DataFaker
      */
     public function url()
     {
-        return 'http://www.example.' . $this->topLevelDomain() . '/' . $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER . '%', $this->intBetween(0, 10));
+        return 'http://www.example.'
+            . $this->topLevelDomain()
+            . '/'
+            . $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER . '%', $this->intBetween(0, 10));
     }
 
     protected function topLevelDomain()
@@ -865,7 +872,9 @@ class DataFaker
     public function randomCharacters($characterSet, $numCharacters)
     {
         if ($numCharacters < 0) {
-            throw new InvalidArgumentException('Parameter numCharacters must be positive or zero, saw ' . $numCharacters);
+            throw new InvalidArgumentException(
+                'Parameter numCharacters must be positive or zero, saw ' . $numCharacters
+            );
         }
         if (empty($characterSet)) {
             throw new InvalidArgumentException('characterSet must not be empty');

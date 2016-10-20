@@ -64,7 +64,9 @@ class SoapTestCase extends TestCase
 
         $responseDom = new DOMDocument();
         $responseDom->loadXML($soapResponse);
-        $simpleXmlResponse = simplexml_import_dom($responseDom->documentElement->childNodes->item(1)->childNodes->item(1));
+        $simpleXmlResponse = simplexml_import_dom(
+            $responseDom->documentElement->childNodes->item(1)->childNodes->item(1)
+        );
         // convert SimpleXMLElement to normal object
         $responseObject = json_decode(json_encode($simpleXmlResponse));
 

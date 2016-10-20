@@ -23,7 +23,8 @@ class Mocker extends Mockery
         $regularRequestProperty = $requestReflection->getProperty('regularRequest');
         $regularRequestProperty->setAccessible(true);
         // the regularRequest instance object must be mocked as well
-        $regularRequest = self::mock($requestClass::$REGULAR_REQUEST_CLASS)->makePartial()->shouldAllowMockingProtectedMethods();
+        $regularRequest = self::mock($requestClass::$REGULAR_REQUEST_CLASS)
+                            ->makePartial()->shouldAllowMockingProtectedMethods();
         $regularRequestProperty->setValue($request, $regularRequest);
 
         return $request;
