@@ -106,7 +106,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(3, 9));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -119,7 +119,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -132,7 +132,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(6, 9));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -145,7 +145,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -168,7 +168,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -191,7 +191,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -214,7 +214,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -269,7 +269,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -293,7 +293,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -776,7 +776,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::DIGITS, 5);
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -908,7 +908,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -939,7 +939,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 }
