@@ -1,11 +1,9 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
+namespace Omnipay\Vindicia;
 
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
-
+use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Tests\TestCase;
-use Omnipay\Vindicia\TaxExemption;
 
 class TaxExemptionTest extends TestCase
 {

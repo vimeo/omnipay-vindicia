@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
+namespace Omnipay\Vindicia\TestFramework;
 
 use Omnipay\Tests\TestCase;
 use Omnipay\Common\Currency;
@@ -15,8 +15,6 @@ use Omnipay\Vindicia\VindiciaRefundItem;
 use Omnipay\Vindicia\VindiciaRefundItemBag;
 use Omnipay\Vindicia\TaxExemption;
 use Omnipay\Vindicia\TaxExemptionBag;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 class DataFakerTest extends TestCase
 {

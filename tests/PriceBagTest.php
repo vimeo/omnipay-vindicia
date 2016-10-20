@@ -1,12 +1,9 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
+namespace Omnipay\Vindicia;
 
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
-
+use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Tests\TestCase;
-use Omnipay\Vindicia\PriceBag;
-use Omnipay\Vindicia\Price;
 use Omnipay\Common\Currency;
 
 class PriceBagTest extends TestCase

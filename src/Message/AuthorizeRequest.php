@@ -4,6 +4,126 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Authorize a transaction. No money will be transfered during authorization.
+ * After authorizing a transaction, call capture to complete the transaction and
+ * transfer the money. If you want to do authorize and capture in one step, use the
+ * purchase function.
+ *
+ * Parameters:
+ * - customerId: Your identifier for the customer. The customer must be created before the
+ * authorize request, so either customerId or customerReference is required.
+ * - customerReference: The gateway's identifier for the customer. The customer must be
+ * created before the authorize request, so either customerId or customerReference is required.
+ * - amount: The amount of the transaction. Either the amount or items parameter is required.
+ * If both are provided, the sum of the items must equal the amount.
+ * - items: Line-items for the transaction. Either the amount or items parameter is required.
+ * Each item must contain a sku, price, quantity, and name. A description is optional.
+ * - currency: The three letter (capitalized) currency code for the transaction, eg) 'USD'
+ * If not specified, the default will be left up to Vindicia, which will probably be USD for
+ * most users.
+ * - card: The card you wish to charge. If a payment method is not already attached to the
+ * customer's account, the card, paymentMethodId, and/or paymentMethodReference parameter
+ * must be provided. The card supports all basic Omnipay card fields, but not shipping
+ * addresses at this time.
+ * - paymentMethodId: Your identifier for the payment method. This can reference a saved
+ * payment method or can be used to assign an ID to the card passed in the card parameter.
+ * If a payment method is not already attached to the customer's account, the card,
+ * paymentMethodId, and/or paymentMethodReference parameter is required.
+ * must be provided.
+ * - paymentMethodReference: The gateway's identifier for the payment method. This references
+ * a saved payment method. If a payment method is not already attached to the customer's account,
+ * the card, paymentMethodId, and/or paymentMethodReference parameter is required. Since the
+ * reference is created by the gateway, assigning both this parameter and the card parameter
+ * is meaningless.
+ * - minChargebackProbability: If chargeback probabilty from risk scoring is greater than the
+ * this value, the transaction will fail. If the value is 100, all transactions will succeed.
+ * 100 is the default.
+ * - taxClassification: The tax classification of the transaction. Values may vary depending
+ * on your tax engine, consult with Vindicia to learn what values are available to you.
+ * Common options include 'TaxExempt' (default) and 'OtherTaxable'.
+ * - ip: The customer's IP address. Optional.
+ * - statementDescriptor: The description shown on the customers billing statement from the bank
+ * This field’s value and its format are constrained by your payment processor; consult with
+ * Vindicia Client Services before setting the value.
+ * - attributes: Custom values you wish to have stored with the transaction. They have
+ * no affect on anything.
+ *
+ * Example:
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // create a customer (unlike many gateways, Vindicia requires a customer exist
+ *   // before a transaction can occur)
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // authorize the transaction
+ *   $authorizeResponse = $gateway->authorize(array(
+ *       'items' => array(
+ *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
+ *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
+ *       ),
+ *       'amount' => '23.48', // not necessary since items are provided
+ *       'currency' => 'USD',
+ *       'customerId' => $customerResponse->getCustomerId(), // you could also use customerReference
+ *       'card' => array(
+ *           'number' => '5555555555554444',
+ *           'expiryMonth' => '01',
+ *           'expiryYear' => '2020',
+ *           'cvv' => '123',
+ *           'postcode' => '12345'
+ *       ),
+ *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
+ *                                         // be attached to the customer's account
+ *       'attributes' => array(
+ *           'location' => 'FL'
+ *       )
+ *   ))->send();
+ *
+ *   if ($authorizeResponse->isSuccessful()) {
+ *       // Note: Your transaction ID begins with a prefix you specified in your initial
+ *       // Vindicia configuration. The ID is automatically assigned by Vindicia.
+ *       echo "Transaction id: " . $authorizeResponse->getTransactionId() . PHP_EOL;
+ *       echo "Transaction reference: " . $authorizeResponse->getTransactionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // At this point, no money has been transferred. Now we will capture the transaction to
+ *   // complete it and transfer the money.
+ *
+ *   $captureResponse = $gateway->capture(array(
+ *       // You can identify the transaction by the transactionId or transactionReference
+ *       // obtained from the authorize response
+ *       'transactionId' => $authorizeResponse->getTransactionId(),
+ *   ))->send();
+ *
+ *   if ($captureResponse->isSuccessful()) {
+ *       // these are the same as they were on the authorize response, because it is the
+ *       // same transaction
+ *       echo "Transaction id: " . $captureResponse->getTransactionId() . PHP_EOL;
+ *       echo "Transaction reference: " . $captureResponse->getTransactionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ * </code>
+ */
 class AuthorizeRequest extends AbstractRequest
 {
     public function initialize(array $parameters = array())

@@ -4,6 +4,19 @@ namespace Omnipay\Vindicia\Message;
 
 use stdClass;
 
+/**
+ * Complete a HOA request.
+ *
+ * After you call one of the initializeHOA functions, this function should be called
+ * on the page the user is returned to (specified by the returnUrl) to complete the request.
+ *
+ * Parameters:
+ * - webSessionReference: The gateway's identifier for the Web Session. This is provided
+ * by the response for an initializeHOA call and is used to specify which Web Session should
+ * be completed. Required.
+ *
+ * See HOAPurchaseRequest for a code example.
+ */
 class CompleteHOARequest extends AbstractRequest
 {
     /**

@@ -6,6 +6,86 @@ use stdClass;
 use Omnipay\Common\Helper;
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Create a new payment method and attach it to a customer. Or, update an existing
+ * payment method.
+ *
+ * Note: You can also create a payment method in the same request as creating a customer.
+ * See Message\CreateCustomerRequest.
+ *
+ * Parameters:
+ * - customerId: Your identifier for the customer to whom this payment method will belong.
+ * Either customerId or customerReference is required.
+ * - customerReference: The gateway's identifier for the customer to whom this payment method
+ * will belong. Either customerId or customerReference is required.
+ * - card: The card details you're adding. Required. Attributes can also be specified on the
+ * card.
+ * - paymentMethodId: Your identifier for the payment method. Required.
+ *
+ * Example:
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // create a customer
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // add a payment method for that customer
+ *   $paymentMethodResponse = $gateway->createPaymentMethod(array(
+ *       'customerId' => $customerResponse->getCustomerId(), // alternatively you could use customerReference
+ *       'card' => array(
+ *           'number' => '5555555555554444',
+ *           'expiryMonth' => '01',
+ *           'expiryYear' => '2020',
+ *           'cvv' => '123',
+ *           'postcode' => '12345',
+ *           'attributes' => array(
+ *               'color' => 'blue'
+ *           )
+ *       ),
+ *       'paymentMethodId' => 'cc-123456' // you choose this
+ *   ))->send();
+ *
+ *   if ($paymentMethodResponse->isSuccessful()) {
+ *       // This is the payment method ID you set above
+ *       echo "Payment method id: " . $paymentMethodResponse->getPaymentMethodId() . PHP_EOL;
+ *       echo "Payment method reference: " . $paymentMethodResponse->getPaymentMethodReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // now say we want to update the expiration date of the payment method
+ *   $updateResponse = $gateway->updatePaymentMethod(array(
+ *       'card' => array(
+ *           'expiryMonth' => '02',
+ *           'expiryYear' => '2025',
+ *       ),
+ *       'paymentMethodId' => $paymentMethodResponse->getPaymentMethodId() // reference payment method created above
+ *   ))->send();
+ *
+ *   if ($updateResponse->isSuccessful()) {
+ *       // This is the same payment method ID you set above
+ *       echo "Payment method id: " . $updateResponse->getPaymentMethodId() . PHP_EOL;
+ *       echo "Payment method reference: " . $updateResponse->getPaymentMethodReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ * </code>
+ */
 class CreatePaymentMethodRequest extends AbstractRequest
 {
     /**

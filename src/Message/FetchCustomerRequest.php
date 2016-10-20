@@ -4,6 +4,49 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 
+/**
+ * Fetch a Vindicia customer object.
+ *
+ * Parameters:
+ * - customerId: Your identifier for the customer to be fetched. Either customerId
+ * or customerReference is required.
+ * - customerReference: The gateway's identifier for the customer to be fetched. Either
+ * customerId or customerReference is required.
+ *
+ * Example:
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // create a customer (unlike many gateways, Vindicia requires a customer exist
+ *   // before a transaction can occur)
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // now we want to fetch the customer
+ *   $response = $gateway->fetchCustomer(array(
+ *       'customerId' => $customerResponse->getCustomerId() // could also do it by customerReference
+ *   ))->send();
+ *
+ *   if ($response->isSuccessful()) {
+ *       var_dump($response->getCustomer());
+ *   }
+ *
+ * </code>
+ */
 class FetchCustomerRequest extends AbstractRequest
 {
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
+namespace Omnipay\Vindicia\TestFramework;
 
 use DateTime;
 use InvalidArgumentException;

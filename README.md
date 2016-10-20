@@ -9,6 +9,8 @@
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements Vindicia support for Omnipay.
 
+[Vindicia](https://vindicia.com/) is a payment services provider founded in Redwood City, CA in 2003 and focused on subscription billing. This driver interfaces with [Cashbox](https://www.vindicia.com/solutions/vindicia-cashbox), their subscription billing platform.
+
 ## Installation
 
 Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it

@@ -1,13 +1,10 @@
 <?php
 
-namespace Omnipay\VindiciaTest;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+namespace Omnipay\Vindicia;
 
 use Omnipay\Tests\GatewayTestCase;
-use Omnipay\Vindicia\Gateway;
-use Omnipay\Vindicia\PriceBag;
 use Omnipay\Omnipay;
+use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class GatewayTest extends GatewayTestCase
 {

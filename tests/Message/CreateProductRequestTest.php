@@ -1,14 +1,11 @@
 <?php
 
-namespace Omnipay\VindiciaTest\Message;
+namespace Omnipay\Vindicia\Message;
 
-require_once(dirname(dirname(__DIR__)) . '/vendor/autoload.php');
-
-use Omnipay\VindiciaTest\Mocker;
-use Omnipay\VindiciaTest\DataFaker;
-use Omnipay\Vindicia\Message\CreateProductRequest;
+use Omnipay\Vindicia\TestFramework\Mocker;
+use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\Price;
-use Omnipay\VindiciaTest\SoapTestCase;
+use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\AttributeBag;
 
 class CreateProductRequestTest extends SoapTestCase

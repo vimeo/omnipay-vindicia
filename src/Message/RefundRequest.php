@@ -6,6 +6,111 @@ use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Vindicia\VindiciaRefundItemBag;
 
+/**
+ * Refund a transaction.
+ *
+ * This is for use after a transaction has been captured or purchased. If the transaction
+ * has only been authorized, you can void it instead.
+ *
+ * Parameters:
+ * - transactionId: Your identifier to represent the transaction that should be refunded.
+ * Either the transactionId or transactionReference is required.
+ * - transactionReference: The gateway's identifier to represent the transaction that should
+ * be refunded. Either the transactionId or transactionReference is required.
+ * - amount: The amount to refund. If neither amount or items is provided, the remaining
+ * balance will be refunded. If both are provided, the sum of the items must equal the amount.
+ * The amount can be up to the remaining non-refunded balance of the transaction (ie, the total
+ * amount of the transaction if it has not been refunded before). After a non-itemized refund
+ * has been issued on a transaction, an itemized refund cannot be issued for the same
+ * transaction.
+ * - items: Line-items for the transaction. If neither amount or items is provided, the remaining
+ * balance will be refunded. If both are provided, the sum of the items must equal the amount.
+ * The amount can be up to the remaining non-refunded balance of the transaction (ie, the total
+ * amount of the transaction if it has not been refunded before). After a non-itemized refund
+ * has been issued on a transaction, an itemized refund cannot be issued for the same
+ * transaction. Each item must contain a sku, amount, and transactionItemIndexNumber.
+ * transactionItemIndex number is the position of the item in the original transaction, indexed
+ * starting at 1. A taxOnly parameter can be set to true if only the tax should be refunded.
+ * Refunding by items may not work if you are using Vindicia's old tax engine.
+ * - note: A note to attach to the refund. Optional.
+ * - attributes: Custom values you wish to have stored with the refund. They have
+ * no affect on anything.
+ *
+ * Example:
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // create a customer (unlike many gateways, Vindicia requires a customer exist
+ *   // before a transaction can occur)
+ *   $customerResponse = $gateway->createCustomer(array(
+ *       'name' => 'Test Customer',
+ *       'email' => 'customer@example.com',
+ *       'customerId' => '123456789'
+ *   ))->send();
+ *
+ *   if ($customerResponse->isSuccessful()) {
+ *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
+ *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // purchase!
+ *   $purchaseResponse = $gateway->purchase(array(
+ *       'items' => array(
+ *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
+ *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
+ *       ),
+ *       'amount' => '23.48', // not necessary since items are provided
+ *       'currency' => 'USD',
+ *       'customerId' => $customerResponse->getCustomerId(), // you could also use customerReference
+ *       'card' => array(
+ *           'number' => '5555555555554444',
+ *           'expiryMonth' => '01',
+ *           'expiryYear' => '2020',
+ *           'cvv' => '123',
+ *           'postcode' => '12345'
+ *       ),
+ *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
+ *                                         // be attached to the customer's account
+ *       'attributes' => array(
+ *           'location' => 'FL'
+ *       )
+ *   ))->send();
+ *
+ *   if ($purchaseResponse->isSuccessful()) {
+ *       // Note: Your transaction ID begins with a prefix you specified in your initial
+ *       // Vindicia configuration. The ID is automatically assigned by Vindicia.
+ *       echo "Transaction id: " . $purchaseResponse->getTransactionId() . PHP_EOL;
+ *       echo "Transaction reference: " . $purchaseResponse->getTransactionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // now we want to refund the purchase for some reason
+ *   $refundResponse = $gateway->refund(array(
+ *       // identify the transaction above to refund. could also identify by transactionReference.
+ *       'transactionId' => $purchaseResponse->getTransactionId(),
+ *       'items' => array(
+ *           array('transactionItemIndexNumber' => '1', 'sku' => '1', 'amount' => '3.50'),
+ *           array('transactionItemIndexNumber' => '2', 'sku' => '2', 'amount' => '19.98')
+ *       ),
+ *       'amount' => '23.48', // not necessary since items are provided
+ *       'note' => 'A note about the refund'
+ *   ))->send();
+ *
+ *   if ($refundResponse->isSuccessful()) {
+ *       echo "Refund id: " . $refundResponse->getRefundId() . PHP_EOL;
+ *       echo "Refund reference: " . $refundResponse->getRefundReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ * </code>
+ */
 class RefundRequest extends AbstractRequest
 {
     /**

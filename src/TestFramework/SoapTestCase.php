@@ -8,14 +8,11 @@
  * Omnipay\Vindicia\TestableSoapClient, allow you to have the same testing
  * interface while still using PHP's SOAP client.
  */
-namespace Omnipay\VindiciaTest;
-
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+namespace Omnipay\Vindicia\TestFramework;
 
 use Omnipay\Tests\TestCase;
 use Omnipay\Vindicia\TestableSoapClient;
 use DOMDocument;
-use Omnipay\VindiciaTest\Mocker;
 use Omnipay\Common\Exception\OmnipayException;
 
 class SoapTestCase extends TestCase
@@ -39,7 +36,23 @@ class SoapTestCase extends TestCase
      */
     public function setMockSoapResponse($filename, $substitutions = array())
     {
-        $path = __DIR__ . '/Mock/' . $filename;
+        self::setNextSoapResponse($filename, $substitutions);
+    }
+
+    /**
+     * This function does the same thing as setMockSoapResponse. This function
+     * is declared statically so you can use it and the mock data in your own
+     * unit tests. setMockSoapResponse is declared in the same style as the
+     * Omnipay setMockHttpResponse function in order to provide a more uniform
+     * interface across tests.
+     *
+     * @param string $filename
+     * @param array<string, string> $substitutions default array()
+     * @throws Omnipay\Common\Exception\BadMethodCallException
+     */
+    public static function setNextSoapResponse($filename, $substitutions = array())
+    {
+        $path = dirname(dirname(__DIR__)) . '/tests/Mock/' . $filename;
         $soapResponse = file_get_contents($path);
         if ($soapResponse === false) {
             throw new OmnipayException('Could not open file ' . $path);
