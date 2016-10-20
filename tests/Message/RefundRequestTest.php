@@ -287,7 +287,8 @@ class RefundRequestTest extends SoapTestCase
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'REFUND_ID' => $this->refundId,
-            'REFUND_REFERENCE' => $this->refundReference
+            'REFUND_REFERENCE' => $this->refundReference,
+            'NOTE' => $this->note
         ));
 
         $response = $this->request->send();
@@ -298,6 +299,7 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->refundId, $response->getRefundId());
         $this->assertSame($this->refundReference, $response->getRefundReference());
+        $this->assertNotNull($response->getRefund());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
