@@ -44,6 +44,31 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     }
 
     /**
+     * Get the default minimum chargeback probability to be used if one is not passed.
+     * If not present, will default to 100 (always passing).
+     * See Message\AuthorizeRequest for more info.
+     *
+     * @return int
+     */
+    public function getMinChargebackProbability()
+    {
+        return $this->getParameter('minChargebackProbability');
+    }
+
+    /**
+     * Set the default minimum chargeback probability to be used if one is not passed.
+     * If not present, will default to 100 (always passing).
+     * See Message\AuthorizeRequest for more info.
+     *
+     * @param int
+     * @return static
+     */
+    public function setMinChargebackProbability($value)
+    {
+        return $this->setParameter('minChargebackProbability', $value);
+    }
+
+    /**
      * Refund a transaction.
      *
      * See Message\RefundRequest for more details.
@@ -319,7 +344,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     }
 
     /**
-     * Method override to support $isUpdate flag.
+     * Method override to support $isUpdate flag and default min chargeback probability.
      *
      * @param string $class The request class name
      * @param array $parameters
@@ -329,6 +354,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     protected function createRequest($class, array $parameters, $isUpdate = false)
     {
         $obj = new $class($this->httpClient, $this->httpRequest, $isUpdate);
+
+        // if there's a default minimum chargeback probability and it was not set, set it
+        $defaultMinChargebackProbability = $this->getMinChargebackProbability();
+        if (isset($defaultMinChargebackProbability) and !isset($parameters['minChargebackProbability'])) {
+            $parameters['minChargebackProbability'] = $defaultMinChargebackProbability;
+        }
+
         return $obj->initialize(array_replace($this->getParameters(), $parameters));
     }
 }
