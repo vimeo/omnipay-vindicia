@@ -24,7 +24,7 @@
         }
     },
     "require": {
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~2.0",
         "omnipay/tests": "~2.0"
     }
 }
