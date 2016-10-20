@@ -134,9 +134,6 @@ class CreateCustomerRequest extends AbstractRequest
         return $this->setParameter('taxExemptions', $value);
     }
 
-    /**
-     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
-     */
     public function getData()
     {
         $customerId = $this->getCustomerId();

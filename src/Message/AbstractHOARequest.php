@@ -127,9 +127,6 @@ abstract class AbstractHOARequest extends AbstractRequest
         return $this->setParameter('HOAAttributes', $attributes);
     }
 
-    /**
-     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
-     */
     public function getData()
     {
         $this->validate('returnUrl', 'ip');
