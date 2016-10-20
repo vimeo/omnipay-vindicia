@@ -49,6 +49,13 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($customerReference, $this->request->getCustomerReference());
     }
 
+    public function testRefundId()
+    {
+        $refundId = $this->faker->refundId();
+        $this->assertSame($this->request, $this->request->setRefundId($refundId));
+        $this->assertSame($refundId, $this->request->getRefundId());
+    }
+
     public function testPaymentMethodId()
     {
         $paymentMethodId = $this->faker->paymentMethodId();

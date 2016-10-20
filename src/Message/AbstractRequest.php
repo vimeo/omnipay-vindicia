@@ -154,6 +154,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('customerReference', $value);
     }
 
+    public function getRefundId()
+    {
+        return $this->getParameter('refundId');
+    }
+
+    public function setRefundId($value)
+    {
+        return $this->setParameter('refundId', $value);
+    }
+
     public function getPaymentMethodId()
     {
         return $this->getParameter('paymentMethodId');

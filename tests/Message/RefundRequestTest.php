@@ -15,6 +15,7 @@ class RefundRequestTest extends SoapTestCase
     {
         $this->faker = new DataFaker();
 
+        $this->refundId = $this->faker->refundId();
         $this->currency = $this->faker->currency();
         $this->refundAmount = $this->faker->monetaryAmount($this->currency);
         $this->transactionAmount = $this->faker->monetaryAmount($this->currency);
@@ -38,6 +39,7 @@ class RefundRequestTest extends SoapTestCase
         $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
+                'refundId' => $this->refundId,
                 'amount' => $this->refundAmount,
                 'currency' => $this->currency,
                 'transactionId' => $this->transactionId,
@@ -47,11 +49,19 @@ class RefundRequestTest extends SoapTestCase
             )
         );
 
-        $this->refundId = $this->faker->refundId();
         $this->refundReference = $this->faker->refundReference();
         $this->card = $this->faker->card();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->customerId = $this->faker->customerId();
+    }
+
+    public function testRefundId()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setRefundId($this->refundId));
+        $this->assertSame($this->refundId, $request->getRefundId());
     }
 
     public function testNote()
@@ -248,6 +258,16 @@ class RefundRequestTest extends SoapTestCase
     {
         $this->request->setTransactionId(null);
         $this->request->setTransactionReference(null);
+        $this->request->getData();
+    }
+
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage The refundId parameter is required
+     */
+    public function testRefundIdRequired()
+    {
+        $this->request->setRefundId(null);
         $this->request->getData();
     }
 

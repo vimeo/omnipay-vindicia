@@ -13,6 +13,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  * has only been authorized, you can void it instead.
  *
  * Parameters:
+ * - refundId: Your identifier to represent the refund. Required.
  * - transactionId: Your identifier to represent the transaction that should be refunded.
  * Either the transactionId or transactionReference is required.
  * - transactionReference: The gateway's identifier to represent the transaction that should
@@ -93,6 +94,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *
  *   // now we want to refund the purchase for some reason
  *   $refundResponse = $gateway->refund(array(
+ *       'refundId' => '654321', // you choose this
  *       // identify the transaction above to refund. could also identify by transactionReference.
  *       'transactionId' => $purchaseResponse->getTransactionId(),
  *       'items' => array(
@@ -169,6 +171,8 @@ class RefundRequest extends AbstractRequest
 
     public function getData()
     {
+        $this->validate('refundId');
+
         $transactionId = $this->getTransactionId();
         $transactionReference = $this->getTransactionReference();
         if (empty($transactionId) && empty($transactionReference)) {
