@@ -20,13 +20,6 @@
     <MixedPropertyAssignment errorLevel="suppress" />
     <FailedTypeResolution errorLevel="info" />
 
-    <!-- Thrown on Mockery::mock -->
-    <TooManyArguments>
-      <excludeFiles>
-        <directory name="tests" />
-      </excludeFiles>
-    </TooManyArguments>
-
     <!-- Unit tests set lots of instance variables inline -->
     <UndefinedThisPropertyAssignment>
       <excludeFiles>
