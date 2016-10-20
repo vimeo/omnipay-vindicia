@@ -10,7 +10,6 @@ class PayPalGatewayTest extends GatewayTestCase
 {
     public function setUp()
     {
-        parent::setUp();
         $this->gateway = new PayPalGateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setTestMode(true);
         $this->faker = new DataFaker();

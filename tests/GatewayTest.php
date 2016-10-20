@@ -10,7 +10,6 @@ class GatewayTest extends GatewayTestCase
 {
     public function setUp()
     {
-        parent::setUp();
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setTestMode(true);
         $this->faker = new DataFaker();
