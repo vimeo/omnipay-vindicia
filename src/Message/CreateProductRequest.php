@@ -100,9 +100,6 @@ class CreateProductRequest extends AbstractRequest
         return $this->setParameter('duplicateBehavior', $value);
     }
 
-    /**
-     * @psalm-suppress TooManyArguments because psalm can't see validate's func_get_args call
-     */
     public function getData()
     {
         $productId = $this->getProductId();

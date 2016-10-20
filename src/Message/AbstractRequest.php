@@ -847,4 +847,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     abstract public function getData();
+
+    /**
+     * Redefining to tell psalm it's variadic
+     *
+     * @psalm-variadic
+     */
+    public function validate()
+    {
+        return call_user_func_array('parent::validate', func_get_args());
+    }
 }

@@ -18,14 +18,24 @@ class Mocker extends Mockery
      */
     public static function mockHOARequest($requestClass)
     {
-        $request = Mockery::mock($requestClass)->makePartial();
+        $request = self::mock($requestClass)->makePartial();
         $requestReflection = new ReflectionClass($request);
         $regularRequestProperty = $requestReflection->getProperty('regularRequest');
         $regularRequestProperty->setAccessible(true);
         // the regularRequest instance object must be mocked as well
-        $regularRequest = Mockery::mock($requestClass::$REGULAR_REQUEST_CLASS)->makePartial()->shouldAllowMockingProtectedMethods();
+        $regularRequest = self::mock($requestClass::$REGULAR_REQUEST_CLASS)->makePartial()->shouldAllowMockingProtectedMethods();
         $regularRequestProperty->setValue($request, $regularRequest);
 
         return $request;
+    }
+
+    /**
+     * Redefining to tell psalm it's variadic
+     *
+     * @psalm-variadic
+     */
+    public static function mock()
+    {
+        return call_user_func_array('parent::mock', func_get_args());
     }
 }
