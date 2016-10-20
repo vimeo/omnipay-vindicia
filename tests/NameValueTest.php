@@ -10,7 +10,6 @@ class NameValueTest extends TestCase
 {
     public function setUp()
     {
-        parent::setUp();
         $this->faker = new DataFaker();
     }
 
