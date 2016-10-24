@@ -87,10 +87,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\AuthorizeRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\AuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\AuthorizeRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\AuthorizeRequest', $parameters);
     }
 
@@ -101,10 +104,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\PurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\PurchaseRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\PurchaseRequest', $parameters);
     }
 
@@ -114,10 +120,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CaptureRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CaptureRequest
      */
     public function capture(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CaptureRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CaptureRequest', $parameters);
     }
 
@@ -128,10 +137,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\VoidRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\VoidRequest
      */
     public function void(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\VoidRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
     }
 
@@ -141,10 +153,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateSubscriptionRequest
      */
     public function createSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateSubscriptionRequest', $parameters);
     }
 
@@ -154,10 +169,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateSubscriptionRequest
      */
     public function updateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateSubscriptionRequest', $parameters, true);
     }
 
@@ -167,10 +185,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
      */
     public function createPaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters);
     }
 
@@ -180,10 +201,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 

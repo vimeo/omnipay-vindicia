@@ -74,10 +74,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\RefundRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\RefundRequest
      */
     public function refund(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\RefundRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\RefundRequest', $parameters);
     }
 
@@ -87,10 +90,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateCustomerRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateCustomerRequest
      */
     public function createCustomer(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateCustomerRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateCustomerRequest', $parameters);
     }
 
@@ -100,10 +106,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateCustomerRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateCustomerRequest
      */
     public function updateCustomer(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateCustomerRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateCustomerRequest', $parameters, true);
     }
 
@@ -114,10 +123,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreatePlanRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePlanRequest
      */
     public function createPlan(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePlanRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePlanRequest', $parameters);
     }
 
@@ -127,10 +139,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreatePlanRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePlanRequest
      */
     public function updatePlan(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePlanRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePlanRequest', $parameters, true);
     }
 
@@ -140,10 +155,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateProductRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateProductRequest
      */
     public function createProduct(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateProductRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateProductRequest', $parameters);
     }
 
@@ -153,10 +171,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CreateProductRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateProductRequest
      */
     public function updateProduct(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateProductRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateProductRequest', $parameters, true);
     }
 
@@ -166,10 +187,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CancelSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CancelSubscriptionRequest
      */
     public function cancelSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CancelSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CancelSubscriptionRequest', $parameters);
     }
 
@@ -180,10 +204,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CancelSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CancelSubscriptionsRequest
      */
     public function cancelSubscriptions(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CancelSubscriptionsRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CancelSubscriptionsRequest', $parameters);
     }
 
@@ -193,10 +220,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchTransactionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchTransactionRequest
      */
     public function fetchTransaction(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchTransactionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchTransactionRequest', $parameters);
     }
 
@@ -206,10 +236,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchTransactionsRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchTransactionsRequest
      */
     public function fetchTransactions(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchTransactionsRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchTransactionsRequest', $parameters);
     }
 
@@ -219,10 +252,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchProductRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchProductRequest
      */
     public function fetchProduct(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchProductRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchProductRequest', $parameters);
     }
 
@@ -232,10 +268,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchSubscriptionRequest
      */
     public function fetchSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionRequest', $parameters);
     }
 
@@ -245,10 +284,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionsRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchSubscriptionsRequest
      */
     public function fetchSubscriptions(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchSubscriptionsRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest', $parameters);
     }
 
@@ -258,10 +300,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchSubscriptionsRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchCustomerRequest
      */
     public function fetchCustomer(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchCustomerRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchCustomerRequest', $parameters);
     }
 
@@ -271,10 +316,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchPaymentMethodRequest
      */
     public function fetchPaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchPaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchPaymentMethodRequest', $parameters);
     }
 
@@ -284,10 +332,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPaymentMethodsRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchPaymentMethodsRequest
      */
     public function fetchPaymentMethods(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchPaymentMethodsRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchPaymentMethodsRequest', $parameters);
     }
 
@@ -297,10 +348,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchPlanRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchPlanRequest
      */
     public function fetchPlan(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchPlanRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchPlanRequest', $parameters);
     }
 
@@ -310,10 +364,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchRefundsRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchRefundsRequest
      */
     public function fetchRefunds(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchRefundsRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchRefundsRequest', $parameters);
     }
 
@@ -323,10 +380,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\FetchChargebacksRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\FetchChargebacksRequest
      */
     public function fetchChargebacks(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchChargebacksRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\FetchChargebacksRequest', $parameters);
     }
 
@@ -336,10 +396,13 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * See Message\CalculateSalesTaxRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CalculateSalesTaxRequest
      */
     public function calculateSalesTax(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CalculateSalesTaxRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest', $parameters);
     }
 
@@ -349,7 +412,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * @param string $class The request class name
      * @param array $parameters
      * @pram bool $isUpdate default false
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\AbstractRequest
      */
     protected function createRequest($class, array $parameters, $isUpdate = false)
     {
