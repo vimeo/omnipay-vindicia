@@ -392,8 +392,8 @@ class DataFaker
             'number' => $this->intBetween(0, 1) ? '4242424242424242' : '5555555555554444',
             'expiryMonth' => strval($this->intBetween(1, 12)),
             'expiryYear' => strval($this->intBetween(
-                $now->modify('+1 year')->format('Y'),
-                $now2->modify('+50 year')->format('Y')
+                intval($now->modify('+1 year')->format('Y')),
+                intval($now2->modify('+50 year')->format('Y'))
             )),
             'cvv' => strval($this->intBetween(100, 999)),
             'country' => $this->region(),
@@ -420,8 +420,8 @@ class DataFaker
                 break;
             default:
                 $card['expiryYear'] = strval($this->intBetween(
-                    $now->modify('-15 year')->format('Y'),
-                    $now2->modify('-1 year')->format('Y')
+                    intval($now->modify('-15 year')->format('Y')),
+                    intval($now2->modify('-1 year')->format('Y'))
                 ));
                 break;
         }
