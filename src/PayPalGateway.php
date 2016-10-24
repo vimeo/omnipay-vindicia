@@ -193,11 +193,23 @@ class PayPalGateway extends AbstractVindiciaGateway
     }
 
     /**
-     * Update a payment method.
+     * Create a new payment method.
      *
-     * Although you cannot create a PayPal payment method with createPaymentMethod,
-     * (because you need to be on PayPal's site) you could update it to change stuff
-     * like the customer's name.
+     * See Message\CreatePaymentMethodRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+     */
+    public function createPaymentMethod(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters);
+    }
+
+    /**
+     * Update a payment method.
      *
      * See Message\CreatePaymentMethodRequest for more details.
      *
