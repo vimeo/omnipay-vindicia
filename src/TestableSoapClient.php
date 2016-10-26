@@ -10,19 +10,25 @@
  * should be returned. Skip this step if you're not testing.
  * 2. Construct the TestableSoapClient as you would a regular SoapClient.
  * 3. Call __soapCall as you would with a regular SoapClient.
- * 4. After this, you can call getLastOptions/FunctionName/Arguments/Wsdl
- * to see what components made up the request
+ * 4. If you used setNextResponse, you can call
+ * getLastOptions/FunctionName/Arguments/Wsdl to see what components made
+ * up the request
  */
 namespace Omnipay\Vindicia;
 
 use Omnipay\Common\Exception\BadMethodCallException;
 use SoapClient;
+use SplQueue;
 use DOMDocument;
 use Omnipay\Common\Exception\OmnipayException;
 
 class TestableSoapClient extends SoapClient
 {
-    protected static $nextResponseOverride;
+    /**
+     * @var \SplQueue
+     */
+    protected static $nextResponseOverrideQueue;
+
     protected static $lastWsdl;
     protected static $lastOptions;
     protected static $lastFunctionName;
@@ -34,7 +40,11 @@ class TestableSoapClient extends SoapClient
      */
     public function __construct($wsdl, array $options = null)
     {
-        if (!isset(self::$nextResponseOverride)) {
+        if (!isset(self::$nextResponseOverrideQueue)) {
+            self::$nextResponseOverrideQueue = new SplQueue();
+        }
+
+        if (self::$nextResponseOverrideQueue->isEmpty()) {
             parent::__construct($wsdl, $options);
         } else {
             self::$lastWsdl = $wsdl;
@@ -49,12 +59,11 @@ class TestableSoapClient extends SoapClient
         $input_headers = null,
         &$output_headers = null
     ) {
-        if (isset(self::$nextResponseOverride)) {
+        if (!self::$nextResponseOverrideQueue->isEmpty()) {
             self::$lastArguments = $arguments;
             self::$lastFunctionName = $function_name;
 
-            $return = self::$nextResponseOverride;
-            self::$nextResponseOverride = null;
+            $return = self::$nextResponseOverrideQueue->dequeue();
             return $return;
         }
 
@@ -63,18 +72,18 @@ class TestableSoapClient extends SoapClient
 
     /**
      * Set the response that should be returned by the next SOAP request.
-     * Will throw an error if a response has already been set and not used.
+     * If multiple responses are set before a SOAP call is made, they are
+     * stored on a queue and will be used in the order they were inserted.
      *
      * @param object $response
-     * @throws BadMethodCallException
      */
     public static function setNextResponse($response)
     {
-        if (isset(self::$nextResponseOverride)) {
-            throw new BadMethodCallException('Cannot set a next response--it\'s already been set!');
+        if (!isset(self::$nextResponseOverrideQueue)) {
+            self::$nextResponseOverrideQueue = new SplQueue();
         }
 
-        self::$nextResponseOverride = $response;
+        self::$nextResponseOverrideQueue->enqueue($response);
     }
 
     /**
