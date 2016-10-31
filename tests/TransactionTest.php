@@ -167,9 +167,9 @@ class TransactionTest extends TestCase
 
     public function testStatusLog()
     {
-        $status = new TransactionStatus([
+        $status = new TransactionStatus(array(
             'status' => $this->faker->status()
-        ]);
+        ));
         $this->assertSame($this->transaction, $this->transaction->setStatusLog(array($status)));
         $this->assertSame(array($status), $this->transaction->getStatusLog());
     }

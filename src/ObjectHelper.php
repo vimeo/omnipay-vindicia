@@ -18,12 +18,12 @@ class ObjectHelper
         if (isset($object->transactionItems)) {
             $items = array();
             foreach ($object->transactionItems as $item) {
-                $items[] = new VindiciaItem([
+                $items[] = new VindiciaItem(array(
                     'price' => isset($item->price) ? $item->price : null,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
                     'name' => isset($item->name) ? $item->name : null,
-                ]);
+                ));
             }
         }
 
@@ -31,17 +31,17 @@ class ObjectHelper
         if (isset($object->statusLog)) {
             $statusLog = array();
             foreach ($object->statusLog as $logEntry) {
-                $statusLog[] = new TransactionStatus([
+                $statusLog[] = new TransactionStatus(array(
                     'status' => isset($logEntry->status) ? $logEntry->status : null,
                     'time' => isset($logEntry->timestamp) ? $logEntry->timestamp : null,
                     'authorizationCode' => isset($logEntry->creditCardStatus->authCode)
                                          ? $logEntry->creditCardStatus->authCode
                                          : null
-                ]);
+                ));
             }
         }
 
-        return new Transaction([
+        return new Transaction(array(
             'id' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
@@ -72,12 +72,12 @@ class ObjectHelper
                                  ? $object->statusLog[0]->payPalStatus->redirectUrl
                                  : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     public function buildChargeback(stdClass $object)
     {
-        return new Chargeback([
+        return new Chargeback(array(
             'id' => null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'transactionId' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
@@ -90,7 +90,7 @@ class ObjectHelper
             'processorReceivedTime' => isset($object->processorReceivedTimestamp)
                                      ? $object->processorReceivedTimestamp
                                      : null
-        ]);
+        ));
     }
 
     public function buildCustomer(stdClass $object)
@@ -99,22 +99,22 @@ class ObjectHelper
         if (isset($object->taxExemptions)) {
             $taxExemptions = array();
             foreach ($object->taxExemptions as $exemption) {
-                $taxExemptions[] = new TaxExemption([
+                $taxExemptions[] = new TaxExemption(array(
                     'exemptionId' => isset($exemption->exemptionId) ? $exemption->exemptionId : null,
                     'region' => isset($exemption->region) ? $exemption->region : null,
                     'active' => isset($exemption->active) ? $exemption->active : null
-                ]);
+                ));
             }
         }
 
-        return new Customer([
+        return new Customer(array(
             'id' => isset($object->merchantAccountId) ? $object->merchantAccountId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'name' => isset($object->name) ? $object->name : null,
             'email' => isset($object->emailAddress) ? $object->emailAddress : null,
             'taxExemptions' => isset($taxExemptions) ? $taxExemptions : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     public function buildPaymentMethod(stdClass $object)
@@ -134,10 +134,10 @@ class ObjectHelper
             }
         }
 
-        return new PaymentMethod([
+        return new PaymentMethod(array(
             'id' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
-            'card' => new CreditCard([
+            'card' => new CreditCard(array(
                 'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
                 'address1' => isset($object->billingAddress->addr1) ? $object->billingAddress->addr1 : null,
                 'address2' => isset($object->billingAddress->addr2) ? $object->billingAddress->addr2 : null,
@@ -153,14 +153,14 @@ class ObjectHelper
                               ? substr($object->creditCard->expirationDate, 0, 4)
                               : null,
                 'cvv' => $cvv
-            ]),
+            )),
             'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null
-        ]);
+        ));
     }
 
     public function buildPlan(stdClass $object)
     {
-        return new Plan([
+        return new Plan(array(
             'id' => isset($object->merchantBillingPlanId) ? $object->merchantBillingPlanId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'interval' => isset($object->periods[0]->type) ? strtolower($object->periods[0]->type) : null,
@@ -168,14 +168,14 @@ class ObjectHelper
             'taxClassification' => isset($object->taxClassification) ? $object->taxClassification : null,
             'prices' => isset($object->periods[0]->prices) ? $this->buildPrices($object->periods[0]->prices) : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     public function buildProduct(stdClass $object)
     {
         $plan = isset($object->defaultBillingPlan) ? $this->buildPlan($object->defaultBillingPlan) : null;
 
-        return new Product([
+        return new Product(array(
             'id' => isset($object->merchantProductId) ? $object->merchantProductId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'plan' => isset($plan) ? $plan : null,
@@ -184,7 +184,7 @@ class ObjectHelper
             'taxClassification' => isset($object->taxClassification) ? $object->taxClassification : null,
             'prices' => isset($object->prices) ? $this->buildPrices($object->prices) : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     public function buildRefund(stdClass $object)
@@ -195,18 +195,18 @@ class ObjectHelper
         if (isset($object->refundItems)) {
             $items = array();
             foreach ($object->refundItems as $item) {
-                $items[] = new VindiciaRefundItem([
+                $items[] = new VindiciaRefundItem(array(
                     'amount' => isset($item->amount) ? $item->amount: null,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'transactionItemIndexNumber' => isset($item->transactionItemIndexNumber)
                                                   ? $item->transactionItemIndexNumber
                                                   : null,
                     'taxOnly' => isset($item->taxOnly) ? $item->taxOnly : null,
-                ]);
+                ));
             }
         }
 
-        return new Refund([
+        return new Refund(array(
             'id' => isset($object->merchantRefundId) ? $object->merchantRefundId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
@@ -218,7 +218,7 @@ class ObjectHelper
             'transactionReference' => isset($transaction) ? $transaction->getReference() : null,
             'items' => isset($items) ? $items : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     public function buildSubscription(stdClass $object)
@@ -228,7 +228,7 @@ class ObjectHelper
         $plan = isset($object->billingPlan) ? $this->buildPlan($object->billingPlan) : null;
         $paymentMethod = isset($object->paymentMethod) ? $this->buildPaymentMethod($object->paymentMethod) : null;
 
-        return new Subscription([
+        return new Subscription(array(
             'id' => isset($object->merchantAutoBillId) ? $object->merchantAutoBillId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
@@ -246,16 +246,16 @@ class ObjectHelper
             'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getReference() : null,
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
-        ]);
+        ));
     }
 
     protected function buildAttributes(array $nameValues)
     {
         $returnArray = array();
         foreach ($nameValues as $nameValue) {
-            $returnArray[] = new Attribute([
+            $returnArray[] = new Attribute(array(
                 $nameValue->name => $nameValue->value
-            ]);
+            ));
         }
         return $returnArray;
     }
@@ -264,10 +264,10 @@ class ObjectHelper
     {
         $returnArray = array();
         foreach ($prices as $price) {
-            $returnArray[] = new Price([
+            $returnArray[] = new Price(array(
                 'amount' => $price->amount,
                 'currency' => $price->currency
-            ]);
+            ));
         }
         return $returnArray;
     }
