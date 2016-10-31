@@ -318,6 +318,26 @@ class DataFaker
     }
 
     /**
+     * Return a chargeback id
+     *
+     * @return string
+     */
+    public function chargebackId()
+    {
+        return $this->transactionId();
+    }
+
+    /**
+     * Return a chargeback reference
+     *
+     * @return string
+     */
+    public function chargebackReference()
+    {
+        return $this->transactionReference();
+    }
+
+    /**
      * Return a timeout time in seconds
      *
      * @return int
@@ -941,5 +961,38 @@ class DataFaker
             $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
         } while ($result == 0);
         return $result;
+    }
+
+    /**
+     * Return a note
+     */
+    public function note()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::ALPHABET_UPPER,
+            $this->intBetween(10, 50)
+        );
+    }
+
+    /**
+     * Return a status
+     */
+    public function status()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER,
+            $this->intBetween(3, 10)
+        );
+    }
+
+    /**
+     * Return a status code
+     */
+    public function statusCode()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::DIGITS,
+            $this->intBetween(2, 4)
+        );
     }
 }

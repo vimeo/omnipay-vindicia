@@ -30,6 +30,11 @@ class FetchRefundsRequestTest extends SoapTestCase
                 'transactionReference' => $this->transactionReference
             )
         );
+
+        $this->refundId = $this->faker->refundId();
+        $this->refundReference = $this->faker->refundReference();
+        $this->currency = $this->faker->currency();
+        $this->amount = $this->faker->monetaryAmount($this->currency);
     }
 
     public function testTransactionId()
@@ -114,7 +119,14 @@ class FetchRefundsRequestTest extends SoapTestCase
 
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchRefundsSuccess.xml');
+        $this->setMockSoapResponse('FetchRefundsSuccess.xml', array(
+            'REFUND_ID' => $this->refundId,
+            'REFUND_REFERENCE' => $this->refundReference,
+            'TRANSACTION_ID' => $this->transactionId,
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'CURRENCY' => $this->currency,
+            'AMOUNT' => $this->amount
+        ));
 
         $response = $this->request->send();
 
@@ -125,7 +137,23 @@ class FetchRefundsRequestTest extends SoapTestCase
         $refunds = $response->getRefunds();
         $this->assertTrue(is_array($refunds));
         $this->assertSame(1, count($refunds));
-        $this->assertNotNull($refunds[0]->merchantRefundId);
+
+        $refund = $refunds[0];
+        $this->assertInstanceOf('\Omnipay\Vindicia\Refund', $refund);
+        $this->assertSame($this->refundId, $refund->getId());
+        $this->assertSame($this->refundReference, $refund->getReference());
+        $this->assertSame($this->currency, $refund->getCurrency());
+        $this->assertSame($this->amount, $refund->getAmount());
+        $transaction = $refund->getTransaction();
+        $this->assertSame($this->transactionId, $refund->getTransactionId());
+        $this->assertSame($this->transactionId, $transaction->getId());
+        $this->assertSame($this->transactionReference, $refund->getTransactionReference());
+        $this->assertSame($this->transactionReference, $transaction->getReference());
+        $attributes = $refund->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
@@ -143,7 +171,7 @@ class FetchRefundsRequestTest extends SoapTestCase
         $refunds = $response->getRefunds();
         $this->assertTrue(is_array($refunds));
         $this->assertSame(1, count($refunds));
-        $this->assertNotNull($refunds[0]->merchantRefundId);
+        $this->assertNotNull($refunds[0]->getId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }

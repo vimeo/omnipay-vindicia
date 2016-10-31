@@ -117,13 +117,12 @@ class CreatePlanRequest extends AbstractRequest
         $period->type = ucfirst(strtolower($this->getInterval()));
         $period->quantity = $this->getIntervalCount();
         $period->cycles = 0; // use this period indefinitely
-        // could add a trial period by putting another period first in the array
-        $plan->periods = array($period);
-
         $prices = $this->makePricesForVindicia();
         if (!empty($prices)) {
-            $plan->prices = $prices;
+            $period->prices = $prices;
         }
+        // could add a trial period by putting another period first in the array
+        $plan->periods = array($period);
 
         $attributes = $this->getAttributes();
         if ($attributes) {

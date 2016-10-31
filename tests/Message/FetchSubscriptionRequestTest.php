@@ -22,6 +22,16 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         );
 
         $this->subscriptionReference = $this->faker->subscriptionReference();
+        $this->currency = $this->faker->currency();
+        $this->customerId = $this->faker->customerId();
+        $this->customerReference = $this->faker->customerReference();
+        $this->paymentMethodId = $this->faker->paymentMethodId();
+        $this->paymentMethodReference = $this->faker->paymentMethodReference();
+        $this->productId = $this->faker->productId();
+        $this->productReference = $this->faker->productReference();
+        $this->planId = $this->faker->planId();
+        $this->planReference = $this->faker->planReference();
+        $this->ipAddress = $this->faker->ipAddress();
     }
 
     public function testSubscriptionId()
@@ -75,7 +85,17 @@ class FetchSubscriptionRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchSubscriptionSuccess.xml', array(
             'SUBSCRIPTION_ID' => $this->subscriptionId,
-            'SUBSCRIPTION_REFERENCE' => $this->subscriptionReference
+            'SUBSCRIPTION_REFERENCE' => $this->subscriptionReference,
+            'CURRENCY' => $this->currency,
+            'CUSTOMER_ID' => $this->customerId,
+            'CUSTOMER_REFERENCE' => $this->customerReference,
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
+            'PRODUCT_ID' => $this->productId,
+            'PRODUCT_REFERENCE' => $this->productReference,
+            'PLAN_ID' => $this->planId,
+            'PLAN_REFERENCE' => $this->planReference,
+            'IP_ADDRESS' => $this->ipAddress
         ));
 
         $response = $this->request->send();
@@ -84,9 +104,40 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertNotNull($response->getSubscription());
+
+        $subscription = $response->getSubscription();
+        $this->assertInstanceOf('\Omnipay\Vindicia\Subscription', $subscription);
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
+        $this->assertSame($this->subscriptionId, $subscription->getId());
+        $this->assertSame($this->subscriptionReference, $subscription->getReference());
+        $this->assertSame($this->currency, $subscription->getCurrency());
+        $customer = $subscription->getCustomer();
+        $this->assertSame($this->customerId, $subscription->getCustomerId());
+        $this->assertSame($this->customerId, $customer->getId());
+        $this->assertSame($this->customerReference, $subscription->getCustomerReference());
+        $this->assertSame($this->customerReference, $customer->getReference());
+        $paymentMethod = $subscription->getPaymentMethod();
+        $this->assertSame($this->paymentMethodId, $subscription->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
+        $this->assertSame($this->paymentMethodReference, $subscription->getPaymentMethodReference());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
+        $product = $subscription->getProduct();
+        $this->assertSame($this->productId, $subscription->getProductId());
+        $this->assertSame($this->productId, $product->getId());
+        $this->assertSame($this->productReference, $subscription->getProductReference());
+        $this->assertSame($this->productReference, $product->getReference());
+        $plan = $subscription->getPlan();
+        $this->assertSame($this->planId, $subscription->getPlanId());
+        $this->assertSame($this->planId, $plan->getId());
+        $this->assertSame($this->planReference, $subscription->getPlanReference());
+        $this->assertSame($this->planReference, $plan->getReference());
+        $this->assertSame($this->ipAddress, $subscription->getIp());
+        $attributes = $subscription->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

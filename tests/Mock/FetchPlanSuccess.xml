@@ -19,8 +19,8 @@
         <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
         <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
         <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
-          <type xmlns="" xsi:type="vin:BillingPeriodType">Month</type>
-          <quantity xmlns="" xsi:type="xsd:int">2</quantity>
+          <type xmlns="" xsi:type="vin:BillingPeriodType">[INTERVAL]</type>
+          <quantity xmlns="" xsi:type="xsd:int">[INTERVAL_COUNT]</quantity>
           <cycles xmlns="" xsi:type="xsd:int">0</cycles>
           <doNotNotifyFirstBill xmlns="" xsi:type="xsd:boolean">0</doNotNotifyFirstBill>
           <free xmlns="" xsi:type="xsd:boolean">0</free>
@@ -31,6 +31,14 @@
         <daysEntitledBeforeSeason xmlns="" xsi:type="xsd:int">0</daysEntitledBeforeSeason>
         <daysEntitledAfterSeason xmlns="" xsi:type="xsd:int">0</daysEntitledAfterSeason>
         <skipInitialFreeWhenRepeating xmlns="" xsi:type="xsd:boolean">1</skipInitialFreeWhenRepeating>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
       </billingPlan>
     </fetchByMerchantBillingPlanIdResponse>
   </soap:Body>

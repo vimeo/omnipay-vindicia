@@ -17,11 +17,11 @@
         <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
         <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
         <creditCard xmlns="" xsi:type="vin:CreditCard">
-          <account xmlns="" xsi:type="xsd:string">555555XXXXXX4444</account>
-          <bin xmlns="" xsi:type="xsd:string">555555</bin>
-          <lastDigits xmlns="" xsi:type="xsd:string">4444</lastDigits>
+          <account xmlns="" xsi:type="xsd:string">[CARD_NUMBER]</account>
+          <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+          <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
           <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
-          <expirationDate xmlns="" xsi:type="xsd:string">201610</expirationDate>
+          <expirationDate xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</expirationDate>
           <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
             <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
             <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
@@ -38,6 +38,14 @@
         <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
         <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
         <active xmlns="" xsi:type="xsd:boolean">1</active>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
       </paymentMethod>
     </fetchByMerchantPaymentMethodIdResponse>
   </soap:Body>

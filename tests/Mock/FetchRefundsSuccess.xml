@@ -14,14 +14,14 @@
         <returnString xsi:type="xsd:string">OK</returnString>
       </return>
       <refunds xmlns="" xsi:type="vin:Refund">
-        <VID xmlns="" xsi:type="xsd:string">987654321987654321abcdefabcdef00</VID>
-        <merchantRefundId xmlns="" xsi:type="xsd:string">XYZ987654321</merchantRefundId>
+        <VID xmlns="" xsi:type="xsd:string">[REFUND_REFERENCE]</VID>
+        <merchantRefundId xmlns="" xsi:type="xsd:string">[REFUND_ID]</merchantRefundId>
         <transaction xmlns="" xsi:type="vin:Transaction">
-          <VID xmlns="" xsi:type="xsd:string">654321abcdef654321abcdef654321abcdef</VID>
+          <VID xmlns="" xsi:type="xsd:string">[TRANSACTION_REFERENCE]</VID>
           <amount xmlns="" xsi:type="xsd:decimal">200.00</amount>
           <currency xmlns="" xsi:type="xsd:string">USD</currency>
           <divisionNumber xmlns="" xsi:type="xsd:string">12345</divisionNumber>
-          <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ12345678</merchantTransactionId>
+          <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
           <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:04-07:00</timestamp>
           <account xmlns="" xsi:type="vin:Account">
             <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
@@ -122,12 +122,20 @@
           </transactionItems>
         </transaction>
         <refundDistributionStrategy xmlns="" xsi:type="xsd:string">None</refundDistributionStrategy>
-        <amount xmlns="" xsi:type="xsd:decimal">140</amount>
+        <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
         <amountIncludesTax xmlns="" xsi:type="xsd:boolean">0</amountIncludesTax>
-        <currency xmlns="" xsi:type="xsd:string">USD</currency>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
         <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:08-07:00</timestamp>
         <tokenAction xmlns="" xsi:type="vin:RefundTokenAction">None</tokenAction>
         <status xmlns="" xsi:type="vin:RefundStatus">Processing</status>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
       </refunds>
     </fetchByTransactionResponse>
   </soap:Body>

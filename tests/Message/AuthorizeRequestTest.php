@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class AuthorizeRequestTest extends SoapTestCase
@@ -167,7 +167,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testAttributes()

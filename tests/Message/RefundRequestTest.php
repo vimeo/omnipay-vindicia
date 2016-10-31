@@ -29,10 +29,7 @@ class RefundRequestTest extends SoapTestCase
 
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
-        $this->note = $this->faker->randomCharacters(
-            DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER,
-            $this->faker->intBetween(10, 50)
-        );
+        $this->note = $this->faker->note();
 
         $this->attributes = $this->faker->attributesAsArray();
 

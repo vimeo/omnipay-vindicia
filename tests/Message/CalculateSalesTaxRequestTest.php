@@ -5,7 +5,7 @@ namespace Omnipay\Vindicia\Message;
 use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 
 class CalculateSalesTaxRequestTest extends SoapTestCase
 {
@@ -74,7 +74,7 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testGetData()

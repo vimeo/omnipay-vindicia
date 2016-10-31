@@ -29,6 +29,10 @@ class FetchChargebacksRequestTest extends SoapTestCase
                 'transactionId' => $this->transactionId
             )
         );
+
+        $this->chargebackReference = $this->faker->chargebackReference();
+        $this->currency = $this->faker->currency();
+        $this->amount = $this->faker->monetaryAmount($this->currency);
     }
 
     public function testTransactionId()
@@ -120,7 +124,12 @@ class FetchChargebacksRequestTest extends SoapTestCase
 
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchChargebacksSuccess.xml');
+        $this->setMockSoapResponse('FetchChargebacksSuccess.xml', array(
+            'CHARGEBACK_REFERENCE' => $this->chargebackReference,
+            'TRANSACTION_ID' => $this->transactionId,
+            'CURRENCY' => $this->currency,
+            'AMOUNT' => $this->amount
+        ));
 
         $response = $this->request->send();
 
@@ -131,8 +140,13 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertTrue(is_array($response->getChargebacks()));
         $this->assertSame(2, count($response->getChargebacks()));
         $chargebacks = $response->getChargebacks();
-        $this->assertNotNull($chargebacks[0]->merchantTransactionId);
-        $this->assertNotNull($chargebacks[1]->merchantTransactionId);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Chargeback', $chargebacks[0]);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Chargeback', $chargebacks[1]);
+        $chargeback = $chargebacks[0];
+        $this->assertSame($this->chargebackReference, $chargeback->getReference());
+        $this->assertSame($this->transactionId, $chargeback->getTransactionId());
+        $this->assertSame($this->currency, $chargeback->getCurrency());
+        $this->assertSame($this->amount, $chargeback->getAmount());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
@@ -150,8 +164,8 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertTrue(is_array($response->getChargebacks()));
         $this->assertSame(2, count($response->getChargebacks()));
         $chargebacks = $response->getChargebacks();
-        $this->assertNotNull($chargebacks[0]->merchantTransactionId);
-        $this->assertNotNull($chargebacks[1]->merchantTransactionId);
+        $this->assertNotNull($chargebacks[0]->getTransactionId());
+        $this->assertNotNull($chargebacks[1]->getTransactionId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }

@@ -22,6 +22,8 @@ class FetchCustomerRequestTest extends SoapTestCase
         );
 
         $this->customerReference = $this->faker->customerReference();
+        $this->email = $this->faker->email();
+        $this->name = $this->faker->name();
     }
 
     public function testCustomerId()
@@ -73,7 +75,9 @@ class FetchCustomerRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchCustomerSuccess.xml', array(
             'CUSTOMER_ID' => $this->customerId,
-            'CUSTOMER_REFERENCE' => $this->customerReference
+            'CUSTOMER_REFERENCE' => $this->customerReference,
+            'NAME' => $this->name,
+            'EMAIL' => $this->email
         ));
 
         $response = $this->request->send();
@@ -82,9 +86,20 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertNotNull($response->getCustomer());
+
+        $customer = $response->getCustomer();
+        $this->assertInstanceOf('\Omnipay\Vindicia\Customer', $customer);
         $this->assertSame($this->customerId, $response->getCustomerId());
         $this->assertSame($this->customerReference, $response->getCustomerReference());
+        $this->assertSame($this->customerId, $customer->getId());
+        $this->assertSame($this->customerReference, $customer->getReference());
+        $this->assertSame($this->name, $customer->getName());
+        $this->assertSame($this->email, $customer->getEmail());
+        $attributes = $customer->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }

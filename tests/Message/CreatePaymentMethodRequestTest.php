@@ -6,7 +6,7 @@ use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class CreatePaymentMethodRequestTest extends SoapTestCase
@@ -22,10 +22,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->name = $this->faker->name();
         $this->customerId = $this->faker->customerId();
         $this->customerReference = $this->faker->customerReference();
-        $this->paymentMethodId = $this->faker->paymentMethodId();
-        $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->attributes = $this->faker->attributesAsArray();
-        $this->card['attributes'] = $this->attributes;
 
         $this->request = new CreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -34,7 +31,8 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
                 'customerId' => $this->customerId,
                 'paymentMethodId' => $this->paymentMethodId,
                 'customerReference' => $this->customerReference,
-                'paymentMethodReference' => $this->paymentMethodReference
+                'paymentMethodReference' => $this->paymentMethodReference,
+                'attributes' => $this->attributes
             )
         );
     }
@@ -92,7 +90,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testGetData()

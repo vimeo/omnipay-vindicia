@@ -2,7 +2,6 @@
 
 namespace Omnipay\Vindicia\Message;
 
-use Omnipay\Vindicia\VindiciaCreditCard;
 use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
 use Omnipay\Vindicia\AttributeBag;
@@ -283,7 +282,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the attributes in this order
      *
      * @param AttributeBag|array $attributes
-     * @return AbstractRequest
+     * @return static
      */
     public function setAttributes($attributes)
     {
@@ -292,34 +291,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $this->setParameter('attributes', $attributes);
-    }
-
-    /**
-     * Gets the card
-     *
-     * @return VindiciaCreditCard
-     */
-    public function getCard()
-    {
-        /**
-         * @var VindiciaCreditCard will always be a VindiciaCreditCard because setCard forces it
-         */
-        return parent::getCard();
-    }
-
-    /**
-     * Sets the card.
-     *
-     * @param VindiciaCreditCard|array $value
-     * @return static
-     */
-    public function setCard($value)
-    {
-        if ($value && !$value instanceof VindiciaCreditCard) {
-            $value = new VindiciaCreditCard($value);
-        }
-
-        return $this->setParameter('card', $value);
     }
 
     /**
@@ -761,6 +732,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $paymentMethod->type = $paymentMethodType;
         }
 
+        $attributes = $this->getAttributes();
+        if ($attributes) {
+            $paymentMethod->nameValues = $this->buildNameValues($attributes);
+        }
+
         if ($card !== null) {
             $customerName = $card->getName();
 
@@ -776,11 +752,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $paymentMethod->accountHolderName = $customerName;
             $paymentMethod->billingAddress = $address;
 
-            $attributes = $card->getAttributes();
-            if ($attributes) {
-                $paymentMethod->nameValues = $this->buildNameValues($attributes);
-            }
             if ($card->getCvv()) {
+                if (!isset($paymentMethod->nameValues)) {
+                    $paymentMethod->nameValues = array();
+                }
                 $paymentMethod->nameValues[] = new NameValue('CVN', $card->getCvv());
             }
         }

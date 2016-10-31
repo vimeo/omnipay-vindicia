@@ -16,9 +16,17 @@
       <account xmlns="" xsi:type="vin:Account">
         <VID xmlns="" xsi:type="xsd:string">[CUSTOMER_REFERENCE]</VID>
         <merchantAccountId xmlns="" xsi:type="xsd:string">[CUSTOMER_ID]</merchantAccountId>
-        <emailAddress xmlns="" xsi:type="xsd:string">test@example.com</emailAddress>
+        <emailAddress xmlns="" xsi:type="xsd:string">[EMAIL]</emailAddress>
         <emailTypePreference xmlns="" xsi:type="vin:EmailPreference">html</emailTypePreference>
-        <name xmlns="" xsi:type="xsd:string">Test Customer</name>
+        <name xmlns="" xsi:type="xsd:string">[NAME]</name>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
       </account>
     </fetchByMerchantAccountIdResponse>
   </soap:Body>

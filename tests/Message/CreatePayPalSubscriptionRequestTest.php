@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class CreatePayPalSubscriptionRequestTest extends SoapTestCase

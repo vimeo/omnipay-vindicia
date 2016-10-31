@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\VindiciaItem;
 use Omnipay\Vindicia\Attribute;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\TestableSoapClient;
 use stdClass;
 
@@ -206,7 +206,7 @@ class AbstractRequestTest extends SoapTestCase
 
     public function testCard()
     {
-        $card = new VindiciaCreditCard();
+        $card = new CreditCard();
         $this->assertSame($this->request, $this->request->setCard($card));
         $this->assertSame($card, $this->request->getCard());
     }
@@ -217,7 +217,7 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($this->request, $this->request->setCard($card));
 
         $returnedCard = $this->request->getCard();
-        $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaCreditCard', $returnedCard);
+        $this->assertInstanceOf('\Omnipay\Common\CreditCard', $returnedCard);
         $this->assertSame($card['number'], $returnedCard->getNumber());
     }
 

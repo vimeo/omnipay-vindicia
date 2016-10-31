@@ -120,11 +120,22 @@ class CreateCustomerRequest extends AbstractRequest
         return $this->setParameter('email', $value);
     }
 
+    /**
+     * Get the customer's tax exemptions
+     *
+     * @return TaxExemptionBag
+     */
     public function getTaxExemptions()
     {
         return $this->getParameter('taxExemptions');
     }
 
+    /**
+     * Set the customer's tax exemptions
+     *
+     * @param TaxExemptionBag|array $value
+     * @return static
+     */
     public function setTaxExemptions($value)
     {
         if ($value && !$value instanceof TaxExemptionBag) {

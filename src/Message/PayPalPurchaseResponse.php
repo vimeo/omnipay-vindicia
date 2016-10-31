@@ -32,15 +32,8 @@ class PayPalPurchaseResponse extends Response
     public function getRedirectUrl()
     {
         $transaction = $this->getTransaction();
-        if (isset($transaction) && isset($transaction->statusLog)) {
-            foreach ($transaction->statusLog as $status) {
-                if (isset($status->status)
-                    && $status->status = 'AuthorizationPending'
-                    && isset($status->payPalStatus->redirectUrl)
-                ) {
-                    return $status->payPalStatus->redirectUrl;
-                }
-            }
+        if (isset($transaction)) {
+            return $transaction->getPayPalRedirectUrl();
         }
         return null;
     }

@@ -18,9 +18,10 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * Either customerId or customerReference is required.
  * - customerReference: The gateway's identifier for the customer to whom this payment method
  * will belong. Either customerId or customerReference is required.
- * - card: The card details you're adding. Required. Attributes can also be specified on the
- * card.
+ * - card: The card details you're adding. Required.
  * - paymentMethodId: Your identifier for the payment method. Required.
+ * - attributes: Custom values you wish to have stored with the payment method. They have
+ * no affect on anything.
  *
  * Example:
  * <code>
@@ -52,12 +53,12 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           'expiryMonth' => '01',
  *           'expiryYear' => '2020',
  *           'cvv' => '123',
- *           'postcode' => '12345',
- *           'attributes' => array(
- *               'color' => 'blue'
- *           )
+ *           'postcode' => '12345'
  *       ),
- *       'paymentMethodId' => 'cc-123456' // you choose this
+ *       'paymentMethodId' => 'cc-123456', // you choose this
+ *       'attributes' => array(
+ *           'cardColor' => 'blue'
+ *       )
  *   ))->send();
  *
  *   if ($paymentMethodResponse->isSuccessful()) {

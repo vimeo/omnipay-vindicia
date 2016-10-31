@@ -116,8 +116,10 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $subscriptions = $response->getSubscriptions();
         $this->assertTrue(is_array($subscriptions));
         $this->assertSame(2, count($subscriptions));
-        $this->assertNotNull($subscriptions[0]->merchantAutoBillId);
-        $this->assertNotNull($subscriptions[1]->merchantAutoBillId);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Subscription', $subscriptions[0]);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Subscription', $subscriptions[1]);
+        $this->assertNotNull($subscriptions[0]->getId());
+        $this->assertNotNull($subscriptions[1]->getId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
@@ -135,8 +137,8 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $subscriptions = $response->getSubscriptions();
         $this->assertTrue(is_array($subscriptions));
         $this->assertSame(2, count($subscriptions));
-        $this->assertNotNull($subscriptions[0]->merchantAutoBillId);
-        $this->assertNotNull($subscriptions[1]->merchantAutoBillId);
+        $this->assertNotNull($subscriptions[0]->getId());
+        $this->assertNotNull($subscriptions[1]->getId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

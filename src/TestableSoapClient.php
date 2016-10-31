@@ -137,6 +137,60 @@ class TestableSoapClient extends SoapClient
         if (isset($responseObject->refunds)) {
             $fields[] = &$responseObject->refunds;
         }
+        if (isset($responseObject->transaction->items)) {
+            $fields[] = &$responseObject->transaction->items;
+        }
+        if (isset($responseObject->billingPlan->periods)) {
+            $fields[] = &$responseObject->billingPlan->periods;
+        }
+        if (isset($responseObject->billingPlan->nameValues)) {
+            $fields[] = &$responseObject->billingPlan->nameValues;
+        }
+        if (isset($responseObject->product->prices)) {
+            $fields[] = &$responseObject->product->prices;
+        }
+        if (isset($responseObject->product->nameValues)) {
+            $fields[] = &$responseObject->product->nameValues;
+        }
+        if (isset($responseObject->product->defaultBillingPlan->periods)) {
+            $fields[] = &$responseObject->product->defaultBillingPlan->periods;
+        }
+        if (isset($responseObject->product->defaultBillingPlan->nameValues)) {
+            $fields[] = &$responseObject->product->defaultBillingPlan->nameValues;
+        }
+        if (isset($responseObject->autobill->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobill->billingPlan->periods;
+        }
+        if (isset($responseObject->autobill->items->product->defaultBillingPlan->periods)) {
+            $fields[] = &$responseObject->autobill->items->product->defaultBillingPlan->periods;
+        }
+        if (isset($responseObject->autobills->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills->billingPlan->periods;
+        }
+        if (isset($responseObject->autobills[0]->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills[0]->billingPlan->periods;
+        }
+        if (isset($responseObject->autobills[1]->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills[1]->billingPlan->periods;
+        }
+        if (isset($responseObject->autobill->items)) {
+            $fields[] = &$responseObject->autobill->items;
+        }
+        if (isset($responseObject->autobills->items)) {
+            $fields[] = &$responseObject->autobills->items;
+        }
+        if (isset($responseObject->autobills[0]->items)) {
+            $fields[] = &$responseObject->autobills[0]->items;
+        }
+        if (isset($responseObject->autobills[1]->items)) {
+            $fields[] = &$responseObject->autobills[1]->items;
+        }
+        if (isset($responseObject->autobills)) {
+            $fields[] = &$responseObject->autobills;
+        }
+        if (isset($responseObject->autobill->nameValues)) {
+            $fields[] = &$responseObject->autobill->nameValues;
+        }
 
         // also affects the payment methods on the accounts on the transactions in the refunds, but
         // then we have to hack through all the refunds and we don't need that field anyway

@@ -14,11 +14,11 @@
         <returnString xsi:type="xsd:string">OK</returnString>
       </return>
       <chargebacks xmlns="" xsi:type="vin:Chargeback">
-        <VID xmlns="" xsi:type="xsd:string">654321abcdef654321abcdef654321abcdef</VID>
-        <amount xmlns="" xsi:type="xsd:decimal">140</amount>
-        <currency xmlns="" xsi:type="xsd:string">USD</currency>
+        <VID xmlns="" xsi:type="xsd:string">[CHARGEBACK_REFERENCE]</VID>
+        <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
         <reasonCode xmlns="" xsi:type="xsd:string" />
-        <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ123456</merchantTransactionId>
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
         <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">2016-10-11T08:06:50-07:00</merchantTransactionTimestamp>
         <merchantUserId xmlns="" xsi:type="xsd:string">123456abcdef</merchantUserId>
       </chargebacks>
