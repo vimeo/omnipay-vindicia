@@ -254,7 +254,8 @@ class ObjectHelper
         $returnArray = array();
         foreach ($nameValues as $nameValue) {
             $returnArray[] = new Attribute(array(
-                $nameValue->name => $nameValue->value
+                'name' => $nameValue->name,
+                'value' => $nameValue->value
             ));
         }
         return $returnArray;
