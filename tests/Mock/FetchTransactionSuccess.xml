@@ -49,6 +49,11 @@
             </extendedCardAttributes>
             <VID xmlns="" xsi:type="xsd:string">12345abcdef6789012345abcdef67890</VID>
           </creditCard>
+          <billingAddress xmlns="" xsi:type="vin:Address">
+            <VID xmlns="" xsi:type="xsd:string">99988877766655544433322211100000</VID>
+            <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+            <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+          </billingAddress>
           <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
           <sortOrder xmlns="" xsi:type="xsd:int">1</sortOrder>
           <active xmlns="" xsi:type="xsd:boolean">1</active>

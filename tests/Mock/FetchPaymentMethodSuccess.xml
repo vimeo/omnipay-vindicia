@@ -35,17 +35,22 @@
           </extendedCardAttributes>
           <VID xmlns="" xsi:type="xsd:string">654321abcdef654321abcdef654321abcdef</VID>
         </creditCard>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <billingAddress xmlns="" xsi:type="vin:Address">
+          <VID xmlns="" xsi:type="xsd:string">99988877766655544433322211100000</VID>
+          <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+          <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+        </billingAddress>
         <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
         <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
         <active xmlns="" xsi:type="xsd:boolean">1</active>
-        <nameValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">attributeName</name>
-          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
-        </nameValues>
-        <nameValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">attributeName</name>
-          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
-        </nameValues>
       </paymentMethod>
     </fetchByMerchantPaymentMethodIdResponse>
   </soap:Body>

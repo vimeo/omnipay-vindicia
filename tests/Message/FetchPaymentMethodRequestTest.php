@@ -81,7 +81,10 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             'CARD_FIRST_SIX' => substr($this->card['number'], 0, 6),
             'CARD_LAST_FOUR' => substr($this->card['number'], -4),
             'EXPIRY_MONTH' => $this->card['expiryMonth'],
-            'EXPIRY_YEAR' => $this->card['expiryYear']
+            'EXPIRY_YEAR' => $this->card['expiryYear'],
+            'COUNTRY' => $this->card['country'],
+            'POSTCODE' => $this->card['postcode']
+
         ));
 
         $response = $this->request->send();
@@ -102,6 +105,8 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['expiryMonth'], strval($card->getExpiryMonth()));
         $this->assertSame($this->card['expiryYear'], strval($card->getExpiryYear()));
         $this->assertSame($this->card['number'], $card->getNumber());
+        $this->assertSame($this->card['country'], $card->getCountry());
+        $this->assertSame($this->card['postcode'], $card->getPostcode());
         $attributes = $paymentMethod->getAttributes();
         $this->assertSame(2, count($attributes));
         foreach ($attributes as $attribute) {
