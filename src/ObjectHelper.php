@@ -23,6 +23,7 @@ class ObjectHelper
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
                     'name' => isset($item->name) ? $item->name : null,
+                    'taxClassification' => isset($item->taxClassification) ? $item->taxClassification : null
                 ));
             }
         }

@@ -31,9 +31,9 @@
           <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
           <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
           <creditCard xmlns="" xsi:type="vin:CreditCard">
-            <account xmlns="" xsi:type="xsd:string">555555XXXXXX4444</account>
-            <bin xmlns="" xsi:type="xsd:string">555555</bin>
-            <lastDigits xmlns="" xsi:type="xsd:string">4444</lastDigits>
+            <account xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]XXXXXX[CARD_LAST_FOUR]</account>
+            <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+            <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
             <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
             <expirationDate xmlns="" xsi:type="xsd:string">201610</expirationDate>
             <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
@@ -58,7 +58,9 @@
           <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:05-07:00</timestamp>
           <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
           <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
-            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+            <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
+            <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
             <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
               <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
               <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
@@ -77,7 +79,9 @@
           <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:04-07:00</timestamp>
           <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
           <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
-            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+            <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
+            <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
             <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
               <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
               <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
@@ -94,12 +98,13 @@
         <paymentProcessor xmlns="" xsi:type="xsd:string">ProcessorName</paymentProcessor>
         <paymentProcessorTransactionId xmlns="" xsi:type="xsd:string">123XYZ</paymentProcessorTransactionId>
         <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <sku xmlns="" xsi:type="xsd:string">[SKU]</sku>
           <indexNumber xmlns="" xsi:type="xsd:int">1</indexNumber>
           <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
           <name xmlns="" xsi:type="xsd:string">Generic item</name>
           <price xmlns="" xsi:type="xsd:decimal">[AMOUNT]</price>
           <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
-          <taxClassification xmlns="" xsi:type="xsd:string">OtherTaxable</taxClassification>
+          <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
           <subtotal xmlns="" xsi:type="xsd:decimal">[AMOUNT]</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">[AMOUNT]</total>
@@ -119,12 +124,12 @@
         </transactionItems>
         <sourceIp xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</sourceIp>
         <nameValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">attributeName</name>
-          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
         </nameValues>
         <nameValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">attributeName</name>
-          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
         </nameValues>
       </transaction>
     </fetchByMerchantTransactionIdResponse>

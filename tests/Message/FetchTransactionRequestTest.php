@@ -29,6 +29,11 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->ipAddress = $this->faker->ipAddress();
+        $this->sku = $this->faker->sku();
+        $this->taxClassification = $this->faker->taxClassification();
+        $this->authorizationCode = $this->faker->statusCode();
+        $this->cvvCode = $this->faker->statusCode();
+        $this->avsCode = $this->faker->statusCode();
     }
 
     public function testTransactionId()
@@ -89,7 +94,12 @@ class FetchTransactionRequestTest extends SoapTestCase
             'CUSTOMER_REFERENCE' => $this->customerReference,
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
-            'IP_ADDRESS' => $this->ipAddress
+            'IP_ADDRESS' => $this->ipAddress,
+            'TAX_CLASSIFICATION' => $this->taxClassification,
+            'SKU' => $this->sku,
+            'AUTHORIZATION_CODE' => $this->authorizationCode,
+            'CVV_CODE' => $this->cvvCode,
+            'AVS_CODE' => $this->avsCode
         ));
 
         $response = $this->request->send();
@@ -119,13 +129,21 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
         $items = $transaction->getItems();
         $this->assertSame(2, count($items));
-        foreach ($items as $item) {
+        foreach ($items as $i => $item) {
             $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaItem', $item);
+            $item->validate();
+            if ($i === 0) {
+                $this->assertSame($this->taxClassification, $item->getTaxClassification());
+                $this->assertSame($this->amount, $item->getPrice());
+                $this->assertSame($this->sku, $item->getSku());
+            }
         }
         $this->assertSame($this->amount, $items[0]->getPrice());
         $this->assertEquals(0, $items[1]->getPrice()); // tax
         $this->assertSame($this->ipAddress, $transaction->getIp());
-        $this->assertEquals(100, $transaction->getAuthorizationCode());
+        $this->assertEquals($this->authorizationCode, $transaction->getAuthorizationCode());
+        $this->assertEquals($this->cvvCode, $transaction->getCvvCode());
+        $this->assertEquals($this->avsCode, $transaction->getAvsCode());
         $this->assertSame('Authorized', $transaction->getStatus());
         $statusLog = $transaction->getStatusLog();
         $this->assertSame(2, count($statusLog));
@@ -138,6 +156,8 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame(2, count($attributes));
         foreach ($attributes as $attribute) {
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+            $this->assertTrue(is_string($attribute->getName()));
+            $this->assertTrue(is_string($attribute->getValue()));
         }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
