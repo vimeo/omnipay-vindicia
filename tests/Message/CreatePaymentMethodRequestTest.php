@@ -42,10 +42,19 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
         $request->initialize();
 
-        $this->assertSame($request, $request->setValidate(true));
-        $this->assertTrue($request->getValidate());
-        $this->assertSame($request, $request->setValidate(false));
-        $this->assertFalse($request->getValidate());
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setValidate($value));
+        $this->assertSame($value, $request->getValidate());
+    }
+
+    public function testUpdateSubscriptions()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setUpdateSubscriptions($value));
+        $this->assertSame($value, $request->getUpdateSubscriptions());
     }
 
     public function testCustomerId()
@@ -114,6 +123,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         }
 
         $this->assertSame(CreatePaymentMethodRequest::SKIP_CARD_VALIDATION, $data['updateBehavior']);
+        $this->assertTrue($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
@@ -126,6 +136,18 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
         $this->assertSame(CreatePaymentMethodRequest::VALIDATE_CARD, $data['updateBehavior']);
+        $this->assertSame('updatePaymentMethod', $data['action']);
+    }
+
+    public function testGetDataDoNotUpdateSubscriptions()
+    {
+        $data = $this->request->setUpdateSubscriptions(false)->getData();
+
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertFalse($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 

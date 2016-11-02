@@ -20,6 +20,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * will belong. Either customerId or customerReference is required.
  * - card: The card details you're adding. Required.
  * - paymentMethodId: Your identifier for the payment method. Required.
+ * - validate: If set to true, Vindicia will validate the card before adding it (generally
+ * by a 99 cent authorization). Default is false.
+ * - updateSubscriptions: If result is true and this request is an update to an existing payment
+ * method on an account, Vindicia will update the payment method details on all subscriptions.
+ * Default is true.
  * - attributes: Custom values you wish to have stored with the payment method. They have
  * no affect on anything.
  *
@@ -56,6 +61,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           'postcode' => '12345'
  *       ),
  *       'paymentMethodId' => 'cc-123456', // you choose this
+ *       'validate' => true,
+ *       'updateSubscriptions' => true,
  *       'attributes' => array(
  *           'cardColor' => 'blue'
  *       )
@@ -110,6 +117,10 @@ class CreatePaymentMethodRequest extends AbstractRequest
         if (!array_key_exists('validate', $parameters)) {
             $parameters['validate'] = false;
         }
+        if (!array_key_exists('updateSubscriptions', $parameters)) {
+            $parameters['updateSubscriptions'] = true;
+        }
+
         parent::initialize($parameters);
 
         return $this;
@@ -132,7 +143,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
     /**
      * If result is true, Vindicia will validate the card before adding it
-     * (generally by a 99 cent authorization)
+     * (generally by a 99 cent authorization). Default is false.
      *
      * @return int
      */
@@ -143,7 +154,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
     /**
      * If set to true, Vindicia will validate the card before adding it
-     * (generally by a 99 cent authorization)
+     * (generally by a 99 cent authorization). Default is false.
      *
      * @param bool $value
      * @return static
@@ -151,6 +162,31 @@ class CreatePaymentMethodRequest extends AbstractRequest
     public function setValidate($value)
     {
         return $this->setParameter('validate', $value);
+    }
+
+    /**
+     * If result is true and this request is an update to an existing payment
+     * method on an account, Vindicia will update the payment method details
+     * on all subscriptions. Default is true.
+     *
+     * @return bool
+     */
+    public function getUpdateSubscriptions()
+    {
+        return $this->getParameter('updateSubscriptions');
+    }
+
+    /**
+     * If set to true and this request is an update to an existing payment
+     * method on an account, Vindicia will update the payment method details
+     * on all subscriptions. Default is true.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setUpdateSubscriptions($value)
+    {
+        return $this->setParameter('updateSubscriptions', $value);
     }
 
     /**
@@ -207,7 +243,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
         $data['account'] = $account;
         $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType);
         $data['action'] = $this->getFunction();
-        $data['replaceOnAllAutoBills'] = true;
+        $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
         $data['updateBehavior'] = $this->getValidate() ? self::VALIDATE_CARD : self::SKIP_CARD_VALIDATION;
         $data['ignoreAvsPolicy'] = false;
         $data['ignoreCvnPolicy'] = false;
