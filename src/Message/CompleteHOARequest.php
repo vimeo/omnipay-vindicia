@@ -69,6 +69,18 @@ class CompleteHOARequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * Overriding to provide a more precise return type
+     * @return CompleteHOAResponse
+     */
+    public function send()
+    {
+        /**
+         * @var CompleteHOAResponse
+         */
+        return parent::send();
+    }
+
     protected function buildResponse($response)
     {
         return new CompleteHOAResponse($this, $response);

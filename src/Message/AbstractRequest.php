@@ -541,6 +541,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                . '.wsdl';
     }
 
+    /**
+     * @param array
+     * @return Response
+     */
     public function sendData($data)
     {
         $originalWsdlCacheEnabled = ini_get('soap.wsdl_cache_enabled');
@@ -593,6 +597,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $this->response = $this->buildResponse($response);
         return $this->response;
+    }
+
+    /**
+     * Overriding to provide a more precise return type
+     * @return Response
+     */
+    public function send()
+    {
+        /**
+         * @var Response
+         */
+        return parent::send();
     }
 
     protected function buildResponse($response)

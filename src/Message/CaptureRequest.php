@@ -135,6 +135,18 @@ class CaptureRequest extends AbstractRequest
     }
 
     /**
+     * Overriding to provide a more precise return type
+     * @return CaptureResponse
+     */
+    public function send()
+    {
+        /**
+         * @var CaptureResponse
+         */
+        return parent::send();
+    }
+
+    /**
      * Use a special response object for Capture requests.
      *
      * @param object $response

@@ -91,6 +91,18 @@ class PayPalPurchaseRequest extends PurchaseRequest
     }
 
     /**
+     * Overriding to provide a more precise return type
+     * @return PayPalPurchaseResponse
+     */
+    public function send()
+    {
+        /**
+         * @var PayPalPurchaseResponse
+         */
+        return parent::send();
+    }
+
+    /**
      * Use a special response object for PayPal purchase requests.
      *
      * @param object $response

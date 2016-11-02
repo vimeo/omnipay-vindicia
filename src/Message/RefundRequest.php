@@ -239,12 +239,23 @@ class RefundRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * Overriding to provide a more precise return type
+     * @return RefundResponse
+     */
+    public function send()
+    {
+        /**
+         * @var RefundResponse
+         */
+        return parent::send();
+    }
 
     /**
      * Use a special response object for Refund requests.
      *
      * @param object $response
-     * @return Response
+     * @return RefundResponse
      */
     protected function buildResponse($response)
     {

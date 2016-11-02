@@ -134,6 +134,18 @@ class CreatePayPalSubscriptionRequest extends CreateSubscriptionRequest
     }
 
     /**
+     * Overriding to provide a more precise return type
+     * @return CreatePayPalSubscriptionResponse
+     */
+    public function send()
+    {
+        /**
+         * @var CreatePayPalSubscriptionResponse
+         */
+        return parent::send();
+    }
+
+    /**
      * Use a special response object for PayPal subscription requests.
      *
      * @param object $response
