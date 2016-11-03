@@ -153,6 +153,48 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('customerReference', $value);
     }
 
+    /**
+     * Gets the customer's name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getParameter('name');
+    }
+
+    /**
+     * Sets the customer's name
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setName($value)
+    {
+        return $this->setParameter('name', $value);
+    }
+
+    /**
+     * Gets the customer's email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getParameter('email');
+    }
+
+    /**
+     * Sets the customer's email
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setEmail($value)
+    {
+        return $this->setParameter('email', $value);
+    }
+
     public function getRefundId()
     {
         return $this->getParameter('refundId');
@@ -634,6 +676,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         // doesn't work if account isn't created, id must be passed in :-(
         $account->merchantAccountId = $this->getCustomerId();
         $account->VID = $this->getCustomerReference();
+        $account->name = $this->getName();
+        $account->emailAddress = $this->getEmail();
 
         $amount = $this->getAmount();
         $transactionItems = array();

@@ -28,6 +28,8 @@ class PurchaseRequestTest extends SoapTestCase
         $this->attributes = $this->faker->attributesAsArray();
         $this->taxClassification = $this->faker->taxClassification();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
 
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -39,6 +41,8 @@ class PurchaseRequestTest extends SoapTestCase
                 'paymentMethodReference' => $this->paymentMethodReference,
                 'customerId' => $this->customerId,
                 'customerReference' => $this->customerReference,
+                'name' => $this->name,
+                'email' => $this->email,
                 'statementDescriptor' => $this->statementDescriptor,
                 'ip' => $this->ip,
                 'attributes' => $this->attributes,
@@ -105,6 +109,24 @@ class PurchaseRequestTest extends SoapTestCase
 
         $this->assertSame($request, $request->setCustomerReference($this->customerReference));
         $this->assertSame($this->customerReference, $request->getCustomerReference());
+    }
+
+    public function testName()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
     }
 
     public function testPaymentMethodId()
@@ -190,6 +212,8 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $data['transaction']->currency);
         $this->assertSame($this->customerId, $data['transaction']->account->merchantAccountId);
         $this->assertSame($this->customerReference, $data['transaction']->account->VID);
+        $this->assertSame($this->name, $data['transaction']->account->name);
+        $this->assertSame($this->email, $data['transaction']->account->emailAddress);
         $this->assertSame($this->paymentMethodId, $data['transaction']->sourcePaymentMethod->merchantPaymentMethodId);
         $this->assertSame($this->paymentMethodReference, $data['transaction']->sourcePaymentMethod->VID);
         $this->assertSame($this->card['number'], $data['transaction']->sourcePaymentMethod->creditCard->account);

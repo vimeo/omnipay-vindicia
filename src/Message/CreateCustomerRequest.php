@@ -7,18 +7,16 @@ use Omnipay\Vindicia\TaxExemptionBag;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * Create a new customer. Customers must be created before purchases can be made.
- * You can add a card for the customer at the same time that you create them.
+ * Create a new customer. You can add a card for the customer at the same time that you
+ * create them.
  *
  * This request is also used to update an existing customer if called via
  * updateCustomer instead of createCustomer.
  *
- * Note that since you have to create a customer before purchasing, you may want
- * to do this immediately when the user creates an account on your site so you don't
- * have to send two requests at purchase time.
- *
  * Parameters:
  * - customerId: Your identifier to represent the customer. Required.
+ * - customerReference: The gateway's identifier to represent the customer. If you're
+ * updating an existing customer, you can use this instead of customerId.
  * - name: The customer's name. Optional.
  * - email: The customer's email address. Optional.
  * - card: A new card to be added for the customer. If card is specified, paymentMethodId
@@ -98,26 +96,6 @@ class CreateCustomerRequest extends AbstractRequest
     protected function getObject()
     {
         return self::$CUSTOMER_OBJECT;
-    }
-
-    public function getName()
-    {
-        return $this->getParameter('name');
-    }
-
-    public function setName($value)
-    {
-        return $this->setParameter('name', $value);
-    }
-
-    public function getEmail()
-    {
-        return $this->getParameter('email');
-    }
-
-    public function setEmail($value)
-    {
-        return $this->setParameter('email', $value);
     }
 
     /**

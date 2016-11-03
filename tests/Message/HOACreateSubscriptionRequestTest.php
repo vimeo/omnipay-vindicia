@@ -33,6 +33,8 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         $this->returnUrl = $this->faker->url();
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
 
         $this->request = new HOACreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -56,6 +58,8 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
                 'errorUrl' => $this->errorUrl,
                 'ip' => $this->ip,
                 'minChargebackProbability' => $this->minChargebackProbability,
+                'name' => $this->name,
+                'email' => $this->email,
                 'HOAAttributes' => $this->HOAAttributes
             )
         );
@@ -152,6 +156,24 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
 
         $this->assertSame($request, $request->setStatementDescriptor($this->statementDescriptor));
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
+    }
+
+    public function testName()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
     }
 
     public function testCurrency()
@@ -287,6 +309,14 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         ));
         $this->assertTrue(in_array(
             new NameValue('AutoBill_account_merchantAccountId', $this->customerId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('AutoBill_account_name', $this->name),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('AutoBill_account_emailAddress', $this->email),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(

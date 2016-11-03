@@ -29,21 +29,6 @@ use Omnipay\Vindicia\NameValue;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   $authorizeResponse = $gateway->authorize(array(
  *       'items' => array(
  *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
@@ -51,7 +36,7 @@ use Omnipay\Vindicia\NameValue;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => '123456789',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
  *       'attributes' => array(
  *           'location' => 'FL'

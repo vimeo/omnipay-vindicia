@@ -10,11 +10,16 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * transfer the money. If you want to do authorize and capture in one step, use the
  * purchase function.
  *
+ * A customer is required for any kind of purchase. If the customer does not yet exist,
+ * specify a customerId and a new customer will be created by this request.
+ *
  * Parameters:
- * - customerId: Your identifier for the customer. The customer must be created before the
- * authorize request, so either customerId or customerReference is required.
- * - customerReference: The gateway's identifier for the customer. The customer must be
- * created before the authorize request, so either customerId or customerReference is required.
+ * - customerId: Your identifier for the customer. Either customerId or customerReference is
+ * required. If the customer does not yet exist, specify the customerId and a new customer
+ * will be automatically created.
+ * - customerReference: The gateway's identifier for the customer. Either customerId or
+ * customerReference is required. If the customer does not yet exist, specify the customerId
+ * and a new customer will be automatically created.
  * - amount: The amount of the transaction. Either the amount or items parameter is required.
  * If both are provided, the sum of the items must equal the amount.
  * - items: Line-items for the transaction. Either the amount or items parameter is required.
@@ -36,6 +41,10 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * the card, paymentMethodId, and/or paymentMethodReference parameter is required. Since the
  * reference is created by the gateway, assigning both this parameter and the card parameter
  * is meaningless.
+ * - name: If you're creating a new customer with this request, you can use this to specify
+ * the customer's name.
+ * - email: If you're creating a new customer with this request, you can use this to specify
+ * the customer's email.
  * - minChargebackProbability: If chargeback probabilty from risk scoring is greater than the
  * this value, the transaction will fail. If the value is 100, all transactions will succeed.
  * 100 is the default.
@@ -57,21 +66,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // authorize the transaction
  *   $authorizeResponse = $gateway->authorize(array(
  *       'items' => array(
@@ -80,7 +74,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => $customerResponse->getCustomerId(), // you could also use customerReference
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',

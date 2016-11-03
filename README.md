@@ -39,7 +39,7 @@ The following gateways are provided by this package:
 * Vindicia_PayPal (Vindicia's PayPal Express implementation)
 * Vindicia_HOA *[in progress]* ([Hosted Order Automation](https://www.vindicia.com/resources/data-sheets/hosted-order-automation), Vindicia's solution for minimizing your PCI compliance burden)
 
-Unlike many gateways, Vindicia **requires** that a customer be created before a purchase can be made.
+**NOTE:** Unlike many gateways, Vindicia requires that every purchase have a corresponding customer. Therefore, the `customerId` or `customerReference` must be provided for every authorize or purchase request. If you pass a `customerId` that does not exist, Vindicia will create the customer object for you as part of the same request. (A `customerReference` that does not exist is an error.)
 
 ### Simple Example
 
@@ -49,23 +49,10 @@ $gateway->setUsername('your_username');
 $gateway->setPassword('y0ur_p4ssw0rd');
 $gateway->setTestMode(false);
 
-$createCustomerResponse = $gateway->createCustomer(array(
-    'name' => 'Test Customer',
-    'email' => 'customer@example.com',
-    'customerId' => '123456789'
-))->send();
-
-if ($createCustomerResponse->isSuccessful()) {
-    echo "Customer id: " . $createCustomerResponse->getCustomerId() . PHP_EOL;
-    echo "Customer reference: " . $createCustomerResponse->getCustomerReference() . PHP_EOL;
-} else {
-    // error handling
-}
-
-$purchaseResponse = $gateway->purchase(array(
+$response = $gateway->purchase(array(
     'amount' => '9.95',
     'currency' => 'USD',
-    'customerId' => $createCustomerResponse->getCustomerId(),
+    'customerId' => '123456', // if the customer does not exist, it will be created
     'card' => array(
         'number' => '5555555555554444',
         'expiryMonth' => '01',

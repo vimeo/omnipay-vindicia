@@ -27,6 +27,8 @@ class HOAPurchaseRequestTest extends SoapTestCase
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
         $this->attributes = $this->faker->attributesAsArray();
         $this->HOAAttributes = $this->faker->attributesAsArray();
 
@@ -45,6 +47,8 @@ class HOAPurchaseRequestTest extends SoapTestCase
                 'errorUrl' => $this->errorUrl,
                 'ip' => $this->ip,
                 'minChargebackProbability' => $this->minChargebackProbability,
+                'name' => $this->name,
+                'email' => $this->email,
                 'attributes' => $this->attributes,
                 'HOAAttributes' => $this->HOAAttributes
             )
@@ -137,6 +141,24 @@ class HOAPurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    public function testEmail()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAPurchaseRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
+    }
+
+    public function testName()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAPurchaseRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
@@ -206,6 +228,14 @@ class HOAPurchaseRequestTest extends SoapTestCase
         ));
         $this->assertTrue(in_array(
             new NameValue('Transaction_account_merchantAccountId', $this->customerId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Transaction_account_emailAddress', $this->email),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Transaction_account_name', $this->name),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
@@ -299,6 +329,14 @@ class HOAPurchaseRequestTest extends SoapTestCase
         ));
         $this->assertTrue(in_array(
             new NameValue('Transaction_account_merchantAccountId', $this->customerId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Transaction_account_emailAddress', $this->email),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Transaction_account_name', $this->name),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(

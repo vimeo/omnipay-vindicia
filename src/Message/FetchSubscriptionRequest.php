@@ -21,21 +21,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // create a plan to govern the behavior of the subscription (eg billing frequency)
  *   $planResponse = $gateway->createPlan(array(
  *       'planId' => '123456789', // you choose this
@@ -76,7 +61,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   // finally we can create the subscription!
  *   $subscriptionResponse = $gateway->createSubscription(array(
  *       'currency' => 'GBP',
- *       'customerId' => '123456789',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',

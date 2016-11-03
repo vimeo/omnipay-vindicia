@@ -49,6 +49,20 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($customerReference, $this->request->getCustomerReference());
     }
 
+    public function testName()
+    {
+        $name = $this->faker->name();
+        $this->assertSame($this->request, $this->request->setName($name));
+        $this->assertSame($name, $this->request->getName());
+    }
+
+    public function testEmail()
+    {
+        $email = $this->faker->email();
+        $this->assertSame($this->request, $this->request->setEmail($email));
+        $this->assertSame($email, $this->request->getEmail());
+    }
+
     public function testRefundId()
     {
         $refundId = $this->faker->refundId();

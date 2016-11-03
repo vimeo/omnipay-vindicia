@@ -21,8 +21,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
+ *   // create a customer
  *   $customerResponse = $gateway->createCustomer(array(
  *       'name' => 'Test Customer',
  *       'email' => 'customer@example.com',
