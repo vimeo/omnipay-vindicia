@@ -126,6 +126,8 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     {
         $data = $this->request->getData();
 
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
@@ -134,6 +136,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['country'], $data['paymentMethod']->billingAddress->country);
         $this->assertSame('CreditCard', $data['paymentMethod']->type);
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes + 1, count($data['paymentMethod']->nameValues)); // +1 accounts for CVV
@@ -158,10 +161,13 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
                               ->setSkipCvvValidation($skipCvvValidation)
                               ->getData();
 
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
         $this->assertSame(CreatePaymentMethodRequest::VALIDATE_CARD, $data['updateBehavior']);
         $this->assertSame($skipAvsValidation, $data['ignoreAvsPolicy']);
         $this->assertSame($skipCvvValidation, $data['ignoreCvnPolicy']);
@@ -172,10 +178,13 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     {
         $data = $this->request->setUpdateSubscriptions(false)->getData();
 
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
         $this->assertFalse($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
