@@ -47,6 +47,26 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($value, $request->getValidate());
     }
 
+    public function testSkipAvsValidation()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setSkipAvsValidation($value));
+        $this->assertSame($value, $request->getSkipAvsValidation());
+    }
+
+    public function testSkipCvvValidation()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setSkipCvvValidation($value));
+        $this->assertSame($value, $request->getSkipCvvValidation());
+    }
+
     public function testUpdateSubscriptions()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -123,19 +143,28 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         }
 
         $this->assertSame(CreatePaymentMethodRequest::SKIP_CARD_VALIDATION, $data['updateBehavior']);
+        $this->assertFalse($data['ignoreAvsPolicy']);
+        $this->assertFalse($data['ignoreCvnPolicy']);
         $this->assertTrue($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
     public function testGetDataWithValidation()
     {
-        $data = $this->request->setValidate(true)->getData();
+        $skipAvsValidation = $this->faker->bool();
+        $skipCvvValidation = $this->faker->bool();
+        $data = $this->request->setValidate(true)
+                              ->setSkipAvsValidation($skipAvsValidation)
+                              ->setSkipCvvValidation($skipCvvValidation)
+                              ->getData();
 
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
         $this->assertSame(CreatePaymentMethodRequest::VALIDATE_CARD, $data['updateBehavior']);
+        $this->assertSame($skipAvsValidation, $data['ignoreAvsPolicy']);
+        $this->assertSame($skipCvvValidation, $data['ignoreCvnPolicy']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
