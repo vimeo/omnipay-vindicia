@@ -140,19 +140,19 @@ class HOACreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame(AbstractRequest::API_VERSION, $data['session']->version);
 
         $this->assertTrue(in_array(
-            new NameValue('PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            new NameValue('vin_PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Account_merchantAccountId', $this->customerId),
+            new NameValue('vin_Account_merchantAccountId', $this->customerId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('PaymentMethod_VID', $this->paymentMethodReference),
+            new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Account_VID', $this->customerReference),
+            new NameValue('vin_Account_VID', $this->customerReference),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
