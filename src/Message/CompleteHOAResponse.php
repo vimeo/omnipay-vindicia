@@ -48,25 +48,21 @@ class CompleteHOAResponse extends Response
     {
         parent::__construct($request, $data);
 
-        // parse and store results in instance variables
-        $requestCode = parent::getCode();
-
-        // if the request failed, we want the response from the request
-        if (intval($requestCode) !== self::SUCCESS_CODE) {
-            $this->code = $requestCode;
-            $this->message = parent::getMessage();
-            $this->failureType = self::REQUEST_FAILURE;
-            return;
-        }
-
-        // if the request succeeded, we want the response from the method
+        // if available, we want the response from the method
         if (isset($this->data->session->apiReturn)) {
             $this->code = $this->data->session->apiReturn->returnCode;
             $this->message = $this->data->session->apiReturn->returnString;
+            if (!$this->isSuccessful()) {
+                $this->failureType = self::METHOD_FAILURE;
+            }
+            return;
         }
 
+        // otherwise, we want the response from the request
+        $this->code = parent::getCode();
+        $this->message = parent::getMessage();
         if (!$this->isSuccessful()) {
-            $this->failureType = self::METHOD_FAILURE;
+            $this->failureType = self::REQUEST_FAILURE;
         }
     }
 

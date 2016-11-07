@@ -105,4 +105,23 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame('Missing required parameter: vin_PaymentMethod', $response->getMessage());
         $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
     }
+
+    /**
+     * Test when the method called by HOA fails and the request fails
+     * This doesn't really mean anything different as far as I can tell, just another way
+     * Vindicia returns method failures.
+     */
+    public function testSendRequestAndMethodFailure()
+    {
+        $this->setMockSoapResponse('CompleteHOARequestAndMethodFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('400', $response->getCode());
+        $this->assertSame('Invalid payment method type:  ', $response->getMessage());
+        $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
+    }
 }
