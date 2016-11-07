@@ -741,11 +741,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Helper function to make a Vindicia payment method object.
+     * Set $addAttributes to true if the request attributes should be added to the payment
+     * method
      *
      * @param string $paymentMethodType default null
+     * @param bool $addAttributes default false
      * @return stdClass
      */
-    protected function buildPaymentMethod($paymentMethodType = null)
+    protected function buildPaymentMethod($paymentMethodType = null, $addAttributes = false)
     {
         $paymentMethod = new stdClass();
         $paymentMethod->merchantPaymentMethodId = $this->getPaymentMethodId();
@@ -793,7 +796,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         $attributes = $this->getAttributes();
-        if ($attributes) {
+        if ($attributes && $addAttributes) {
             $paymentMethod->nameValues = $this->buildNameValues($attributes);
         }
 

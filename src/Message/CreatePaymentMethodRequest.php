@@ -300,7 +300,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
         $data = array();
         $data['account'] = $account;
-        $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType);
+        $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType, true);
         $data['action'] = $this->getFunction();
         $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
         $data['updateBehavior'] = $this->getValidate() ? self::VALIDATE_CARD : self::SKIP_CARD_VALIDATION;
