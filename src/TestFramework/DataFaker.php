@@ -1001,4 +1001,17 @@ class DataFaker
             $this->intBetween(2, 4)
         );
     }
+
+    /**
+     * Return a parameter name passed to a HOA WebSession via name values
+     *
+     * @return string
+     */
+    public function HOAParamName()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::ALPHABET_UPPER . '_',
+            $this->intBetween(6, 30)
+        );
+    }
 }

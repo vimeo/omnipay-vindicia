@@ -579,4 +579,11 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($statusCode));
         $this->assertTrue(strlen($statusCode) > 0);
     }
+
+    public function testHOAParamName()
+    {
+        $HOAParamName = $this->faker->HOAParamName();
+        $this->assertTrue(is_string($HOAParamName));
+        $this->assertTrue(strlen($HOAParamName) > 0);
+    }
 }

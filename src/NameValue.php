@@ -32,7 +32,12 @@ class NameValue
         } elseif (is_int($value)) {
             $this->value = strval($value);
         } elseif (is_bool($value)) {
-            $this->value = $value ? 'true' : 'false';
+            // this attribute name actually takes a boolean value for some reason
+            if ($name == 'vin_PaymentMethod_active') {
+                $this->value = $value;
+            } else {
+                $this->value = $value ? 'true' : 'false';
+            }
         } elseif (is_string($value)) {
             $this->value = $value;
         } else {
