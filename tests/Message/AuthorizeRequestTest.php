@@ -224,6 +224,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $data['transaction']->billingStatementIdentifier);
         $this->assertSame($this->ip, $data['transaction']->sourceIp);
         $this->assertSame('CreditCard', $data['transaction']->sourcePaymentMethod->type);
+        $this->assertTrue($data['transaction']->sourcePaymentMethod->active);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes, count($data['transaction']->nameValues));

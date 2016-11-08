@@ -250,6 +250,14 @@ class HOAPurchaseRequestTest extends SoapTestCase
             new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
             $data['session']->privateFormValues
         ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_type', 'CreditCard'),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_active', true),
+            $data['session']->privateFormValues
+        ));
 
         $this->assertTrue(in_array(
             new NameValue('Transaction_AuthCapture_minChargebackProbability', $this->minChargebackProbability),
