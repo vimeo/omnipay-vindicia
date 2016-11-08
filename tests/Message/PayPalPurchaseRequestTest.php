@@ -55,6 +55,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->items = $this->faker->itemsAsArray($this->currency);
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->payPalToken = $this->faker->payPalToken();
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testStatementDescriptor()
@@ -343,7 +344,8 @@ class PayPalPurchaseRequestTest extends SoapTestCase
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'RETURN_URL' => $this->returnUrl,
             'CANCEL_URL' => $this->cancelUrl,
-            'PAYPAL_TOKEN' => $this->payPalToken
+            'PAYPAL_TOKEN' => $this->payPalToken,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -355,6 +357,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . $this->payPalToken, $response->getRedirectUrl());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

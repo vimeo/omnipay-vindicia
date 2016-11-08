@@ -135,7 +135,7 @@
           <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
         </nameValues>
       </transaction>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </authResponse>
   </soap:Body>
 </soap:Envelope>

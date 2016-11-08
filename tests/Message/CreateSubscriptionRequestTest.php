@@ -58,6 +58,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
                 'attributes' => $this->attributes
             )
         );
+
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testMinChargebackProbability()
@@ -308,7 +310,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             'EXPIRY_YEAR' => $this->card['expiryYear'],
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'STATEMENT_DESCRIPTOR' => $this->statementDescriptor,
-            'IP_ADDRESS' => $this->ip
+            'IP_ADDRESS' => $this->ip,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -320,6 +323,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
         $this->assertSame('Pending Activation', $response->getSubscriptionStatus());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

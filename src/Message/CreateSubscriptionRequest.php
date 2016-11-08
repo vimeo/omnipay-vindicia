@@ -96,6 +96,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   if ($subscriptionResponse->isSuccessful()) {
  *       echo "Subscription id: " . $subscriptionResponse->getSubscriptionId() . PHP_EOL;
  *       echo "Subscription reference: " . $subscriptionResponse->getSubscriptionReference() . PHP_EOL;
+ *       echo "The transaction risk score is: " . $subscriptionResponse->getRiskScore();
  *   } else {
  *       // error handling
  *   }

@@ -427,6 +427,23 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Gets the risk score for the transaction, that is, the estimated probability that
+     * this transaction will result in a chargeback. This number ranges from 0 (best) to
+     * 100 (worst). It can also be -1, meaning that Vindicia has no opinion. (-1 indicates
+     * a transaction with no originating IP addresses, an incomplete addresses, or both.
+     * -2 indicates an error; retry later.)
+     *
+     * @return int|null
+     */
+    public function getRiskScore()
+    {
+        if (isset($this->data->score)) {
+            return intval($this->data->score);
+        }
+        return null;
+    }
+
+    /**
      * Override to set return type correctly
      *
      * @return AbstractRequest

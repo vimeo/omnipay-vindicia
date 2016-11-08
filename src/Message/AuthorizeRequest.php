@@ -94,6 +94,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       // Vindicia configuration. The ID is automatically assigned by Vindicia.
  *       echo "Transaction id: " . $authorizeResponse->getTransactionId() . PHP_EOL;
  *       echo "Transaction reference: " . $authorizeResponse->getTransactionReference() . PHP_EOL;
+ *       echo "The transaction risk score is: " . $authorizeResponse->getRiskScore();
  *   } else {
  *       // error handling
  *   }

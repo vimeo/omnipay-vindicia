@@ -146,7 +146,7 @@
         <subscriptionBalance xmlns="" xsi:type="xsd:decimal">0</subscriptionBalance>
         <statementFormat xmlns="" xsi:type="vin:StatementFormat">DoNotSend</statementFormat>
       </autobill>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </updateResponse>
   </soap:Body>
 </soap:Envelope>

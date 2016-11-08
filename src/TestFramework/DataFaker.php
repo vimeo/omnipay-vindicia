@@ -1014,4 +1014,14 @@ class DataFaker
             $this->intBetween(6, 30)
         );
     }
+
+    /**
+     * Return a risk score
+     *
+     * @return int
+     */
+    public function riskScore()
+    {
+        return $this->intBetween(-2, 100);
+    }
 }

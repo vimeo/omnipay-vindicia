@@ -54,6 +54,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
         $this->items = $this->faker->itemsAsArray($this->currency);
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testMinChargebackProbability()
@@ -368,7 +369,8 @@ class AuthorizeRequestTest extends SoapTestCase
             'CVV' => $this->card['cvv'],
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'TRANSACTION_ID' => $this->transactionId,
-            'TRANSACTION_REFERENCE' => $this->transactionReference
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -379,6 +381,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -394,7 +397,8 @@ class AuthorizeRequestTest extends SoapTestCase
             'CUSTOMER_ID' => $this->customerId,
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'TRANSACTION_ID' => $this->transactionId,
-            'TRANSACTION_REFERENCE' => $this->transactionReference
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -405,6 +409,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

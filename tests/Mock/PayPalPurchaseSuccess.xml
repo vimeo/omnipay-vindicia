@@ -95,7 +95,7 @@
           <total xmlns="" xsi:type="xsd:decimal">0</total>
         </transactionItems>
       </transaction>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </authCaptureResponse>
   </soap:Body>
 </soap:Envelope>

@@ -586,4 +586,12 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($HOAParamName));
         $this->assertTrue(strlen($HOAParamName) > 0);
     }
+
+    public function testRiskScore()
+    {
+        $score = $this->faker->riskScore();
+        $this->assertTrue(is_int($score));
+        $this->assertGreaterThanOrEqual(-2, $score);
+        $this->assertLessThanOrEqual(100, $score);
+    }
 }
