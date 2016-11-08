@@ -31,7 +31,7 @@
         </postValues>
         <postValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_postalCode</name>
-          <value xmlns="" xsi:type="xsd:string">[POST_CODE]</value>
+          <value xmlns="" xsi:type="xsd:string">[POSTCODE]</value>
         </postValues>
         <postValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">card_exp_month</name>
