@@ -191,6 +191,9 @@ class TestableSoapClient extends SoapClient
         if (isset($responseObject->autobill->nameValues)) {
             $fields[] = &$responseObject->autobill->nameValues;
         }
+        if (isset($responseObject->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods)) {
+            $fields[] = &$responseObject->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods;
+        }
 
         // also affects the payment methods on the accounts on the transactions in the refunds, but
         // then we have to hack through all the refunds and we don't need that field anyway

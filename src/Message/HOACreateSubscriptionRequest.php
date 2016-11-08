@@ -87,7 +87,14 @@ use Omnipay\Vindicia\NameValue;
  *   ))->send();
  *
  *   if ($completeResponse->isSuccessful()) {
- *       // @todo Haven't tested what's available yet
+ *       // You can check what request was just completed:
+ *       echo "Did we just complete a create subscription web session? "
+ *            . $completeResponse->wasCreateSubscription() . PHP_EOL;
+ *       // subscription object:
+ *       var_dump($completeResponse->getSubscription());
+ *       // values that were passed in the form:
+ *       var_dump($completeResponse->getFormValues());
+ *       echo "The transaction risk score is: " . $authorizeResponse->getRiskScore();
  *   } else {
  *       if ($completeResponse->getFailureType() === CompleteHOAResponse::REQUEST_FAILURE) {
  *           echo 'The HOA request itself failed!' . PHP_EOL;

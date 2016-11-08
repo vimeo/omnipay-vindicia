@@ -11,6 +11,7 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Vindicia\Attribute;
 
 class CompleteHOAResponse extends Response
 {
@@ -30,6 +31,12 @@ class CompleteHOAResponse extends Response
      * @var string|null
      */
     protected $failureType;
+
+    // Cached objects:
+    protected $formValues;
+    protected $transaction;
+    protected $subscription;
+    protected $paymentMethod;
 
     /**
      * Constants to indicate whether it was the HOA request that failed
@@ -96,6 +103,50 @@ class CompleteHOAResponse extends Response
         throw new InvalidResponseException('Response has no code.');
     }
 
+    public function getTransaction()
+    {
+        if (isset($this->transaction)) {
+            return $this->transaction;
+        }
+
+        if (isset($this->data->session->apiReturnValues->transactionAuth->transaction)) {
+            $transaction = $this->data->session->apiReturnValues->transactionAuth->transaction;
+        } elseif (isset($this->data->session->apiReturnValues->transactionAuthCapture->transaction)) {
+            $transaction = $this->data->session->apiReturnValues->transactionAuthCapture->transaction;
+        }
+
+        if (isset($transaction)) {
+            $this->transaction = $this->objectHelper->buildTransaction($transaction);
+            return $this->transaction;
+        }
+
+        return null;
+    }
+
+    public function getPaymentMethod()
+    {
+        if (!isset($this->paymentMethod)
+            && isset($this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0])
+        ) {
+            $this->paymentMethod = $this->objectHelper->buildPaymentMethod(
+                $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0]
+            );
+        }
+        return isset($this->paymentMethod) ? $this->paymentMethod : null;
+    }
+
+    public function getSubscription()
+    {
+        if (!isset($this->subscription)
+            && isset($this->data->session->apiReturnValues->autobillUpdate->autobill)
+        ) {
+            $this->subscription = $this->objectHelper->buildSubscription(
+                $this->data->session->apiReturnValues->autobillUpdate->autobill
+            );
+        }
+        return isset($this->subscription) ? $this->subscription : null;
+    }
+
     /**
      * If the response failed, returns self::REQUEST_FAILURE to indicate that
      * the HOA request failed or self::METHOD_FAILURE to indicate that the
@@ -108,6 +159,97 @@ class CompleteHOAResponse extends Response
         return $this->failureType;
     }
 
-    // @todo will probably need to add some functions to get the responses
-    // from the HOA methods
+    /**
+     * Gets the values that were set on the form. Returns an array of Attributes.
+     *
+     * @return array<Attribute>|null
+     */
+    public function getFormValues()
+    {
+        if (!isset($this->formValues) && isset($this->data->session->postValues)) {
+            $formValues = array();
+            foreach ($this->data->session->postValues as $postValue) {
+                $formValues[] = new Attribute(array(
+                    'name' => $postValue->name,
+                    'value' => $postValue->value
+                ));
+            }
+            $this->formValues = $formValues;
+        }
+        return isset($this->formValues) ? $this->formValues : null;
+    }
+
+    /**
+     * Gets the risk score for the transaction, that is, the estimated probability that
+     * this transaction will result in a chargeback. This number ranges from 0 (best) to
+     * 100 (worst). It can also be -1, meaning that Vindicia has no opinion. (-1 indicates
+     * a transaction with no originating IP addresses, an incomplete addresses, or both.
+     * -2 indicates an error; retry later.)
+     *
+     * @return int|null
+     */
+    public function getRiskScore()
+    {
+        if (isset($this->data->session->apiReturnValues->transactionAuth->score)) {
+            return intval($this->data->session->apiReturnValues->transactionAuth->score);
+        }
+        if (isset($this->data->session->apiReturnValues->transactionAuthCapture->score)) {
+            return intval($this->data->session->apiReturnValues->transactionAuthCapture->score);
+        }
+        return null;
+    }
+
+    /**
+     * Returns true if the HOA call completed an authorize request
+     *
+     * @return bool
+     */
+    public function wasAuthorize()
+    {
+        return $this->getMethod() === 'transactionAuth';
+    }
+
+    /**
+     * Returns true if the HOA call completed a purchase request
+     *
+     * @return bool
+     */
+    public function wasPurchase()
+    {
+        return $this->getMethod() === 'transactionAuthCapture';
+    }
+
+    /**
+     * Returns true if the HOA call completed a create or update payment method request
+     *
+     * @return bool
+     */
+    public function wasCreatePaymentMethod()
+    {
+        return $this->getMethod() === 'accountUpdatePaymentMethod';
+    }
+
+    /**
+     * Returns true if the HOA call completed a create or update subscription request
+     *
+     * @return bool
+     */
+    public function wasCreateSubscription()
+    {
+        return $this->getMethod() === 'autobillUpdate';
+    }
+
+    /**
+     * Get the name of the request that was made in this call.
+     *
+     * @return string
+     */
+    protected function getMethod()
+    {
+        if (isset($this->data->session->apiReturnValues->method)) {
+            return $this->data->session->apiReturnValues->method;
+        }
+
+        return null;
+    }
 }
