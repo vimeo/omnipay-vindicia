@@ -965,6 +965,8 @@ class DataFaker
 
     /**
      * Return a note
+     *
+     * @return string
      */
     public function note()
     {
@@ -976,6 +978,8 @@ class DataFaker
 
     /**
      * Return a status
+     *
+     * @return string
      */
     public function status()
     {
@@ -987,6 +991,8 @@ class DataFaker
 
     /**
      * Return a status code
+     *
+     * @return string
      */
     public function statusCode()
     {
