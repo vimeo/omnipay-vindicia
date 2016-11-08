@@ -84,7 +84,7 @@ class HOAPurchaseRequest extends HOAAuthorizeRequest
     {
         $regularRequestData = $this->regularRequest->getData();
 
-        return array(
+        $values = array(
             new NameValue(
                 'Transaction_AuthCapture_minChargebackProbability',
                 $regularRequestData['minChargebackProbability']
@@ -93,10 +93,16 @@ class HOAPurchaseRequest extends HOAAuthorizeRequest
                 'Transaction_AuthCapture_sendEmailNotification',
                 $regularRequestData['sendEmailNotification']
             ),
-            new NameValue('Transaction_AuthCapture_campaignCode', $regularRequestData['campaignCode']),
             new NameValue('Transaction_AuthCapture_dryrun', $regularRequestData['dryrun']),
             new NameValue('Transaction_AuthCapture_ignoreAvsPolicy', $regularRequestData['ignoreAvsPolicy']),
             new NameValue('Transaction_AuthCapture_ignoreCvnPolicy', $regularRequestData['ignoreCvnPolicy'])
         );
+
+        // adding this param with an empty value makes the web session crash
+        if (!empty($regularRequestData['campaignCode'])) {
+            $values[] = new NameValue('Transaction_Auth_campaignCode', $regularRequestData['campaignCode']);
+        }
+
+        return $values;
     }
 }

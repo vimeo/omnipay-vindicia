@@ -261,7 +261,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
             new NameValue('Transaction_Auth_sendEmailNotification', false),
             $data['session']->methodParamValues
         ));
-        $this->assertTrue(in_array(
+        $this->assertFalse(in_array(
             new NameValue('Transaction_Auth_campaignCode', null),
             $data['session']->methodParamValues
         ));
@@ -368,7 +368,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
             new NameValue('Transaction_Auth_sendEmailNotification', false),
             $data['session']->methodParamValues
         ));
-        $this->assertTrue(in_array(
+        $this->assertFalse(in_array(
             new NameValue('Transaction_Auth_campaignCode', null),
             $data['session']->methodParamValues
         ));

@@ -107,11 +107,17 @@ class HOAAuthorizeRequest extends AbstractHOARequest
     {
         $regularRequestData = $this->regularRequest->getData();
 
-        return array(
+        $values = array(
             new NameValue('Transaction_Auth_minChargebackProbability', $regularRequestData['minChargebackProbability']),
             new NameValue('Transaction_Auth_sendEmailNotification', $regularRequestData['sendEmailNotification']),
-            new NameValue('Transaction_Auth_campaignCode', $regularRequestData['campaignCode']),
             new NameValue('Transaction_Auth_dryrun', $regularRequestData['dryrun'])
         );
+
+        // adding this param with an empty value makes the web session crash
+        if (!empty($regularRequestData['campaignCode'])) {
+            $values[] = new NameValue('Transaction_Auth_campaignCode', $regularRequestData['campaignCode']);
+        }
+
+        return $values;
     }
 }
