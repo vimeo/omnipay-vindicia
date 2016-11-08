@@ -65,12 +65,12 @@ use Omnipay\Vindicia\NameValue;
  *       // values that were passed in the form:
  *       var_dump($completeResponse->getFormValues());
  *   } else {
- *       if ($completeResponse->getFailureType() === CompleteHOAResponse::REQUEST_FAILURE) {
+ *       if ($completeResponse->isRequestFailure()) {
  *           echo 'The HOA request itself failed!' . PHP_EOL;
  *       } else {
- *           // This case, identified by CompleteHOAResponse::METHOD_FAILURE, means that
- *           // although the HOA request succeeded, the method it called, such as authorize
- *           // or purchase, had an error.
+ *           // This case means that although the HOA request succeeded, the method it called,
+ *           // such as authorize or purchase, had an error. Also identifiable by
+ *           // $completeResponse->isMethodFailure()
  *           echo 'The HOA request succeeded, but the method it called failed!' . PHP_EOL;
  *       }
  *       echo 'Error message: ' . $completeResponse->getMessage() . PHP_EOL;

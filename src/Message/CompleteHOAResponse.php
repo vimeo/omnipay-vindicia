@@ -4,7 +4,8 @@
  * they include a response for the method that was actually
  * called by HOA. If the request itself fails, we return its
  * error message and code. Otherwise, we return the status
- * for the method called by HOA. getFailureType can be used to
+ * for the method called by HOA. getFailureType or
+ * isRequestFailure and isMethodFailure can be used to
  * determine if it was a request failure or method failure.
  */
 namespace Omnipay\Vindicia\Message;
@@ -157,6 +158,27 @@ class CompleteHOAResponse extends Response
     public function getFailureType()
     {
         return $this->failureType;
+    }
+
+    /**
+     * Returns true if the HOA request failed (as opposed to the method being called by
+     * HOA failing).
+     *
+     * @return bool
+     */
+    public function isRequestFailure()
+    {
+        return $this->getFailureType() === self::REQUEST_FAILURE;
+    }
+
+    /**
+     * Returns true if the HOA method failed (as opposed to the request itself failing).
+     *
+     * @return bool
+     */
+    public function isMethodFailure()
+    {
+        return $this->getFailureType() === self::METHOD_FAILURE;
     }
 
     /**

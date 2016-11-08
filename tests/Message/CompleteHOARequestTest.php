@@ -204,6 +204,7 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame('400', $response->getCode());
         $this->assertSame('Must specify a WebSession to finalize!', $response->getMessage());
         $this->assertSame(CompleteHOAResponse::REQUEST_FAILURE, $response->getFailureType());
+        $this->assertTrue($response->isRequestFailure());
     }
 
     /**
@@ -230,6 +231,7 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame('402', $response->getCode());
         $this->assertSame('Missing required parameter: vin_PaymentMethod', $response->getMessage());
         $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
+        $this->assertTrue($response->isMethodFailure());
     }
 
     /**
@@ -249,5 +251,6 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame('400', $response->getCode());
         $this->assertSame('Invalid payment method type:  ', $response->getMessage());
         $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
+        $this->assertTrue($response->isMethodFailure());
     }
 }
