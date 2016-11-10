@@ -2,7 +2,7 @@
 
 namespace Omnipay\Vindicia;
 
-use Omnipay\Common\CreditCard;
+use Omnipay\Vindicia\NonStrippingCreditCard;
 use stdClass;
 
 class ObjectHelper
@@ -138,7 +138,8 @@ class ObjectHelper
         return new PaymentMethod(array(
             'id' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
-            'card' => new CreditCard(array(
+            // NonStrippingCreditCard won't remove the X's that Vindicia masks with
+            'card' => new NonStrippingCreditCard(array(
                 'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
                 'address1' => isset($object->billingAddress->addr1) ? $object->billingAddress->addr1 : null,
                 'address2' => isset($object->billingAddress->addr2) ? $object->billingAddress->addr2 : null,
