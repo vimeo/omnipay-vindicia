@@ -76,6 +76,14 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($sku, $item->getSku());
     }
 
+    public function testTaxClassification()
+    {
+        $item = new VindiciaItem();
+        $taxClassification = $this->faker->taxClassification();
+        $this->assertSame($item, $item->setTaxClassification($taxClassification));
+        $this->assertSame($taxClassification, $item->getTaxClassification());
+    }
+
     /**
      * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing name.

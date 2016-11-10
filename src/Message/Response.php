@@ -4,10 +4,39 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Vindicia\ObjectHelper;
+use Omnipay\Common\Message\RequestInterface;
 
 class Response extends AbstractResponse
 {
     const SUCCESS_CODE = 200;
+
+    protected $objectHelper;
+
+    // Cached objects:
+    protected $transaction;
+    protected $subscription;
+    protected $customer;
+    protected $plan;
+    protected $product;
+    protected $paymentMethod;
+    protected $refunds;
+    protected $transactions;
+    protected $subscriptions;
+    protected $chargebacks;
+    protected $paymentMethods;
+
+    /**
+     * Constructor
+     *
+     * @param RequestInterface $request the initiating request.
+     * @param mixed $data
+     */
+    public function __construct(RequestInterface $request, $data)
+    {
+        parent::__construct($request, $data);
+        $this->objectHelper = new ObjectHelper();
+    }
 
     /**
      * Is the response successful?
@@ -51,12 +80,19 @@ class Response extends AbstractResponse
         throw new InvalidResponseException('Response has no code.');
     }
 
+    public function isCvvValidationFailure()
+    {
+        return !$this->isSuccessful()
+            && in_array($this->getCode(), array('408', '409'))
+            && strpos($this->getMessage(), 'CVN');
+    }
+
     public function getTransaction()
     {
-        if (isset($this->data->transaction)) {
-            return $this->data->transaction;
+        if (!isset($this->transaction) && isset($this->data->transaction)) {
+            $this->transaction = $this->objectHelper->buildTransaction($this->data->transaction);
         }
-        return null;
+        return isset($this->transaction) ? $this->transaction : null;
     }
 
     /**
@@ -67,7 +103,7 @@ class Response extends AbstractResponse
     public function getTransactionReference()
     {
         if ($this->getTransaction()) {
-            return $this->getTransaction()->VID;
+            return $this->getTransaction()->getReference();
         }
         return null;
     }
@@ -83,17 +119,17 @@ class Response extends AbstractResponse
     public function getTransactionId()
     {
         if ($this->getTransaction()) {
-            return $this->getTransaction()->merchantTransactionId;
+            return $this->getTransaction()->getId();
         }
         return null;
     }
 
     public function getCustomer()
     {
-        if (isset($this->data->account)) {
-            return $this->data->account;
+        if (!isset($this->customer) && isset($this->data->account)) {
+            $this->customer = $this->objectHelper->buildCustomer($this->data->account);
         }
-        return null;
+        return isset($this->customer) ? $this->customer : null;
     }
 
     /**
@@ -104,7 +140,7 @@ class Response extends AbstractResponse
     public function getCustomerReference()
     {
         if ($this->getCustomer()) {
-            return $this->getCustomer()->VID;
+            return $this->getCustomer()->getReference();
         }
         return null;
     }
@@ -118,17 +154,17 @@ class Response extends AbstractResponse
     public function getCustomerId()
     {
         if ($this->getCustomer()) {
-            return $this->getCustomer()->merchantAccountId;
+            return $this->getCustomer()->getId();
         }
         return null;
     }
 
     public function getPlan()
     {
-        if (isset($this->data->billingPlan)) {
-            return $this->data->billingPlan;
+        if (!isset($this->plan) && isset($this->data->billingPlan)) {
+            $this->plan = $this->objectHelper->buildPlan($this->data->billingPlan);
         }
-        return null;
+        return isset($this->plan) ? $this->plan : null;
     }
 
     /**
@@ -139,7 +175,7 @@ class Response extends AbstractResponse
     public function getPlanReference()
     {
         if ($this->getPlan()) {
-            return $this->getPlan()->VID;
+            return $this->getPlan()->getReference();
         }
         return null;
     }
@@ -152,17 +188,17 @@ class Response extends AbstractResponse
     public function getPlanId()
     {
         if ($this->getPlan()) {
-            return $this->getPlan()->merchantBillingPlanId;
+            return $this->getPlan()->getId();
         }
         return null;
     }
 
     public function getProduct()
     {
-        if (isset($this->data->product)) {
-            return $this->data->product;
+        if (!isset($this->product) && isset($this->data->product)) {
+            $this->product = $this->objectHelper->buildProduct($this->data->product);
         }
-        return null;
+        return isset($this->product) ? $this->product : null;
     }
 
     /**
@@ -173,7 +209,7 @@ class Response extends AbstractResponse
     public function getProductReference()
     {
         if ($this->getProduct()) {
-            return $this->getProduct()->VID;
+            return $this->getProduct()->getReference();
         }
         return null;
     }
@@ -186,17 +222,17 @@ class Response extends AbstractResponse
     public function getProductId()
     {
         if ($this->getProduct()) {
-            return $this->getProduct()->merchantProductId;
+            return $this->getProduct()->getId();
         }
         return null;
     }
 
     public function getSubscription()
     {
-        if (isset($this->data->autobill)) {
-            return $this->data->autobill;
+        if (!isset($this->subscription) && isset($this->data->autobill)) {
+            $this->subscription = $this->objectHelper->buildSubscription($this->data->autobill);
         }
-        return null;
+        return isset($this->subscription) ? $this->subscription : null;
     }
 
     /**
@@ -207,7 +243,7 @@ class Response extends AbstractResponse
     public function getSubscriptionReference()
     {
         if ($this->getSubscription()) {
-            return $this->getSubscription()->VID;
+            return $this->getSubscription()->getReference();
         }
         return null;
     }
@@ -220,7 +256,7 @@ class Response extends AbstractResponse
     public function getSubscriptionId()
     {
         if ($this->getSubscription()) {
-            return $this->getSubscription()->merchantAutoBillId;
+            return $this->getSubscription()->getId();
         }
         return null;
     }
@@ -240,8 +276,13 @@ class Response extends AbstractResponse
 
     public function getPaymentMethod()
     {
+        if (isset($this->paymentMethod)) {
+            return $this->paymentMethod;
+        }
+
         if (isset($this->data->paymentMethod)) {
-            return $this->data->paymentMethod;
+            $this->paymentMethod = $this->objectHelper->buildPaymentMethod($this->data->paymentMethod);
+            return $this->paymentMethod;
         }
 
         // sometimes it's in the account object
@@ -255,7 +296,8 @@ class Response extends AbstractResponse
         // in the response
         foreach ($this->data->account->paymentMethods as $paymentMethod) {
             if ($paymentMethod->merchantPaymentMethodId === $this->getRequest()->getPaymentMethodId()) {
-                return $paymentMethod;
+                $this->paymentMethod = $this->objectHelper->buildPaymentMethod($paymentMethod);
+                return $this->paymentMethod;
             }
         }
 
@@ -271,7 +313,7 @@ class Response extends AbstractResponse
     public function getPaymentMethodId()
     {
         if ($this->getPaymentMethod()) {
-            return $this->getPaymentMethod()->merchantPaymentMethodId;
+            return $this->getPaymentMethod()->getId();
         }
 
         return null;
@@ -285,7 +327,7 @@ class Response extends AbstractResponse
     public function getPaymentMethodReference()
     {
         if ($this->getPaymentMethod()) {
-            return $this->getPaymentMethod()->VID;
+            return $this->getPaymentMethod()->getReference();
         }
 
         return null;
@@ -293,42 +335,62 @@ class Response extends AbstractResponse
 
     public function getRefunds()
     {
-        if (isset($this->data->refunds)) {
-            return $this->data->refunds;
+        if (!isset($this->refunds) && isset($this->data->refunds)) {
+            $refunds = array();
+            foreach ($this->data->refunds as $refund) {
+                $refunds[] = $this->objectHelper->buildRefund($refund);
+            }
+            $this->refunds = $refunds;
         }
-        return null;
+        return isset($this->refunds) ? $this->refunds : null;
     }
 
     public function getTransactions()
     {
-        if (isset($this->data->transactions)) {
-            return $this->data->transactions;
+        if (!isset($this->transactions) && isset($this->data->transactions)) {
+            $transactions = array();
+            foreach ($this->data->transactions as $transaction) {
+                $transactions[] = $this->objectHelper->buildTransaction($transaction);
+            }
+            $this->transactions = $transactions;
         }
-        return null;
+        return isset($this->transactions) ? $this->transactions : null;
     }
 
     public function getSubscriptions()
     {
-        if (isset($this->data->autobills)) {
-            return $this->data->autobills;
+        if (!isset($this->subscriptions) && isset($this->data->autobills)) {
+            $subscriptions = array();
+            foreach ($this->data->autobills as $subscription) {
+                $subscriptions[] = $this->objectHelper->buildSubscription($subscription);
+            }
+            $this->subscriptions = $subscriptions;
         }
-        return null;
+        return isset($this->subscriptions) ? $this->subscriptions : null;
     }
 
     public function getPaymentMethods()
     {
-        if (isset($this->data->paymentMethods)) {
-            return $this->data->paymentMethods;
+        if (!isset($this->paymentMethods) && isset($this->data->paymentMethods)) {
+            $paymentMethods = array();
+            foreach ($this->data->paymentMethods as $paymentMethod) {
+                $paymentMethods[] = $this->objectHelper->buildPaymentMethod($paymentMethod);
+            }
+            $this->paymentMethods = $paymentMethods;
         }
-        return null;
+        return isset($this->paymentMethods) ? $this->paymentMethods : null;
     }
 
     public function getChargebacks()
     {
-        if (isset($this->data->chargebacks)) {
-            return $this->data->chargebacks;
+        if (!isset($this->chargebacks) && isset($this->data->chargebacks)) {
+            $chargebacks = array();
+            foreach ($this->data->chargebacks as $chargeback) {
+                $chargebacks[] = $this->objectHelper->buildChargeback($chargeback);
+            }
+            $this->chargebacks = $chargebacks;
         }
-        return null;
+        return isset($this->chargebacks) ? $this->chargebacks : null;
     }
 
     /**
@@ -354,6 +416,36 @@ class Response extends AbstractResponse
     {
         if (isset($this->data->totalTax)) {
             return $this->data->totalTax;
+        }
+        return null;
+    }
+
+    /**
+     * Return the soap ID from the soap response.
+     *
+     * @return string
+     */
+    public function getSoapId()
+    {
+        if (isset($this->data->return)) {
+            return $this->data->return->soapId;
+        }
+        throw new InvalidResponseException('Response has no soap id.');
+    }
+
+    /**
+     * Gets the risk score for the transaction, that is, the estimated probability that
+     * this transaction will result in a chargeback. This number ranges from 0 (best) to
+     * 100 (worst). It can also be -1, meaning that Vindicia has no opinion. (-1 indicates
+     * a transaction with no originating IP addresses, an incomplete addresses, or both.
+     * -2 indicates an error; retry later.)
+     *
+     * @return int|null
+     */
+    public function getRiskScore()
+    {
+        if (isset($this->data->score)) {
+            return intval($this->data->score);
         }
         return null;
     }

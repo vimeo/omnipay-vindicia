@@ -29,21 +29,6 @@ use Omnipay\Vindicia\NameValue;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   $authorizeResponse = $gateway->authorize(array(
  *       'items' => array(
  *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
@@ -51,7 +36,7 @@ use Omnipay\Vindicia\NameValue;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => '123456789',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
  *       'attributes' => array(
  *           'location' => 'FL'
@@ -76,14 +61,20 @@ use Omnipay\Vindicia\NameValue;
  *   ))->send();
  *
  *   if ($completeResponse->isSuccessful()) {
- *       // @todo Haven't tested what's available yet
+ *       // You can check what request was just completed:
+ *       echo "Did we just complete an authorize web session? " . $completeResponse->wasAuthorize() . PHP_EOL;
+ *       // transaction object:
+ *       var_dump($completeResponse->getTransaction());
+ *       // values that were passed in the form:
+ *       var_dump($completeResponse->getFormValues());
+ *       echo "The transaction risk score is: " . $authorizeResponse->getRiskScore();
  *   } else {
- *       if ($completeResponse->getFailureType() === CompleteHOAResponse::REQUEST_FAILURE) {
+ *       if ($completeResponse->isRequestFailure()) {
  *           echo 'The HOA request itself failed!' . PHP_EOL;
  *       } else {
- *           // This case, identified by CompleteHOAResponse::METHOD_FAILURE, means that
- *           // although the HOA request succeeded, the method it called, such as authorize
- *           // or purchase, had an error.
+ *           // This case means that although the HOA request succeeded, the method it called,
+ *           // such as authorize or purchase, had an error. Also identifiable by
+ *           // $completeResponse->isMethodFailure()
  *           echo 'The HOA request succeeded, but the method it called failed!' . PHP_EOL;
  *       }
  *       echo 'Error message: ' . $completeResponse->getMessage() . PHP_EOL;
@@ -122,11 +113,17 @@ class HOAAuthorizeRequest extends AbstractHOARequest
     {
         $regularRequestData = $this->regularRequest->getData();
 
-        return array(
+        $values = array(
             new NameValue('Transaction_Auth_minChargebackProbability', $regularRequestData['minChargebackProbability']),
             new NameValue('Transaction_Auth_sendEmailNotification', $regularRequestData['sendEmailNotification']),
-            new NameValue('Transaction_Auth_campaignCode', $regularRequestData['campaignCode']),
             new NameValue('Transaction_Auth_dryrun', $regularRequestData['dryrun'])
         );
+
+        // adding this param with an empty value makes the web session crash
+        if (!empty($regularRequestData['campaignCode'])) {
+            $values[] = new NameValue('Transaction_Auth_campaignCode', $regularRequestData['campaignCode']);
+        }
+
+        return $values;
     }
 }

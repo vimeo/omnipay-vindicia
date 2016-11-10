@@ -21,26 +21,11 @@ namespace Omnipay\Vindicia;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // now we start the purchase process
  *   $purchaseResponse = $gateway->purchase(array(
  *       'amount' => '9.99',
  *       'currency' => 'USD',
- *       'customerId' => $customerResponse->getCustomerId(), // could do this by customerReference also
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'postcode' => '12345'
  *       ),
@@ -96,10 +81,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\PayPalPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\PayPalPurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\PayPalPurchaseRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\PayPalPurchaseRequest', $parameters);
     }
 
@@ -109,10 +97,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompletePayPalPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CompletePayPalPurchaseRequest
      */
     public function completePurchase(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CompletePayPalPurchaseRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CompletePayPalPurchaseRequest', $parameters);
     }
 
@@ -123,10 +114,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest
      */
     public function createSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest', $parameters);
     }
 
@@ -137,10 +131,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest
      */
     public function updateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest', $parameters, true);
     }
 
@@ -150,10 +147,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest
      */
     public function completeCreateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest', $parameters);
     }
 
@@ -163,10 +163,13 @@ class PayPalGateway extends AbstractVindiciaGateway
      * See Message\CompleteCreatePayPalSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest
      */
     public function completeUpdateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest
+         */
         return $this->createRequest(
             '\Omnipay\Vindicia\Message\CompleteCreatePayPalSubscriptionRequest',
             $parameters,
@@ -175,19 +178,34 @@ class PayPalGateway extends AbstractVindiciaGateway
     }
 
     /**
-     * Update a payment method.
-     *
-     * Although you cannot create a PayPal payment method with createPaymentMethod,
-     * (because you need to be on PayPal's site) you could update it to change stuff
-     * like the customer's name.
+     * Create a new payment method.
      *
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+     */
+    public function createPaymentMethod(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters);
+    }
+
+    /**
+     * Update a payment method.
+     *
+     * See Message\CreatePaymentMethodRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 

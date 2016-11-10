@@ -4,13 +4,15 @@
  * they include a response for the method that was actually
  * called by HOA. If the request itself fails, we return its
  * error message and code. Otherwise, we return the status
- * for the method called by HOA. getFailureType can be used to
+ * for the method called by HOA. getFailureType or
+ * isRequestFailure and isMethodFailure can be used to
  * determine if it was a request failure or method failure.
  */
 namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Vindicia\Attribute;
 
 class CompleteHOAResponse extends Response
 {
@@ -31,6 +33,12 @@ class CompleteHOAResponse extends Response
      */
     protected $failureType;
 
+    // Cached objects:
+    protected $formValues;
+    protected $transaction;
+    protected $subscription;
+    protected $paymentMethod;
+
     /**
      * Constants to indicate whether it was the HOA request that failed
      * or the method HOA called.
@@ -48,25 +56,21 @@ class CompleteHOAResponse extends Response
     {
         parent::__construct($request, $data);
 
-        // parse and store results in instance variables
-        $requestCode = parent::getCode();
-
-        // if the request failed, we want the response from the request
-        if (intval($requestCode) !== self::SUCCESS_CODE) {
-            $this->code = $requestCode;
-            $this->message = parent::getMessage();
-            $this->failureType = self::REQUEST_FAILURE;
-            return;
-        }
-
-        // if the request succeeded, we want the response from the method
+        // if available, we want the response from the method
         if (isset($this->data->session->apiReturn)) {
             $this->code = $this->data->session->apiReturn->returnCode;
             $this->message = $this->data->session->apiReturn->returnString;
+            if (!$this->isSuccessful()) {
+                $this->failureType = self::METHOD_FAILURE;
+            }
+            return;
         }
 
+        // otherwise, we want the response from the request
+        $this->code = parent::getCode();
+        $this->message = parent::getMessage();
         if (!$this->isSuccessful()) {
-            $this->failureType = self::METHOD_FAILURE;
+            $this->failureType = self::REQUEST_FAILURE;
         }
     }
 
@@ -100,6 +104,50 @@ class CompleteHOAResponse extends Response
         throw new InvalidResponseException('Response has no code.');
     }
 
+    public function getTransaction()
+    {
+        if (isset($this->transaction)) {
+            return $this->transaction;
+        }
+
+        if (isset($this->data->session->apiReturnValues->transactionAuth->transaction)) {
+            $transaction = $this->data->session->apiReturnValues->transactionAuth->transaction;
+        } elseif (isset($this->data->session->apiReturnValues->transactionAuthCapture->transaction)) {
+            $transaction = $this->data->session->apiReturnValues->transactionAuthCapture->transaction;
+        }
+
+        if (isset($transaction)) {
+            $this->transaction = $this->objectHelper->buildTransaction($transaction);
+            return $this->transaction;
+        }
+
+        return null;
+    }
+
+    public function getPaymentMethod()
+    {
+        if (!isset($this->paymentMethod)
+            && isset($this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0])
+        ) {
+            $this->paymentMethod = $this->objectHelper->buildPaymentMethod(
+                $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0]
+            );
+        }
+        return isset($this->paymentMethod) ? $this->paymentMethod : null;
+    }
+
+    public function getSubscription()
+    {
+        if (!isset($this->subscription)
+            && isset($this->data->session->apiReturnValues->autobillUpdate->autobill)
+        ) {
+            $this->subscription = $this->objectHelper->buildSubscription(
+                $this->data->session->apiReturnValues->autobillUpdate->autobill
+            );
+        }
+        return isset($this->subscription) ? $this->subscription : null;
+    }
+
     /**
      * If the response failed, returns self::REQUEST_FAILURE to indicate that
      * the HOA request failed or self::METHOD_FAILURE to indicate that the
@@ -112,6 +160,118 @@ class CompleteHOAResponse extends Response
         return $this->failureType;
     }
 
-    // @todo will probably need to add some functions to get the responses
-    // from the HOA methods
+    /**
+     * Returns true if the HOA request failed (as opposed to the method being called by
+     * HOA failing).
+     *
+     * @return bool
+     */
+    public function isRequestFailure()
+    {
+        return $this->getFailureType() === self::REQUEST_FAILURE;
+    }
+
+    /**
+     * Returns true if the HOA method failed (as opposed to the request itself failing).
+     *
+     * @return bool
+     */
+    public function isMethodFailure()
+    {
+        return $this->getFailureType() === self::METHOD_FAILURE;
+    }
+
+    /**
+     * Gets the values that were set on the form. Returns an array of Attributes.
+     *
+     * @return array<Attribute>|null
+     */
+    public function getFormValues()
+    {
+        if (!isset($this->formValues) && isset($this->data->session->postValues)) {
+            $formValues = array();
+            foreach ($this->data->session->postValues as $postValue) {
+                $formValues[] = new Attribute(array(
+                    'name' => $postValue->name,
+                    'value' => $postValue->value
+                ));
+            }
+            $this->formValues = $formValues;
+        }
+        return isset($this->formValues) ? $this->formValues : null;
+    }
+
+    /**
+     * Gets the risk score for the transaction, that is, the estimated probability that
+     * this transaction will result in a chargeback. This number ranges from 0 (best) to
+     * 100 (worst). It can also be -1, meaning that Vindicia has no opinion. (-1 indicates
+     * a transaction with no originating IP addresses, an incomplete addresses, or both.
+     * -2 indicates an error; retry later.)
+     *
+     * @return int|null
+     */
+    public function getRiskScore()
+    {
+        if (isset($this->data->session->apiReturnValues->transactionAuth->score)) {
+            return intval($this->data->session->apiReturnValues->transactionAuth->score);
+        }
+        if (isset($this->data->session->apiReturnValues->transactionAuthCapture->score)) {
+            return intval($this->data->session->apiReturnValues->transactionAuthCapture->score);
+        }
+        return null;
+    }
+
+    /**
+     * Returns true if the HOA call completed an authorize request
+     *
+     * @return bool
+     */
+    public function wasAuthorize()
+    {
+        return $this->getMethod() === 'transactionAuth';
+    }
+
+    /**
+     * Returns true if the HOA call completed a purchase request
+     *
+     * @return bool
+     */
+    public function wasPurchase()
+    {
+        return $this->getMethod() === 'transactionAuthCapture';
+    }
+
+    /**
+     * Returns true if the HOA call completed a create or update payment method request
+     *
+     * @return bool
+     */
+    public function wasCreatePaymentMethod()
+    {
+        return $this->getMethod() === 'accountUpdatePaymentMethod';
+    }
+
+    /**
+     * Returns true if the HOA call completed a create or update subscription request
+     *
+     * @return bool
+     */
+    public function wasCreateSubscription()
+    {
+        return $this->getMethod() === 'autobillUpdate';
+    }
+
+    /**
+     * Get the name of the request that was made in this call.
+     *
+     * @return string
+     */
+    protected function getMethod()
+    {
+        if (isset($this->data->session->apiReturnValues->method)) {
+            return $this->data->session->apiReturnValues->method;
+        }
+
+        return null;
+    }
 }

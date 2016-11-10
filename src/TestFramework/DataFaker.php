@@ -106,7 +106,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(3, 9));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -119,7 +119,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -132,7 +132,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(6, 9));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -145,7 +145,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -168,7 +168,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -191,7 +191,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -214,7 +214,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -269,7 +269,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -293,7 +293,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, $this->intBetween(9, 12));
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -313,6 +313,26 @@ class DataFaker
      * @return string
      */
     public function refundReference()
+    {
+        return $this->transactionReference();
+    }
+
+    /**
+     * Return a chargeback id
+     *
+     * @return string
+     */
+    public function chargebackId()
+    {
+        return $this->transactionId();
+    }
+
+    /**
+     * Return a chargeback reference
+     *
+     * @return string
+     */
+    public function chargebackReference()
     {
         return $this->transactionReference();
     }
@@ -392,8 +412,8 @@ class DataFaker
             'number' => $this->intBetween(0, 1) ? '4242424242424242' : '5555555555554444',
             'expiryMonth' => strval($this->intBetween(1, 12)),
             'expiryYear' => strval($this->intBetween(
-                $now->modify('+1 year')->format('Y'),
-                $now2->modify('+50 year')->format('Y')
+                intval($now->modify('+1 year')->format('Y')),
+                intval($now2->modify('+50 year')->format('Y'))
             )),
             'cvv' => strval($this->intBetween(100, 999)),
             'country' => $this->region(),
@@ -420,8 +440,8 @@ class DataFaker
                 break;
             default:
                 $card['expiryYear'] = strval($this->intBetween(
-                    $now->modify('-15 year')->format('Y'),
-                    $now2->modify('-1 year')->format('Y')
+                    intval($now->modify('-15 year')->format('Y')),
+                    intval($now2->modify('-1 year')->format('Y'))
                 ));
                 break;
         }
@@ -776,7 +796,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::DIGITS, 5);
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -908,7 +928,7 @@ class DataFaker
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
-        } while (!$result);
+        } while ($result == 0);
         return $result;
     }
 
@@ -928,5 +948,80 @@ class DataFaker
     public function payPalCustomerReference()
     {
         return 'B-' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
+    }
+
+    /**
+     * Return a soap id
+     *
+     * @return string
+     */
+    public function soapId()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while ($result == 0);
+        return $result;
+    }
+
+    /**
+     * Return a note
+     *
+     * @return string
+     */
+    public function note()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::ALPHABET_UPPER,
+            $this->intBetween(10, 50)
+        );
+    }
+
+    /**
+     * Return a status
+     *
+     * @return string
+     */
+    public function status()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER,
+            $this->intBetween(3, 10)
+        );
+    }
+
+    /**
+     * Return a status code
+     *
+     * @return string
+     */
+    public function statusCode()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::DIGITS,
+            $this->intBetween(2, 4)
+        );
+    }
+
+    /**
+     * Return a parameter name passed to a HOA WebSession via name values
+     *
+     * @return string
+     */
+    public function HOAParamName()
+    {
+        return $this->randomCharacters(
+            self::ALPHABET_LOWER . self::ALPHABET_UPPER . '_',
+            $this->intBetween(6, 30)
+        );
+    }
+
+    /**
+     * Return a risk score
+     *
+     * @return int
+     */
+    public function riskScore()
+    {
+        return $this->intBetween(-2, 100);
     }
 }

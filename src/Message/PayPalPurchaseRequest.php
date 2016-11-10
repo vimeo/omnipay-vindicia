@@ -25,26 +25,11 @@ namespace Omnipay\Vindicia\Message;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // now we start the purchase process
  *   $purchaseResponse = $gateway->purchase(array(
  *       'amount' => '9.99',
  *       'currency' => 'USD',
- *       'customerId' => $customerResponse->getCustomerId(), // could do this by customerReference also
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'postcode' => '12345'
  *       ),
@@ -88,6 +73,18 @@ class PayPalPurchaseRequest extends PurchaseRequest
         $this->validate('returnUrl', 'cancelUrl');
 
         return parent::getData(self::PAYMENT_METHOD_PAYPAL);
+    }
+
+    /**
+     * Overriding to provide a more precise return type
+     * @return PayPalPurchaseResponse
+     */
+    public function send()
+    {
+        /**
+         * @var PayPalPurchaseResponse
+         */
+        return parent::send();
     }
 
     /**

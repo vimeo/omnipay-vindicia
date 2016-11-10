@@ -5,6 +5,7 @@ namespace Omnipay\Vindicia;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Omnipay;
 use Omnipay\Vindicia\TestFramework\DataFaker;
+use Omnipay\Vindicia\Message\AuthorizeRequest;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -48,6 +49,14 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertSame($this->gateway, $this->gateway->setTestMode($testMode));
         $this->assertSame($testMode, $this->gateway->getTestMode());
+    }
+
+    public function testMinChargebackProbability()
+    {
+        $minChargebackProbability = $this->faker->chargebackProbability();
+
+        $this->assertSame($this->gateway, $this->gateway->setMinChargebackProbability($minChargebackProbability));
+        $this->assertSame($minChargebackProbability, $this->gateway->getMinChargebackProbability());
     }
 
     public function testAuthorize()
@@ -660,6 +669,61 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($card['country'], $request->getCard()->getCountry());
         $this->assertSame($currency, $request->getCurrency());
         $this->assertSame($taxClassification, $request->getTaxClassification());
+    }
+
+    public function testDefaultMinChargebackProbability()
+    {
+        $currency = $this->faker->currency();
+        $amount = $this->faker->monetaryAmount($currency);
+        $customerId = $this->faker->customerId();
+        $card = $this->faker->card();
+
+        // if there's no min chargeback probability set, request should take its default
+
+        $this->assertNull($this->gateway->getMinChargebackProbability());
+
+        $request = $this->gateway->authorize(
+            array(
+                'amount' => $amount,
+                'currency' => $currency,
+                'card' => $card,
+                'customerId' => $customerId
+            )
+        );
+
+        $this->assertSame(AuthorizeRequest::DEFAULT_MIN_CHARGEBACK_PROBABILITY, $request->getMinChargebackProbability());
+
+        // if a gateway default is set, the request should take that
+
+        $minChargebackProbability = $this->faker->chargebackProbability();
+        $this->gateway->setMinChargebackProbability($minChargebackProbability);
+
+        $request = $this->gateway->authorize(
+            array(
+                'amount' => $amount,
+                'currency' => $currency,
+                'card' => $card,
+                'customerId' => $customerId
+            )
+        );
+
+        $this->assertSame($minChargebackProbability, $request->getMinChargebackProbability());
+
+        // if a gateway default is set but the request overrides it, the request should take the override
+
+        $overrideMinChargebackProbability = $this->faker->chargebackProbability();
+
+        $request = $this->gateway->authorize(
+            array(
+                'amount' => $amount,
+                'currency' => $currency,
+                'card' => $card,
+                'customerId' => $customerId,
+                'minChargebackProbability' => $overrideMinChargebackProbability
+            )
+        );
+
+        $this->assertSame($overrideMinChargebackProbability, $request->getMinChargebackProbability());
     }
 
     protected function assertSameCard($card, $requestCard)

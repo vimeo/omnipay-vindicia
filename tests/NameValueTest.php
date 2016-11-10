@@ -25,18 +25,25 @@ class NameValueTest extends TestCase
 
     public function testValueConversion()
     {
-        $nameValue = new NameValue('name', null);
+        $nameValue = new NameValue($this->faker->HOAParamName(), null);
         $this->assertSame('null', $nameValue->value);
 
-        $nameValue = new NameValue('name', true);
+        $nameValue = new NameValue($this->faker->HOAParamName(), true);
         $this->assertSame('true', $nameValue->value);
 
-        $nameValue = new NameValue('name', false);
+        $nameValue = new NameValue($this->faker->HOAParamName(), false);
         $this->assertSame('false', $nameValue->value);
 
         $integer = $this->faker->intBetween(0, 999);
-        $nameValue = new NameValue('name', $integer);
+        $nameValue = new NameValue($this->faker->HOAParamName(), $integer);
         $this->assertSame(strval($integer), $nameValue->value);
+
+        // this attribute name actually takes a boolean value for some reason
+        $nameValue = new NameValue('vin_PaymentMethod_active', true);
+        $this->assertSame(true, $nameValue->value);
+
+        $nameValue = new NameValue('vin_PaymentMethod_active', false);
+        $this->assertSame(false, $nameValue->value);
     }
 
     /**

@@ -22,6 +22,9 @@ class FetchProductRequestTest extends SoapTestCase
         );
 
         $this->productReference = $this->faker->productReference();
+        $this->taxClassification = $this->faker->taxClassification();
+        $this->planId = $this->faker->planId();
+        $this->planReference = $this->faker->planReference();
     }
 
     public function testProductId()
@@ -75,7 +78,10 @@ class FetchProductRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchProductSuccess.xml', array(
             'PRODUCT_ID' => $this->productId,
-            'PRODUCT_REFERENCE' => $this->productReference
+            'PRODUCT_REFERENCE' => $this->productReference,
+            'TAX_CLASSIFICATION' => $this->taxClassification,
+            'PLAN_ID' => $this->planId,
+            'PLAN_REFERENCE' => $this->planReference
         ));
 
         $response = $this->request->send();
@@ -87,6 +93,29 @@ class FetchProductRequestTest extends SoapTestCase
         $this->assertNotNull($response->getProduct());
         $this->assertSame($this->productId, $response->getProductId());
         $this->assertSame($this->productReference, $response->getProductReference());
+
+        $product = $response->getProduct();
+        $this->assertInstanceOf('\Omnipay\Vindicia\Product', $product);
+        $this->assertSame($this->productId, $response->getProductId());
+        $this->assertSame($this->productReference, $response->getProductReference());
+        $this->assertSame($this->productId, $product->getId());
+        $this->assertSame($this->productReference, $product->getReference());
+        $this->assertSame($this->taxClassification, $product->getTaxClassification());
+        $plan = $product->getPlan();
+        $this->assertSame($this->planId, $product->getPlanId());
+        $this->assertSame($this->planId, $plan->getId());
+        $this->assertSame($this->planReference, $product->getPlanReference());
+        $this->assertSame($this->planReference, $plan->getReference());
+        $prices = $product->getPrices();
+        $this->assertSame(2, count($prices));
+        foreach ($prices as $price) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Price', $price);
+        }
+        $attributes = $product->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Product.wsdl', $this->getLastEndpoint());
     }

@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class PayPalPurchaseRequestTest extends SoapTestCase
@@ -55,6 +55,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->items = $this->faker->itemsAsArray($this->currency);
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->payPalToken = $this->faker->payPalToken();
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testStatementDescriptor()
@@ -108,7 +109,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testPaymentMethodId()
@@ -343,7 +344,8 @@ class PayPalPurchaseRequestTest extends SoapTestCase
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'RETURN_URL' => $this->returnUrl,
             'CANCEL_URL' => $this->cancelUrl,
-            'PAYPAL_TOKEN' => $this->payPalToken
+            'PAYPAL_TOKEN' => $this->payPalToken,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -355,6 +357,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . $this->payPalToken, $response->getRedirectUrl());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

@@ -54,4 +54,17 @@ class RefundResponse extends Response
         }
         return null;
     }
+
+    /**
+     * Get the refund object
+     *
+     * @return object|null
+     */
+    public function getRefund()
+    {
+        if (isset($this->data->refunds[0])) {
+            return $this->data->refunds[0];
+        }
+        return null;
+    }
 }

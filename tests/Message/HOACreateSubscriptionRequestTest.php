@@ -33,6 +33,8 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         $this->returnUrl = $this->faker->url();
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
 
         $this->request = new HOACreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -56,6 +58,8 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
                 'errorUrl' => $this->errorUrl,
                 'ip' => $this->ip,
                 'minChargebackProbability' => $this->minChargebackProbability,
+                'name' => $this->name,
+                'email' => $this->email,
                 'HOAAttributes' => $this->HOAAttributes
             )
         );
@@ -154,6 +158,24 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    public function testName()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
+    }
+
     public function testCurrency()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest');
@@ -246,67 +268,75 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame(AbstractRequest::API_VERSION, $data['session']->version);
 
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_billingStatementIdentifier', $this->statementDescriptor),
+            new NameValue('vin_AutoBill_billingStatementIdentifier', $this->statementDescriptor),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_currency', $this->currency),
+            new NameValue('vin_AutoBill_currency', $this->currency),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_merchantAutoBillId', $this->subscriptionId),
+            new NameValue('vin_AutoBill_merchantAutoBillId', $this->subscriptionId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_VID', $this->subscriptionReference),
+            new NameValue('vin_AutoBill_VID', $this->subscriptionReference),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_sourceIp', $this->ip),
+            new NameValue('vin_AutoBill_sourceIp', $this->ip),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_startTimestamp', $this->startTime),
+            new NameValue('vin_AutoBill_startTimestamp', $this->startTime),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_statementFormat', 'DoNotSend'),
+            new NameValue('vin_AutoBill_statementFormat', 'DoNotSend'),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_billingPlan_merchantBillingPlanId', $this->planId),
+            new NameValue('vin_BillingPlan_merchantBillingPlanId', $this->planId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_items_0_product_merchantProductId', $this->productId),
+            new NameValue('vin_AutoBill_items_0_product_merchantProductId', $this->productId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_paymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            new NameValue('vin_PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_account_merchantAccountId', $this->customerId),
+            new NameValue('vin_Account_merchantAccountId', $this->customerId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_billingPlan_VID', $this->planReference),
+            new NameValue('vin_Account_name', $this->name),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_items_0_product_VID', $this->productReference),
+            new NameValue('vin_Account_emailAddress', $this->email),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_paymentMethod_VID', $this->paymentMethodReference),
+            new NameValue('vin_BillingPlan_VID', $this->planReference),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_account_VID', $this->customerReference),
+            new NameValue('vin_AutoBill_items_0_product_VID', $this->productReference),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('AutoBill_currency', $this->currency),
+            new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_Account_VID', $this->customerReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_AutoBill_currency', $this->currency),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(

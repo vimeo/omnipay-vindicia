@@ -32,9 +32,7 @@ class CreateCustomerRequestTest extends SoapTestCase
             )
         );
 
-        $this->cardAttributes = $this->faker->attributesAsArray();
         $this->card = $this->faker->card();
-        $this->card['attributes'] = $this->cardAttributes;
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
     }
@@ -153,13 +151,6 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->card['number'], $data['account']->paymentMethods[0]->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['account']->paymentMethods[0]->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['account']->paymentMethods[0]->creditCard->expirationDate, 4)));
-
-        $numCardAttributes = count($this->cardAttributes);
-        $this->assertSame($numCardAttributes + 1, count($data['account']->paymentMethods[0]->nameValues)); // +1 accounts for CVV
-        for ($i = 0; $i < $numCardAttributes; $i++) {
-            $this->assertSame($this->cardAttributes[$i]['name'], $data['account']->paymentMethods[0]->nameValues[$i]->name);
-            $this->assertSame($this->cardAttributes[$i]['value'], $data['account']->paymentMethods[0]->nameValues[$i]->value);
-        }
 
         $this->assertSame('update', $data['action']);
     }

@@ -27,21 +27,6 @@ namespace Omnipay\Vindicia;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   $purchaseResponse = $gateway->purchase(array(
  *       'items' => array(
  *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
@@ -49,7 +34,7 @@ namespace Omnipay\Vindicia;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => '123456789',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
  *       'attributes' => array(
  *           'location' => 'FL'
@@ -74,14 +59,20 @@ namespace Omnipay\Vindicia;
  *   ))->send();
  *
  *   if ($completeResponse->isSuccessful()) {
- *       // @todo Haven't tested what's available yet
+ *       // You can check what request was just completed:
+ *       echo "Did we just complete an authorize web session? " . $completeResponse->wasAuthorize() . PHP_EOL;
+ *       // transaction object:
+ *       var_dump($completeResponse->getTransaction());
+ *       // values that were passed in the form:
+ *       var_dump($completeResponse->getFormValues());
+ *       echo "The transaction risk score is: " . $authorizeResponse->getRiskScore();
  *   } else {
- *       if ($completeResponse->getFailureType() === CompleteHOAResponse::REQUEST_FAILURE) {
+ *       if ($completeResponse->isRequestFailure()) {
  *           echo 'The HOA request itself failed!' . PHP_EOL;
  *       } else {
- *           // This case, identified by CompleteHOAResponse::METHOD_FAILURE, means that
- *           // although the HOA request succeeded, the method it called, such as authorize
- *           // or purchase, had an error.
+ *           // This case means that although the HOA request succeeded, the method it called,
+ *           // such as authorize or purchase, had an error. Also identifiable by
+ *           // $completeResponse->isMethodFailure()
  *           echo 'The HOA request succeeded, but the method it called failed!' . PHP_EOL;
  *       }
  *       echo 'Error message: ' . $completeResponse->getMessage() . PHP_EOL;
@@ -110,10 +101,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOAAuthorizeRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOAAuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOAAuthorizeRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest', $parameters);
     }
 
@@ -123,10 +117,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOAPurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOAPurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOAPurchaseRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOAPurchaseRequest', $parameters);
     }
 
@@ -138,10 +135,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * example in HOA context.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CaptureRequest
      */
     public function capture(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CaptureRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CaptureRequest', $parameters);
     }
 
@@ -153,10 +153,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\VoidRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\VoidRequest
      */
     public function void(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\VoidRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
     }
 
@@ -166,10 +169,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest
      */
     public function createPaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest', $parameters);
     }
 
@@ -179,10 +185,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest', $parameters, true);
     }
 
@@ -192,10 +201,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOACreateSubscriptionRequest
      */
     public function createSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOACreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest', $parameters);
     }
 
@@ -205,10 +217,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\HOACreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\HOACreateSubscriptionRequest
      */
     public function updateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\HOACreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest', $parameters, true);
     }
 
@@ -218,10 +233,13 @@ class HOAGateway extends AbstractVindiciaGateway
      * See Message\CompleteHOARequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CompleteHOARequest
      */
     public function complete(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CompleteHOARequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CompleteHOARequest', $parameters);
     }
 

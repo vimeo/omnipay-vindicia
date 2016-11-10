@@ -165,7 +165,7 @@ abstract class AbstractHOARequest extends AbstractRequest
         foreach ($objectParamNames as $object_name => $param_name) {
             $data = $this->regularRequest->getData();
             $object = $data[$param_name];
-            $values = array_merge($values, $this->buildPrivateFormValues($object_name, $object));
+            $values = array_merge($values, $this->buildPrivateFormValues('vin_' . $object_name, $object));
         }
 
         return $values;
@@ -176,12 +176,45 @@ abstract class AbstractHOARequest extends AbstractRequest
         if (is_object($member) || is_array($member)) {
             $values = array();
             foreach ($member as $key => $value) {
+
+                switch (strval($key)) {
+                    // some objects get added separately instead of in the nexted structure
+                    case 'sourcePaymentMethod':
+                    case 'paymentMethod':
+                        $keyExpanded = 'vin_PaymentMethod';
+                        break;
+
+                    case 'account':
+                        $keyExpanded = 'vin_Account';
+                        break;
+
+                    case 'billingPlan':
+                        $keyExpanded = 'vin_BillingPlan';
+                        break;
+
+                    default:
+                        // all other fields get added on to the end of the string
+                        $keyExpanded = $keySoFar . '_' . strval($key);
+                }
+
                 $values = array_merge(
-                    $this->buildPrivateFormValues($keySoFar . '_' . $key, $value),
+                    $this->buildPrivateFormValues($keyExpanded, $value),
                     $values
                 );
             }
             return $values;
+
+
+
+
+            // $values = array();
+            // foreach ($member as $key => $value) {
+            //     $values = array_merge(
+            //         $this->buildPrivateFormValues($keySoFar . '_' . $key, $value),
+            //         $values
+            //     );
+            // }
+            // return $values;
         } elseif (isset($member)) {
             return array(new NameValue($keySoFar, $member));
         } else {

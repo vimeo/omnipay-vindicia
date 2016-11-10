@@ -201,6 +201,22 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    public function testChargebackId()
+    {
+        $id = $this->faker->chargebackId();
+        $this->assertTrue(is_string($id));
+        $this->assertTrue(strlen($id) > 0);
+        $this->assertNotEquals(0, $id);
+    }
+
+    public function testChargebackReference()
+    {
+        $reference = $this->faker->chargebackReference();
+        $this->assertTrue(is_string($reference));
+        $this->assertTrue(strlen($reference) > 0);
+        $this->assertNotEquals(0, $reference);
+    }
+
     public function testTimeout()
     {
         $timeout = $this->faker->timeout();
@@ -533,5 +549,49 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($token));
         $this->assertSame(0, strpos($token, 'B-'));
         $this->assertSame(19, strlen($token));
+    }
+
+    public function testSoapId()
+    {
+        $soapId = $this->faker->soapId();
+        $this->assertTrue(is_string($soapId));
+        $this->assertSame(40, strlen($soapId));
+        $this->assertNotEquals(0, $soapId);
+    }
+
+    public function testNote()
+    {
+        $note = $this->faker->note();
+        $this->assertTrue(is_string($note));
+        $this->assertTrue(strlen($note) > 0);
+    }
+
+    public function testStatus()
+    {
+        $status = $this->faker->status();
+        $this->assertTrue(is_string($status));
+        $this->assertTrue(strlen($status) > 0);
+    }
+
+    public function testStatusCode()
+    {
+        $statusCode = $this->faker->statusCode();
+        $this->assertTrue(is_string($statusCode));
+        $this->assertTrue(strlen($statusCode) > 0);
+    }
+
+    public function testHOAParamName()
+    {
+        $HOAParamName = $this->faker->HOAParamName();
+        $this->assertTrue(is_string($HOAParamName));
+        $this->assertTrue(strlen($HOAParamName) > 0);
+    }
+
+    public function testRiskScore()
+    {
+        $score = $this->faker->riskScore();
+        $this->assertTrue(is_int($score));
+        $this->assertGreaterThanOrEqual(-2, $score);
+        $this->assertLessThanOrEqual(100, $score);
     }
 }

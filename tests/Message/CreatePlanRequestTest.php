@@ -164,10 +164,10 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame(0, $data['billingPlan']->periods[0]->cycles);
 
         $numPrices = count($this->prices);
-        $this->assertSame($numPrices, count($data['billingPlan']->prices));
+        $this->assertSame($numPrices, count($data['billingPlan']->periods[0]->prices));
         for ($i = 0; $i < $numPrices; $i++) {
-            $this->assertSame($this->prices[$i]['currency'], $data['billingPlan']->prices[$i]->currency);
-            $this->assertSame($this->prices[$i]['amount'], $data['billingPlan']->prices[$i]->amount);
+            $this->assertSame($this->prices[$i]['currency'], $data['billingPlan']->periods[0]->prices[$i]->currency);
+            $this->assertSame($this->prices[$i]['amount'], $data['billingPlan']->periods[0]->prices[$i]->amount);
         }
 
         $numAttributes = count($this->attributes);
@@ -199,9 +199,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->intervalCount, $data['billingPlan']->periods[0]->quantity);
         $this->assertSame(0, $data['billingPlan']->periods[0]->cycles);
 
-        $this->assertSame(1, count($data['billingPlan']->prices));
-        $this->assertSame($this->amount, $data['billingPlan']->prices[0]->amount);
-        $this->assertSame($this->currency, $data['billingPlan']->prices[0]->currency);
+        $this->assertSame(1, count($data['billingPlan']->periods[0]->prices));
+        $this->assertSame($this->amount, $data['billingPlan']->periods[0]->prices[0]->amount);
+        $this->assertSame($this->currency, $data['billingPlan']->periods[0]->prices[0]->currency);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes, count($data['billingPlan']->nameValues));

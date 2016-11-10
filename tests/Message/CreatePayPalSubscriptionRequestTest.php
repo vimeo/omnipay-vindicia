@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class CreatePayPalSubscriptionRequestTest extends SoapTestCase
@@ -63,6 +63,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->payPalToken = $this->faker->payPalToken();
         $this->amount = $this->faker->monetaryAmount($this->currency);
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testSubscriptionId()
@@ -320,7 +321,8 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
             'PRODUCT_REFERENCE' => $this->productReference,
             'RETURN_URL' => $this->returnUrl,
             'CANCEL_URL' => $this->cancelUrl,
-            'PAYPAL_TOKEN' => $this->payPalToken
+            'PAYPAL_TOKEN' => $this->payPalToken,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -332,6 +334,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . $this->payPalToken, $response->getRedirectUrl());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

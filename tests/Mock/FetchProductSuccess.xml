@@ -17,10 +17,10 @@
         <VID xmlns="" xsi:type="xsd:string">[PRODUCT_REFERENCE]</VID>
         <merchantProductId xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</merchantProductId>
         <status xmlns="" xsi:type="vin:ProductStatus">Active</status>
-        <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
+        <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
         <defaultBillingPlan xmlns="" xsi:type="vin:BillingPlan">
-          <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
-          <merchantBillingPlanId xmlns="" xsi:type="xsd:string">123456</merchantBillingPlanId>
+          <VID xmlns="" xsi:type="xsd:string">[PLAN_REFERENCE]</VID>
+          <merchantBillingPlanId xmlns="" xsi:type="xsd:string">[PLAN_ID]</merchantBillingPlanId>
           <status xmlns="" xsi:type="vin:BillingPlanStatus">Active</status>
           <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
           <periods xmlns="" xsi:type="vin:BillingPlanPeriod">
@@ -46,6 +46,14 @@
           <amount xmlns="" xsi:type="xsd:decimal">200</amount>
           <currency xmlns="" xsi:type="xsd:string">KRW</currency>
         </prices>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">attributeName</name>
+          <value xmlns="" xsi:type="xsd:string">attributeValue</value>
+        </nameValues>
       </product>
     </fetchByMerchantProductIdResponse>
   </soap:Body>

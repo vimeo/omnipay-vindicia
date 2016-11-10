@@ -126,7 +126,7 @@
           <redirectUrl xmlns="" xsi:type="xsd:string">https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;token=[PAYPAL_TOKEN]</redirectUrl>
         </payPalStatus>
       </authStatus>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </updateResponse>
   </soap:Body>
 </soap:Envelope>

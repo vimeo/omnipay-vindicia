@@ -49,7 +49,7 @@ class CaptureResponse extends Response
         if (isset($this->data->results)) {
             return $this->data->results[0]->returnCode;
         }
-        throw new InvalidResponseException('Response has no code.');
+        return parent::getCode();
     }
 
     /**

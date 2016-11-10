@@ -10,7 +10,7 @@
     <authCaptureResponse xmlns="http://soap.vindicia.com/v18_0/Transaction">
       <return xmlns="" xsi:type="vin:Return">
         <returnCode xsi:type="vin:ReturnCode">200</returnCode>
-        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <soapId xsi:type="xsd:string">[SOAP_ID]</soapId>
         <returnString xsi:type="xsd:string">OK</returnString>
       </return>
       <transaction xmlns="" xsi:type="vin:Transaction">
@@ -116,7 +116,7 @@
           <total xmlns="" xsi:type="xsd:decimal">0</total>
         </transactionItems>
       </transaction>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </authCaptureResponse>
   </soap:Body>
 </soap:Envelope>

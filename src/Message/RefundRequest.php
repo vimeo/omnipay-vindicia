@@ -13,6 +13,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  * has only been authorized, you can void it instead.
  *
  * Parameters:
+ * - refundId: Your identifier to represent the refund. Required.
  * - transactionId: Your identifier to represent the transaction that should be refunded.
  * Either the transactionId or transactionReference is required.
  * - transactionReference: The gateway's identifier to represent the transaction that should
@@ -44,21 +45,6 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // purchase!
  *   $purchaseResponse = $gateway->purchase(array(
  *       'items' => array(
@@ -67,7 +53,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => $customerResponse->getCustomerId(), // you could also use customerReference
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',
@@ -93,6 +79,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *
  *   // now we want to refund the purchase for some reason
  *   $refundResponse = $gateway->refund(array(
+ *       'refundId' => '654321', // you choose this
  *       // identify the transaction above to refund. could also identify by transactionReference.
  *       'transactionId' => $purchaseResponse->getTransactionId(),
  *       'items' => array(
@@ -169,6 +156,8 @@ class RefundRequest extends AbstractRequest
 
     public function getData()
     {
+        $this->validate('refundId');
+
         $transactionId = $this->getTransactionId();
         $transactionReference = $this->getTransactionReference();
         if (empty($transactionId) && empty($transactionReference)) {
@@ -235,12 +224,23 @@ class RefundRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * Overriding to provide a more precise return type
+     * @return RefundResponse
+     */
+    public function send()
+    {
+        /**
+         * @var RefundResponse
+         */
+        return parent::send();
+    }
 
     /**
      * Use a special response object for Refund requests.
      *
      * @param object $response
-     * @return Response
+     * @return RefundResponse
      */
     protected function buildResponse($response)
     {

@@ -22,6 +22,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         );
 
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
+        $this->card = $this->faker->card();
     }
 
     public function testPaymentMethodId()
@@ -75,7 +76,15 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchPaymentMethodSuccess.xml', array(
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
-            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
+            'CARD_NUMBER' => $this->card['number'],
+            'CARD_FIRST_SIX' => substr($this->card['number'], 0, 6),
+            'CARD_LAST_FOUR' => substr($this->card['number'], -4),
+            'EXPIRY_MONTH' => $this->card['expiryMonth'],
+            'EXPIRY_YEAR' => $this->card['expiryYear'],
+            'COUNTRY' => $this->card['country'],
+            'POSTCODE' => $this->card['postcode']
+
         ));
 
         $response = $this->request->send();
@@ -84,9 +93,25 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        $this->assertNotNull($response->getPaymentMethod());
+
+        $paymentMethod = $response->getPaymentMethod();
+        $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
         $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
         $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
+        $card = $paymentMethod->getCard();
+        $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
+        $this->assertSame($this->card['expiryMonth'], strval($card->getExpiryMonth()));
+        $this->assertSame($this->card['expiryYear'], strval($card->getExpiryYear()));
+        $this->assertSame($this->card['number'], $card->getNumber());
+        $this->assertSame($this->card['country'], $card->getCountry());
+        $this->assertSame($this->card['postcode'], $card->getPostcode());
+        $attributes = $paymentMethod->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }

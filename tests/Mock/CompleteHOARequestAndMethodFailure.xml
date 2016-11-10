@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <finalizeResponse xmlns="http://soap.vindicia.com/v18_0/WebSession">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">401</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">WebSession has already been used or experienced an error. Please check the WebSession return and initiate a new WebSession.</returnString>
+      </return>
+      <session xmlns="" xsi:type="vin:WebSession">
+        <VID xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</VID>
+        <method xmlns="" xsi:type="xsd:string">Transaction_Auth</method>
+        <version xmlns="" xsi:type="xsd:string">18.0</version>
+        <returnURL xmlns="" xsi:type="xsd:string">[RETURN_URL]</returnURL>
+        <errorURL xmlns="" xsi:type="xsd:string">[ERROR_URL]</errorURL>
+        <ipAddress xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</ipAddress>
+        <expireTime xmlns="" xsi:type="xsd:dateTime">2016-11-07T12:12:41-08:00</expireTime>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_WebSession_VID</name>
+          <value xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_country</name>
+          <value xmlns="" xsi:type="xsd:string">[COUNTRY]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_postalCode</name>
+          <value xmlns="" xsi:type="xsd:string">[POSTCODE]</value>
+        </postValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_minChargebackProbability</name>
+          <value xmlns="" xsi:type="xsd:string">[MIN_CHARGEBACK_PROBABILITY]</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_sendEmailNotification</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_dryrun</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_campaignCode</name>
+          <value xmlns="" xsi:type="xsd:string">null</value>
+        </methodParamValues>
+        <apiReturn xmlns="" xsi:type="vin:Return">
+          <returnCode xmlns="" xsi:type="vin:ReturnCode">400</returnCode>
+          <returnString xmlns="" xsi:type="xsd:string">Invalid payment method type:  </returnString>
+        </apiReturn>
+        <apiReturnValues xmlns="" xsi:type="vin:WebSessionMethodReturn" />
+      </session>
+    </finalizeResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -33,6 +33,27 @@ class VindiciaItem extends Item
         return $this->setParameter('sku', $value);
     }
 
+    /**
+     * Get the item tax classification
+     *
+     * @return string
+     */
+    public function getTaxClassification()
+    {
+        return $this->getParameter('taxClassification');
+    }
+
+    /**
+     * Set the item tax classification
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setTaxClassification($value)
+    {
+        return $this->setParameter('taxClassification', $value);
+    }
+
     public function validate()
     {
         if ($this->getName() === null) {

@@ -22,6 +22,8 @@ class FetchPlanRequestTest extends SoapTestCase
         );
 
         $this->planReference = $this->faker->planReference();
+        $this->interval = $this->faker->billingInterval();
+        $this->intervalCount = $this->faker->billingIntervalCount();
     }
 
     public function testPlanId()
@@ -73,7 +75,9 @@ class FetchPlanRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchPlanSuccess.xml', array(
             'PLAN_ID' => $this->planId,
-            'PLAN_REFERENCE' => $this->planReference
+            'PLAN_REFERENCE' => $this->planReference,
+            'INTERVAL' => ucfirst($this->interval),
+            'INTERVAL_COUNT' => $this->intervalCount
         ));
 
         $response = $this->request->send();
@@ -85,6 +89,20 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertNotNull($response->getPlan());
         $this->assertSame($this->planId, $response->getPlanId());
         $this->assertSame($this->planReference, $response->getPlanReference());
+
+        $plan = $response->getPlan();
+        $this->assertInstanceOf('\Omnipay\Vindicia\Plan', $plan);
+        $this->assertSame($this->planId, $response->getPlanId());
+        $this->assertSame($this->planReference, $response->getPlanReference());
+        $this->assertSame($this->planId, $plan->getId());
+        $this->assertSame($this->planReference, $plan->getReference());
+        $this->assertSame($this->intervalCount, intval($plan->getIntervalCount()));
+        $this->assertSame($this->interval, $plan->getInterval());
+        $attributes = $plan->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }

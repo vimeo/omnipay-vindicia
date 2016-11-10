@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\VindiciaItem;
 use Omnipay\Vindicia\Attribute;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\TestableSoapClient;
 use stdClass;
 
@@ -47,6 +47,27 @@ class AbstractRequestTest extends SoapTestCase
         $customerReference = $this->faker->customerReference();
         $this->assertSame($this->request, $this->request->setCustomerReference($customerReference));
         $this->assertSame($customerReference, $this->request->getCustomerReference());
+    }
+
+    public function testName()
+    {
+        $name = $this->faker->name();
+        $this->assertSame($this->request, $this->request->setName($name));
+        $this->assertSame($name, $this->request->getName());
+    }
+
+    public function testEmail()
+    {
+        $email = $this->faker->email();
+        $this->assertSame($this->request, $this->request->setEmail($email));
+        $this->assertSame($email, $this->request->getEmail());
+    }
+
+    public function testRefundId()
+    {
+        $refundId = $this->faker->refundId();
+        $this->assertSame($this->request, $this->request->setRefundId($refundId));
+        $this->assertSame($refundId, $this->request->getRefundId());
     }
 
     public function testPaymentMethodId()
@@ -199,7 +220,7 @@ class AbstractRequestTest extends SoapTestCase
 
     public function testCard()
     {
-        $card = new VindiciaCreditCard();
+        $card = new CreditCard();
         $this->assertSame($this->request, $this->request->setCard($card));
         $this->assertSame($card, $this->request->getCard());
     }
@@ -210,7 +231,7 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($this->request, $this->request->setCard($card));
 
         $returnedCard = $this->request->getCard();
-        $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaCreditCard', $returnedCard);
+        $this->assertInstanceOf('\Omnipay\Common\CreditCard', $returnedCard);
         $this->assertSame($card['number'], $returnedCard->getNumber());
     }
 

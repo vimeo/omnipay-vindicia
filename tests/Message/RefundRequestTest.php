@@ -15,6 +15,7 @@ class RefundRequestTest extends SoapTestCase
     {
         $this->faker = new DataFaker();
 
+        $this->refundId = $this->faker->refundId();
         $this->currency = $this->faker->currency();
         $this->refundAmount = $this->faker->monetaryAmount($this->currency);
         $this->transactionAmount = $this->faker->monetaryAmount($this->currency);
@@ -28,16 +29,14 @@ class RefundRequestTest extends SoapTestCase
 
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
-        $this->note = $this->faker->randomCharacters(
-            DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER,
-            $this->faker->intBetween(10, 50)
-        );
+        $this->note = $this->faker->note();
 
         $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
+                'refundId' => $this->refundId,
                 'amount' => $this->refundAmount,
                 'currency' => $this->currency,
                 'transactionId' => $this->transactionId,
@@ -47,11 +46,19 @@ class RefundRequestTest extends SoapTestCase
             )
         );
 
-        $this->refundId = $this->faker->refundId();
         $this->refundReference = $this->faker->refundReference();
         $this->card = $this->faker->card();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->customerId = $this->faker->customerId();
+    }
+
+    public function testRefundId()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setRefundId($this->refundId));
+        $this->assertSame($this->refundId, $request->getRefundId());
     }
 
     public function testNote()
@@ -251,6 +258,16 @@ class RefundRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage The refundId parameter is required
+     */
+    public function testRefundIdRequired()
+    {
+        $this->request->setRefundId(null);
+        $this->request->getData();
+    }
+
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('RefundSuccess.xml', array(
@@ -267,7 +284,8 @@ class RefundRequestTest extends SoapTestCase
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'REFUND_ID' => $this->refundId,
-            'REFUND_REFERENCE' => $this->refundReference
+            'REFUND_REFERENCE' => $this->refundReference,
+            'NOTE' => $this->note
         ));
 
         $response = $this->request->send();
@@ -278,6 +296,7 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->refundId, $response->getRefundId());
         $this->assertSame($this->refundReference, $response->getRefundReference());
+        $this->assertNotNull($response->getRefund());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }

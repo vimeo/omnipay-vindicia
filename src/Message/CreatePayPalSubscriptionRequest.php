@@ -29,21 +29,6 @@ namespace Omnipay\Vindicia\Message;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // create a plan to govern the behavior of the subscription (eg billing frequency)
  *   $planResponse = $gateway->createPlan(array(
  *       'planId' => '123456789', // you choose this
@@ -84,7 +69,7 @@ namespace Omnipay\Vindicia\Message;
  *   // finally we can create the subscription!
  *   $subscriptionResponse = $gateway->createSubscription(array(
  *       'currency' => 'GBP',
- *       'customerId' => '123456789',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'postcode' => '12345'
  *       ),
@@ -131,6 +116,18 @@ class CreatePayPalSubscriptionRequest extends CreateSubscriptionRequest
         $this->validate('returnUrl', 'cancelUrl');
 
         return parent::getData(self::PAYMENT_METHOD_PAYPAL);
+    }
+
+    /**
+     * Overriding to provide a more precise return type
+     * @return CreatePayPalSubscriptionResponse
+     */
+    public function send()
+    {
+        /**
+         * @var CreatePayPalSubscriptionResponse
+         */
+        return parent::send();
     }
 
     /**

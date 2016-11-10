@@ -2,7 +2,6 @@
 
 namespace Omnipay\Vindicia\Message;
 
-use Omnipay\Vindicia\VindiciaCreditCard;
 use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
 use Omnipay\Vindicia\AttributeBag;
@@ -154,6 +153,58 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('customerReference', $value);
     }
 
+    /**
+     * Gets the customer's name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getParameter('name');
+    }
+
+    /**
+     * Sets the customer's name
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setName($value)
+    {
+        return $this->setParameter('name', $value);
+    }
+
+    /**
+     * Gets the customer's email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getParameter('email');
+    }
+
+    /**
+     * Sets the customer's email
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setEmail($value)
+    {
+        return $this->setParameter('email', $value);
+    }
+
+    public function getRefundId()
+    {
+        return $this->getParameter('refundId');
+    }
+
+    public function setRefundId($value)
+    {
+        return $this->setParameter('refundId', $value);
+    }
+
     public function getPaymentMethodId()
     {
         return $this->getParameter('paymentMethodId');
@@ -273,7 +324,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the attributes in this order
      *
      * @param AttributeBag|array $attributes
-     * @return AbstractRequest
+     * @return static
      */
     public function setAttributes($attributes)
     {
@@ -282,34 +333,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $this->setParameter('attributes', $attributes);
-    }
-
-    /**
-     * Gets the card
-     *
-     * @return VindiciaCreditCard
-     */
-    public function getCard()
-    {
-        /**
-         * @var VindiciaCreditCard will always be a VindiciaCreditCard because setCard forces it
-         */
-        return parent::getCard();
-    }
-
-    /**
-     * Sets the card.
-     *
-     * @param VindiciaCreditCard|array $value
-     * @return static
-     */
-    public function setCard($value)
-    {
-        if ($value && !$value instanceof VindiciaCreditCard) {
-            $value = new VindiciaCreditCard($value);
-        }
-
-        return $this->setParameter('card', $value);
     }
 
     /**
@@ -560,6 +583,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                . '.wsdl';
     }
 
+    /**
+     * @param array
+     * @return Response
+     */
     public function sendData($data)
     {
         $originalWsdlCacheEnabled = ini_get('soap.wsdl_cache_enabled');
@@ -614,6 +641,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response;
     }
 
+    /**
+     * Overriding to provide a more precise return type
+     * @return Response
+     */
+    public function send()
+    {
+        /**
+         * @var Response
+         */
+        return parent::send();
+    }
+
     protected function buildResponse($response)
     {
         return new Response($this, $response);
@@ -637,6 +676,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         // doesn't work if account isn't created, id must be passed in :-(
         $account->merchantAccountId = $this->getCustomerId();
         $account->VID = $this->getCustomerReference();
+        $account->name = $this->getName();
+        $account->emailAddress = $this->getEmail();
 
         $amount = $this->getAmount();
         $transactionItems = array();
@@ -700,11 +741,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Helper function to make a Vindicia payment method object.
+     * Set $addAttributes to true if the request attributes should be added to the payment
+     * method
      *
      * @param string $paymentMethodType default null
+     * @param bool $addAttributes default false
      * @return stdClass
      */
-    protected function buildPaymentMethod($paymentMethodType = null)
+    protected function buildPaymentMethod($paymentMethodType = null, $addAttributes = false)
     {
         $paymentMethod = new stdClass();
         $paymentMethod->merchantPaymentMethodId = $this->getPaymentMethodId();
@@ -751,6 +795,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $paymentMethod->type = $paymentMethodType;
         }
 
+        $attributes = $this->getAttributes();
+        if ($attributes && $addAttributes) {
+            $paymentMethod->nameValues = $this->buildNameValues($attributes);
+        }
+
         if ($card !== null) {
             $customerName = $card->getName();
 
@@ -766,11 +815,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $paymentMethod->accountHolderName = $customerName;
             $paymentMethod->billingAddress = $address;
 
-            $attributes = $card->getAttributes();
-            if ($attributes) {
-                $paymentMethod->nameValues = $this->buildNameValues($attributes);
-            }
             if ($card->getCvv()) {
+                if (!isset($paymentMethod->nameValues)) {
+                    $paymentMethod->nameValues = array();
+                }
                 $paymentMethod->nameValues[] = new NameValue('CVN', $card->getCvv());
             }
         }

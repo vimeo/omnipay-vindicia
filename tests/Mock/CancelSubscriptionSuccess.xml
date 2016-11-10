@@ -109,6 +109,10 @@
               <amount xmlns="" xsi:type="xsd:decimal">3.50</amount>
               <currency xmlns="" xsi:type="xsd:string">USD</currency>
             </prices>
+            <prices xmlns="" xsi:type="vin:ProductPrice">
+              <amount xmlns="" xsi:type="xsd:decimal">250</amount>
+              <currency xmlns="" xsi:type="xsd:string">KRW</currency>
+            </prices>
           </product>
           <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
           <addedDate xmlns="" xsi:type="xsd:dateTime">2016-09-20T14:47:07-07:00</addedDate>

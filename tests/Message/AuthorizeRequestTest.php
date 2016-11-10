@@ -7,7 +7,7 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class AuthorizeRequestTest extends SoapTestCase
@@ -28,6 +28,8 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->attributes = $this->faker->attributesAsArray();
         $this->taxClassification = $this->faker->taxClassification();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -39,6 +41,8 @@ class AuthorizeRequestTest extends SoapTestCase
                 'paymentMethodReference' => $this->paymentMethodReference,
                 'customerId' => $this->customerId,
                 'customerReference' => $this->customerReference,
+                'name' => $this->name,
+                'email' => $this->email,
                 'statementDescriptor' => $this->statementDescriptor,
                 'ip' => $this->ip,
                 'attributes' => $this->attributes,
@@ -50,6 +54,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
         $this->items = $this->faker->itemsAsArray($this->currency);
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testMinChargebackProbability()
@@ -104,6 +109,24 @@ class AuthorizeRequestTest extends SoapTestCase
 
         $this->assertSame($request, $request->setCustomerReference($this->customerReference));
         $this->assertSame($this->customerReference, $request->getCustomerReference());
+    }
+
+    public function testName()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
     }
 
     public function testPaymentMethodId()
@@ -167,7 +190,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testAttributes()
@@ -189,6 +212,8 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $data['transaction']->currency);
         $this->assertSame($this->customerId, $data['transaction']->account->merchantAccountId);
         $this->assertSame($this->customerReference, $data['transaction']->account->VID);
+        $this->assertSame($this->name, $data['transaction']->account->name);
+        $this->assertSame($this->email, $data['transaction']->account->emailAddress);
         $this->assertSame($this->paymentMethodId, $data['transaction']->sourcePaymentMethod->merchantPaymentMethodId);
         $this->assertSame($this->paymentMethodReference, $data['transaction']->sourcePaymentMethod->VID);
         $this->assertSame($this->card['number'], $data['transaction']->sourcePaymentMethod->creditCard->account);
@@ -200,6 +225,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $data['transaction']->billingStatementIdentifier);
         $this->assertSame($this->ip, $data['transaction']->sourceIp);
         $this->assertSame('CreditCard', $data['transaction']->sourcePaymentMethod->type);
+        $this->assertTrue($data['transaction']->sourcePaymentMethod->active);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes, count($data['transaction']->nameValues));
@@ -343,7 +369,8 @@ class AuthorizeRequestTest extends SoapTestCase
             'CVV' => $this->card['cvv'],
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'TRANSACTION_ID' => $this->transactionId,
-            'TRANSACTION_REFERENCE' => $this->transactionReference
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -354,6 +381,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -369,7 +397,8 @@ class AuthorizeRequestTest extends SoapTestCase
             'CUSTOMER_ID' => $this->customerId,
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'TRANSACTION_ID' => $this->transactionId,
-            'TRANSACTION_REFERENCE' => $this->transactionReference
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -380,6 +409,7 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

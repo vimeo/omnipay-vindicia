@@ -125,8 +125,10 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $transactions = $response->getTransactions();
         $this->assertTrue(is_array($transactions));
         $this->assertSame(2, count($transactions));
-        $this->assertNotNull($transactions[0]->merchantTransactionId);
-        $this->assertNotNull($transactions[1]->merchantTransactionId);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Transaction', $transactions[0]);
+        $this->assertInstanceOf('\Omnipay\Vindicia\Transaction', $transactions[1]);
+        $this->assertNotNull($transactions[0]->getId());
+        $this->assertNotNull($transactions[1]->getId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -144,8 +146,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $transactions = $response->getTransactions();
         $this->assertTrue(is_array($transactions));
         $this->assertSame(2, count($transactions));
-        $this->assertNotNull($transactions[0]->merchantTransactionId);
-        $this->assertNotNull($transactions[1]->merchantTransactionId);
+        $this->assertNotNull($transactions[0]->getId());
+        $this->assertNotNull($transactions[1]->getId());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

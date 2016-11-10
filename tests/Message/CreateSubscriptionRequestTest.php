@@ -30,6 +30,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
         $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -51,9 +53,13 @@ class CreateSubscriptionRequestTest extends SoapTestCase
                 'paymentMethodId' => $this->paymentMethodId,
                 'paymentMethodReference' => $this->paymentMethodReference,
                 'minChargebackProbability' => $this->minChargebackProbability,
+                'name' => $this->name,
+                'email' => $this->email,
                 'attributes' => $this->attributes
             )
         );
+
+        $this->riskScore = $this->faker->riskScore();
     }
 
     public function testMinChargebackProbability()
@@ -164,6 +170,24 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    public function testName()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
+    }
+
     public function testPaymentMethodId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
@@ -201,8 +225,10 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $data['autobill']->billingPlan->VID);
         $this->assertSame(1, count($data['autobill']->items));
         $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
-        $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
         $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
+        $this->assertSame($this->name, $data['autobill']->account->name);
+        $this->assertSame($this->email, $data['autobill']->account->emailAddress);
         $this->assertSame($this->customerReference, $data['autobill']->account->VID);
         $this->assertSame($this->currency, $data['autobill']->currency);
         $this->assertSame($this->ip, $data['autobill']->sourceIp);
@@ -284,7 +310,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             'EXPIRY_YEAR' => $this->card['expiryYear'],
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'STATEMENT_DESCRIPTOR' => $this->statementDescriptor,
-            'IP_ADDRESS' => $this->ip
+            'IP_ADDRESS' => $this->ip,
+            'RISK_SCORE' => $this->riskScore
         ));
 
         $response = $this->request->send();
@@ -296,6 +323,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
         $this->assertSame('Pending Activation', $response->getSubscriptionStatus());
+        $this->assertSame($this->riskScore, $response->getRiskScore());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

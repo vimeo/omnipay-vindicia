@@ -18,9 +18,20 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * Either customerId or customerReference is required.
  * - customerReference: The gateway's identifier for the customer to whom this payment method
  * will belong. Either customerId or customerReference is required.
- * - card: The card details you're adding. Required. Attributes can also be specified on the
- * card.
+ * - card: The card details you're adding. Required.
  * - paymentMethodId: Your identifier for the payment method. Required.
+ * - validate: If set to true, Vindicia will validate the card before adding it (generally
+ * by a 99 cent authorization). Validation may include CVV and AVS validation as well, if set
+ * up with Vindicia. Default is false.
+ * - skipAvsValidation: If set to true, AVS validation will not be performed when the payment
+ * method is validated. Default is false.
+ * - skipCvvValidation: If set to true, CVV validation will not be performed when the payment
+ * method is validated. Default is false.
+ * - updateSubscriptions: If result is true and this request is an update to an existing payment
+ * method on an account, Vindicia will update the payment method details on all subscriptions.
+ * Default is true.
+ * - attributes: Custom values you wish to have stored with the payment method. They have
+ * no affect on anything.
  *
  * Example:
  * <code>
@@ -52,12 +63,14 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           'expiryMonth' => '01',
  *           'expiryYear' => '2020',
  *           'cvv' => '123',
- *           'postcode' => '12345',
- *           'attributes' => array(
- *               'color' => 'blue'
- *           )
+ *           'postcode' => '12345'
  *       ),
- *       'paymentMethodId' => 'cc-123456' // you choose this
+ *       'paymentMethodId' => 'cc-123456', // you choose this
+ *       'validate' => true,
+ *       'updateSubscriptions' => true,
+ *       'attributes' => array(
+ *           'cardColor' => 'blue'
+ *       )
  *   ))->send();
  *
  *   if ($paymentMethodResponse->isSuccessful()) {
@@ -109,6 +122,16 @@ class CreatePaymentMethodRequest extends AbstractRequest
         if (!array_key_exists('validate', $parameters)) {
             $parameters['validate'] = false;
         }
+        if (!array_key_exists('skipAvsValidation', $parameters)) {
+            $parameters['skipAvsValidation'] = false;
+        }
+        if (!array_key_exists('skipCvvValidation', $parameters)) {
+            $parameters['skipCvvValidation'] = false;
+        }
+        if (!array_key_exists('updateSubscriptions', $parameters)) {
+            $parameters['updateSubscriptions'] = true;
+        }
+
         parent::initialize($parameters);
 
         return $this;
@@ -131,7 +154,8 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
     /**
      * If result is true, Vindicia will validate the card before adding it
-     * (generally by a 99 cent authorization)
+     * (generally by a 99 cent authorization). Validation may include CVV and
+     * AVS validation as well, if set up with Vindicia. Default is false.
      *
      * @return int
      */
@@ -142,7 +166,8 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
     /**
      * If set to true, Vindicia will validate the card before adding it
-     * (generally by a 99 cent authorization)
+     * (generally by a 99 cent authorization). Validation may include CVV and
+     * AVS validation as well, if set up with Vindicia. Default is false.
      *
      * @param bool $value
      * @return static
@@ -150,6 +175,77 @@ class CreatePaymentMethodRequest extends AbstractRequest
     public function setValidate($value)
     {
         return $this->setParameter('validate', $value);
+    }
+
+    /**
+     * If set to true, AVS validation will not be performed when the payment
+     * method is validated. Default is false.
+     *
+     * @return bool
+     */
+    public function getSkipAvsValidation()
+    {
+        return $this->getParameter('skipAvsValidation');
+    }
+
+    /**
+     * If set to true, AVS validation will not be performed when the payment
+     * method is validated. Default is false.
+     *
+     * @param bool
+     * @return static
+     */
+    public function setSkipAvsValidation($value)
+    {
+        return $this->setParameter('skipAvsValidation', $value);
+    }
+
+    /**
+     * If set to true, CVV validation will not be performed when the payment
+     * method is validated. Default is false.
+     *
+     * @return bool
+     */
+    public function getSkipCvvValidation()
+    {
+        return $this->getParameter('skipCvvValidation');
+    }
+
+    /**
+     * If set to true, CVV validation will not be performed when the payment
+     * method is validated. Default is false.
+     *
+     * @param bool
+     * @return static
+     */
+    public function setSkipCvvValidation($value)
+    {
+        return $this->setParameter('skipCvvValidation', $value);
+    }
+
+    /**
+     * If result is true and this request is an update to an existing payment
+     * method on an account, Vindicia will update the payment method details
+     * on all subscriptions. Default is true.
+     *
+     * @return bool
+     */
+    public function getUpdateSubscriptions()
+    {
+        return $this->getParameter('updateSubscriptions');
+    }
+
+    /**
+     * If set to true and this request is an update to an existing payment
+     * method on an account, Vindicia will update the payment method details
+     * on all subscriptions. Default is true.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setUpdateSubscriptions($value)
+    {
+        return $this->setParameter('updateSubscriptions', $value);
     }
 
     /**
@@ -204,12 +300,12 @@ class CreatePaymentMethodRequest extends AbstractRequest
 
         $data = array();
         $data['account'] = $account;
-        $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType);
+        $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType, true);
         $data['action'] = $this->getFunction();
-        $data['replaceOnAllAutoBills'] = true;
+        $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
         $data['updateBehavior'] = $this->getValidate() ? self::VALIDATE_CARD : self::SKIP_CARD_VALIDATION;
-        $data['ignoreAvsPolicy'] = false;
-        $data['ignoreCvnPolicy'] = false;
+        $data['ignoreAvsPolicy'] = $this->getSkipAvsValidation();
+        $data['ignoreCvnPolicy'] = $this->getSkipCvvValidation();
 
         return $data;
     }

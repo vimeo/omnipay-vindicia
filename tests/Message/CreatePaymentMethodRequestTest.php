@@ -6,7 +6,7 @@ use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
-use Omnipay\Vindicia\VindiciaCreditCard;
+use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 
 class CreatePaymentMethodRequestTest extends SoapTestCase
@@ -22,10 +22,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->name = $this->faker->name();
         $this->customerId = $this->faker->customerId();
         $this->customerReference = $this->faker->customerReference();
-        $this->paymentMethodId = $this->faker->paymentMethodId();
-        $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->attributes = $this->faker->attributesAsArray();
-        $this->card['attributes'] = $this->attributes;
 
         $this->request = new CreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -34,7 +31,8 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
                 'customerId' => $this->customerId,
                 'paymentMethodId' => $this->paymentMethodId,
                 'customerReference' => $this->customerReference,
-                'paymentMethodReference' => $this->paymentMethodReference
+                'paymentMethodReference' => $this->paymentMethodReference,
+                'attributes' => $this->attributes
             )
         );
     }
@@ -44,10 +42,39 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
         $request->initialize();
 
-        $this->assertSame($request, $request->setValidate(true));
-        $this->assertTrue($request->getValidate());
-        $this->assertSame($request, $request->setValidate(false));
-        $this->assertFalse($request->getValidate());
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setValidate($value));
+        $this->assertSame($value, $request->getValidate());
+    }
+
+    public function testSkipAvsValidation()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setSkipAvsValidation($value));
+        $this->assertSame($value, $request->getSkipAvsValidation());
+    }
+
+    public function testSkipCvvValidation()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setSkipCvvValidation($value));
+        $this->assertSame($value, $request->getSkipCvvValidation());
+    }
+
+    public function testUpdateSubscriptions()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setUpdateSubscriptions($value));
+        $this->assertSame($value, $request->getUpdateSubscriptions());
     }
 
     public function testCustomerId()
@@ -92,13 +119,15 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $request->initialize();
 
         $this->assertSame($request, $request->setCard($this->card));
-        $this->assertEquals(new VindiciaCreditCard($this->card), $request->getCard());
+        $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
     public function testGetData()
     {
         $data = $this->request->getData();
 
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
@@ -107,6 +136,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['country'], $data['paymentMethod']->billingAddress->country);
         $this->assertSame('CreditCard', $data['paymentMethod']->type);
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes + 1, count($data['paymentMethod']->nameValues)); // +1 accounts for CVV
@@ -116,18 +146,46 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         }
 
         $this->assertSame(CreatePaymentMethodRequest::SKIP_CARD_VALIDATION, $data['updateBehavior']);
+        $this->assertFalse($data['ignoreAvsPolicy']);
+        $this->assertFalse($data['ignoreCvnPolicy']);
+        $this->assertTrue($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
     public function testGetDataWithValidation()
     {
-        $data = $this->request->setValidate(true)->getData();
+        $skipAvsValidation = $this->faker->bool();
+        $skipCvvValidation = $this->faker->bool();
+        $data = $this->request->setValidate(true)
+                              ->setSkipAvsValidation($skipAvsValidation)
+                              ->setSkipCvvValidation($skipCvvValidation)
+                              ->getData();
 
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
         $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
         $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
         $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
         $this->assertSame(CreatePaymentMethodRequest::VALIDATE_CARD, $data['updateBehavior']);
+        $this->assertSame($skipAvsValidation, $data['ignoreAvsPolicy']);
+        $this->assertSame($skipCvvValidation, $data['ignoreCvnPolicy']);
+        $this->assertSame('updatePaymentMethod', $data['action']);
+    }
+
+    public function testGetDataDoNotUpdateSubscriptions()
+    {
+        $data = $this->request->setUpdateSubscriptions(false)->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
+        $this->assertFalse($data['replaceOnAllAutoBills']);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
@@ -213,5 +271,22 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('No match found for merchantAccountId "' . $this->customerId . '"', $response->getMessage());
 
         $this->assertNull($response->getCustomerId());
+        $this->assertFalse($response->isCvvValidationFailure());
+    }
+
+    public function testSendCvvFailure()
+    {
+        $this->setMockSoapResponse('CreatePaymentMethodCvvFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('408', $response->getCode());
+        $this->assertSame('Failed CVN policy evaluation', $response->getMessage());
+
+        $this->assertNull($response->getCustomerId());
+        $this->assertTrue($response->isCvvValidationFailure());
     }
 }

@@ -27,6 +27,8 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->errorUrl = $this->faker->url();
         $this->ip = $this->faker->ipAddress();
         $this->minChargebackProbability = $this->faker->chargebackProbability();
+        $this->name = $this->faker->name();
+        $this->email = $this->faker->email();
         $this->attributes = $this->faker->attributesAsArray();
         $this->HOAAttributes = $this->faker->attributesAsArray();
 
@@ -45,6 +47,8 @@ class HOAAuthorizeRequestTest extends SoapTestCase
                 'errorUrl' => $this->errorUrl,
                 'ip' => $this->ip,
                 'minChargebackProbability' => $this->minChargebackProbability,
+                'name' => $this->name,
+                'email' => $this->email,
                 'attributes' => $this->attributes,
                 'HOAAttributes' => $this->HOAAttributes
             )
@@ -127,6 +131,24 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    public function testName()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setName($this->name));
+        $this->assertSame($this->name, $request->getName());
+    }
+
+    public function testEmail()
+    {
+        $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
+        $request->initialize();
+
+        $this->assertSame($request, $request->setEmail($this->email));
+        $this->assertSame($this->email, $request->getEmail());
+    }
+
     public function testAmount()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -187,31 +209,47 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame(AbstractRequest::API_VERSION, $data['session']->version);
 
         $this->assertTrue(in_array(
-            new NameValue('Transaction_currency', $this->currency),
+            new NameValue('vin_Transaction_currency', $this->currency),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_transactionItems_0_price', $this->amount),
+            new NameValue('vin_Transaction_transactionItems_0_price', $this->amount),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_transactionItems_0_taxClassification', $this->taxClassification),
+            new NameValue('vin_Transaction_transactionItems_0_taxClassification', $this->taxClassification),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_account_merchantAccountId', $this->customerId),
+            new NameValue('vin_Account_merchantAccountId', $this->customerId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_sourcePaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            new NameValue('vin_Account_name', $this->name),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_account_VID', $this->customerReference),
+            new NameValue('vin_Account_emailAddress', $this->email),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_sourcePaymentMethod_VID', $this->paymentMethodReference),
+            new NameValue('vin_PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_Account_VID', $this->customerReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_type', 'CreditCard'),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_active', true),
             $data['session']->privateFormValues
         ));
 
@@ -223,7 +261,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
             new NameValue('Transaction_Auth_sendEmailNotification', false),
             $data['session']->methodParamValues
         ));
-        $this->assertTrue(in_array(
+        $this->assertFalse(in_array(
             new NameValue('Transaction_Auth_campaignCode', null),
             $data['session']->methodParamValues
         ));
@@ -235,11 +273,11 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $numAttributes = count($this->attributes);
         for ($i = 0; $i < $numAttributes; $i++) {
             $this->assertTrue(in_array(
-                new NameValue('Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
+                new NameValue('vin_Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
+                new NameValue('vin_Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
                 $data['session']->privateFormValues
             ));
         }
@@ -268,49 +306,57 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $numItems = count($this->items);
         for ($i = 0; $i < $numItems; $i++) {
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_price', $this->items[$i]['price']),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_price', $this->items[$i]['price']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_quantity', $this->items[$i]['quantity']),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_quantity', $this->items[$i]['quantity']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_sku', $this->items[$i]['sku']),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_sku', $this->items[$i]['sku']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_nameValues_0_name', 'description'),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_nameValues_0_name', 'description'),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_nameValues_0_value', $this->items[$i]['description']),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_nameValues_0_value', $this->items[$i]['description']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_transactionItems_' . $i . '_taxClassification', $this->taxClassification),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_taxClassification', $this->taxClassification),
                 $data['session']->privateFormValues
             ));
         }
 
         $this->assertTrue(in_array(
-            new NameValue('Transaction_currency', $this->currency),
+            new NameValue('vin_Transaction_currency', $this->currency),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_account_merchantAccountId', $this->customerId),
+            new NameValue('vin_Account_merchantAccountId', $this->customerId),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_sourcePaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            new NameValue('vin_Account_emailAddress', $this->email),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_account_VID', $this->customerReference),
+            new NameValue('vin_Account_name', $this->name),
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('Transaction_sourcePaymentMethod_VID', $this->paymentMethodReference),
+            new NameValue('vin_PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_Account_VID', $this->customerReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
             $data['session']->privateFormValues
         ));
 
@@ -322,7 +368,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
             new NameValue('Transaction_Auth_sendEmailNotification', false),
             $data['session']->methodParamValues
         ));
-        $this->assertTrue(in_array(
+        $this->assertFalse(in_array(
             new NameValue('Transaction_Auth_campaignCode', null),
             $data['session']->methodParamValues
         ));
@@ -334,11 +380,11 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $numAttributes = count($this->attributes);
         for ($i = 0; $i < $numAttributes; $i++) {
             $this->assertTrue(in_array(
-                new NameValue('Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
+                new NameValue('vin_Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
+                new NameValue('vin_Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
                 $data['session']->privateFormValues
             ));
         }

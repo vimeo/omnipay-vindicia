@@ -20,21 +20,6 @@ namespace Omnipay\Vindicia;
  *   $gateway->setPassword('y0ur_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // create a customer (unlike many gateways, Vindicia requires a customer exist
- *   // before a transaction can occur)
- *   $customerResponse = $gateway->createCustomer(array(
- *       'name' => 'Test Customer',
- *       'email' => 'customer@example.com',
- *       'customerId' => '123456789'
- *   ))->send();
- *
- *   if ($customerResponse->isSuccessful()) {
- *       echo "Customer id: " . $customerResponse->getCustomerId() . PHP_EOL;
- *       echo "Customer reference: " . $customerResponse->getCustomerReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
  *   // purchase!
  *   $purchaseResponse = $gateway->purchase(array(
  *       'items' => array(
@@ -43,7 +28,7 @@ namespace Omnipay\Vindicia;
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
  *       'currency' => 'USD',
- *       'customerId' => $customerResponse->getCustomerId(), // you could also use customerReference
+ *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',
@@ -87,10 +72,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\AuthorizeRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\AuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\AuthorizeRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\AuthorizeRequest', $parameters);
     }
 
@@ -101,10 +89,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\PurchaseRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\PurchaseRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\PurchaseRequest', $parameters);
     }
 
@@ -114,10 +105,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CaptureRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CaptureRequest
      */
     public function capture(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CaptureRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CaptureRequest', $parameters);
     }
 
@@ -128,10 +122,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\VoidRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\VoidRequest
      */
     public function void(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\VoidRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
     }
 
@@ -141,10 +138,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateSubscriptionRequest
      */
     public function createSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateSubscriptionRequest', $parameters);
     }
 
@@ -154,10 +154,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreateSubscriptionRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreateSubscriptionRequest
      */
     public function updateSubscription(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateSubscriptionRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreateSubscriptionRequest', $parameters, true);
     }
 
@@ -167,10 +170,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
      */
     public function createPaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters);
     }
 
@@ -180,10 +186,13 @@ class Gateway extends AbstractVindiciaGateway
      * See Message\CreatePaymentMethodRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
      */
     public function updatePaymentMethod(array $parameters = array())
     {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 

@@ -48,6 +48,11 @@
             </extendedCardAttributes>
             <VID xmlns="" xsi:type="xsd:string">12345abcdef6789012345abcdef67890</VID>
           </creditCard>
+          <billingAddress xmlns="" xsi:type="vin:Address">
+            <VID xmlns="" xsi:type="xsd:string">99988877766655544433322211100000</VID>
+            <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+            <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+          </billingAddress>
           <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
           <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
           <active xmlns="" xsi:type="xsd:boolean">0</active>
@@ -57,7 +62,9 @@
           <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-08T12:24:27-07:00</timestamp>
           <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
           <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
-            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+            <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
+            <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
             <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
               <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
               <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
@@ -76,7 +83,9 @@
           <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-08T12:24:25-07:00</timestamp>
           <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
           <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
-            <authCode xmlns="" xsi:type="xsd:string">100</authCode>
+            <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+            <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
+            <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
             <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
               <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
               <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
@@ -93,12 +102,13 @@
         <paymentProcessor xmlns="" xsi:type="xsd:string">ProcessorName</paymentProcessor>
         <paymentProcessorTransactionId xmlns="" xsi:type="xsd:string">123XYZ</paymentProcessorTransactionId>
         <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <sku xmlns="" xsi:type="xsd:string">[SKU]</sku>
           <indexNumber xmlns="" xsi:type="xsd:int">1</indexNumber>
           <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
           <name xmlns="" xsi:type="xsd:string">Item Name</name>
           <price xmlns="" xsi:type="xsd:decimal">10</price>
           <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
-          <taxClassification xmlns="" xsi:type="xsd:string">OtherTaxable</taxClassification>
+          <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
           <subtotal xmlns="" xsi:type="xsd:decimal">10</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">10</total>
@@ -116,8 +126,16 @@
           <subtotal xmlns="" xsi:type="xsd:decimal">0</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">0</total>
         </transactionItems>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
+        </nameValues>
       </transaction>
-      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </authResponse>
   </soap:Body>
 </soap:Envelope>
