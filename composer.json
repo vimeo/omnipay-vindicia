@@ -28,7 +28,7 @@
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
-        "mattb/psalm": "0.10.*"
+        "mattb/psalm": "0.11.*"
     },
     "repositories": [
         {

@@ -18,7 +18,10 @@
     <MixedMethodCall errorLevel="suppress" />
     <MixedPropertyFetch errorLevel="suppress" />
     <MixedPropertyAssignment errorLevel="suppress" />
-    <FailedTypeResolution errorLevel="info" />
+    <MissingReturnType errorLevel="suppress" /> <!-- @todo fix these -->
+    <FailedTypeResolution errorLevel="suppress" />
+    <MixedInferredReturnType errorLevel="suppress" />
+    <MissingPropertyType errorLevel="suppress" />
 
     <!-- Unit tests set lots of instance variables inline -->
     <UndefinedThisPropertyAssignment>
