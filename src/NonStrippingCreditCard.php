@@ -1,6 +1,7 @@
 <?php
 
 namespace Omnipay\Vindicia;
+
 use Omnipay\Common\CreditCard;
 
 /**
@@ -22,6 +23,9 @@ class NonStrippingCreditCard extends CreditCard
      */
     public function setNumber($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('number', $value);
     }
 }
