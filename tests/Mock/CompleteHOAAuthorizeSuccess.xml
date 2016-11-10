@@ -54,14 +54,6 @@
           <value xmlns="" xsi:type="xsd:string">[POSTCODE]</value>
         </postValues>
         <postValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">card_exp_month</name>
-          <value xmlns="" xsi:type="xsd:string">[EXPIRY_MONTH]</value>
-        </postValues>
-        <postValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">card_exp_year</name>
-          <value xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR]</value>
-        </postValues>
-        <postValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_lastDigits</name>
           <value xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</value>
         </postValues>
@@ -72,10 +64,6 @@
         <postValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_accountLength</name>
           <value xmlns="" xsi:type="xsd:string">16</value>
-        </postValues>
-        <postValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">vid</name>
-          <value xmlns="" xsi:type="xsd:string">987654321abcdef987654321abcdef987654321abcdef</value>
         </postValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">Transaction_Auth_minChargebackProbability</name>
@@ -235,6 +223,7 @@
                 <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
                 <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
                   <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+                  <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
                   <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
                   <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
                     <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
@@ -302,6 +291,14 @@
                 <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
                 <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
               </salesTaxAddress>
+              <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
+              </nameValues>
+              <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
+              </nameValues>
             </transaction>
             <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
           </transactionAuth>

@@ -80,6 +80,13 @@ class Response extends AbstractResponse
         throw new InvalidResponseException('Response has no code.');
     }
 
+    public function isCvvValidationFailure()
+    {
+        return !$this->isSuccessful()
+            && in_array($this->getCode(), array('408', '409'))
+            && strpos($this->getMessage(), 'CVN');
+    }
+
     public function getTransaction()
     {
         if (!isset($this->transaction) && isset($this->data->transaction)) {

@@ -212,7 +212,7 @@ class CompleteHOARequestTest extends SoapTestCase
      */
     public function testSendMethodFailure()
     {
-        $this->setMockSoapResponse('CompleteHOAMethodFailure.xml', array(
+        $this->setMockSoapResponse('CompleteHOAAuthorizeMethodFailure.xml', array(
             'CURRENCY' => $this->currency,
             'CUSTOMER_ID' => $this->customerId,
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
@@ -252,5 +252,25 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame('Invalid payment method type:  ', $response->getMessage());
         $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
         $this->assertTrue($response->isMethodFailure());
+    }
+
+    /**
+     * Test when completing a create payment method request and there's a CVV validation
+     * failure.
+     */
+    public function testSendCvvFailure()
+    {
+        $this->setMockSoapResponse('CompleteHOACvvFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('408', $response->getCode());
+        $this->assertSame('Failed CVN policy evaluation', $response->getMessage());
+        $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
+        $this->assertTrue($response->isMethodFailure());
+        $this->assertTrue($response->isCvvValidationFailure());
     }
 }

@@ -33,14 +33,6 @@
           <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_postalCode</name>
           <value xmlns="" xsi:type="xsd:string">[POSTCODE]</value>
         </postValues>
-        <postValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">card_exp_month</name>
-          <value xmlns="" xsi:type="xsd:string">[EXPIRY_MONTH]</value>
-        </postValues>
-        <postValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">card_exp_year</name>
-          <value xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR]</value>
-        </postValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
           <name xmlns="" xsi:type="xsd:string">Transaction_Auth_minChargebackProbability</name>
           <value xmlns="" xsi:type="xsd:string">[MIN_CHARGEBACK_PROBABILITY]</value>

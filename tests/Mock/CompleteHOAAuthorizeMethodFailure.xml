@@ -15,34 +15,34 @@
       </return>
       <session xmlns="" xsi:type="vin:WebSession">
         <VID xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</VID>
-        <method xmlns="" xsi:type="xsd:string">Transaction_AuthCapture</method>
+        <method xmlns="" xsi:type="xsd:string">Transaction_Auth</method>
         <version xmlns="" xsi:type="xsd:string">18.0</version>
         <returnURL xmlns="" xsi:type="xsd:string">[RETURN_URL]</returnURL>
         <errorURL xmlns="" xsi:type="xsd:string">[ERROR_URL]</errorURL>
         <ipAddress xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</ipAddress>
         <expireTime xmlns="" xsi:type="xsd:dateTime">2016-08-18T13:17:31-07:00</expireTime>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_sendEmailNotification</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_sendEmailNotification</name>
           <value xmlns="" xsi:type="xsd:string">false</value>
         </methodParamValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_ignoreCvnPolicy</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_ignoreCvnPolicy</name>
           <value xmlns="" xsi:type="xsd:string">false</value>
         </methodParamValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_ignoreAvsPolicy</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_ignoreAvsPolicy</name>
           <value xmlns="" xsi:type="xsd:string">false</value>
         </methodParamValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_minChargebackProbability</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_minChargebackProbability</name>
           <value xmlns="" xsi:type="xsd:string">[MIN_CHARGEBACK_PROBABILITY]</value>
         </methodParamValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_dryrun</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_dryrun</name>
           <value xmlns="" xsi:type="xsd:string">false</value>
         </methodParamValues>
         <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
-          <name xmlns="" xsi:type="xsd:string">Transaction_AuthCapture_campaignCode</name>
+          <name xmlns="" xsi:type="xsd:string">Transaction_Auth_campaignCode</name>
           <value xmlns="" xsi:type="xsd:string">null</value>
         </methodParamValues>
         <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
@@ -62,8 +62,8 @@
           <returnString xmlns="" xsi:type="xsd:string">Missing required parameter: vin_PaymentMethod</returnString>
         </apiReturn>
         <apiReturnValues xmlns="" xsi:type="vin:WebSessionMethodReturn">
-          <method xmlns="" xsi:type="xsd:string">transactionAuthCapture</method>
-          <transactionAuthCapture xmlns="" xsi:type="vin:TransactionAuthCapture" />
+          <method xmlns="" xsi:type="xsd:string">transactionAuth</method>
+          <transactionAuth xmlns="" xsi:type="vin:TransactionAuth" />
         </apiReturnValues>
       </session>
     </finalizeResponse>

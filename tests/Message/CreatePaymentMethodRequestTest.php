@@ -271,5 +271,22 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('No match found for merchantAccountId "' . $this->customerId . '"', $response->getMessage());
 
         $this->assertNull($response->getCustomerId());
+        $this->assertFalse($response->isCvvValidationFailure());
+    }
+
+    public function testSendCvvFailure()
+    {
+        $this->setMockSoapResponse('CreatePaymentMethodCvvFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('408', $response->getCode());
+        $this->assertSame('Failed CVN policy evaluation', $response->getMessage());
+
+        $this->assertNull($response->getCustomerId());
+        $this->assertTrue($response->isCvvValidationFailure());
     }
 }
