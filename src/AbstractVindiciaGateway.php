@@ -85,7 +85,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     }
 
     /**
-     * Create a new customer. Customers must be created before purchases can be made.
+     * Create a new customer.
      *
      * See Message\CreateCustomerRequest for more details.
      *
