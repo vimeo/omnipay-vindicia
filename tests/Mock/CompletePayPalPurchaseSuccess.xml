@@ -97,7 +97,7 @@
           <name xmlns="" xsi:type="xsd:string">Item</name>
           <price xmlns="" xsi:type="xsd:decimal">[AMOUNT]</price>
           <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
-          <taxClassification xmlns="" xsi:type="xsd:string">OtherTaxable</taxClassification>
+          <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
           <subtotal xmlns="" xsi:type="xsd:decimal">[AMOUNT]</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">[AMOUNT]</total>
