@@ -71,6 +71,7 @@
         <paymentProcessor xmlns="" xsi:type="xsd:string">PayPal</paymentProcessor>
         <paymentProcessorTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</paymentProcessorTransactionId>
         <transactionItems xmlns="" xsi:type="vin:TransactionItem">
+          <sku xmlns="" xsi:type="xsd:string">[SKU]</sku>
           <indexNumber xmlns="" xsi:type="xsd:int">1</indexNumber>
           <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
           <name xmlns="" xsi:type="xsd:string">Item</name>
@@ -94,6 +95,14 @@
           <subtotal xmlns="" xsi:type="xsd:decimal">0</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">0</total>
         </transactionItems>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
+        </nameValues>
+        <nameValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+          <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
+        </nameValues>
       </transaction>
       <score xmlns="" xsi:type="xsd:int">[RISK_SCORE]</score>
     </authCaptureResponse>
