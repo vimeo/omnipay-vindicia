@@ -28,12 +28,6 @@
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
-        "mattb/psalm": "0.11.*"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.vimeows.com:mattb/psalm.git"
-        }
-    ]
+        "vimeo/psalm": "0.3.*"
+    }
 }
