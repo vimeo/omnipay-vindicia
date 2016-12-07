@@ -35,7 +35,7 @@ class TestableSoapClient extends SoapClient
     protected static $lastArguments;
 
     /**
-     * @psalm-suppress UndefinedMethod SoapClient doesn't have __construct. PHP knows to look for SoapClient,
+     * @psalm-suppress InaccessibleMethod SoapClient doesn't have __construct. PHP knows to look for SoapClient,
      * Psalm does not.
      */
     public function __construct($wsdl, array $options = null)
