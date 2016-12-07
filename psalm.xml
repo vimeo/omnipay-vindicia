@@ -22,6 +22,7 @@
     <FailedTypeResolution errorLevel="suppress" />
     <MixedInferredReturnType errorLevel="suppress" />
     <MissingPropertyType errorLevel="suppress" />
+    <MixedArrayAccess errorLevel="suppress" />
 
     <!-- Unit tests set lots of instance variables inline -->
     <UndefinedThisPropertyAssignment>
