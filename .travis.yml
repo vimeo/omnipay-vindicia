@@ -1,23 +1,16 @@
 language: php
-php:
-- 5.3
-- 5.4
-- 5.5
-- 5.6
-install: composer install
-script:
-- make all
-- make style test
 matrix:
-  exclude:
+  include:
     - php: 5.3
-      script: make all
+      env: TEST_SUITE='style test'
     - php: 5.4
-      script: make all
+      env: TEST_SUITE='style test'
     - php: 5.5
-      script: make style test
+      env: TEST_SUITE='all'
     - php: 5.6
-      script: make style test
+      env: TEST_SUITE='all'
+install: composer install
+script: make $TEST_SUITE
 notifications:
   email: false
   slack:
