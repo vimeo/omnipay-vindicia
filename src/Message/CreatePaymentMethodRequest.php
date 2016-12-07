@@ -7,19 +7,19 @@ use Omnipay\Common\Helper;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * Create a new payment method and attach it to a customer. Or, update an existing
- * payment method.
+ * Create a new payment method. Or, update an existing payment method. If a customer id
+ * or reference is provided, the payment method will be attached to that customer.
  *
  * Note: You can also create a payment method in the same request as creating a customer.
  * See Message\CreateCustomerRequest.
  *
  * Parameters:
- * - customerId: Your identifier for the customer to whom this payment method will belong.
- * Either customerId or customerReference is required.
- * - customerReference: The gateway's identifier for the customer to whom this payment method
- * will belong. Either customerId or customerReference is required.
  * - card: The card details you're adding. Required.
  * - paymentMethodId: Your identifier for the payment method. Required.
+ * - customerId: Your identifier for the customer to whom this payment method will belong.
+ * If provided, the customer must already exist.
+ * - customerReference: The gateway's identifier for the customer to whom this payment method
+ * will belong. If provided, the customer must already exist.
  * - validate: If set to true, Vindicia will validate the card before adding it (generally
  * by a 99 cent authorization). Validation may include CVV and AVS validation as well, if set
  * up with Vindicia. Default is false.
@@ -97,6 +97,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   } else {
  *       // error handling
  *   }
+ *
  * </code>
  */
 class CreatePaymentMethodRequest extends AbstractRequest
@@ -114,6 +115,13 @@ class CreatePaymentMethodRequest extends AbstractRequest
      */
     const VALIDATE_CARD = 'Validate';
     const SKIP_CARD_VALIDATION = 'Update';
+
+    /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodResponse';
 
     public function initialize(array $parameters = array())
     {
@@ -144,12 +152,12 @@ class CreatePaymentMethodRequest extends AbstractRequest
      */
     protected function getFunction()
     {
-        return 'updatePaymentMethod';
+        return $this->hasCustomer() ? 'updatePaymentMethod' : 'update';
     }
 
     protected function getObject()
     {
-        return self::$CUSTOMER_OBJECT;
+        return $this->hasCustomer() ? self::$CUSTOMER_OBJECT : self::$PAYMENT_METHOD_OBJECT;
     }
 
     /**
@@ -284,29 +292,38 @@ class CreatePaymentMethodRequest extends AbstractRequest
             );
         }
 
-        $customerId = $this->getCustomerId();
-        $customerReference = $this->getCustomerReference();
-        if (!$customerId && !$customerReference) {
-            throw new InvalidRequestException('Either the customerId or customerReference parameter is required.');
-        }
-
         if ($this->getCardRequired()) {
             $this->validate('card');
         }
 
-        $account = new stdClass();
-        $account->merchantAccountId = $customerId;
-        $account->VID = $customerReference;
+        $data = array(
+            'action' => $this->getFunction(),
+            'ignoreAvsPolicy' => $this->getSkipAvsValidation(),
+            'ignoreCvnPolicy' => $this->getSkipCvvValidation(),
+            'paymentMethod' => $this->buildPaymentMethod($paymentMethodType, true)
+        );
 
-        $data = array();
-        $data['account'] = $account;
-        $data['paymentMethod'] = $this->buildPaymentMethod($paymentMethodType, true);
-        $data['action'] = $this->getFunction();
-        $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
-        $data['updateBehavior'] = $this->getValidate() ? self::VALIDATE_CARD : self::SKIP_CARD_VALIDATION;
-        $data['ignoreAvsPolicy'] = $this->getSkipAvsValidation();
-        $data['ignoreCvnPolicy'] = $this->getSkipCvvValidation();
+        if ($this->hasCustomer()) {
+            $account = new stdClass();
+            $account->merchantAccountId = $this->getCustomerId();
+            $account->VID = $this->getCustomerReference();
+
+            $data['account'] = $account;
+            $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
+            $data['updateBehavior'] = $this->getValidate() ? self::VALIDATE_CARD : self::SKIP_CARD_VALIDATION;
+        } else {
+            $data['validate'] = $this->getValidate();
+            $data['minChargebackProbability'] = $this->getMinChargebackProbability();
+            $data['replaceOnAllAutoBills'] = $this->getUpdateSubscriptions();
+            $data['replaceOnAllChildAutoBills'] = $this->getUpdateSubscriptions();
+            $data['sourceIp'] = $this->getIp();
+        }
 
         return $data;
+    }
+
+    protected function hasCustomer()
+    {
+        return ($this->getCustomerId() !== null || $this->getCustomerReference() !== null);
     }
 }

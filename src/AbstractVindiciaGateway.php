@@ -411,7 +411,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      *
      * @param string $class The request class name
      * @param array $parameters
-     * @pram bool $isUpdate default false
+     * @param bool $isUpdate default false
      * @return \Omnipay\Vindicia\Message\AbstractRequest
      */
     protected function createRequest($class, array $parameters, $isUpdate = false)

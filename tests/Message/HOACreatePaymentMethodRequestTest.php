@@ -159,6 +159,67 @@ class HOACreatePaymentMethodRequestTest extends SoapTestCase
             new NameValue('Account_UpdatePaymentMethod_updateBehavior', $this->validate ? CreatePaymentMethodRequest::VALIDATE_CARD : CreatePaymentMethodRequest::SKIP_CARD_VALIDATION),
             $data['session']->methodParamValues
         ));
+        $this->assertTrue(in_array(
+            new NameValue('Account_UpdatePaymentMethod_replaceOnAllAutoBills', true),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Account_UpdatePaymentMethod_ignoreAvsPolicy', false),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('Account_UpdatePaymentMethod_ignoreCvnPolicy', false),
+            $data['session']->methodParamValues
+        ));
+
+        $this->assertSame('initialize', $data['action']);
+    }
+
+    public function testGetDataNoCustomer()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+        $data = $this->request->getData();
+
+        $this->assertSame($this->returnUrl, $data['session']->returnURL);
+        $this->assertSame($this->errorUrl, $data['session']->errorURL);
+        $this->assertSame('PaymentMethod_update', $data['session']->method);
+        $this->assertSame($this->ip, $data['session']->ipAddress);
+        $numHOAAttributes = count($this->HOAAttributes);
+        $this->assertSame($numHOAAttributes, count($data['session']->nameValues));
+        for ($i = 0; $i < $numHOAAttributes; $i++) {
+            $this->assertSame($this->HOAAttributes[$i]['name'], $data['session']->nameValues[$i]->name);
+            $this->assertSame($this->HOAAttributes[$i]['value'], $data['session']->nameValues[$i]->value);
+        }
+        $this->assertSame(AbstractRequest::API_VERSION, $data['session']->version);
+
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_merchantPaymentMethodId', $this->paymentMethodId),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
+            $data['session']->privateFormValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('PaymentMethod_Update_validate', $this->validate),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('PaymentMethod_Update_replaceOnAllAutoBills', true),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('PaymentMethod_Update_replaceOnAllChildAutoBills', true),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('PaymentMethod_Update_ignoreAvsPolicy', false),
+            $data['session']->methodParamValues
+        ));
+        $this->assertTrue(in_array(
+            new NameValue('PaymentMethod_Update_ignoreCvnPolicy', false),
+            $data['session']->methodParamValues
+        ));
 
         $this->assertSame('initialize', $data['action']);
     }

@@ -13,7 +13,7 @@ class PayPalPurchaseResponse extends Response
      */
     public function isSuccessful()
     {
-        return intval($this->getCode()) === self::SUCCESS_CODE && $this->getRedirectUrl();
+        return parent::isSuccessful() && $this->getRedirectUrl();
     }
 
     /**

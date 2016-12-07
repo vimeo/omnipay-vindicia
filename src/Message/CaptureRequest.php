@@ -84,6 +84,13 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class CaptureRequest extends AbstractRequest
 {
     /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CaptureResponse';
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
@@ -129,16 +136,5 @@ class CaptureRequest extends AbstractRequest
          * @var CaptureResponse
          */
         return parent::send();
-    }
-
-    /**
-     * Use a special response object for Capture requests.
-     *
-     * @param object $response
-     * @return CaptureResponse
-     */
-    protected function buildResponse($response)
-    {
-        return new CaptureResponse($this, $response);
     }
 }

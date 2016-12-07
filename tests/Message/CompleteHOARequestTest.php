@@ -184,6 +184,58 @@ class CompleteHOARequestTest extends SoapTestCase
         ));
     }
 
+    public function testSendCreatePaymentMethodNoCustomerSuccess()
+    {
+        $this->setMockSoapResponse('CompleteHOACreatePaymentMethodNoCustomerSuccess.xml', array(
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
+            'CARD_FIRST_SIX' => substr($this->card['number'], 0, 6),
+            'CARD_LAST_FOUR' => substr($this->card['number'], -4),
+            'EXPIRY_MONTH' => $this->card['expiryMonth'],
+            'EXPIRY_YEAR' => $this->card['expiryYear'],
+            'POSTCODE' => $this->card['postcode'],
+            'WEB_SESSION_REFERENCE' => $this->webSessionReference,
+            'RETURN_URL' => $this->returnUrl,
+            'ERROR_URL' => $this->errorUrl,
+            'IP_ADDRESS' => $this->ip,
+            'WEB_SESSION_REFERENCE' => $this->webSessionReference
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('Payment method saved but missing associated account - unable to replace on autobills ', $response->getMessage());
+        $this->assertNull($response->getFailureType());
+        $this->assertSame($this->webSessionReference, $response->getWebSessionReference());
+        $paymentMethod = $response->getPaymentMethod();
+        $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
+        $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
+        $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
+        $this->assertFalse($response->wasAuthorize());
+        $this->assertFalse($response->wasPurchase());
+        $this->assertTrue($response->wasCreatePaymentMethod());
+        $this->assertFalse($response->wasCreateSubscription());
+        $formValues = $response->getFormValues();
+        $this->assertTrue(is_array($formValues));
+        $this->assertGreaterThan(0, count($formValues));
+        $this->assertTrue(in_array(
+            new Attribute(array('name' => 'vin_WebSession_VID', 'value' => $this->webSessionReference)),
+            $formValues
+        ));
+        $this->assertTrue(in_array(
+            new Attribute(array('name' => 'vin_PaymentMethod_merchantPaymentMethodId', 'value' => $this->paymentMethodId)),
+            $formValues
+        ));
+        $this->assertTrue(in_array(
+            new Attribute(array('name' => 'vin_PaymentMethod_billingAddress_postalCode', 'value' => $this->card['postcode'])),
+            $formValues
+        ));
+    }
+
     public function testSendCreateSubscriptionSuccess()
     {
         $this->markTestSkipped('@todo');

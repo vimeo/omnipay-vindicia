@@ -102,7 +102,7 @@ use Omnipay\Vindicia\NameValue;
  */
 class HOAAuthorizeRequest extends AbstractHOARequest
 {
-    public static $REGULAR_REQUEST_CLASS = 'Omnipay\Vindicia\Message\AuthorizeRequest';
+    protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\AuthorizeRequest';
 
     protected function getObjectParamNames()
     {

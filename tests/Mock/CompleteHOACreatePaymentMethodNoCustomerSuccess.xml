@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Body>
+    <finalizeResponse xmlns="http://soap.vindicia.com/v18_0/WebSession">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <session xmlns="" xsi:type="vin:WebSession">
+        <VID xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</VID>
+        <method xmlns="" xsi:type="xsd:string">PaymentMethod_Update</method>
+        <version xmlns="" xsi:type="xsd:string">18.0</version>
+        <returnURL xmlns="" xsi:type="xsd:string">[RETURN_URL]</returnURL>
+        <errorURL xmlns="" xsi:type="xsd:string">[ERROR_URL]</errorURL>
+        <ipAddress xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</ipAddress>
+        <expireTime xmlns="" xsi:type="xsd:dateTime">2016-12-07T12:21:01-08:00</expireTime>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_WebSession_VID</name>
+          <value xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_active</name>
+          <value xmlns="" xsi:type="xsd:string">1</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_merchantPaymentMethodId</name>
+          <value xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_type</name>
+          <value xmlns="" xsi:type="xsd:string">CreditCard</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_expirationDate</name>
+          <value xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_country</name>
+          <value xmlns="" xsi:type="xsd:string">[COUNTRY]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_billingAddress_postalCode</name>
+          <value xmlns="" xsi:type="xsd:string">[POSTCODE]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_lastDigits</name>
+          <value xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_bin</name>
+          <value xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</value>
+        </postValues>
+        <postValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_creditCard_accountLength</name>
+          <value xmlns="" xsi:type="xsd:string">16</value>
+        </postValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_validate</name>
+          <value xmlns="" xsi:type="xsd:string">true</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_minChargebackProbability</name>
+          <value xmlns="" xsi:type="xsd:string">null</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_replaceOnAllAutoBills</name>
+          <value xmlns="" xsi:type="xsd:string">true</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_sourceIp</name>
+          <value xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_replaceOnAllChildAutoBills</name>
+          <value xmlns="" xsi:type="xsd:string">true</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_ignoreAvsPolicy</name>
+          <value xmlns="" xsi:type="xsd:string">true</value>
+        </methodParamValues>
+        <methodParamValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_Update_ignoreCvnPolicy</name>
+          <value xmlns="" xsi:type="xsd:string">false</value>
+        </methodParamValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_active</name>
+          <value xmlns="" xsi:type="xsd:string">1</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_merchantPaymentMethodId</name>
+          <value xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">vin_PaymentMethod_type</name>
+          <value xmlns="" xsi:type="xsd:string">CreditCard</value>
+        </privateFormValues>
+        <privateFormValues xmlns="" xsi:type="vin:NameValuePair">
+          <name xmlns="" xsi:type="xsd:string">PaymentMethod_VID</name>
+          <value xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</value>
+        </privateFormValues>
+        <apiReturn xmlns="" xsi:type="vin:Return">
+          <returnCode xmlns="" xsi:type="vin:ReturnCode">228</returnCode>
+          <returnString xmlns="" xsi:type="xsd:string">Payment method saved but missing associated account - unable to replace on autobills </returnString>
+        </apiReturn>
+        <apiReturnValues xmlns="" xsi:type="vin:WebSessionMethodReturn">
+          <method xmlns="" xsi:type="xsd:string">paymentMethodUpdate</method>
+          <paymentMethodUpdate xmlns="" xsi:type="vin:PaymentMethodUpdate">
+            <paymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+              <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+              <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+              <creditCard xmlns="" xsi:type="vin:CreditCard">
+                <account xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]XXXXXX[CARD_LAST_FOUR]</account>
+                <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+                <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
+                <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
+                <expirationDate xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</expirationDate>
+                <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+                  <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+                  <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+                  <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+                  <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+                  <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+                  <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+                  <CountryOfIssuance xmlns="" xsi:type="xsd:string">[COUNTRY]</CountryOfIssuance>
+                  <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+                  <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+                </extendedCardAttributes>
+                <VID xmlns="" xsi:type="xsd:string">abcdef1234567890abcdef1234567890</VID>
+              </creditCard>
+              <billingAddress xmlns="" xsi:type="vin:Address">
+                <VID xmlns="" xsi:type="xsd:string">fdecba9876543210fdecba9876543210</VID>
+                <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+                <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+              </billingAddress>
+              <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+              <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
+              <active xmlns="" xsi:type="xsd:boolean">1</active>
+              <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
+              </nameValues>
+              <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
+              </nameValues>
+            </paymentMethod>
+            <created xmlns="" xsi:type="xsd:boolean">1</created>
+            <validated xmlns="" xsi:type="xsd:boolean">1</validated>
+            <score xmlns="" xsi:type="xsd:int">-1</score>
+            <authStatus xmlns="" xsi:type="vin:TransactionStatus">
+              <status xmlns="" xsi:type="vin:TransactionStatusType">AuthorizedForValidation</status>
+              <timestamp xmlns="" xsi:type="xsd:dateTime">2016-12-07T11:23:18-08:00</timestamp>
+              <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
+              <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
+                <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+                <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
+                <cvnCode xmlns="" xsi:type="xsd:string">[CVV_CODE]</cvnCode>
+                <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+                  <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+                  <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+                  <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+                  <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+                  <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+                  <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+                  <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+                  <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+                  <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+                </extendedCardAttributes>
+              </creditCardStatus>
+              <vinAVS xmlns="" xsi:type="vin:AVSMatchType">PartialMatch</vinAVS>
+            </authStatus>
+          </paymentMethodUpdate>
+        </apiReturnValues>
+      </session>
+    </finalizeResponse>
+  </soap:Body>
+</soap:Envelope>

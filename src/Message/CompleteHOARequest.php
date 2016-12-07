@@ -20,6 +20,13 @@ use stdClass;
 class CompleteHOARequest extends AbstractRequest
 {
     /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CompleteHOAResponse';
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
@@ -79,10 +86,5 @@ class CompleteHOARequest extends AbstractRequest
          * @var CompleteHOAResponse
          */
         return parent::send();
-    }
-
-    protected function buildResponse($response)
-    {
-        return new CompleteHOAResponse($this, $response);
     }
 }

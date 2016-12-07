@@ -76,6 +76,13 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const DEFAULT_MIN_CHARGEBACK_PROBABILITY = 100;
 
     /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\Response';
+
+    /**
      * Create a new Request
      *
      * @param ClientInterface $httpClient  A Guzzle client to make API calls with
@@ -637,7 +644,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         ini_set('soap.wsdl_cache_ttl', $originalWsdlCacheTtl);
         ini_set('default_socket_timeout', $originalSocketTimeout);
 
-        $this->response = $this->buildResponse($response);
+        $this->response = new static::$RESPONSE_CLASS($this, $response);
         return $this->response;
     }
 
@@ -651,11 +658,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
          * @var Response
          */
         return parent::send();
-    }
-
-    protected function buildResponse($response)
-    {
-        return new Response($this, $response);
     }
 
     protected function isUpdate()
