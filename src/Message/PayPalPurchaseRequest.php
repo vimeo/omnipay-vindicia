@@ -68,6 +68,13 @@ namespace Omnipay\Vindicia\Message;
  */
 class PayPalPurchaseRequest extends PurchaseRequest
 {
+    /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\PayPalPurchaseResponse';
+
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $this->validate('returnUrl', 'cancelUrl');
@@ -85,16 +92,5 @@ class PayPalPurchaseRequest extends PurchaseRequest
          * @var PayPalPurchaseResponse
          */
         return parent::send();
-    }
-
-    /**
-     * Use a special response object for PayPal purchase requests.
-     *
-     * @param object $response
-     * @return PayPalPurchaseResponse
-     */
-    protected function buildResponse($response)
-    {
-        return new PayPalPurchaseResponse($this, $response);
     }
 }

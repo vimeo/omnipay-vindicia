@@ -301,7 +301,6 @@ class AbstractRequestTest extends SoapTestCase
         TestableSoapClient::setNextResponse(new stdClass());
 
         $this->request->shouldReceive('getObject')->andReturn($object);
-        $this->request->shouldReceive('buildResponse')->andReturn(null);
         $this->request->shouldReceive('getTestMode')->andReturn(true);
         $this->request->shouldReceive('getUsername')->andReturn($this->username);
         $this->request->shouldReceive('getPassword')->andReturn($this->password);
