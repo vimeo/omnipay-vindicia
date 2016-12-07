@@ -2,13 +2,19 @@ language: php
 matrix:
   include:
     - php: 5.3
-      env: TEST_SUITE='style test'
+      env:
+        - TEST_SUITE='no_psalm'
     - php: 5.4
-      env: TEST_SUITE='style test'
+      env:
+        - TEST_SUITE='no_psalm'
     - php: 5.5
-      env: TEST_SUITE='all'
+      env:
+        - TEST_SUITE='with_psalm'
+        - COMPOSER='composer-psalm.json'
     - php: 5.6
-      env: TEST_SUITE='all'
+      env:
+        - TEST_SUITE='with_psalm'
+        - COMPOSER='composer-psalm.json'
 install: composer install
 script: make $TEST_SUITE
 notifications:
