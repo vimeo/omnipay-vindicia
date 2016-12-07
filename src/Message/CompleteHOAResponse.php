@@ -168,11 +168,11 @@ class CompleteHOAResponse extends Response
 
         if (!isset($this->paymentMethod)) {
             if (isset($this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0])) {
-                $vindiciaPaymentMethod = $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0];
+                $vindiciaPaymentMethod =
+                    $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0];
             } elseif (isset($this->data->session->apiReturnValues->paymentMethodUpdate->paymentMethod)) {
                 $vindiciaPaymentMethod = $this->data->session->apiReturnValues->paymentMethodUpdate->paymentMethod;
-            }
-            else {
+            } else {
                 return null;
             }
 
