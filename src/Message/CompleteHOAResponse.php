@@ -200,7 +200,7 @@ class CompleteHOAResponse extends Response
      * method called by HOA failed. Returns null if the request was successful.
      *
      * @return string|null
-     * @deprecated
+     * @deprecated Use isRequestFailure and isMethodFailure instead
      */
     public function getFailureType()
     {
@@ -215,7 +215,7 @@ class CompleteHOAResponse extends Response
      */
     public function isRequestFailure()
     {
-        return $this->getFailureType() === self::REQUEST_FAILURE;
+        return $this->failureType === self::REQUEST_FAILURE;
     }
 
     /**
@@ -225,7 +225,7 @@ class CompleteHOAResponse extends Response
      */
     public function isMethodFailure()
     {
-        return $this->getFailureType() === self::METHOD_FAILURE;
+        return $this->failureType === self::METHOD_FAILURE;
     }
 
     /**

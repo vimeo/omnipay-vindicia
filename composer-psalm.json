@@ -1,0 +1,33 @@
+{
+    "name": "vimeo/omnipay-vindicia",
+    "type": "library",
+    "description": "Vindicia driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "vindicia"
+    ],
+    "homepage": "https://github.com/vimeo/omnipay-vindicia",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicky Robinson",
+            "email": "nickr@vimeo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\Vindicia\\" : "src/"
+        }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0",
+        "vimeo/psalm": "0.3.*"
+    }
+}
