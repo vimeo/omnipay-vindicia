@@ -26,7 +26,7 @@ class CaptureResponse extends Response
         // Check all the other response codes that come back and make sure they match up
         if ($success
             && (!isset($this->data->return)
-                || intval($this->data->return->returnCode) !== self::SUCCESS_CODE
+                || !in_array(intval($this->data->return->returnCode), static::getSuccessCodes(), true)
                 || intval($this->data->qtySuccess) !== 1
                 || intval($this->data->qtyFail) !== 0
             )

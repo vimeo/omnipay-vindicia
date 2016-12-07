@@ -1,0 +1,66 @@
+<soap:Envelope
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Body>
+    <updateResponse xmlns="http://soap.vindicia.com/v18_0/PaymentMethod">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">228</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">Payment method saved but missing associated account - unable to replace on autobills </returnString>
+      </return>
+      <paymentMethod xmlns="" xsi:type="vin:PaymentMethod">
+        <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+        <type xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</type>
+        <creditCard xmlns="" xsi:type="vin:CreditCard">
+          <account xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]XXXXXX[CARD_LAST_FOUR]</account>
+          <bin xmlns="" xsi:type="xsd:string">[CARD_FIRST_SIX]</bin>
+          <lastDigits xmlns="" xsi:type="xsd:string">[CARD_LAST_FOUR]</lastDigits>
+          <accountLength xmlns="" xsi:type="xsd:int">16</accountLength>
+          <expirationDate xmlns="" xsi:type="xsd:string">[EXPIRY_YEAR][EXPIRY_MONTH]</expirationDate>
+          <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+            <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+            <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+            <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+            <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+            <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+            <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+            <CountryOfIssuance xmlns="" xsi:type="xsd:string">USA</CountryOfIssuance>
+            <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+            <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+          </extendedCardAttributes>
+          <VID xmlns="" xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+        </creditCard>
+        <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+        <sortOrder xmlns="" xsi:type="xsd:int">0</sortOrder>
+        <active xmlns="" xsi:type="xsd:boolean">1</active>
+      </paymentMethod>
+      <created xmlns="" xsi:type="xsd:boolean">1</created>
+      <validated xmlns="" xsi:type="xsd:boolean">1</validated>
+      <score xmlns="" xsi:type="xsd:int">-1</score>
+      <authStatus xmlns="" xsi:type="vin:TransactionStatus">
+        <status xmlns="" xsi:type="vin:TransactionStatusType">AuthorizedForValidation</status>
+        <timestamp xmlns="" xsi:type="xsd:dateTime">2016-12-07T06:30:40-08:00</timestamp>
+        <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
+        <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
+          <authCode xmlns="" xsi:type="xsd:string">[AUTHORIZATION_CODE]</authCode>
+          <avsCode xmlns="" xsi:type="xsd:string">[AVS_CODE]</avsCode>
+          <extendedCardAttributes xmlns="" xsi:type="vin:ExtendedCardAttributes">
+            <CommercialCard xmlns="" xsi:type="xsd:int">0</CommercialCard>
+            <SignatureDebitCard xmlns="" xsi:type="xsd:int">0</SignatureDebitCard>
+            <PINlessDebitCard xmlns="" xsi:type="xsd:int">0</PINlessDebitCard>
+            <PrepaidCard xmlns="" xsi:type="xsd:int">0</PrepaidCard>
+            <PayrollCard xmlns="" xsi:type="xsd:int">0</PayrollCard>
+            <HealthcareCard xmlns="" xsi:type="xsd:int">0</HealthcareCard>
+            <CountryOfIssuance xmlns="" xsi:type="xsd:string">[COUNTRY]</CountryOfIssuance>
+            <DurbinRegulated xmlns="" xsi:type="xsd:int">0</DurbinRegulated>
+            <Affluent xmlns="" xsi:type="xsd:int">0</Affluent>
+          </extendedCardAttributes>
+        </creditCardStatus>
+      </authStatus>
+    </updateResponse>
+  </soap:Body>
+</soap:Envelope>

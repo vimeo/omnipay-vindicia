@@ -189,6 +189,75 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
+    public function testGetDataNoCustomer()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+        $data = $this->request->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertTrue(in_array(new NameValue('CVN', $this->card['cvv']), $data['paymentMethod']->nameValues));
+        $this->assertSame($this->card['postcode'], $data['paymentMethod']->billingAddress->postalCode);
+        $this->assertSame($this->card['country'], $data['paymentMethod']->billingAddress->country);
+        $this->assertSame('CreditCard', $data['paymentMethod']->type);
+        $this->assertFalse(isset($data['account']));
+
+        $numAttributes = count($this->attributes);
+        $this->assertSame($numAttributes + 1, count($data['paymentMethod']->nameValues)); // +1 accounts for CVV
+        for ($i = 0; $i < $numAttributes; $i++) {
+            $this->assertSame($this->attributes[$i]['name'], $data['paymentMethod']->nameValues[$i]->name);
+            $this->assertSame($this->attributes[$i]['value'], $data['paymentMethod']->nameValues[$i]->value);
+        }
+
+        $this->assertFalse($data['validate']);
+        $this->assertFalse($data['ignoreAvsPolicy']);
+        $this->assertFalse($data['ignoreCvnPolicy']);
+        $this->assertTrue($data['replaceOnAllAutoBills']);
+        $this->assertTrue($data['replaceOnAllChildAutoBills']);
+        $this->assertSame('update', $data['action']);
+    }
+
+    public function testGetDataNoCustomerWithValidation()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+        $skipAvsValidation = $this->faker->bool();
+        $skipCvvValidation = $this->faker->bool();
+        $data = $this->request->setValidate(true)
+                              ->setSkipAvsValidation($skipAvsValidation)
+                              ->setSkipCvvValidation($skipCvvValidation)
+                              ->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertFalse(isset($data['account']));
+        $this->assertTrue($data['validate']);
+        $this->assertSame($skipAvsValidation, $data['ignoreAvsPolicy']);
+        $this->assertSame($skipCvvValidation, $data['ignoreCvnPolicy']);
+        $this->assertSame('update', $data['action']);
+    }
+
+    public function testGetDataNoCustomerDoNotUpdateSubscriptions()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+        $data = $this->request->setUpdateSubscriptions(false)->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertFalse(isset($data['account']));
+        $this->assertFalse($data['replaceOnAllAutoBills']);
+        $this->assertFalse($data['replaceOnAllChildAutoBills']);
+        $this->assertSame('update', $data['action']);
+    }
+
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The paymentMethodId parameter is required
@@ -196,17 +265,6 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     public function testPaymentMethodIdRequired()
     {
         $this->request->setPaymentMethodId(null);
-        $this->request->getData();
-    }
-
-    /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage Either the customerId or customerReference parameter is required.
-     */
-    public function testCustomerIdOrReferenceRequired()
-    {
-        $this->request->setCustomerId(null);
-        $this->request->setCustomerReference(null);
         $this->request->getData();
     }
 
@@ -254,6 +312,59 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
+    }
+
+    public function testSendNoCustomerSuccess()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+
+        $this->setMockSoapResponse('CreatePaymentMethodNoCustomerSuccess.xml', array(
+            'CARD_FIRST_SIX' => substr($this->card['number'], 0, 6),
+            'CARD_LAST_FOUR' => substr($this->card['number'], -4),
+            'EXPIRY_MONTH' => $this->card['expiryMonth'],
+            'EXPIRY_YEAR' => $this->card['expiryYear'],
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+        $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+    }
+
+    /**
+     * Check that a different success code still works
+     */
+    public function testSendNoCustomer228Success()
+    {
+        $this->request->setCustomerId(null)->setCustomerReference(null);
+
+        $this->setMockSoapResponse('CreatePaymentMethodNoCustomer228Success.xml', array(
+            'CARD_FIRST_SIX' => substr($this->card['number'], 0, 6),
+            'CARD_LAST_FOUR' => substr($this->card['number'], -4),
+            'EXPIRY_MONTH' => $this->card['expiryMonth'],
+            'EXPIRY_YEAR' => $this->card['expiryYear'],
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('Payment method saved but missing associated account - unable to replace on autobills ', $response->getMessage());
+        $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
     public function testSendFailure()

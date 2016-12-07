@@ -12,7 +12,7 @@ use Omnipay\Vindicia\AttributeBag;
 
 abstract class AbstractHOARequest extends AbstractRequest
 {
-    public static $REGULAR_REQUEST_CLASS = 'Omnipay\Vindicia\Message\AbstractRequest';
+    protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\AbstractRequest';
 
     /**
      * The corresponding regular (non-HOA) request. This is used to fake
@@ -203,18 +203,6 @@ abstract class AbstractHOARequest extends AbstractRequest
                 );
             }
             return $values;
-
-
-
-
-            // $values = array();
-            // foreach ($member as $key => $value) {
-            //     $values = array_merge(
-            //         $this->buildPrivateFormValues($keySoFar . '_' . $key, $value),
-            //         $values
-            //     );
-            // }
-            // return $values;
         } elseif (isset($member)) {
             return array(new NameValue($keySoFar, $member));
         } else {

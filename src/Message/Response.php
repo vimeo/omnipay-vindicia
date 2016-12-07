@@ -9,7 +9,7 @@ use Omnipay\Common\Message\RequestInterface;
 
 class Response extends AbstractResponse
 {
-    const SUCCESS_CODE = 200;
+    protected static $SUCCESS_CODES = array(200);
 
     protected $objectHelper;
 
@@ -47,7 +47,7 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return intval($this->getCode()) === self::SUCCESS_CODE;
+        return in_array(intval($this->getCode()), static::getSuccessCodes(), true);
     }
 
     /**
@@ -461,5 +461,15 @@ class Response extends AbstractResponse
          * @var AbstractRequest
          */
         return parent::getRequest();
+    }
+
+    /**
+     * Get the codes that indicate success
+     *
+     * @return array<int>
+     */
+    public static function getSuccessCodes()
+    {
+        return static::$SUCCESS_CODES;
     }
 }

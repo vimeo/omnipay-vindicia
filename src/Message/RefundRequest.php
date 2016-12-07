@@ -101,6 +101,13 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
 class RefundRequest extends AbstractRequest
 {
     /**
+     * The class to use for the response.
+     *
+     * @var string
+     */
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\RefundResponse';
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
@@ -234,16 +241,5 @@ class RefundRequest extends AbstractRequest
          * @var RefundResponse
          */
         return parent::send();
-    }
-
-    /**
-     * Use a special response object for Refund requests.
-     *
-     * @param object $response
-     * @return RefundResponse
-     */
-    protected function buildResponse($response)
-    {
-        return new RefundResponse($this, $response);
     }
 }

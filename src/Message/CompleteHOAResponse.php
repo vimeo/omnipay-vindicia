@@ -4,7 +4,7 @@
  * they include a response for the method that was actually
  * called by HOA. If the request itself fails, we return its
  * error message and code. Otherwise, we return the status
- * for the method called by HOA. getFailureType or
+ * for the method called by HOA.
  * isRequestFailure and isMethodFailure can be used to
  * determine if it was a request failure or method failure.
  */
@@ -13,6 +13,7 @@ namespace Omnipay\Vindicia\Message;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Vindicia\Attribute;
+use ReflectionClass;
 
 class CompleteHOAResponse extends Response
 {
@@ -32,6 +33,10 @@ class CompleteHOAResponse extends Response
      * @var string|null
      */
     protected $failureType;
+    /**
+     * @var bool
+     */
+    protected $isSuccessful;
 
     // Cached objects:
     protected $formValues;
@@ -60,16 +65,45 @@ class CompleteHOAResponse extends Response
         if (isset($this->data->session->apiReturn)) {
             $this->code = $this->data->session->apiReturn->returnCode;
             $this->message = $this->data->session->apiReturn->returnString;
-            if (!$this->isSuccessful()) {
+
+            if ($this->wasAuthorize()) {
+                $requestClass = '\Omnipay\Vindicia\Message\HOAAuthorizeRequest';
+            } elseif ($this->wasPurchase()) {
+                $requestClass = '\Omnipay\Vindicia\Message\HOAPurchaseRequest';
+            } elseif ($this->wasCreatePaymentMethod()) {
+                $requestClass = '\Omnipay\Vindicia\Message\HOACreatePaymentMethodRequest';
+            } elseif ($this->wasCreateSubscription()) {
+                $requestClass = '\Omnipay\Vindicia\Message\HOACreateSubscriptionRequest';
+            } else {
+                // sometimes Vindicia doesn't return any method info on a failure
+                $this->isSuccessful = false;
+                $this->failureType = self::METHOD_FAILURE;
+                return;
+            }
+
+            $requestReflection = new ReflectionClass($requestClass);
+            $regularRequestClassProperty = $requestReflection->getProperty('REGULAR_REQUEST_CLASS');
+            $regularRequestClassProperty->setAccessible(true);
+            $regularRequestClass = $regularRequestClassProperty->getValue();
+            $regularRequestClassReflection = new ReflectionClass($regularRequestClass);
+            $regularRequestResponseClassProperty = $regularRequestClassReflection->getProperty('RESPONSE_CLASS');
+            $regularRequestResponseClassProperty->setAccessible(true);
+            $regularRequestResponseClass = $regularRequestResponseClassProperty->getValue();
+            $regularRequestResponseSuccessCodes = $regularRequestResponseClass::getSuccessCodes();
+
+            $this->isSuccessful = in_array(intval($this->getCode()), $regularRequestResponseSuccessCodes, true);
+            if (!$this->isSuccessful) {
                 $this->failureType = self::METHOD_FAILURE;
             }
+
             return;
         }
 
         // otherwise, we want the response from the request
         $this->code = parent::getCode();
         $this->message = parent::getMessage();
-        if (!$this->isSuccessful()) {
+        $this->isSuccessful = parent::isSuccessful();
+        if (!$this->isSuccessful) {
             $this->failureType = self::REQUEST_FAILURE;
         }
     }
@@ -102,6 +136,11 @@ class CompleteHOAResponse extends Response
             return $this->code;
         }
         throw new InvalidResponseException('Response has no code.');
+    }
+
+    public function isSuccessful()
+    {
+        return $this->isSuccessful;
     }
 
     public function getTransaction()
@@ -154,6 +193,7 @@ class CompleteHOAResponse extends Response
      * method called by HOA failed. Returns null if the request was successful.
      *
      * @return string|null
+     * @deprecated
      */
     public function getFailureType()
     {
@@ -248,7 +288,10 @@ class CompleteHOAResponse extends Response
      */
     public function wasCreatePaymentMethod()
     {
-        return $this->getMethod() === 'accountUpdatePaymentMethod';
+        return in_array($this->getMethod(), array(
+            'accountUpdatePaymentMethod',
+            'paymentMethodUpdate' // @todo double check this
+        ), true);
     }
 
     /**

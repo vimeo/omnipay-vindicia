@@ -3,6 +3,7 @@
 namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Vindicia\NameValue;
+use ReflectionMethod;
 
 /**
  * Initialize a HOA Web Session to collect new card details. This can also be used to
@@ -91,7 +92,7 @@ use Omnipay\Vindicia\NameValue;
  */
 class HOACreatePaymentMethodRequest extends AbstractHOARequest
 {
-    public static $REGULAR_REQUEST_CLASS = 'Omnipay\Vindicia\Message\CreatePaymentMethodRequest';
+    protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodRequest';
 
     public function initialize(array $parameters = array())
     {
@@ -105,10 +106,15 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
 
     protected function getObjectParamNames()
     {
-        return array(
-            self::$PAYMENT_METHOD_OBJECT => 'paymentMethod',
-            self::$CUSTOMER_OBJECT => 'account'
+        $names = array(
+            self::$PAYMENT_METHOD_OBJECT => 'paymentMethod'
         );
+
+        if ($this->hasCustomer()) {
+            $names[self::$CUSTOMER_OBJECT] = 'account';
+        }
+
+        return $names;
     }
 
     public function getValidate()
@@ -126,14 +132,44 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
     {
         $regularRequestData = $this->regularRequest->getData();
 
-        return array(
-            new NameValue(
-                'Account_UpdatePaymentMethod_replaceOnAllAutoBills',
-                $regularRequestData['replaceOnAllAutoBills']
-            ),
-            new NameValue('Account_UpdatePaymentMethod_updateBehavior', $regularRequestData['updateBehavior']),
-            new NameValue('Account_UpdatePaymentMethod_ignoreAvsPolicy', $regularRequestData['ignoreAvsPolicy']),
-            new NameValue('Account_UpdatePaymentMethod_ignoreCvnPolicy', $regularRequestData['ignoreCvnPolicy'])
-        );
+        if ($this->hasCustomer()) {
+            return array(
+                new NameValue(
+                    'Account_UpdatePaymentMethod_replaceOnAllAutoBills',
+                    $regularRequestData['replaceOnAllAutoBills']
+                ),
+                new NameValue('Account_UpdatePaymentMethod_updateBehavior', $regularRequestData['updateBehavior']),
+                new NameValue('Account_UpdatePaymentMethod_ignoreAvsPolicy', $regularRequestData['ignoreAvsPolicy']),
+                new NameValue('Account_UpdatePaymentMethod_ignoreCvnPolicy', $regularRequestData['ignoreCvnPolicy'])
+            );
+        } else {
+            return array(
+                new NameValue(
+                    'PaymentMethod_Update_replaceOnAllAutoBills',
+                    $regularRequestData['replaceOnAllAutoBills']
+                ),
+                new NameValue(
+                    'PaymentMethod_Update_replaceOnAllChildAutoBills',
+                    $regularRequestData['replaceOnAllChildAutoBills']
+                ),
+                new NameValue('PaymentMethod_Update_validate', $regularRequestData['validate']),
+                new NameValue(
+                    'PaymentMethod_Update_minChargebackProbability',
+                    $regularRequestData['minChargebackProbability']
+                ),
+                new NameValue('PaymentMethod_Update_sourceIp', $regularRequestData['sourceIp']),
+                new NameValue('PaymentMethod_Update_ignoreAvsPolicy', $regularRequestData['ignoreAvsPolicy']),
+                new NameValue('PaymentMethod_Update_ignoreCvnPolicy', $regularRequestData['ignoreCvnPolicy'])
+            );
+        }
+    }
+
+    protected function hasCustomer()
+    {
+        // make it so we can access the regular requests's method since we're
+        // faking double inheritance
+        $hasCustomer = new ReflectionMethod(static::$REGULAR_REQUEST_CLASS, 'hasCustomer');
+        $hasCustomer->setAccessible(true);
+        return $hasCustomer->invoke($this->regularRequest, null);
     }
 }
