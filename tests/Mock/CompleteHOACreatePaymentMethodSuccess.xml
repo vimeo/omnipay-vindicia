@@ -15,7 +15,7 @@
       </return>
       <session xmlns="" xsi:type="vin:WebSession">
         <VID xmlns="" xsi:type="xsd:string">[WEB_SESSION_REFERENCE]</VID>
-        <method xmlns="" xsi:type="xsd:string">Transaction_Auth</method>
+        <method xmlns="" xsi:type="xsd:string">Account_updatePaymentMethod</method>
         <version xmlns="" xsi:type="xsd:string">18.0</version>
         <returnURL xmlns="" xsi:type="xsd:string">[RETURN_URL]</returnURL>
         <errorURL xmlns="" xsi:type="xsd:string">[ERROR_URL]</errorURL>

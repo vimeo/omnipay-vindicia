@@ -165,13 +165,20 @@ class CompleteHOAResponse extends Response
 
     public function getPaymentMethod()
     {
-        if (!isset($this->paymentMethod)
-            && isset($this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0])
-        ) {
-            $this->paymentMethod = $this->objectHelper->buildPaymentMethod(
-                $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0]
-            );
+
+        if (!isset($this->paymentMethod)) {
+            if (isset($this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0])) {
+                $vindiciaPaymentMethod = $this->data->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods[0];
+            } elseif (isset($this->data->session->apiReturnValues->paymentMethodUpdate->paymentMethod)) {
+                $vindiciaPaymentMethod = $this->data->session->apiReturnValues->paymentMethodUpdate->paymentMethod;
+            }
+            else {
+                return null;
+            }
+
+            $this->paymentMethod = $this->objectHelper->buildPaymentMethod($vindiciaPaymentMethod);
         }
+
         return isset($this->paymentMethod) ? $this->paymentMethod : null;
     }
 
