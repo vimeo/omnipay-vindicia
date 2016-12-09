@@ -19,6 +19,7 @@ class NameValue
      *
      * @param string $name
      * @param string|int|bool|null $value
+     * @psalm-suppress FailedTypeResolution Because we're making sure a non-string isn't passed at runtime
      */
     public function __construct($name, $value)
     {
