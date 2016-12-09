@@ -119,6 +119,9 @@ class HOACreateSubscriptionRequest extends AbstractHOARequest
         return array(self::$SUBSCRIPTION_OBJECT => 'autobill');
     }
 
+    /**
+     * @return array<int, NameValue>
+     */
     protected function getMethodParamValues()
     {
         $regularRequestData = $this->regularRequest->getData();

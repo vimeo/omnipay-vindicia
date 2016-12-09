@@ -100,6 +100,9 @@ class FetchChargebacksRequest extends AbstractRequest
         }
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$CHARGEBACK_OBJECT;

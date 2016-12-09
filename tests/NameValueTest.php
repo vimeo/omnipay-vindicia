@@ -8,11 +8,17 @@ use stdClass;
 
 class NameValueTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
     }
 
+    /**
+     * @return void
+     */
     public function testVariables()
     {
         $name = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(1, 10));
@@ -23,6 +29,9 @@ class NameValueTest extends TestCase
         $this->assertSame($value, $nameValue->value);
     }
 
+    /**
+     * @return void
+     */
     public function testValueConversion()
     {
         $nameValue = new NameValue($this->faker->HOAParamName(), null);
@@ -48,6 +57,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
+     * @return            void
      */
     public function testNameMustNotBeInt()
     {
@@ -56,7 +66,8 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @psalm-suppress InvalidScalarArgument because we're testing to ensure that a bool can't be passed
+     * @psalm-suppress    InvalidScalarArgument because we're testing to ensure that a bool can't be passed
+     * @return            void
      */
     public function testNameMustNotBeBool()
     {
@@ -65,7 +76,8 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @psalm-suppress NullReference because we're testing to ensure that null can't be passed
+     * @psalm-suppress    NullReference because we're testing to ensure that null can't be passed
+     * @return            void
      */
     public function testNameMustNotBeNull()
     {
@@ -74,7 +86,8 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @psalm-suppress InvalidArgument because we're testing to ensure that an array can't be passed
+     * @psalm-suppress    InvalidArgument because we're testing to ensure that an array can't be passed
+     * @return            void
      */
     public function testValueMustNotBeArray()
     {
@@ -83,7 +96,8 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @psalm-suppress InvalidArgument because we're testing to ensure that an object can't be passed
+     * @psalm-suppress    InvalidArgument because we're testing to ensure that an object can't be passed
+     * @return            void
      */
     public function testValueMustNotBeObject()
     {

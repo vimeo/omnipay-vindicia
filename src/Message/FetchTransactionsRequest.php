@@ -77,6 +77,9 @@ class FetchTransactionsRequest extends AbstractRequest
         return $this->getStartTime() ? 'fetchDeltaSince' : 'fetchByAccount';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;

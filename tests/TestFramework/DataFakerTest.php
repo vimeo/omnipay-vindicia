@@ -18,11 +18,17 @@ use Omnipay\Vindicia\TaxExemptionBag;
 
 class DataFakerTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
     }
 
+    /**
+     * @return void
+     */
     public function testIntBetween()
     {
         $int = $this->faker->intBetween(-3, 3);
@@ -36,11 +42,17 @@ class DataFakerTest extends TestCase
         $this->assertTrue(200 >= $int);
     }
 
+    /**
+     * @return void
+     */
     public function testBool()
     {
         $this->assertTrue(is_bool($this->faker->bool()));
     }
 
+    /**
+     * @return void
+     */
     public function testMonetaryAmount()
     {
         $amount = $this->faker->monetaryAmount('USD');
@@ -57,11 +69,17 @@ class DataFakerTest extends TestCase
         $this->assertTrue($amount > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $this->assertNotNull(Currency::find($this->faker->currency()));
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $id = $this->faker->customerId();
@@ -70,6 +88,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $reference = $this->faker->customerReference();
@@ -78,6 +99,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $id = $this->faker->paymentMethodId();
@@ -86,6 +110,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $reference = $this->faker->paymentMethodReference();
@@ -94,6 +121,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $id = $this->faker->planId();
@@ -102,6 +132,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $reference = $this->faker->planReference();
@@ -110,6 +143,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionId()
     {
         $id = $this->faker->subscriptionId();
@@ -118,6 +154,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReference()
     {
         $reference = $this->faker->subscriptionReference();
@@ -126,6 +165,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testProductId()
     {
         $id = $this->faker->productId();
@@ -134,6 +176,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testProductReference()
     {
         $reference = $this->faker->productReference();
@@ -142,11 +187,17 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testBillingInterval()
     {
         $this->assertTrue(in_array($this->faker->billingInterval(), array('day', 'week', 'month', 'year'), true));
     }
 
+    /**
+     * @return void
+     */
     public function testBillingIntervalCount()
     {
         $count = $this->faker->billingIntervalCount();
@@ -154,6 +205,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue($count > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $descriptor = $this->faker->statementDescriptor();
@@ -161,6 +215,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($descriptor) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testWebSessionReference()
     {
         $reference = $this->faker->webSessionReference();
@@ -169,6 +226,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $id = $this->faker->transactionId();
@@ -177,6 +237,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionReference()
     {
         $reference = $this->faker->transactionReference();
@@ -185,6 +248,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testRefundId()
     {
         $id = $this->faker->refundId();
@@ -193,6 +259,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testRefundReference()
     {
         $reference = $this->faker->refundReference();
@@ -201,6 +270,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testChargebackId()
     {
         $id = $this->faker->chargebackId();
@@ -209,6 +281,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $id);
     }
 
+    /**
+     * @return void
+     */
     public function testChargebackReference()
     {
         $reference = $this->faker->chargebackReference();
@@ -217,6 +292,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $reference);
     }
 
+    /**
+     * @return void
+     */
     public function testTimeout()
     {
         $timeout = $this->faker->timeout();
@@ -224,6 +302,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue($timeout > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testTimestamp()
     {
         $timestamp = $this->faker->timestamp();
@@ -232,6 +313,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strtotime($timestamp) !== false);
     }
 
+    /**
+     * @return void
+     */
     public function testChargebackProbability()
     {
         $chargebackProbability = $this->faker->chargebackProbability();
@@ -240,6 +324,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue($chargebackProbability <= 100);
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $card = new CreditCard($this->faker->card());
@@ -248,6 +335,7 @@ class DataFakerTest extends TestCase
 
     /**
      * @expectedException Omnipay\Common\Exception\InvalidCreditCardException
+     * @return            void
      */
     public function testInvalidCard()
     {
@@ -255,6 +343,9 @@ class DataFakerTest extends TestCase
         $card->validate();
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $name = $this->faker->name();
@@ -264,11 +355,17 @@ class DataFakerTest extends TestCase
         $this->assertSame(2, count($parts));
     }
 
+    /**
+     * @return void
+     */
     public function testIpAddress()
     {
         $this->assertTrue(ip2long($this->faker->ipAddress()) !== false);
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $email = $this->faker->email();
@@ -280,6 +377,9 @@ class DataFakerTest extends TestCase
         $this->assertSame(3, strlen($parts[1]));
     }
 
+    /**
+     * @return void
+     */
     public function testUrl()
     {
         $url = $this->faker->url();
@@ -288,6 +388,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen('http://www.example.') + 3 <= strlen($url));
     }
 
+    /**
+     * @return void
+     */
     public function testItem()
     {
         $item = $this->faker->item($this->faker->currency());
@@ -300,6 +403,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($item->getSku()));
     }
 
+    /**
+     * @return void
+     */
     public function testItemAsArray()
     {
         $itemArray = $this->faker->itemAsArray($this->faker->currency());
@@ -312,6 +418,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($item->getSku()));
     }
 
+    /**
+     * @return void
+     */
     public function testItems()
     {
         $items = $this->faker->items($this->faker->currency());
@@ -319,6 +428,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $items->count());
     }
 
+    /**
+     * @return void
+     */
     public function testItemsAsArray()
     {
         $itemsArray = $this->faker->itemsAsArray($this->faker->currency());
@@ -326,6 +438,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $items->count());
     }
 
+    /**
+     * @return void
+     */
     public function testAttribute()
     {
         $attribute = $this->faker->attribute();
@@ -334,6 +449,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($attribute->getValue()));
     }
 
+    /**
+     * @return void
+     */
     public function testAttributeAsArray()
     {
         $attributeArray = $this->faker->attributeAsArray();
@@ -342,6 +460,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($attribute->getValue()));
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = $this->faker->attributes();
@@ -349,6 +470,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $attributes->count());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributesAsArray()
     {
         $attributesArray = $this->faker->attributesAsArray();
@@ -356,6 +480,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $attributes->count());
     }
 
+    /**
+     * @return void
+     */
     public function testPrice()
     {
         $price = $this->faker->price();
@@ -364,6 +491,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_numeric($price->getAmount()));
     }
 
+    /**
+     * @return void
+     */
     public function testPriceAsArray()
     {
         $priceArray = $this->faker->priceAsArray();
@@ -372,6 +502,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_numeric($price->getAmount()));
     }
 
+    /**
+     * @return void
+     */
     public function testPrices()
     {
         $prices = $this->faker->prices();
@@ -379,6 +512,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $prices->count());
     }
 
+    /**
+     * @return void
+     */
     public function testPricesAsArray()
     {
         $pricesArray = $this->faker->pricesAsArray();
@@ -386,6 +522,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $prices->count());
     }
 
+    /**
+     * @return void
+     */
     public function testRefundItem()
     {
         $item = $this->faker->refundItem($this->faker->currency());
@@ -396,6 +535,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($item->getSku()));
     }
 
+    /**
+     * @return void
+     */
     public function testRefundItemAsArray()
     {
         $itemArray = $this->faker->refundItemAsArray($this->faker->currency());
@@ -406,6 +548,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_string($item->getSku()));
     }
 
+    /**
+     * @return void
+     */
     public function testRefundItems()
     {
         $items = $this->faker->refundItems($this->faker->currency());
@@ -413,6 +558,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $items->count());
     }
 
+    /**
+     * @return void
+     */
     public function testRefundItemsAsarray()
     {
         $itemsArray = $this->faker->refundItemsAsArray($this->faker->currency());
@@ -420,6 +568,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $items->count());
     }
 
+    /**
+     * @return void
+     */
     public function testSku()
     {
         $sku = $this->faker->sku();
@@ -427,6 +578,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($sku) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $taxClassification = $this->faker->taxClassification();
@@ -434,6 +588,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($taxClassification) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testRegion()
     {
         $region = $this->faker->region();
@@ -442,6 +599,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(ctype_upper($region));
     }
 
+    /**
+     * @return void
+     */
     public function testPostcode()
     {
         $postcode = $this->faker->postcode();
@@ -450,6 +610,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(ctype_digit($postcode));
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptionId()
     {
         $taxExemptionId = $this->faker->taxExemptionId();
@@ -458,6 +621,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $taxExemptionId);
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemption()
     {
         $taxExemption = $this->faker->taxExemption();
@@ -468,6 +634,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_bool($taxExemption->getActive()));
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptionAsArray()
     {
         $taxExemptionArray = $this->faker->taxExemptionAsArray();
@@ -478,6 +647,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_bool($taxExemption->getActive()));
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptions()
     {
         $taxExemptions = $this->faker->taxExemptions();
@@ -485,6 +657,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $taxExemptions->count());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptionsAsArray()
     {
         $taxExemptionsArray = $this->faker->taxExemptionsAsArray();
@@ -492,11 +667,17 @@ class DataFakerTest extends TestCase
         $this->assertTrue(0 < $taxExemptions->count());
     }
 
+    /**
+     * @return void
+     */
     public function testDuplicateBehavior()
     {
         $this->assertTrue(in_array($this->faker->duplicateBehavior(), array('Fail', 'Duplicate', 'SucceedIgnore'), true));
     }
 
+    /**
+     * @return void
+     */
     public function testRandomCharacters()
     {
         $length = $this->faker->intBetween(1, 100);
@@ -513,6 +694,9 @@ class DataFakerTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testUsername()
     {
         $username = $this->faker->username();
@@ -520,6 +704,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($username) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testPassword()
     {
         $password = $this->faker->password();
@@ -527,6 +714,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($password) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testPayPalTransactionReference()
     {
         $reference = $this->faker->payPalTransactionReference();
@@ -535,6 +725,9 @@ class DataFakerTest extends TestCase
         $this->assertSame(40, strlen($reference));
     }
 
+    /**
+     * @return void
+     */
     public function testPayPalToken()
     {
         $token = $this->faker->payPalToken();
@@ -543,6 +736,9 @@ class DataFakerTest extends TestCase
         $this->assertSame(20, strlen($token));
     }
 
+    /**
+     * @return void
+     */
     public function testPayPalCustomerReference()
     {
         $token = $this->faker->payPalCustomerReference();
@@ -551,6 +747,9 @@ class DataFakerTest extends TestCase
         $this->assertSame(19, strlen($token));
     }
 
+    /**
+     * @return void
+     */
     public function testSoapId()
     {
         $soapId = $this->faker->soapId();
@@ -559,6 +758,9 @@ class DataFakerTest extends TestCase
         $this->assertNotEquals(0, $soapId);
     }
 
+    /**
+     * @return void
+     */
     public function testNote()
     {
         $note = $this->faker->note();
@@ -566,6 +768,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($note) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testStatus()
     {
         $status = $this->faker->status();
@@ -573,6 +778,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($status) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testStatusCode()
     {
         $statusCode = $this->faker->statusCode();
@@ -580,6 +788,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($statusCode) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testHOAParamName()
     {
         $HOAParamName = $this->faker->HOAParamName();
@@ -587,6 +798,9 @@ class DataFakerTest extends TestCase
         $this->assertTrue(strlen($HOAParamName) > 0);
     }
 
+    /**
+     * @return void
+     */
     public function testRiskScore()
     {
         $score = $this->faker->riskScore();

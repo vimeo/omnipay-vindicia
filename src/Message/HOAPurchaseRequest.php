@@ -85,6 +85,9 @@ class HOAPurchaseRequest extends HOAAuthorizeRequest
 {
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\PurchaseRequest';
 
+    /**
+     * @return array<int, NameValue>
+     */
     protected function getMethodParamValues()
     {
         $regularRequestData = $this->regularRequest->getData();

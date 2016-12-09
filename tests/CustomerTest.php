@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -15,6 +18,9 @@ class CustomerTest extends TestCase
         $this->reference = $this->faker->customerReference();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $customer = new Customer(array(
@@ -25,6 +31,9 @@ class CustomerTest extends TestCase
         $this->assertSame($this->reference, $customer->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $this->assertSame($this->customer, $this->customer->initialize(array(
@@ -35,24 +44,36 @@ class CustomerTest extends TestCase
         $this->assertSame($this->reference, $this->customer->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $this->assertSame($this->customer, $this->customer->setId($this->id)->setReference($this->reference));
         $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->customer->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testId()
     {
         $this->assertSame($this->customer, $this->customer->setId($this->id));
         $this->assertSame($this->id, $this->customer->getId());
     }
 
+    /**
+     * @return void
+     */
     public function testReference()
     {
         $this->assertSame($this->customer, $this->customer->setReference($this->reference));
         $this->assertSame($this->reference, $this->customer->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $name = $this->faker->name();
@@ -60,6 +81,9 @@ class CustomerTest extends TestCase
         $this->assertSame($name, $this->customer->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $email = $this->faker->email();
@@ -67,6 +91,9 @@ class CustomerTest extends TestCase
         $this->assertSame($email, $this->customer->getEmail());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptions()
     {
         $taxExemptions = array($this->faker->taxExemption());
@@ -74,6 +101,9 @@ class CustomerTest extends TestCase
         $this->assertSame($taxExemptions, $this->customer->getTaxExemptions());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

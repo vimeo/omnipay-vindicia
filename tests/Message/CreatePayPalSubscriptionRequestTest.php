@@ -12,6 +12,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class CreatePayPalSubscriptionRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -66,6 +69,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->riskScore = $this->faker->riskScore();
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -75,6 +81,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $request->getSubscriptionId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -84,6 +93,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -93,6 +105,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testProductId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -102,6 +117,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->productId, $request->getProductId());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -111,6 +129,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionReference, $request->getSubscriptionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -120,6 +141,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $request->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -129,6 +153,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testProductReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -138,6 +165,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->productReference, $request->getProductReference());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -147,6 +177,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -156,6 +189,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testIp()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -165,6 +201,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -174,6 +213,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -183,6 +225,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testStartTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -192,6 +237,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->startTime, $request->getStartTime());
     }
 
+    /**
+     * @return void
+     */
     public function testReturnUrl()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -201,6 +249,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertEquals($this->returnUrl, $request->getReturnUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testCancelUrl()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePayPalSubscriptionRequest')->makePartial();
@@ -210,6 +261,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertEquals($this->cancelUrl, $request->getCancelUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -253,8 +307,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The returnUrl parameter is required
+     * @return                   void
      */
     public function testReturnUrlRequired()
     {
@@ -263,8 +318,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The cancelUrl parameter is required
+     * @return                   void
      */
     public function testCancelUrlRequired()
     {
@@ -273,8 +329,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the productId or productReference parameter is required.
+     * @return                   void
      */
     public function testProductIdOrReferenceRequired()
     {
@@ -284,8 +341,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The subscriptionId parameter is required
+     * @return                   void
      */
     public function testSubscriptionIdRequired()
     {
@@ -294,8 +352,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the customerId or customerReference parameter is required.
+     * @return                   void
      */
     public function testCustomerIdOrReferenceRequired()
     {
@@ -304,6 +363,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreatePayPalSubscriptionSuccess.xml', array(
@@ -339,6 +401,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CreatePayPalSubscriptionFailure.xml');

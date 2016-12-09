@@ -8,6 +8,9 @@ use Omnipay\Common\CreditCard;
 
 class PaymentMethodTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -16,6 +19,9 @@ class PaymentMethodTest extends TestCase
         $this->reference = $this->faker->paymentMethodReference();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $paymentMethod = new PaymentMethod(array(
@@ -26,6 +32,9 @@ class PaymentMethodTest extends TestCase
         $this->assertSame($this->reference, $paymentMethod->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $this->assertSame($this->paymentMethod, $this->paymentMethod->initialize(array(
@@ -36,24 +45,36 @@ class PaymentMethodTest extends TestCase
         $this->assertSame($this->reference, $this->paymentMethod->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $this->assertSame($this->paymentMethod, $this->paymentMethod->setId($this->id)->setReference($this->reference));
         $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->paymentMethod->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testId()
     {
         $this->assertSame($this->paymentMethod, $this->paymentMethod->setId($this->id));
         $this->assertSame($this->id, $this->paymentMethod->getId());
     }
 
+    /**
+     * @return void
+     */
     public function testReference()
     {
         $this->assertSame($this->paymentMethod, $this->paymentMethod->setReference($this->reference));
         $this->assertSame($this->reference, $this->paymentMethod->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $card = new CreditCard();
@@ -61,6 +82,9 @@ class PaymentMethodTest extends TestCase
         $this->assertSame($card, $this->paymentMethod->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

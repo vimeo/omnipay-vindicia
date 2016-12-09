@@ -9,6 +9,9 @@ use stdClass;
 
 class CancelSubscriptionsRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -36,6 +39,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionIds()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionsRequest')->makePartial();
@@ -45,6 +51,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionIds, $request->getSubscriptionIds());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReferences()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionsRequest')->makePartial();
@@ -54,6 +63,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionReferences, $request->getSubscriptionReferences());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionsRequest')->makePartial();
@@ -63,6 +75,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionsRequest')->makePartial();
@@ -72,6 +87,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -89,6 +107,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertNull($data['cancelReasonCode']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataBySubscriptionReference()
     {
         $this->request->setSubscriptionIds(null)->setSubscriptionReferences($this->subscriptionReferences);
@@ -110,6 +131,8 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
 
     /**
      * When no subscriptions are specified, all of the customer's subscriptions are canceled
+     *
+     * @return void
      */
     public function testGetDataNoSubscriptions()
     {
@@ -126,8 +149,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the customerId or customerReference parameter is required.
+     * @return                   void
      */
     public function testCustomerIdOrReferenceRequired()
     {
@@ -136,6 +160,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CancelSubscriptionsSuccess.xml', array(
@@ -155,6 +182,9 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CancelSubscriptionsFailure.xml');

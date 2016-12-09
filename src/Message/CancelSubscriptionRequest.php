@@ -104,12 +104,16 @@ class CancelSubscriptionRequest extends AbstractRequest
      * The name of the function to be called in Vindicia's API
      *
      * @vreturn string
+     * @return  string
      */
     protected function getFunction()
     {
         return 'cancel';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$SUBSCRIPTION_OBJECT;

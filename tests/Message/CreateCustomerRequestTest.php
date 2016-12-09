@@ -11,6 +11,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class CreateCustomerRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -37,6 +40,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -46,6 +52,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->name, $request->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -55,6 +64,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->email, $request->getEmail());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -64,6 +76,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -73,6 +88,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptionsAsBag()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -84,6 +102,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame($exemptions, $request->getTaxExemptions());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxExemptionsAsArray()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateCustomerRequest')->makePartial();
@@ -104,12 +125,18 @@ class CreateCustomerRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
         $this->assertEquals(new AttributeBag($this->attributes), $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -129,6 +156,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame('update', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataWithCard()
     {
         $this->request->setCard($this->card)->setPaymentMethodId($this->paymentMethodId);
@@ -155,6 +185,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame('update', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataWithTaxExemptions()
     {
         $exemptions = $this->faker->taxExemptionsAsArray();
@@ -185,8 +218,9 @@ class CreateCustomerRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The customerId parameter is required
+     * @return                   void
      */
     public function testCustomerIdRequired()
     {
@@ -194,6 +228,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreateCustomerSuccess.xml', array(
@@ -215,6 +252,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendWithCardSuccess()
     {
         $this->request->setCard($this->card)->setPaymentMethodId($this->paymentMethodId);
@@ -246,6 +286,9 @@ class CreateCustomerRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CreateCustomerFailure.xml');

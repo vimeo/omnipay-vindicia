@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class ProductTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -15,6 +18,9 @@ class ProductTest extends TestCase
         $this->reference = $this->faker->productReference();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $product = new Product(array(
@@ -25,6 +31,9 @@ class ProductTest extends TestCase
         $this->assertSame($this->reference, $product->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $this->assertSame($this->product, $this->product->initialize(array(
@@ -35,24 +44,36 @@ class ProductTest extends TestCase
         $this->assertSame($this->reference, $this->product->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $this->assertSame($this->product, $this->product->setId($this->id)->setReference($this->reference));
         $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->product->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testId()
     {
         $this->assertSame($this->product, $this->product->setId($this->id));
         $this->assertSame($this->id, $this->product->getId());
     }
 
+    /**
+     * @return void
+     */
     public function testReference()
     {
         $this->assertSame($this->product, $this->product->setReference($this->reference));
         $this->assertSame($this->reference, $this->product->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPlan()
     {
         $plan = new Plan();
@@ -60,6 +81,9 @@ class ProductTest extends TestCase
         $this->assertSame($plan, $this->product->getPlan());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $planId = $this->faker->planId();
@@ -67,6 +91,9 @@ class ProductTest extends TestCase
         $this->assertSame($planId, $this->product->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $planReference = $this->faker->planReference();
@@ -74,6 +101,9 @@ class ProductTest extends TestCase
         $this->assertSame($planReference, $this->product->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $taxClassification = $this->faker->taxClassification();
@@ -81,6 +111,9 @@ class ProductTest extends TestCase
         $this->assertSame($taxClassification, $this->product->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testPrices()
     {
         $prices = array($this->faker->price());
@@ -88,6 +121,9 @@ class ProductTest extends TestCase
         $this->assertSame($prices, $this->product->getPrices());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

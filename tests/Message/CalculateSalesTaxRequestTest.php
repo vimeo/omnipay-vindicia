@@ -9,6 +9,9 @@ use Omnipay\Common\CreditCard;
 
 class CalculateSalesTaxRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -40,6 +43,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
@@ -50,6 +56,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
@@ -59,6 +68,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
@@ -68,6 +80,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame($this->taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
@@ -77,6 +92,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -90,8 +108,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The amount parameter is required
+     * @return                   void
      */
     public function testAmountRequired()
     {
@@ -99,6 +118,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CalculateSalesTaxSuccess.xml', array(
@@ -120,6 +142,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CalculateSalesTaxFailure.xml', array(

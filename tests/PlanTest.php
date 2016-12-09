@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class PlanTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -15,6 +18,9 @@ class PlanTest extends TestCase
         $this->reference = $this->faker->planReference();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $plan = new Plan(array(
@@ -25,6 +31,9 @@ class PlanTest extends TestCase
         $this->assertSame($this->reference, $plan->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $this->assertSame($this->plan, $this->plan->initialize(array(
@@ -35,24 +44,36 @@ class PlanTest extends TestCase
         $this->assertSame($this->reference, $this->plan->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $this->assertSame($this->plan, $this->plan->setId($this->id)->setReference($this->reference));
         $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->plan->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testId()
     {
         $this->assertSame($this->plan, $this->plan->setId($this->id));
         $this->assertSame($this->id, $this->plan->getId());
     }
 
+    /**
+     * @return void
+     */
     public function testReference()
     {
         $this->assertSame($this->plan, $this->plan->setReference($this->reference));
         $this->assertSame($this->reference, $this->plan->getReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInterval()
     {
         $interval = $this->faker->billingInterval();
@@ -60,6 +81,9 @@ class PlanTest extends TestCase
         $this->assertSame($interval, $this->plan->getInterval());
     }
 
+    /**
+     * @return void
+     */
     public function testIntervalCount()
     {
         $intervalCount = $this->faker->billingIntervalCount();
@@ -67,6 +91,9 @@ class PlanTest extends TestCase
         $this->assertSame($intervalCount, $this->plan->getIntervalCount());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $taxClassification = $this->faker->taxClassification();
@@ -74,6 +101,9 @@ class PlanTest extends TestCase
         $this->assertSame($taxClassification, $this->plan->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testPrices()
     {
         $prices = array($this->faker->price());
@@ -81,6 +111,9 @@ class PlanTest extends TestCase
         $this->assertSame($prices, $this->plan->getPrices());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

@@ -42,16 +42,25 @@ class PaymentMethod
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters->all();
     }
 
+    /**
+     * @return mixed
+     */
     protected function getParameter($key)
     {
         return $this->parameters->get($key);
     }
 
+    /**
+     * @return PaymentMethod
+     */
     protected function setParameter($key, $value)
     {
         $this->parameters->set($key, $value);

@@ -11,6 +11,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class HOAAuthorizeRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -58,6 +61,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->items = $this->faker->itemsAsArray($this->currency);
     }
 
+    /**
+     * @return void
+     */
     public function testMinChargebackProbability()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -68,6 +74,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($minChargebackProbability, $request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -77,6 +86,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testItems()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -86,6 +98,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertEquals(new VindiciaItemBag($this->items), $request->getItems());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -95,6 +110,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -104,6 +122,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -113,6 +134,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -122,6 +146,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -131,6 +158,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -140,6 +170,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->name, $request->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -149,6 +182,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->email, $request->getEmail());
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -159,18 +195,27 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
         $this->assertEquals(new AttributeBag($this->attributes), $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testHOAAttributes()
     {
         $this->assertSame($this->request, $this->request->setHOAAttributes($this->HOAAttributes));
         $this->assertEquals(new AttributeBag($this->HOAAttributes), $this->request->getHOAAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testIp()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -180,6 +225,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testReturnUrl()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -189,6 +237,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->returnUrl, $request->getReturnUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testErrorUrl()
     {
         $request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\HOAAuthorizeRequest');
@@ -198,6 +249,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame($this->errorUrl, $request->getErrorUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -285,6 +339,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame('initialize', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataMultipleItems()
     {
         $this->request->setAmount(null)->setItems($this->items);
@@ -392,6 +449,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame('initialize', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('HOAAuthorizeSuccess.xml', array(
@@ -416,6 +476,9 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/WebSession.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('HOAAuthorizeFailure.xml');

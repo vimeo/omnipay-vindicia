@@ -36,6 +36,9 @@ class CompleteHOARequest extends AbstractRequest
         return 'finalize';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$WEB_SESSION_OBJECT;

@@ -10,6 +10,9 @@ use Omnipay\Vindicia\Attribute;
 
 class AbstractHOARequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\AbstractHOARequest')->shouldAllowMockingProtectedMethods();
@@ -23,24 +26,36 @@ class AbstractHOARequestTest extends SoapTestCase
         $this->HOAAttributes = $this->faker->attributes();
     }
 
+    /**
+     * @return void
+     */
     public function testIp()
     {
         $this->assertSame($this->request, $this->request->setIp($this->ip));
         $this->assertSame($this->ip, $this->request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testReturnUrl()
     {
         $this->assertSame($this->request, $this->request->setReturnUrl($this->returnUrl));
         $this->assertSame($this->returnUrl, $this->request->getReturnUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testErrorUrl()
     {
         $this->assertSame($this->request, $this->request->setErrorUrl($this->errorUrl));
         $this->assertSame($this->errorUrl, $this->request->getErrorUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testHOAAttributesAsBag()
     {
         // $attributes is an AttributeBag
@@ -49,6 +64,9 @@ class AbstractHOARequestTest extends SoapTestCase
         $this->assertSame($attributes, $this->request->getHOAAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testHOAAttributesAsArray()
     {
         $attributes = $this->faker->attributesAsArray();
@@ -65,6 +83,9 @@ class AbstractHOARequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $this->markTestSkipped('Mocking and reflection don\'t play nice together, we might not be able to have this test.');

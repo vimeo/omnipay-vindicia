@@ -80,6 +80,9 @@ class Response extends AbstractResponse
         throw new InvalidResponseException('Response has no code.');
     }
 
+    /**
+     * @return bool
+     */
     public function isCvvValidationFailure()
     {
         return !$this->isSuccessful()
@@ -87,6 +90,9 @@ class Response extends AbstractResponse
             && strpos($this->getMessage(), 'CVN');
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Transaction
+     */
     public function getTransaction()
     {
         if (!isset($this->transaction) && isset($this->data->transaction)) {
@@ -102,8 +108,9 @@ class Response extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        if ($this->getTransaction()) {
-            return $this->getTransaction()->getReference();
+        $transaction = $this->getTransaction();
+        if ($transaction) {
+            return $transaction->getReference();
         }
         return null;
     }
@@ -118,12 +125,16 @@ class Response extends AbstractResponse
      */
     public function getTransactionId()
     {
-        if ($this->getTransaction()) {
-            return $this->getTransaction()->getId();
+        $transaction = $this->getTransaction();
+        if ($transaction) {
+            return $transaction->getId();
         }
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Customer
+     */
     public function getCustomer()
     {
         if (!isset($this->customer) && isset($this->data->account)) {
@@ -139,8 +150,9 @@ class Response extends AbstractResponse
      */
     public function getCustomerReference()
     {
-        if ($this->getCustomer()) {
-            return $this->getCustomer()->getReference();
+        $customer = $this->getCustomer();
+        if ($customer) {
+            return $customer->getReference();
         }
         return null;
     }
@@ -153,12 +165,16 @@ class Response extends AbstractResponse
      */
     public function getCustomerId()
     {
-        if ($this->getCustomer()) {
-            return $this->getCustomer()->getId();
+        $customer = $this->getCustomer();
+        if ($customer) {
+            return $customer->getId();
         }
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Plan
+     */
     public function getPlan()
     {
         if (!isset($this->plan) && isset($this->data->billingPlan)) {
@@ -174,8 +190,9 @@ class Response extends AbstractResponse
      */
     public function getPlanReference()
     {
-        if ($this->getPlan()) {
-            return $this->getPlan()->getReference();
+        $plan = $this->getPlan();
+        if ($plan) {
+            return $plan->getReference();
         }
         return null;
     }
@@ -187,12 +204,16 @@ class Response extends AbstractResponse
      */
     public function getPlanId()
     {
-        if ($this->getPlan()) {
-            return $this->getPlan()->getId();
+        $plan = $this->getPlan();
+        if ($plan) {
+            return $plan->getId();
         }
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Product
+     */
     public function getProduct()
     {
         if (!isset($this->product) && isset($this->data->product)) {
@@ -208,8 +229,9 @@ class Response extends AbstractResponse
      */
     public function getProductReference()
     {
-        if ($this->getProduct()) {
-            return $this->getProduct()->getReference();
+        $product = $this->getProduct();
+        if ($product) {
+            return $product->getReference();
         }
         return null;
     }
@@ -221,12 +243,16 @@ class Response extends AbstractResponse
      */
     public function getProductId()
     {
-        if ($this->getProduct()) {
-            return $this->getProduct()->getId();
+        $product = $this->getProduct();
+        if ($product) {
+            return $product->getId();
         }
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Subscription
+     */
     public function getSubscription()
     {
         if (!isset($this->subscription) && isset($this->data->autobill)) {
@@ -242,8 +268,9 @@ class Response extends AbstractResponse
      */
     public function getSubscriptionReference()
     {
-        if ($this->getSubscription()) {
-            return $this->getSubscription()->getReference();
+        $subscription = $this->getSubscription();
+        if ($subscription) {
+            return $subscription->getReference();
         }
         return null;
     }
@@ -255,8 +282,9 @@ class Response extends AbstractResponse
      */
     public function getSubscriptionId()
     {
-        if ($this->getSubscription()) {
-            return $this->getSubscription()->getId();
+        $subscription = $this->getSubscription();
+        if ($subscription) {
+            return $subscription->getId();
         }
         return null;
     }
@@ -274,6 +302,9 @@ class Response extends AbstractResponse
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\PaymentMethod
+     */
     public function getPaymentMethod()
     {
         if (isset($this->paymentMethod)) {
@@ -312,8 +343,9 @@ class Response extends AbstractResponse
      */
     public function getPaymentMethodId()
     {
-        if ($this->getPaymentMethod()) {
-            return $this->getPaymentMethod()->getId();
+        $paymentMethod = $this->getPaymentMethod();
+        if ($paymentMethod) {
+            return $paymentMethod->getId();
         }
 
         return null;
@@ -326,13 +358,17 @@ class Response extends AbstractResponse
      */
     public function getPaymentMethodReference()
     {
-        if ($this->getPaymentMethod()) {
-            return $this->getPaymentMethod()->getReference();
+        $paymentMethod = $this->getPaymentMethod();
+        if ($paymentMethod) {
+            return $paymentMethod->getReference();
         }
 
         return null;
     }
 
+    /**
+     * @return null|array<index, \Omnipay\Vindicia\Refund>
+     */
     public function getRefunds()
     {
         if (!isset($this->refunds) && isset($this->data->refunds)) {
@@ -345,6 +381,9 @@ class Response extends AbstractResponse
         return isset($this->refunds) ? $this->refunds : null;
     }
 
+    /**
+     * @return null|array<index, \Omnipay\Vindicia\Transaction>
+     */
     public function getTransactions()
     {
         if (!isset($this->transactions) && isset($this->data->transactions)) {
@@ -357,6 +396,9 @@ class Response extends AbstractResponse
         return isset($this->transactions) ? $this->transactions : null;
     }
 
+    /**
+     * @return null|array<index, \Omnipay\Vindicia\Subscription>
+     */
     public function getSubscriptions()
     {
         if (!isset($this->subscriptions) && isset($this->data->autobills)) {
@@ -369,6 +411,9 @@ class Response extends AbstractResponse
         return isset($this->subscriptions) ? $this->subscriptions : null;
     }
 
+    /**
+     * @return null|array<index, \Omnipay\Vindicia\PaymentMethod>
+     */
     public function getPaymentMethods()
     {
         if (!isset($this->paymentMethods) && isset($this->data->paymentMethods)) {
@@ -381,6 +426,9 @@ class Response extends AbstractResponse
         return isset($this->paymentMethods) ? $this->paymentMethods : null;
     }
 
+    /**
+     * @return null|array<index, \Omnipay\Vindicia\Chargeback>
+     */
     public function getChargebacks()
     {
         if (!isset($this->chargebacks) && isset($this->data->chargebacks)) {

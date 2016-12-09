@@ -123,6 +123,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
      */
     protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodResponse';
 
+    /**
+     * @return CreatePaymentMethodRequest
+     */
     public function initialize(array $parameters = array())
     {
         $this->cardRequired = true;
@@ -155,6 +158,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
         return $this->hasCustomer() ? 'updatePaymentMethod' : 'update';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return $this->hasCustomer() ? self::$CUSTOMER_OBJECT : self::$PAYMENT_METHOD_OBJECT;
@@ -322,6 +328,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * @return bool
+     */
     protected function hasCustomer()
     {
         return ($this->getCustomerId() !== null || $this->getCustomerReference() !== null);

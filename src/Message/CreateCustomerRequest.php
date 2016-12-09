@@ -93,6 +93,9 @@ class CreateCustomerRequest extends AbstractRequest
         return 'update';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$CUSTOMER_OBJECT;

@@ -29,6 +29,9 @@ class PayPalPurchaseResponse extends Response
         return $this->isSuccessful();
     }
 
+    /**
+     * @return string|null
+     */
     public function getRedirectUrl()
     {
         $transaction = $this->getTransaction();

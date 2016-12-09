@@ -23,6 +23,9 @@ namespace Omnipay\Vindicia\Message;
  */
 class CompleteCreatePayPalSubscriptionRequest extends AbstractRequest
 {
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$SUBSCRIPTION_OBJECT;

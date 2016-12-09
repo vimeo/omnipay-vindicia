@@ -7,6 +7,9 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class AttributeBagTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->bag = new AttributeBag();
@@ -19,6 +22,9 @@ class AttributeBagTest extends TestCase
         $this->value2 = $attribute2->getValue();
     }
 
+    /**
+     * @return void
+     */
     public function testConstruct()
     {
         $bag = new AttributeBag(array(array(
@@ -30,6 +36,8 @@ class AttributeBagTest extends TestCase
 
     /**
      * Make sure all construction syntaxes return the same bag.
+     *
+     * @return void
      */
     public function testConstructSyntax()
     {
@@ -62,6 +70,9 @@ class AttributeBagTest extends TestCase
         $this->assertEquals($bagFromArrays, $bagFromSimplifiedArray);
     }
 
+    /**
+     * @return void
+     */
     public function testAll()
     {
         $attributes = array(new Attribute(), new Attribute());
@@ -70,6 +81,9 @@ class AttributeBagTest extends TestCase
         $this->assertSame($attributes, $bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testReplace()
     {
         $attributes = array(new Attribute(), new Attribute());
@@ -78,6 +92,9 @@ class AttributeBagTest extends TestCase
         $this->assertSame($attributes, $this->bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithAttribute()
     {
         $attribute = new Attribute();
@@ -88,6 +105,9 @@ class AttributeBagTest extends TestCase
         $this->assertSame($attribute, $contents[0]);
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithArray()
     {
         $attribute = array(
@@ -101,6 +121,9 @@ class AttributeBagTest extends TestCase
         $this->assertSame($this->name, $contents[0]->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testGetIterator()
     {
         $attribute = new Attribute();
@@ -112,6 +135,9 @@ class AttributeBagTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testCount()
     {
         $count = $this->faker->intBetween(1, 5);

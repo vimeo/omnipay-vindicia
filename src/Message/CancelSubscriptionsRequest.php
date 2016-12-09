@@ -114,12 +114,16 @@ class CancelSubscriptionsRequest extends AbstractRequest
      * The name of the function to be called in Vindicia's API
      *
      * @vreturn string
+     * @return  string
      */
     protected function getFunction()
     {
         return 'stopAutoBilling';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$CUSTOMER_OBJECT;

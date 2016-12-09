@@ -46,6 +46,9 @@ class CreatePlanRequest extends AbstractRequest
         return 'update';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PLAN_OBJECT;

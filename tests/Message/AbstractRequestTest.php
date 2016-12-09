@@ -13,6 +13,9 @@ use stdClass;
 
 class AbstractRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
@@ -23,18 +26,27 @@ class AbstractRequestTest extends SoapTestCase
         $this->password = $this->faker->password();
     }
 
+    /**
+     * @return void
+     */
     public function testUsername()
     {
         $this->assertSame($this->request, $this->request->setUsername($this->username));
         $this->assertSame($this->username, $this->request->getUsername());
     }
 
+    /**
+     * @return void
+     */
     public function testPassword()
     {
         $this->assertSame($this->request, $this->request->setPassword($this->password));
         $this->assertSame($this->password, $this->request->getPassword());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $customerId = $this->faker->customerId();
@@ -42,6 +54,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($customerId, $this->request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $customerReference = $this->faker->customerReference();
@@ -49,6 +64,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($customerReference, $this->request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $name = $this->faker->name();
@@ -56,6 +74,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($name, $this->request->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $email = $this->faker->email();
@@ -63,6 +84,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($email, $this->request->getEmail());
     }
 
+    /**
+     * @return void
+     */
     public function testRefundId()
     {
         $refundId = $this->faker->refundId();
@@ -70,6 +94,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($refundId, $this->request->getRefundId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $paymentMethodId = $this->faker->paymentMethodId();
@@ -77,6 +104,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($paymentMethodId, $this->request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $paymentMethodReference = $this->faker->paymentMethodReference();
@@ -84,6 +114,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($paymentMethodReference, $this->request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $transactionId = $this->faker->transactionId();
@@ -91,6 +124,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($transactionId, $this->request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionReference()
     {
         $transactionReference = $this->faker->transactionReference();
@@ -98,6 +134,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($transactionReference, $this->request->getTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testProductId()
     {
         $productId = $this->faker->productId();
@@ -105,6 +144,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($productId, $this->request->getProductId());
     }
 
+    /**
+     * @return void
+     */
     public function testProductReference()
     {
         $productReference = $this->faker->productReference();
@@ -112,6 +154,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($productReference, $this->request->getProductReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $planId = $this->faker->planId();
@@ -119,6 +164,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($planId, $this->request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $planReference = $this->faker->planReference();
@@ -126,6 +174,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($planReference, $this->request->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionId()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -133,6 +184,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($subscriptionId, $this->request->getSubscriptionId());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReference()
     {
         $subscriptionReference = $this->faker->subscriptionReference();
@@ -140,6 +194,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($subscriptionReference, $this->request->getSubscriptionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testTimeout()
     {
         $timeout = $this->faker->timeout();
@@ -147,6 +204,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($timeout, $this->request->getTimeout());
     }
 
+    /**
+     * @return void
+     */
     public function testIp()
     {
         $ip = $this->faker->ipAddress();
@@ -154,6 +214,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($ip, $this->request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testStartTime()
     {
         $startTime = $this->faker->timestamp();
@@ -161,6 +224,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($startTime, $this->request->getStartTime());
     }
 
+    /**
+     * @return void
+     */
     public function testEndTime()
     {
         $endTime = $this->faker->timestamp();
@@ -168,6 +234,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($endTime, $this->request->getEndTime());
     }
 
+    /**
+     * @return void
+     */
     public function testItemsAsBag()
     {
         // $items is a VindiciaItemBag
@@ -176,6 +245,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($items, $this->request->getItems());
     }
 
+    /**
+     * @return void
+     */
     public function testItemsAsArray()
     {
         // $items is an array
@@ -193,6 +265,9 @@ class AbstractRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testAttributesAsBag()
     {
         // $attributes is an AttributeBag
@@ -201,6 +276,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($attributes, $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributesAsArray()
     {
         // $attributes is an array
@@ -218,6 +296,9 @@ class AbstractRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $card = new CreditCard();
@@ -225,6 +306,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($card, $this->request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testSetCardWithArray()
     {
         $card = $this->faker->card();
@@ -235,6 +319,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($card['number'], $returnedCard->getNumber());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $taxClassification = $this->faker->taxClassification();
@@ -242,6 +329,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($taxClassification, $this->request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $statementDescriptor = $this->faker->statementDescriptor();
@@ -249,6 +339,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($statementDescriptor, $this->request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testReturnUrl()
     {
         $returnUrl = $this->faker->url();
@@ -256,6 +349,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($returnUrl, $this->request->getReturnUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testCancelUrl()
     {
         $cancelUrl = $this->faker->url();
@@ -263,6 +359,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($cancelUrl, $this->request->getCancelUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testMinChargebackProbability()
     {
         $minChargebackProbability = $this->faker->chargebackProbability();
@@ -270,6 +369,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($minChargebackProbability, $this->request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testSuccess()
     {
         $success = $this->faker->bool();
@@ -277,6 +379,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($success, $this->request->getSuccess());
     }
 
+    /**
+     * @return void
+     */
     public function testPayPalTransactionReference()
     {
         $payPalTransactionReference = $this->faker->payPalTransactionReference();
@@ -284,6 +389,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($payPalTransactionReference, $this->request->getPayPalTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPrices()
     {
         $prices = $this->faker->prices();
@@ -291,6 +399,9 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($prices, $this->request->getPrices());
     }
 
+    /**
+     * @return void
+     */
     public function testSendData()
     {
         $object = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER, $this->faker->intBetween(5, 10));

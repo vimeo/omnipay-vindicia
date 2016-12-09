@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchPlanRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -26,6 +29,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->intervalCount = $this->faker->billingIntervalCount();
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPlanRequest')->makePartial();
@@ -35,6 +41,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPlanRequest')->makePartial();
@@ -44,6 +53,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $request->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -52,6 +64,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantBillingPlanId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setPlanId(null)->setPlanReference($this->planReference);
@@ -62,8 +77,9 @@ class FetchPlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the planId or planReference parameter is required.
+     * @return                   void
      */
     public function testPlanIdOrReferenceRequired()
     {
@@ -71,6 +87,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchPlanSuccess.xml', array(
@@ -107,6 +126,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceSuccess()
     {
         $this->setMockSoapResponse('FetchPlanByReferenceSuccess.xml', array(
@@ -127,6 +149,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchPlanFailure.xml', array(
@@ -144,6 +169,9 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertNull($response->getPlan());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceFailure()
     {
         $this->setMockSoapResponse('FetchPlanByReferenceFailure.xml', array(

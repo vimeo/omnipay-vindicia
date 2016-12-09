@@ -41,16 +41,25 @@ class Plan
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters->all();
     }
 
+    /**
+     * @return mixed
+     */
     protected function getParameter($key)
     {
         return $this->parameters->get($key);
     }
 
+    /**
+     * @return Plan
+     */
     protected function setParameter($key, $value)
     {
         $this->parameters->set($key, $value);
@@ -178,7 +187,7 @@ class Plan
      * If you only need a price for one currency, you can also use setAmount and setCurrency.
      *
      * @param array $prices
-     * @return AbstractRequest
+     * @return static
      * @throws InvalidPriceBagException if multiple prices have the same currency
      */
     public function setPrices($prices)

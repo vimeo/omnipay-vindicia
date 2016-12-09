@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchPaymentMethodsRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -24,6 +27,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPaymentMethodsRequest')->makePartial();
@@ -33,6 +39,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPaymentMethodsRequest')->makePartial();
@@ -42,6 +51,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -52,8 +64,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The customerId parameter or the customerReference parameter is required.
+     * @return                   void
      */
     public function testCustomerIdOrReferenceRequired()
     {
@@ -62,6 +75,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchPaymentMethodsSuccess.xml');
@@ -81,6 +97,9 @@ class FetchPaymentMethodsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchPaymentMethodsFailure.xml');

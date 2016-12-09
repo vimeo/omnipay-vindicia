@@ -11,6 +11,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class CreatePaymentMethodRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -37,6 +40,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testValidate()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -47,6 +53,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($value, $request->getValidate());
     }
 
+    /**
+     * @return void
+     */
     public function testSkipAvsValidation()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -57,6 +66,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($value, $request->getSkipAvsValidation());
     }
 
+    /**
+     * @return void
+     */
     public function testSkipCvvValidation()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -67,6 +79,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($value, $request->getSkipCvvValidation());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdateSubscriptions()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -77,6 +92,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($value, $request->getUpdateSubscriptions());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -86,6 +104,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -95,6 +116,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -104,6 +128,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -113,6 +140,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -122,6 +152,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -152,6 +185,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataWithValidation()
     {
         $skipAvsValidation = $this->faker->bool();
@@ -174,6 +210,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataDoNotUpdateSubscriptions()
     {
         $data = $this->request->setUpdateSubscriptions(false)->getData();
@@ -189,6 +228,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataNoCustomer()
     {
         $this->request->setCustomerId(null)->setCustomerReference(null);
@@ -220,6 +262,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('update', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataNoCustomerWithValidation()
     {
         $this->request->setCustomerId(null)->setCustomerReference(null);
@@ -242,6 +287,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('update', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataNoCustomerDoNotUpdateSubscriptions()
     {
         $this->request->setCustomerId(null)->setCustomerReference(null);
@@ -259,8 +307,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The paymentMethodId parameter is required
+     * @return                   void
      */
     public function testPaymentMethodIdRequired()
     {
@@ -269,8 +318,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The card parameter is required
+     * @return                   void
      */
     public function testCardRequired()
     {
@@ -280,6 +330,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
 
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     * @return            void
      */
     public function testCardValidation()
     {
@@ -287,6 +338,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreatePaymentMethodSuccess.xml', array(
@@ -314,6 +368,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendNoCustomerSuccess()
     {
         $this->request->setCustomerId(null)->setCustomerReference(null);
@@ -341,6 +398,8 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
 
     /**
      * Check that a different success code still works
+     *
+     * @return void
      */
     public function testSendNoCustomer228Success()
     {
@@ -367,6 +426,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CreatePaymentMethodFailure.xml', array(
@@ -385,6 +447,9 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertFalse($response->isCvvValidationFailure());
     }
 
+    /**
+     * @return void
+     */
     public function testSendCvvFailure()
     {
         $this->setMockSoapResponse('CreatePaymentMethodCvvFailure.xml');

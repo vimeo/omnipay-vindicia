@@ -118,6 +118,7 @@ class CreatePayPalSubscriptionRequest extends CreateSubscriptionRequest
      */
     protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CreatePayPalSubscriptionResponse';
 
+
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $this->validate('returnUrl', 'cancelUrl');

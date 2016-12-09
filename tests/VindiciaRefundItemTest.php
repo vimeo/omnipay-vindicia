@@ -7,6 +7,9 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class VindiciaRefundItemTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -18,12 +21,18 @@ class VindiciaRefundItemTest extends TestCase
         $this->item = $this->faker->refundItem($currency);
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $item = new VindiciaRefundItem(array('sku' => $this->sku));
         $this->assertSame($this->sku, $item->getSku());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $item = new VindiciaRefundItem();
@@ -31,6 +40,9 @@ class VindiciaRefundItemTest extends TestCase
         $this->assertSame($this->sku, $item->getSku());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $item = new VindiciaRefundItem();
@@ -38,6 +50,9 @@ class VindiciaRefundItemTest extends TestCase
         $this->assertSame(array('sku' => $this->sku), $item->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testSku()
     {
         $item = new VindiciaRefundItem();
@@ -45,6 +60,9 @@ class VindiciaRefundItemTest extends TestCase
         $this->assertSame($this->sku, $item->getSku());
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $item = new VindiciaRefundItem();
@@ -53,6 +71,9 @@ class VindiciaRefundItemTest extends TestCase
         $this->assertSame($amount, $item->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionItemIndexNumber()
     {
         $item = new VindiciaRefundItem();
@@ -61,6 +82,9 @@ class VindiciaRefundItemTest extends TestCase
         $this->assertSame($transactionItemIndexNumber, $item->getTransactionItemIndexNumber());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxOnly()
     {
         $item = new VindiciaRefundItem();
@@ -70,8 +94,9 @@ class VindiciaRefundItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Refund item requires amount if taxOnly is not set to true.
+     * @return                   void
      */
     public function testValidateAmountRequired()
     {
@@ -81,8 +106,9 @@ class VindiciaRefundItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Refund item requires sku or transactionItemIndexNumber.
+     * @return                   void
      */
     public function testValidateSkuOrTransactionItemIndexNumberRequired()
     {

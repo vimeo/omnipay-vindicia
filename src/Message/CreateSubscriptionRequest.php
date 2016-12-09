@@ -137,6 +137,9 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         return 'update';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$SUBSCRIPTION_OBJECT;

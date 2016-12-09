@@ -9,6 +9,9 @@ use Omnipay\Vindicia\Attribute;
 
 class CompleteHOARequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -38,6 +41,9 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->card = $this->faker->card();
     }
 
+    /**
+     * @return void
+     */
     public function testWebSessionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CompleteHOARequest')->makePartial();
@@ -48,6 +54,9 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame($webSessionReference, $request->getWebSessionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -57,8 +66,9 @@ class CompleteHOARequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The webSessionReference parameter is required
+     * @return                   void
      */
     public function testWebSessionReferenceRequired()
     {
@@ -66,6 +76,9 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendAuthorizeSuccess()
     {
         $this->setMockSoapResponse('CompleteHOAAuthorizeSuccess.xml', array(
@@ -126,11 +139,17 @@ class CompleteHOARequestTest extends SoapTestCase
         ));
     }
 
+    /**
+     * @return void
+     */
     public function testSendPurchaseSuccess()
     {
         $this->markTestSkipped('@todo');
     }
 
+    /**
+     * @return void
+     */
     public function testSendCreatePaymentMethodSuccess()
     {
         $this->setMockSoapResponse('CompleteHOACreatePaymentMethodSuccess.xml', array(
@@ -184,6 +203,9 @@ class CompleteHOARequestTest extends SoapTestCase
         ));
     }
 
+    /**
+     * @return void
+     */
     public function testSendCreatePaymentMethodNoCustomerSuccess()
     {
         $this->setMockSoapResponse('CompleteHOACreatePaymentMethodNoCustomerSuccess.xml', array(
@@ -236,6 +258,9 @@ class CompleteHOARequestTest extends SoapTestCase
         ));
     }
 
+    /**
+     * @return void
+     */
     public function testSendCreateSubscriptionSuccess()
     {
         $this->markTestSkipped('@todo');
@@ -243,6 +268,8 @@ class CompleteHOARequestTest extends SoapTestCase
 
     /**
      * Test when the HOA request fails
+     *
+     * @return void
      */
     public function testSendRequestFailure()
     {
@@ -261,6 +288,8 @@ class CompleteHOARequestTest extends SoapTestCase
 
     /**
      * Test when the method called by HOA fails
+     *
+     * @return void
      */
     public function testSendMethodFailure()
     {
@@ -290,6 +319,8 @@ class CompleteHOARequestTest extends SoapTestCase
      * Test when the method called by HOA fails and the request fails
      * This doesn't really mean anything different as far as I can tell, just another way
      * Vindicia returns method failures.
+     *
+     * @return void
      */
     public function testSendRequestAndMethodFailure()
     {
@@ -309,6 +340,8 @@ class CompleteHOARequestTest extends SoapTestCase
     /**
      * Test when completing a create payment method request and there's a CVV validation
      * failure.
+     *
+     * @return void
      */
     public function testSendCvvFailure()
     {

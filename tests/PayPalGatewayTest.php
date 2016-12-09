@@ -8,6 +8,9 @@ use Omnipay\Omnipay;
 
 class PayPalGatewayTest extends GatewayTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->gateway = new PayPalGateway($this->getHttpClient(), $this->getHttpRequest());
@@ -15,17 +18,26 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->faker = new DataFaker();
     }
 
+    /**
+     * @return void
+     */
     public function testGetName()
     {
         $this->assertSame('Vindicia PayPal', $this->gateway->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testCreation()
     {
         $gateway = Omnipay::create('Vindicia_PayPal');
         $this->assertInstanceOf('Omnipay\Vindicia\PayPalGateway', $gateway);
     }
 
+    /**
+     * @return void
+     */
     public function testUsername()
     {
         $username = $this->faker->username();
@@ -34,6 +46,9 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->assertSame($username, $this->gateway->getUsername());
     }
 
+    /**
+     * @return void
+     */
     public function testPassword()
     {
         $password = $this->faker->password();
@@ -42,6 +57,9 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->assertSame($password, $this->gateway->getPassword());
     }
 
+    /**
+     * @return void
+     */
     public function testTestMode()
     {
         $testMode = $this->faker->bool();
@@ -50,6 +68,9 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->assertSame($testMode, $this->gateway->getTestMode());
     }
 
+    /**
+     * @return void
+     */
     public function testPurchase()
     {
         $currency = $this->faker->currency();
@@ -76,6 +97,9 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->assertSame($cancelUrl, $request->getCancelUrl());
     }
 
+    /**
+     * @return void
+     */
     public function testCompletePurchase()
     {
         $success = $this->faker->bool();
@@ -93,6 +117,9 @@ class PayPalGatewayTest extends GatewayTestCase
         $this->assertSame($payPalTransactionReference, $request->getPayPalTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();

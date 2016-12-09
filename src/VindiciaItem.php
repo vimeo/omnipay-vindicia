@@ -54,6 +54,9 @@ class VindiciaItem extends Item
         return $this->setParameter('taxClassification', $value);
     }
 
+    /**
+     * @return void
+     */
     public function validate()
     {
         if ($this->getName() === null) {

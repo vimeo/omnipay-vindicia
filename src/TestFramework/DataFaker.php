@@ -501,6 +501,9 @@ class DataFaker
             . $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER . '%', $this->intBetween(0, 10));
     }
 
+    /**
+     * @return string
+     */
     protected function topLevelDomain()
     {
         switch ($this->intBetween(0, 3)) {
@@ -909,11 +912,17 @@ class DataFaker
         return $result;
     }
 
+    /**
+     * @return string
+     */
     public function username()
     {
         return $this->randomCharacters(self::ALPHABET_LOWER, $this->intBetween(3, 10));
     }
 
+    /**
+     * @return string
+     */
     public function password()
     {
         return $this->randomCharacters(self::ALPHABET_LOWER . self::DIGITS, $this->intBetween(8, 16));
@@ -934,6 +943,8 @@ class DataFaker
 
     /**
      * Return a PayPal token
+     *
+     * @return string
      */
     public function payPalToken()
     {

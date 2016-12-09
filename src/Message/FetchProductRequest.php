@@ -62,6 +62,9 @@ class FetchProductRequest extends AbstractRequest
         return $this->getProductId() ? 'fetchByMerchantProductId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PRODUCT_OBJECT;

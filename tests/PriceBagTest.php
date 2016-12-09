@@ -8,6 +8,9 @@ use Omnipay\Common\Currency;
 
 class PriceBagTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->bag = new PriceBag();
@@ -24,6 +27,9 @@ class PriceBagTest extends TestCase
         } while ($this->currency === $this->currency2);
     }
 
+    /**
+     * @return void
+     */
     public function testConstruct()
     {
         $bag = new PriceBag(array(array(
@@ -35,6 +41,8 @@ class PriceBagTest extends TestCase
 
     /**
      * Make sure all construction syntaxes return the same bag.
+     *
+     * @return void
      */
     public function testConstructSyntax()
     {
@@ -67,6 +75,9 @@ class PriceBagTest extends TestCase
         $this->assertEquals($bagFromArrays, $bagFromSimplifiedArray);
     }
 
+    /**
+     * @return void
+     */
     public function testAll()
     {
         $prices = array($this->price, $this->price2);
@@ -75,6 +86,9 @@ class PriceBagTest extends TestCase
         $this->assertSame($prices, $bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testReplace()
     {
         $prices = array($this->price, $this->price2);
@@ -83,6 +97,9 @@ class PriceBagTest extends TestCase
         $this->assertSame($prices, $this->bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithPrice()
     {
         $price = new Price();
@@ -93,6 +110,9 @@ class PriceBagTest extends TestCase
         $this->assertSame($price, $contents[0]);
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithArray()
     {
         $price = array(
@@ -106,6 +126,9 @@ class PriceBagTest extends TestCase
         $this->assertSame($this->currency, $contents[0]->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testGetIterator()
     {
         $price = new Price();
@@ -117,6 +140,9 @@ class PriceBagTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testCount()
     {
         $currencies = array_keys(Currency::all());

@@ -66,6 +66,9 @@ use stdClass;
  */
 class FetchSubscriptionsRequest extends FetchTransactionsRequest
 {
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$SUBSCRIPTION_OBJECT;

@@ -29,6 +29,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         parent::__construct($httpClient, $httpRequest, $isUpdate);
     }
 
+    /**
+     * @return AbstractHOARequest
+     */
     public function initialize(array $parameters = array())
     {
         $this->regularRequest->initialize($parameters);
@@ -64,7 +67,7 @@ abstract class AbstractHOARequest extends AbstractRequest
      * that are passed in the request. Return format is
      * `object_name => parameter_name`
      *
-     * @return array of string
+     * @return array<string, string>
      */
     abstract protected function getObjectParamNames();
 
@@ -73,6 +76,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         return array_merge($this->parameters->all(), $this->regularRequest->getParameters());
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$WEB_SESSION_OBJECT;
@@ -157,6 +163,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * @return array
+     */
     protected function getPrivateFormValues()
     {
         $values = array();
@@ -171,6 +180,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         return $values;
     }
 
+    /**
+     * @return array
+     */
     protected function buildPrivateFormValues($keySoFar, $member)
     {
         if (is_object($member) || is_array($member)) {
@@ -210,5 +222,8 @@ abstract class AbstractHOARequest extends AbstractRequest
         }
     }
 
+    /**
+     * @return array<int, NameValue>
+     */
     abstract protected function getMethodParamValues();
 }

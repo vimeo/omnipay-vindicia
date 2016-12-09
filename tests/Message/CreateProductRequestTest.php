@@ -10,6 +10,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class CreateProductRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -43,6 +46,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->amount = $this->faker->monetaryAmount($this->currency);
     }
 
+    /**
+     * @return void
+     */
     public function testProductId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -52,6 +58,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->productId, $request->getProductId());
     }
 
+    /**
+     * @return void
+     */
     public function testProductReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -61,6 +70,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->productReference, $request->getProductReference());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -70,6 +82,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -79,6 +94,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $request->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testDuplicateBehavior()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -88,6 +106,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->duplicateBehavior, $request->getDuplicateBehavior());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -97,6 +118,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -106,6 +130,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testPricesAsBag()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -117,6 +144,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($prices, $request->getPrices());
     }
 
+    /**
+     * @return void
+     */
     public function testPricesAsArray()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -137,6 +167,9 @@ class CreateProductRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -147,6 +180,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateProductRequest')->makePartial();
@@ -156,12 +192,18 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
         $this->assertEquals(new AttributeBag($this->attributes), $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -193,6 +235,8 @@ class CreateProductRequestTest extends SoapTestCase
 
     /**
      * Test getData when amount and currency are set instead of prices
+     *
+     * @return void
      */
     public function testGetDataAmountAndCurrency()
     {
@@ -223,8 +267,9 @@ class CreateProductRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The productId parameter is required
+     * @return                   void
      */
     public function testProductIdRequired()
     {
@@ -233,8 +278,9 @@ class CreateProductRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The amount and currency parameters cannot be set if the prices parameter is set.
+     * @return                   void
      */
     public function testCannotSetPricesAndAmount()
     {
@@ -244,8 +290,9 @@ class CreateProductRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The amount and currency parameters cannot be set if the prices parameter is set.
+     * @return                   void
      */
     public function testCannotSetPricesAndCurrency()
     {
@@ -253,6 +300,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreateProductSuccess.xml', array(
@@ -277,6 +327,9 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Product.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CreateProductFailure.xml');

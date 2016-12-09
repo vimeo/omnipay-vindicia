@@ -44,16 +44,25 @@ class VindiciaRefundItem
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters->all();
     }
 
+    /**
+     * @return mixed
+     */
     protected function getParameter($key)
     {
         return $this->parameters->get($key);
     }
 
+    /**
+     * @return VindiciaRefundItem
+     */
     protected function setParameter($key, $value)
     {
         $this->parameters->set($key, $value);
@@ -151,6 +160,9 @@ class VindiciaRefundItem
         return $this->setParameter('taxOnly', $value);
     }
 
+    /**
+     * @return void
+     */
     public function validate()
     {
         if ($this->getAmount() === null && $this->getTaxOnly() !== true) {

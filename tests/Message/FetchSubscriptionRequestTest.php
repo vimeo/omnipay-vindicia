@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchSubscriptionRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -34,6 +37,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->ipAddress = $this->faker->ipAddress();
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionRequest')->makePartial();
@@ -43,6 +49,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $request->getSubscriptionId());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionRequest')->makePartial();
@@ -52,6 +61,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionReference, $request->getSubscriptionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -60,6 +72,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantAutoBillId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setSubscriptionId(null)->setSubscriptionReference($this->subscriptionReference);
@@ -71,8 +86,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the subscriptionId or subscriptionReference parameter is required.
+     * @return                   void
      */
     public function testSubscriptionIdOrReferenceRequired()
     {
@@ -81,6 +97,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchSubscriptionSuccess.xml', array(
@@ -142,6 +161,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceSuccess()
     {
         $this->setMockSoapResponse('FetchSubscriptionByReferenceSuccess.xml', array(
@@ -162,6 +184,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchSubscriptionFailure.xml', array(
@@ -179,6 +204,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertNull($response->getPaymentMethod());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceFailure()
     {
         $this->setMockSoapResponse('FetchSubscriptionByReferenceFailure.xml', array(

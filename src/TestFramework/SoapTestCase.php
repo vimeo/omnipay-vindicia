@@ -28,15 +28,19 @@ class SoapTestCase extends TestCase
      * Will throw an error if a response has already been set and not used
      * or if the file can't be opened.
      *
-     * @param string $filename
-     * @param array<string, string> $substitutions default array()
+     * @param  string $filename
+     * @param  array<string, string> $substitutions default array()
      * @throws Omnipay\Common\Exception\BadMethodCallException
+     * @return void
      */
     public function setMockSoapResponse($filename, $substitutions = array())
     {
         TestableSoapClient::setNextResponseFromFile($filename, $substitutions);
     }
 
+    /**
+     * @return string
+     */
     public function getLastEndpoint()
     {
         return TestableSoapClient::getLastWsdl();

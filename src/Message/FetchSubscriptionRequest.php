@@ -102,6 +102,9 @@ class FetchSubscriptionRequest extends AbstractRequest
         return $this->getSubscriptionId() ? 'fetchByMerchantAutoBillId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$SUBSCRIPTION_OBJECT;

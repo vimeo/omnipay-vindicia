@@ -61,6 +61,9 @@ class FetchPlanRequest extends AbstractRequest
         return $this->getPlanId() ? 'fetchByMerchantBillingPlanId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PLAN_OBJECT;

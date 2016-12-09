@@ -21,6 +21,9 @@ namespace Omnipay\Vindicia\Message;
  */
 class CompletePayPalPurchaseRequest extends AbstractRequest
 {
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;

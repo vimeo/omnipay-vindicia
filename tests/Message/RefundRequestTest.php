@@ -11,6 +11,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class RefundRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -52,6 +55,9 @@ class RefundRequestTest extends SoapTestCase
         $this->customerId = $this->faker->customerId();
     }
 
+    /**
+     * @return void
+     */
     public function testRefundId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -61,6 +67,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->refundId, $request->getRefundId());
     }
 
+    /**
+     * @return void
+     */
     public function testNote()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -70,6 +79,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->note, $request->getNote());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -79,6 +91,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -88,6 +103,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->transactionReference, $request->getTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -97,6 +115,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -107,6 +128,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->refundAmount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testItemsAsBag()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -118,6 +142,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($items, $request->getItems());
     }
 
+    /**
+     * @return void
+     */
     public function testItemsAsArray()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
@@ -138,12 +165,18 @@ class RefundRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
         $this->assertEquals(new AttributeBag($this->attributes), $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -164,6 +197,9 @@ class RefundRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataNoAmount()
     {
         $data = $this->request->setAmount(null)->getData();
@@ -177,6 +213,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame('perform', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataItems()
     {
         $refundItems = $this->faker->refundItemsAsArray($this->currency);
@@ -215,8 +254,9 @@ class RefundRequestTest extends SoapTestCase
      * If both an amount and refund items are provided, the sum of the refund items
      * amounts must equal the amount or else an exception will be thrown.
      *
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Sum of refund item amounts not equal to set amount.
+     * @return                   void
      */
     public function testRefundItemsMustEqualTotalAmount()
     {
@@ -234,8 +274,9 @@ class RefundRequestTest extends SoapTestCase
     /**
      * Refund items must have either the sku or transactionItemIndexNumber set.
      *
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Refund item requires sku or transactionItemIndexNumber.
+     * @return                   void
      */
     public function testTransactionItemIndexNumberOrSkuRequired()
     {
@@ -248,8 +289,9 @@ class RefundRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the transactionId or transactionReference parameter is required.
+     * @return                   void
      */
     public function testTransactionIdOrReferenceRequired()
     {
@@ -259,8 +301,9 @@ class RefundRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The refundId parameter is required
+     * @return                   void
      */
     public function testRefundIdRequired()
     {
@@ -268,6 +311,9 @@ class RefundRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('RefundSuccess.xml', array(
@@ -301,6 +347,9 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         // switch transactionAmount and refundAmount so refundAmount is higher

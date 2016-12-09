@@ -106,12 +106,16 @@ class FetchRefundsRequest extends AbstractRequest
      * The name of the function to be called in Vindicia's API
      *
      * @refund string
+     * @return string
      */
     protected function getFunction()
     {
         return $this->getStartTime() ? 'fetchDeltaSince' : 'fetchByTransaction';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$REFUND_OBJECT;

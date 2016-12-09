@@ -10,6 +10,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class CreatePlanRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -41,6 +44,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->amount = $this->faker->monetaryAmount($this->currency);
     }
 
+    /**
+     * @return void
+     */
     public function testPlanId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -50,6 +56,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testPlanReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -59,6 +68,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $request->getPlanReference());
     }
 
+    /**
+     * @return void
+     */
     public function testInterval()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -68,6 +80,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->interval, $request->getInterval());
     }
 
+    /**
+     * @return void
+     */
     public function testIntervalCount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -77,6 +92,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->intervalCount, $request->getIntervalCount());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -86,6 +104,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -95,6 +116,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testPricesAsBag()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -106,6 +130,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($prices, $request->getPrices());
     }
 
+    /**
+     * @return void
+     */
     public function testPricesAsArray()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -126,6 +153,9 @@ class CreatePlanRequestTest extends SoapTestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -136,6 +166,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePlanRequest')->makePartial();
@@ -145,12 +178,18 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $this->assertSame($this->request, $this->request->setAttributes($this->attributes));
         $this->assertEquals(new AttributeBag($this->attributes), $this->request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -182,6 +221,8 @@ class CreatePlanRequestTest extends SoapTestCase
 
     /**
      * Test getData when amount and currency are set instead of prices
+     *
+     * @return void
      */
     public function testGetDataAmountAndCurrency()
     {
@@ -214,8 +255,9 @@ class CreatePlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The planId parameter is required
+     * @return                   void
      */
     public function testPlanIdRequired()
     {
@@ -224,8 +266,9 @@ class CreatePlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The interval parameter is required
+     * @return                   void
      */
     public function testIntervalRequired()
     {
@@ -234,8 +277,9 @@ class CreatePlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The intervalCount parameter is required
+     * @return                   void
      */
     public function testIntervalCountRequired()
     {
@@ -244,8 +288,9 @@ class CreatePlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The amount and currency parameters cannot be set if the prices parameter is set.
+     * @return                   void
      */
     public function testCannotSetPricesAndAmount()
     {
@@ -255,8 +300,9 @@ class CreatePlanRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The amount and currency parameters cannot be set if the prices parameter is set.
+     * @return                   void
      */
     public function testCannotSetPricesAndCurrency()
     {
@@ -264,6 +310,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreatePlanSuccess.xml', array(
@@ -287,6 +336,9 @@ class CreatePlanRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CreatePlanFailure.xml');

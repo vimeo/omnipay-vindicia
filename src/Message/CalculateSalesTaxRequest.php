@@ -42,6 +42,9 @@ namespace Omnipay\Vindicia\Message;
  */
 class CalculateSalesTaxRequest extends AbstractRequest
 {
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;

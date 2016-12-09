@@ -117,6 +117,9 @@ class RefundRequest extends AbstractRequest
         return 'perform';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$REFUND_OBJECT;

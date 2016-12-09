@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchChargebacksRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -35,6 +38,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->amount = $this->faker->monetaryAmount($this->currency);
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchChargebacksRequest')->makePartial();
@@ -44,6 +50,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchChargebacksRequest')->makePartial();
@@ -53,6 +62,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->transactionReference, $request->getTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testStartTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchChargebacksRequest')->makePartial();
@@ -62,6 +74,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->startTime, $request->getStartTime());
     }
 
+    /**
+     * @return void
+     */
     public function testEndTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchChargebacksRequest')->makePartial();
@@ -71,6 +86,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->endTime, $request->getEndTime());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -79,6 +97,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantTransactionId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setTransactionId(null)->setTransactionReference($this->transactionReference);
@@ -89,6 +110,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('fetchByVid', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByTime()
     {
         $this->request->setStartTime($this->startTime);
@@ -102,8 +126,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The transactionId parameter or the transactionReference parameter or the startTime and endTime parameters are required.
+     * @return                   void
      */
     public function testTransactionIdOrReferenceOrTimesRequired()
     {
@@ -112,8 +137,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Cannot fetch by both transaction and start/end time.
+     * @return                   void
      */
     public function testTransactionIdOrTimesNotBoth()
     {
@@ -122,6 +148,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchChargebacksSuccess.xml', array(
@@ -151,6 +180,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeSuccess()
     {
         $this->setMockSoapResponse('FetchChargebacksByTimeSuccess.xml');
@@ -170,6 +202,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchChargebacksFailure.xml', array(
@@ -187,6 +222,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertNull($response->getChargebacks());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeFailure()
     {
         $this->setMockSoapResponse('FetchChargebacksByTimeFailure.xml');

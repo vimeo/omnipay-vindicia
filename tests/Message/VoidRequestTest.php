@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class VoidRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -23,6 +26,9 @@ class VoidRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -33,8 +39,9 @@ class VoidRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the transactionId or transactionReference parameter is required.
+     * @return                   void
      */
     public function testTransactionIdOrReferenceRequired()
     {
@@ -43,6 +50,9 @@ class VoidRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('VoidSuccess.xml', array(
@@ -60,6 +70,9 @@ class VoidRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('VoidFailure.xml', array(

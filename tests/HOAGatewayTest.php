@@ -8,6 +8,9 @@ use Omnipay\Omnipay;
 
 class HOAGatewayTest extends GatewayTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->gateway = new HOAGateway($this->getHttpClient(), $this->getHttpRequest());
@@ -19,17 +22,26 @@ class HOAGatewayTest extends GatewayTestCase
         $this->ip = $this->faker->ipAddress();
     }
 
+    /**
+     * @return void
+     */
     public function testGetName()
     {
         $this->assertSame('Vindicia HOA', $this->gateway->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testCreation()
     {
         $gateway = Omnipay::create('Vindicia_HOA');
         $this->assertInstanceOf('Omnipay\Vindicia\HOAGateway', $gateway);
     }
 
+    /**
+     * @return void
+     */
     public function testUsername()
     {
         $username = $this->faker->username();
@@ -38,6 +50,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($username, $this->gateway->getUsername());
     }
 
+    /**
+     * @return void
+     */
     public function testPassword()
     {
         $password = $this->faker->password();
@@ -46,6 +61,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($password, $this->gateway->getPassword());
     }
 
+    /**
+     * @return void
+     */
     public function testTestMode()
     {
         $testMode = $this->faker->bool();
@@ -54,6 +72,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($testMode, $this->gateway->getTestMode());
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorize()
     {
         $currency = $this->faker->currency();
@@ -82,6 +103,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($minChargebackProbability, $request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testPurchase()
     {
         $currency = $this->faker->currency();
@@ -110,6 +134,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($minChargebackProbability, $request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testCreatePaymentMethod()
     {
         $customerId = $this->faker->customerId();
@@ -130,6 +157,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdatePaymentMethod()
     {
         $customerId = $this->faker->customerId();
@@ -150,6 +180,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -188,6 +221,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdateSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -226,6 +262,9 @@ class HOAGatewayTest extends GatewayTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testComplete()
     {
         $webSessionReference = $this->faker->webSessionReference();

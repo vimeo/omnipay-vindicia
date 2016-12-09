@@ -7,6 +7,9 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class VindiciaItemTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -18,12 +21,18 @@ class VindiciaItemTest extends TestCase
         $this->item = $this->faker->item($this->currency);
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $item = new VindiciaItem(array('name' => $this->name));
         $this->assertSame($this->name, $item->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $item = new VindiciaItem();
@@ -31,6 +40,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($this->name, $item->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $item = new VindiciaItem();
@@ -38,6 +50,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame(array('name' => $this->name), $item->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $item = new VindiciaItem();
@@ -45,6 +60,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($this->name, $item->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testDescription()
     {
         $item = new VindiciaItem();
@@ -52,6 +70,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($this->name, $item->getDescription());
     }
 
+    /**
+     * @return void
+     */
     public function testQuantity()
     {
         $item = new VindiciaItem();
@@ -60,6 +81,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($quantity, $item->getQuantity());
     }
 
+    /**
+     * @return void
+     */
     public function testPrice()
     {
         $item = new VindiciaItem();
@@ -68,6 +92,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($price, $item->getPrice());
     }
 
+    /**
+     * @return void
+     */
     public function testSku()
     {
         $item = new VindiciaItem();
@@ -76,6 +103,9 @@ class VindiciaItemTest extends TestCase
         $this->assertSame($sku, $item->getSku());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $item = new VindiciaItem();
@@ -85,8 +115,9 @@ class VindiciaItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing name.
+     * @return                   void
      */
     public function testValidateNameRequired()
     {
@@ -95,8 +126,9 @@ class VindiciaItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing price.
+     * @return                   void
      */
     public function testValidatePriceRequired()
     {
@@ -105,8 +137,9 @@ class VindiciaItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing quantity.
+     * @return                   void
      */
     public function testValidateQuantityRequired()
     {
@@ -115,8 +148,9 @@ class VindiciaItemTest extends TestCase
     }
 
     /**
-     * @expectedException \Omnipay\Vindicia\Exception\InvalidItemException
+     * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing sku.
+     * @return                   void
      */
     public function testValidateSkuRequired()
     {

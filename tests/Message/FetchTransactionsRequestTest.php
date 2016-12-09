@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchTransactionsRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -32,6 +35,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
@@ -41,6 +47,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
@@ -50,6 +59,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testStartTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
@@ -59,6 +71,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame($this->startTime, $request->getStartTime());
     }
 
+    /**
+     * @return void
+     */
     public function testEndTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
@@ -68,6 +83,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame($this->endTime, $request->getEndTime());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -77,6 +95,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame('fetchByAccount', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByTime()
     {
         $this->request->setStartTime($this->startTime);
@@ -91,8 +112,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The customerId parameter or the customerReference parameter or the startTime and endTime parameters are required.
+     * @return                   void
      */
     public function testCustomerIdOrTimesRequired()
     {
@@ -102,8 +124,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Cannot fetch by both customer and start/end time.
+     * @return                   void
      */
     public function testCustomerIdOrTimesNotBoth()
     {
@@ -112,6 +135,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchTransactionsSuccess.xml');
@@ -133,6 +159,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeSuccess()
     {
         $this->setMockSoapResponse('FetchTransactionsByTimeSuccess.xml');
@@ -152,6 +181,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchTransactionsFailure.xml');
@@ -167,6 +199,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertNull($response->getTransactions());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeFailure()
     {
         $this->setMockSoapResponse('FetchTransactionsByTimeFailure.xml');

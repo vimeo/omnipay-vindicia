@@ -23,21 +23,33 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
         );
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->getParameter('username');
     }
 
+    /**
+     * @return AbstractVindiciaGateway
+     */
     public function setUsername($value)
     {
         return $this->setParameter('username', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->getParameter('password');
     }
 
+    /**
+     * @return AbstractVindiciaGateway
+     */
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);

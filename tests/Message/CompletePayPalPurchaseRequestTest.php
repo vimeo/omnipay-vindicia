@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class CompletePayPalPurchaseRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -36,6 +39,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
         $this->payPalToken = $this->faker->payPalToken();
     }
 
+    /**
+     * @return void
+     */
     public function testSuccess()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CompletePayPalPurchaseRequest')->makePartial();
@@ -45,6 +51,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->success, $request->getSuccess());
     }
 
+    /**
+     * @return void
+     */
     public function testPayPalTransactionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CompletePayPalPurchaseRequest')->makePartial();
@@ -54,6 +63,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->success, $request->getSuccess());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -64,8 +76,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The success parameter is required
+     * @return                   void
      */
     public function testSuccessRequired()
     {
@@ -74,8 +87,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The payPalTransactionReference parameter is required
+     * @return                   void
      */
     public function testPayPalTransactionReferenceRequired()
     {
@@ -83,6 +97,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CompletePayPalPurchaseSuccess.xml', array(
@@ -111,6 +128,9 @@ class CompletePayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CompletePayPalPurchaseFailure.xml');

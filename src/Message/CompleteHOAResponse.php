@@ -138,11 +138,17 @@ class CompleteHOAResponse extends Response
         throw new InvalidResponseException('Response has no code.');
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccessful()
     {
         return $this->isSuccessful;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Transaction
+     */
     public function getTransaction()
     {
         if (isset($this->transaction)) {
@@ -163,6 +169,9 @@ class CompleteHOAResponse extends Response
         return null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\PaymentMethod
+     */
     public function getPaymentMethod()
     {
 
@@ -182,6 +191,9 @@ class CompleteHOAResponse extends Response
         return isset($this->paymentMethod) ? $this->paymentMethod : null;
     }
 
+    /**
+     * @return null|\Omnipay\Vindicia\Subscription
+     */
     public function getSubscription()
     {
         if (!isset($this->subscription)

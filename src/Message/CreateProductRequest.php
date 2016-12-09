@@ -50,6 +50,9 @@ class CreateProductRequest extends AbstractRequest
     const BEHAVIOR_FAIL = 'Fail';
     const BEHAVIOR_SUCCEED_IGNORE = 'SucceedIgnore';
 
+    /**
+     * @return CreateProductRequest
+     */
     public function initialize(array $parameters = array())
     {
         if (!array_key_exists('duplicateBehavior', $parameters)) {
@@ -70,6 +73,9 @@ class CreateProductRequest extends AbstractRequest
         return 'update';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PRODUCT_OBJECT;

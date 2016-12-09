@@ -94,6 +94,9 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
 {
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodRequest';
 
+    /**
+     * @return HOACreatePaymentMethodRequest
+     */
     public function initialize(array $parameters = array())
     {
         parent::initialize($parameters);
@@ -117,17 +120,26 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
         return $names;
     }
 
+    /**
+     * @return bool
+     */
     public function getValidate()
     {
         return $this->regularRequest->getValidate();
     }
 
+    /**
+     * @return HOACreatePaymentMethodRequest
+     */
     public function setValidate($value)
     {
         $this->regularRequest->setValidate($value);
         return $this;
     }
 
+    /**
+     * @return array<int, NameValue>
+     */
     protected function getMethodParamValues()
     {
         $regularRequestData = $this->regularRequest->getData();
@@ -164,6 +176,9 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function hasCustomer()
     {
         // make it so we can access the regular requests's method since we're

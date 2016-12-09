@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchCustomerRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -26,6 +29,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->name = $this->faker->name();
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchCustomerRequest')->makePartial();
@@ -35,6 +41,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchCustomerRequest')->makePartial();
@@ -44,6 +53,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -52,6 +64,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantAccountId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setCustomerId(null)->setCustomerReference($this->customerReference);
@@ -62,8 +77,9 @@ class FetchCustomerRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the customerId or customerReference parameter is required.
+     * @return                   void
      */
     public function testCustomerIdOrReferenceRequired()
     {
@@ -71,6 +87,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchCustomerSuccess.xml', array(
@@ -104,6 +123,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceSuccess()
     {
         $this->setMockSoapResponse('FetchCustomerByReferenceSuccess.xml', array(
@@ -124,6 +146,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Account.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchCustomerFailure.xml', array(
@@ -141,6 +166,9 @@ class FetchCustomerRequestTest extends SoapTestCase
         $this->assertNull($response->getCustomer());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceFailure()
     {
         $this->setMockSoapResponse('FetchCustomerByReferenceFailure.xml', array(

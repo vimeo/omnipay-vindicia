@@ -12,6 +12,9 @@ use Omnipay\Vindicia\AttributeBag;
 
 class PurchaseRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -58,6 +61,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->riskScore = $this->faker->riskScore();
     }
 
+    /**
+     * @return void
+     */
     public function testMinChargebackProbability()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -67,6 +73,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->minChargebackProbability, $request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testStatementDescriptor()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -76,6 +85,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $request->getStatementDescriptor());
     }
 
+    /**
+     * @return void
+     */
     public function testIp()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -85,6 +97,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->ip, $request->getIp());
     }
 
+    /**
+     * @return void
+     */
     public function testItems()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -94,6 +109,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertEquals(new VindiciaItemBag($this->items), $request->getItems());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -103,6 +121,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -112,6 +133,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testName()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
@@ -121,6 +145,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->name, $request->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testEmail()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\AuthorizeRequest')->makePartial();
@@ -130,6 +157,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->email, $request->getEmail());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -139,6 +169,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -148,6 +181,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCurrency()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -157,6 +193,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $request->getCurrency());
     }
 
+    /**
+     * @return void
+     */
     public function testAmount()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -167,6 +206,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $request->getAmount());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -176,6 +218,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testTaxClassification()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -185,6 +230,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testCard()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -194,6 +242,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertEquals(new CreditCard($this->card), $request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\PurchaseRequest')->makePartial();
@@ -203,6 +254,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertEquals(new AttributeBag($this->attributes), $request->getAttributes());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -242,6 +296,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame($this->minChargebackProbability, $data['minChargebackProbability']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataMultipleItems()
     {
         $this->request->setAmount(null)->setItems($this->items);
@@ -290,6 +347,8 @@ class PurchaseRequestTest extends SoapTestCase
 
     /**
      * If you're using a saved card, you only have to specify the card id, not all the details
+     *
+     * @return void
      */
     public function testGetDataPaymentMethodIdOnly()
     {
@@ -307,8 +366,9 @@ class PurchaseRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the amount or items parameter is required.
+     * @return                   void
      */
     public function testAmountRequired()
     {
@@ -318,6 +378,7 @@ class PurchaseRequestTest extends SoapTestCase
 
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     * @return            void
      */
     public function testCardValidation()
     {
@@ -326,8 +387,9 @@ class PurchaseRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Sum of item prices not equal to set amount.
+     * @return                   void
      */
     public function testAmountMustEqualSumOfItems()
     {
@@ -357,6 +419,9 @@ class PurchaseRequestTest extends SoapTestCase
         $request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('PurchaseSuccess.xml', array(
@@ -391,6 +456,8 @@ class PurchaseRequestTest extends SoapTestCase
 
     /**
      * If you're using a saved card, you only have to specify the card id, not all the details
+     *
+     * @return void
      */
     public function testSendSuccessPaymentMethodIdOnly()
     {
@@ -419,6 +486,9 @@ class PurchaseRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('PurchaseFailure.xml', array(

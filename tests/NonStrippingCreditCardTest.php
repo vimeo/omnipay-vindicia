@@ -6,11 +6,17 @@ use Omnipay\Tests\TestCase;
 
 class NonStrippingCreditCardTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->card = new NonStrippingCreditCard();
     }
 
+    /**
+     * @return void
+     */
     public function testNumber()
     {
         $number = '424242XXXXXX4242';

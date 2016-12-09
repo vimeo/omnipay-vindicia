@@ -7,6 +7,9 @@ use stdClass;
 
 class ObjectHelper
 {
+    /**
+     * @return \Omnipay\Vindicia\Transaction
+     */
     public function buildTransaction(stdClass $object)
     {
         $customer = isset($object->account) ? $this->buildCustomer($object->account) : null;
@@ -76,6 +79,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Chargeback
+     */
     public function buildChargeback(stdClass $object)
     {
         return new Chargeback(array(
@@ -94,6 +100,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Customer
+     */
     public function buildCustomer(stdClass $object)
     {
         $taxExemptions = null;
@@ -118,6 +127,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\PaymentMethod
+     */
     public function buildPaymentMethod(stdClass $object)
     {
         $cvv = null;
@@ -160,6 +172,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Plan
+     */
     public function buildPlan(stdClass $object)
     {
         return new Plan(array(
@@ -173,6 +188,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Product
+     */
     public function buildProduct(stdClass $object)
     {
         $plan = isset($object->defaultBillingPlan) ? $this->buildPlan($object->defaultBillingPlan) : null;
@@ -189,6 +207,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Refund
+     */
     public function buildRefund(stdClass $object)
     {
         $transaction = isset($object->transaction) ? $this->buildTransaction($object->transaction) : null;
@@ -223,6 +244,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return \Omnipay\Vindicia\Subscription
+     */
     public function buildSubscription(stdClass $object)
     {
         $customer = isset($object->account) ? $this->buildCustomer($object->account) : null;
@@ -251,6 +275,9 @@ class ObjectHelper
         ));
     }
 
+    /**
+     * @return array<int, \Omnipay\Vindicia\Attribute>
+     */
     protected function buildAttributes(array $nameValues)
     {
         $returnArray = array();
@@ -263,6 +290,9 @@ class ObjectHelper
         return $returnArray;
     }
 
+    /**
+     * @return array<int, \Omnipay\Vindicia\Price>
+     */
     protected function buildPrices(array $prices)
     {
         $returnArray = array();

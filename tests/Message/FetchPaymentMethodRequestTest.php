@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchPaymentMethodRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -25,6 +28,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->card = $this->faker->card();
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPaymentMethodRequest')->makePartial();
@@ -34,6 +40,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testPaymentMethodReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchPaymentMethodRequest')->makePartial();
@@ -43,6 +52,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodReference, $request->getPaymentMethodReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -51,6 +63,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantPaymentMethodId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setPaymentMethodId(null)->setPaymentMethodReference($this->paymentMethodReference);
@@ -62,8 +77,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the paymentMethodId or paymentMethodReference parameter is required.
+     * @return                   void
      */
     public function testPaymentMethodIdOrReferenceRequired()
     {
@@ -72,6 +88,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchPaymentMethodSuccess.xml', array(
@@ -116,6 +135,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceSuccess()
     {
         $this->setMockSoapResponse('FetchPaymentMethodByReferenceSuccess.xml', array(
@@ -136,6 +158,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchPaymentMethodFailure.xml');
@@ -151,6 +176,9 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertNull($response->getPaymentMethod());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceFailure()
     {
         $this->setMockSoapResponse('FetchPaymentMethodByReferenceFailure.xml');

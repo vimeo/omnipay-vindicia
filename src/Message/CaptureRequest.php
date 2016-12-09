@@ -100,6 +100,9 @@ class CaptureRequest extends AbstractRequest
         return 'capture';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;

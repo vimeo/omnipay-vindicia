@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class CancelSubscriptionRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -34,6 +37,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
@@ -43,6 +49,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $request->getSubscriptionId());
     }
 
+    /**
+     * @return void
+     */
     public function testSubscriptionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
@@ -52,6 +61,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionReference, $request->getSubscriptionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -66,8 +78,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the subscription id or reference is required.
+     * @return                   void
      */
     public function testSubscriptionIdOrReferenceRequired()
     {
@@ -76,6 +89,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CancelSubscriptionSuccess.xml', array(
@@ -107,6 +123,9 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('CancelSubscriptionFailure.xml');

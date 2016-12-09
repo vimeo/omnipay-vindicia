@@ -58,6 +58,9 @@ class FetchCustomerRequest extends AbstractRequest
         return $this->getCustomerId() ? 'fetchByMerchantAccountId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$CUSTOMER_OBJECT;

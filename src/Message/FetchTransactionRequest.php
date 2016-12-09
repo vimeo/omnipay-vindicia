@@ -77,6 +77,9 @@ class FetchTransactionRequest extends AbstractRequest
         return $this->getTransactionId() ? 'fetchByMerchantTransactionId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;

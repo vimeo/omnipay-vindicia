@@ -109,6 +109,9 @@ class HOAAuthorizeRequest extends AbstractHOARequest
         return array(self::$TRANSACTION_OBJECT => 'transaction');
     }
 
+    /**
+     * @return array<int, NameValue>
+     */
     protected function getMethodParamValues()
     {
         $regularRequestData = $this->regularRequest->getData();

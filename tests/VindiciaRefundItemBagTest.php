@@ -7,6 +7,9 @@ use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class VindiciaRefundItemBagTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->bag = new VindiciaRefundItemBag();
@@ -14,12 +17,18 @@ class VindiciaRefundItemBagTest extends TestCase
         $this->sku = $this->faker->sku();
     }
 
+    /**
+     * @return void
+     */
     public function testConstruct()
     {
         $bag = new VindiciaRefundItemBag(array(array('sku' => $this->sku)));
         $this->assertCount(1, $bag);
     }
 
+    /**
+     * @return void
+     */
     public function testAll()
     {
         $items = array(new VindiciaRefundItem(), new VindiciaRefundItem());
@@ -28,6 +37,9 @@ class VindiciaRefundItemBagTest extends TestCase
         $this->assertSame($items, $bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testReplace()
     {
         $items = array(new VindiciaRefundItem(), new VindiciaRefundItem());
@@ -36,6 +48,9 @@ class VindiciaRefundItemBagTest extends TestCase
         $this->assertSame($items, $this->bag->all());
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithItem()
     {
         $item = new VindiciaRefundItem();
@@ -46,6 +61,9 @@ class VindiciaRefundItemBagTest extends TestCase
         $this->assertSame($item, $contents[0]);
     }
 
+    /**
+     * @return void
+     */
     public function testAddWithArray()
     {
         $item = array('sku' => $this->sku);
@@ -56,6 +74,9 @@ class VindiciaRefundItemBagTest extends TestCase
         $this->assertSame($this->sku, $contents[0]->getSku());
     }
 
+    /**
+     * @return void
+     */
     public function testGetIterator()
     {
         $item = new VindiciaRefundItem();
@@ -67,6 +88,9 @@ class VindiciaRefundItemBagTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testCount()
     {
         $count = $this->faker->intBetween(1, 5);

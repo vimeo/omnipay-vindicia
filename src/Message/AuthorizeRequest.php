@@ -121,6 +121,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    /**
+     * @return AuthorizeRequest
+     */
     public function initialize(array $parameters = array())
     {
         if (!array_key_exists('minChargebackProbability', $parameters)) {
@@ -131,6 +134,11 @@ class AuthorizeRequest extends AbstractRequest
         return $this;
     }
 
+    /**
+     * The object type on which the API call will be made
+     *
+     * @return string
+     */
     protected function getObject()
     {
         return self::$TRANSACTION_OBJECT;
@@ -146,6 +154,11 @@ class AuthorizeRequest extends AbstractRequest
         return 'auth';
     }
 
+    /**
+     * Get data for request
+     *
+     * @return array<string, mixed>
+     */
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $amount = $this->getAmount();

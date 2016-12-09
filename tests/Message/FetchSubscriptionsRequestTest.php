@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchSubscriptionsRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -32,6 +35,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest')->makePartial();
@@ -41,6 +47,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testStartTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest')->makePartial();
@@ -50,6 +59,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->startTime, $request->getStartTime());
     }
 
+    /**
+     * @return void
+     */
     public function testEndTime()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest')->makePartial();
@@ -59,6 +71,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame($this->endTime, $request->getEndTime());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -68,6 +83,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('fetchByAccount', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByTime()
     {
         $this->request->setStartTime($this->startTime);
@@ -82,8 +100,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The customerId parameter or the customerReference parameter or the startTime and endTime parameters are required.
+     * @return                   void
      */
     public function testCustomerIdOrTimesRequired()
     {
@@ -93,8 +112,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Cannot fetch by both customer and start/end time.
+     * @return                   void
      */
     public function testCustomerIdOrTimesNotBoth()
     {
@@ -103,6 +123,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchSubscriptionsSuccess.xml');
@@ -124,6 +147,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeSuccess()
     {
         $this->setMockSoapResponse('FetchSubscriptionsByTimeSuccess.xml');
@@ -143,6 +169,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchSubscriptionsFailure.xml');
@@ -158,6 +187,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertNull($response->getSubscriptions());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByTimeFailure()
     {
         $this->setMockSoapResponse('FetchSubscriptionsByTimeFailure.xml');

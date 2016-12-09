@@ -9,6 +9,9 @@ use Omnipay\Vindicia\Message\AuthorizeRequest;
 
 class GatewayTest extends GatewayTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
@@ -16,17 +19,26 @@ class GatewayTest extends GatewayTestCase
         $this->faker = new DataFaker();
     }
 
+    /**
+     * @return void
+     */
     public function testGetName()
     {
         $this->assertSame('Vindicia', $this->gateway->getName());
     }
 
+    /**
+     * @return void
+     */
     public function testCreation()
     {
         $gateway = Omnipay::create('Vindicia');
         $this->assertInstanceOf('Omnipay\Vindicia\Gateway', $gateway);
     }
 
+    /**
+     * @return void
+     */
     public function testUsername()
     {
         $username = $this->faker->username();
@@ -35,6 +47,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($username, $this->gateway->getUsername());
     }
 
+    /**
+     * @return void
+     */
     public function testPassword()
     {
         $password = $this->faker->password();
@@ -43,6 +58,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($password, $this->gateway->getPassword());
     }
 
+    /**
+     * @return void
+     */
     public function testTestMode()
     {
         $testMode = $this->faker->bool();
@@ -51,6 +69,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($testMode, $this->gateway->getTestMode());
     }
 
+    /**
+     * @return void
+     */
     public function testMinChargebackProbability()
     {
         $minChargebackProbability = $this->faker->chargebackProbability();
@@ -59,6 +80,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($minChargebackProbability, $this->gateway->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorize()
     {
         $currency = $this->faker->currency();
@@ -82,6 +106,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCapture()
     {
         $transactionId = $this->faker->transactionId();
@@ -96,6 +123,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testPurchase()
     {
         $currency = $this->faker->currency();
@@ -119,6 +149,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testVoid()
     {
         $transactionId = $this->faker->transactionId();
@@ -133,6 +166,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testRefund()
     {
         $currency = $this->faker->currency();
@@ -171,6 +207,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($note, $request->getNote());
     }
 
+    /**
+     * @return void
+     */
     public function testCreatePaymentMethod()
     {
         $card = $this->faker->card();
@@ -188,6 +227,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdatePaymentMethod()
     {
         $card = $this->faker->card();
@@ -206,6 +248,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCreateCustomer()
     {
         $currency = $this->faker->currency();
@@ -227,6 +272,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdateCustomer()
     {
         $currency = $this->faker->currency();
@@ -249,6 +297,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testCreatePlan()
     {
         $planId = $this->faker->planId();
@@ -278,6 +329,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdatePlan()
     {
         $planId = $this->faker->planId();
@@ -308,6 +362,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testCreateProduct()
     {
         $productId = $this->faker->productId();
@@ -337,6 +394,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdateProduct()
     {
         $productId = $this->faker->productId();
@@ -367,6 +427,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -408,6 +471,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSameCard($card, $request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testUpdateSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -450,6 +516,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSameCard($card, $request->getCard());
     }
 
+    /**
+     * @return void
+     */
     public function testCancelSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -467,6 +536,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($subscriptionReference, $request->getSubscriptionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testCancelSubscriptions()
     {
         $numSubscriptions = $this->faker->intBetween(0, 3);
@@ -492,6 +564,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchTransaction()
     {
         $transactionId = $this->faker->transactionId();
@@ -506,6 +581,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchTransactions()
     {
         $customerId = $this->faker->customerId();
@@ -520,6 +598,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchProduct()
     {
         $productId = $this->faker->productId();
@@ -534,6 +615,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($productId, $request->getProductId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchSubscription()
     {
         $subscriptionId = $this->faker->subscriptionId();
@@ -548,6 +632,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($subscriptionId, $request->getSubscriptionId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchSubscriptions()
     {
         $customerId = $this->faker->customerId();
@@ -562,6 +649,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchCustomer()
     {
         $customerId = $this->faker->customerId();
@@ -576,6 +666,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerId, $request->getCustomerId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchPaymentMethod()
     {
         $paymentMethodId = $this->faker->paymentMethodId();
@@ -590,6 +683,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($paymentMethodId, $request->getPaymentMethodId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchPaymentMethods()
     {
         $customerId = $this->faker->customerId();
@@ -607,6 +703,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($customerReference, $request->getCustomerReference());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchPlan()
     {
         $planId = $this->faker->planId();
@@ -621,6 +720,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($planId, $request->getPlanId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchRefunds()
     {
         $transactionId = $this->faker->transactionId();
@@ -635,6 +737,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testFetchChargebacks()
     {
         $transactionId = $this->faker->transactionId();
@@ -649,6 +754,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testCalculateSalesTax()
     {
         $currency = $this->faker->currency();
@@ -671,6 +779,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($taxClassification, $request->getTaxClassification());
     }
 
+    /**
+     * @return void
+     */
     public function testDefaultMinChargebackProbability()
     {
         $currency = $this->faker->currency();
@@ -726,6 +837,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($overrideMinChargebackProbability, $request->getMinChargebackProbability());
     }
 
+    /**
+     * @return void
+     */
     protected function assertSameCard($card, $requestCard)
     {
         $this->assertSame($card['number'], $requestCard->getNumber());

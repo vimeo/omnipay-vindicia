@@ -55,8 +55,9 @@ class PriceBag implements \IteratorAggregate, \Countable
      * `['currency' => XXX, 'amount' => XXX]` pairs, or an array of amounts
      * indexed by currency.
      *
-     * @param array $prices An array of prices
+     * @param  array $prices An array of prices
      * @throws InvalidPriceBagException if multiple prices have the same currency
+     * @return void
      */
     public function replace(array $prices = array())
     {
@@ -78,9 +79,10 @@ class PriceBag implements \IteratorAggregate, \Countable
     /**
      * Add an price to the bag
      *
-     * @param Price|array $price An existing price, or associative array of price parameters
-                                          (`['currency' => XXX, 'amount' => XXX]`)
+     * @param  Price|array $price An existing price, or associative array of price
+     *                             parameters (`['currency' => XXX, 'amount' => XXX]`)
      * @throws InvalidPriceBagException if a price for this currency is already in the bag
+     * @return void
      */
     public function add($price)
     {

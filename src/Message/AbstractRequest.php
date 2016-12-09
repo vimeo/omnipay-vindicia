@@ -96,6 +96,12 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $this->isUpdate = $isUpdate;
     }
 
+    /**
+     * Initialize request with parameters
+     *
+     * @param array<string, mixed> $parameters
+     * @return static
+     */
     public function initialize(array $parameters = array())
     {
         if (!array_key_exists('timeout', $parameters)) {
@@ -110,51 +116,83 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->getParameter('username');
     }
 
+    /**
+     * @param string $value
+     * @return static
+     */
     public function setUsername($value)
     {
         return $this->setParameter('username', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->getParameter('password');
     }
 
+    /**
+     * @param string $value
+     * @return static
+     */
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getIp()
     {
         return $this->getParameter('ip');
     }
 
+    /**
+     * @return static
+     */
     public function setIp($value)
     {
         return $this->setParameter('ip', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerId()
     {
         return $this->getParameter('customerId');
     }
 
+    /**
+     * @return static
+     */
     public function setCustomerId($value)
     {
         return $this->setParameter('customerId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerReference()
     {
         return $this->getParameter('customerReference');
     }
 
+    /**
+     * @return static
+     */
     public function setCustomerReference($value)
     {
         return $this->setParameter('customerReference', $value);
@@ -202,101 +240,161 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('email', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getRefundId()
     {
         return $this->getParameter('refundId');
     }
 
+    /**
+     * @return static
+     */
     public function setRefundId($value)
     {
         return $this->setParameter('refundId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentMethodId()
     {
         return $this->getParameter('paymentMethodId');
     }
 
+    /**
+     * @return static
+     */
     public function setPaymentMethodId($value)
     {
         return $this->setParameter('paymentMethodId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentMethodReference()
     {
         return $this->getParameter('paymentMethodReference');
     }
 
+    /**
+     * @return static
+     */
     public function setPaymentMethodReference($value)
     {
         return $this->setParameter('paymentMethodReference', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getTaxClassification()
     {
         return $this->getParameter('taxClassification');
     }
 
+    /**
+     * @return string
+     */
     public function getSubscriptionId()
     {
         return $this->getParameter('subscriptionId');
     }
 
+    /**
+     * @return static
+     */
     public function setSubscriptionId($value)
     {
         return $this->setParameter('subscriptionId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getSubscriptionReference()
     {
         return $this->getParameter('subscriptionReference');
     }
 
+    /**
+     * @return static
+     */
     public function setSubscriptionReference($value)
     {
         return $this->setParameter('subscriptionReference', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPlanId()
     {
         return $this->getParameter('planId');
     }
 
+    /**
+     * @return static
+     */
     public function setPlanId($value)
     {
         return $this->setParameter('planId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getPlanReference()
     {
         return $this->getParameter('planReference');
     }
 
+    /**
+     * @return static
+     */
     public function setPlanReference($value)
     {
         return $this->setParameter('planReference', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getProductId()
     {
         return $this->getParameter('productId');
     }
 
+    /**
+     * @return static
+     */
     public function setProductId($value)
     {
         return $this->setParameter('productId', $value);
     }
 
+    /**
+     * @return string
+     */
     public function getProductReference()
     {
         return $this->getParameter('productReference');
     }
 
+    /**
+     * @return static
+     */
     public function setProductReference($value)
     {
         return $this->setParameter('productReference', $value);
     }
 
+    /**
+     * @return static
+     */
     public function setTaxClassification($value)
     {
         return $this->setParameter('taxClassification', $value);
@@ -564,7 +662,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * If you only need a price for one currency, you can also use setAmount and setCurrency.
      *
      * @param PriceBag|array $prices
-     * @return AbstractRequest
+     * @return static
      * @throws InvalidPriceBagException if multiple prices have the same currency
      */
     public function setPrices($prices)
@@ -576,10 +674,23 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('prices', $prices);
     }
 
+    /**
+     * The object type on which the API call will be made
+     *
+     * @return string
+     */
     abstract protected function getObject();
 
+    /**
+     * The name of the function to be called in Vindicia's API
+     *
+     * @return string
+     */
     abstract protected function getFunction();
 
+    /**
+     * @return string
+     */
     final protected function getEndpoint()
     {
         return ($this->getTestMode() === false ? self::LIVE_ENDPOINT : self::TEST_ENDPOINT)
@@ -660,6 +771,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return parent::send();
     }
 
+    /**
+     * Returns true if this is an update call, false if it's a create call
+     *
+     * @return bool
+     */
     protected function isUpdate()
     {
         return $this->isUpdate;
@@ -896,11 +1012,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return parent::setParameter($key, $value);
     }
 
+    /**
+     * Get data for request
+     *
+     * @return array<string, mixed>
+     */
     abstract public function getData();
 
     /**
      * Redefining to tell psalm it's variadic
      *
+     * @return bool
      * @psalm-variadic
      */
     public function validate()

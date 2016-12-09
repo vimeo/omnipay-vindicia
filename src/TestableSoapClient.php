@@ -71,7 +71,8 @@ class TestableSoapClient extends SoapClient
      * If multiple responses are set before a SOAP call is made, they are
      * stored on a queue and will be used in the order they were inserted.
      *
-     * @param object $response
+     * @param  object $response
+     * @return void
      */
     public static function setNextResponse($response)
     {
@@ -95,9 +96,10 @@ class TestableSoapClient extends SoapClient
      * Will throw an error if a response has already been set and not used
      * or if the file can't be opened.
      *
-     * @param string $filename
-     * @param array<string, string> $substitutions default array()
+     * @param  string $filename
+     * @param  array<string, string> $substitutions default array()
      * @throws Omnipay\Common\Exception\BadMethodCallException
+     * @return void
      */
     public static function setNextResponseFromFile($filename, $substitutions = array())
     {

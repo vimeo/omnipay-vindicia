@@ -8,6 +8,9 @@ use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
 class FetchTransactionRequestTest extends SoapTestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -36,6 +39,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->avsCode = $this->faker->statusCode();
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionRequest')->makePartial();
@@ -45,6 +51,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $request->getTransactionId());
     }
 
+    /**
+     * @return void
+     */
     public function testTransactionReference()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionRequest')->makePartial();
@@ -54,6 +63,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame($this->transactionReference, $request->getTransactionReference());
     }
 
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -62,6 +74,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame('fetchByMerchantTransactionId', $data['action']);
     }
 
+    /**
+     * @return void
+     */
     public function testGetDataByReference()
     {
         $this->request->setTransactionId(null)->setTransactionReference($this->transactionReference);
@@ -73,8 +88,9 @@ class FetchTransactionRequestTest extends SoapTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the transactionId or transactionReference parameter is required.
+     * @return                   void
      */
     public function testTransactionIdOrReferenceRequired()
     {
@@ -83,6 +99,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->request->getData();
     }
 
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchTransactionSuccess.xml', array(
@@ -163,6 +182,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceSuccess()
     {
         $this->setMockSoapResponse('FetchTransactionByReferenceSuccess.xml', array(
@@ -183,6 +205,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchTransactionFailure.xml', array(
@@ -200,6 +225,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertNull($response->getTransaction());
     }
 
+    /**
+     * @return void
+     */
     public function testSendByReferenceFailure()
     {
         $this->setMockSoapResponse('FetchTransactionByReferenceFailure.xml', array(

@@ -18,7 +18,6 @@
     <MixedMethodCall errorLevel="suppress" />
     <MixedPropertyFetch errorLevel="suppress" />
     <MixedPropertyAssignment errorLevel="suppress" />
-    <MissingReturnType errorLevel="suppress" /> <!-- @todo fix these -->
     <FailedTypeResolution errorLevel="suppress" />
     <MixedInferredReturnType errorLevel="suppress" />
     <MissingPropertyType errorLevel="suppress" />

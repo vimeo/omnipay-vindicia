@@ -44,7 +44,8 @@ class AttributeBag implements \IteratorAggregate, \Countable
      * `['name' => XXX, 'value' => XXX]` pairs, or an array of values
      * indexed by name.
      *
-     * @param array $attributes An array of attributes
+     * @param  array $attributes An array of attributes
+     * @return void
      */
     public function replace(array $attributes = array())
     {
@@ -67,7 +68,8 @@ class AttributeBag implements \IteratorAggregate, \Countable
      * Can add an Attribute object or an associative array of attribute
      * parameters (`['name' => XXX, 'value' => XXX]`)
      *
-     * @param Attribute|array $attribute
+     * @param  Attribute|array $attribute
+     * @return void
      */
     public function add($attribute)
     {

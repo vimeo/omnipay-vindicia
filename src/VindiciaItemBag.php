@@ -15,7 +15,8 @@ class VindiciaItemBag extends ItemBag
     /**
      * Add an item to the bag
      *
-     * @param ItemInterface|array $item An existing item, or associative array of item parameters
+     * @param  ItemInterface|array $item An existing item, or associative array of item parameters
+     * @return void
      */
     public function add($item)
     {

@@ -81,6 +81,9 @@ class FetchPaymentMethodRequest extends AbstractRequest
         return $this->getPaymentMethodId() ? 'fetchByMerchantPaymentMethodId' : 'fetchByVid';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PAYMENT_METHOD_OBJECT;

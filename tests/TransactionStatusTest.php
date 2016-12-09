@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class TransactionStatusTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp()
     {
         $this->faker = new DataFaker();
@@ -14,6 +17,9 @@ class TransactionStatusTest extends TestCase
         $this->status = $this->faker->status();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructWithParams()
     {
         $transactionStatus = new TransactionStatus(array(
@@ -22,6 +28,9 @@ class TransactionStatusTest extends TestCase
         $this->assertSame($this->status, $transactionStatus->getStatus());
     }
 
+    /**
+     * @return void
+     */
     public function testInitializeWithParams()
     {
         $this->assertSame($this->transactionStatus, $this->transactionStatus->initialize(array(
@@ -30,12 +39,18 @@ class TransactionStatusTest extends TestCase
         $this->assertSame($this->status, $this->transactionStatus->getStatus());
     }
 
+    /**
+     * @return void
+     */
     public function testGetParameters()
     {
         $this->assertSame($this->transactionStatus, $this->transactionStatus->setStatus($this->status));
         $this->assertSame(array('status' => $this->status), $this->transactionStatus->getParameters());
     }
 
+    /**
+     * @return void
+     */
     public function testStatus()
     {
         $status = $this->faker->status();
@@ -43,6 +58,9 @@ class TransactionStatusTest extends TestCase
         $this->assertSame($status, $this->transactionStatus->getStatus());
     }
 
+    /**
+     * @return void
+     */
     public function testTime()
     {
         $time = $this->faker->timestamp();
@@ -50,6 +68,9 @@ class TransactionStatusTest extends TestCase
         $this->assertSame($time, $this->transactionStatus->getTime());
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorizationCode()
     {
         $authorizationCode = $this->faker->statusCode();

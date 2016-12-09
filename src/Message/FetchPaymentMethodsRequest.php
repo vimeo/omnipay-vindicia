@@ -68,6 +68,9 @@ class FetchPaymentMethodsRequest extends AbstractRequest
         return 'fetchByAccount';
     }
 
+    /**
+     * @return string
+     */
     protected function getObject()
     {
         return self::$PAYMENT_METHOD_OBJECT;
