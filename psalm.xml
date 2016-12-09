@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <codeinspector
-    name="PSALM for Vindicia Omnipay driver"
+    name="Psalm for Vindicia Omnipay driver"
     stopOnFirstError="false"
     useDocblockTypes="true"
     >
