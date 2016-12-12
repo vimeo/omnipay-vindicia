@@ -56,7 +56,6 @@ class HOAAuthorizeRequestTest extends SoapTestCase
                 'HOAAttributes' => $this->HOAAttributes
             )
         );
-
         $this->webSessionReference = $this->faker->webSessionReference();
         $this->items = $this->faker->itemsAsArray($this->currency);
     }
@@ -327,11 +326,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $numAttributes = count($this->attributes);
         for ($i = 0; $i < $numAttributes; $i++) {
             $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
-                $data['session']->privateFormValues
-            ));
-            $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
+                new NameValue('vin_Transaction_nameValues_' . $this->attributes[$i]['name'], $this->attributes[$i]['value']),
                 $data['session']->privateFormValues
             ));
         }
@@ -375,11 +370,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_transactionItems_' . $i . '_nameValues_0_name', 'description'),
-                $data['session']->privateFormValues
-            ));
-            $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_transactionItems_' . $i . '_nameValues_0_value', $this->items[$i]['description']),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_nameValues_description', $this->items[$i]['description']),
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
@@ -437,11 +428,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $numAttributes = count($this->attributes);
         for ($i = 0; $i < $numAttributes; $i++) {
             $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_nameValues_' . $i . '_name', $this->attributes[$i]['name']),
-                $data['session']->privateFormValues
-            ));
-            $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_nameValues_' . $i . '_value', $this->attributes[$i]['value']),
+                new NameValue('vin_Transaction_nameValues_' . $this->attributes[$i]['name'], $this->attributes[$i]['value']),
                 $data['session']->privateFormValues
             ));
         }

@@ -185,7 +185,17 @@ abstract class AbstractHOARequest extends AbstractRequest
      */
     protected function buildPrivateFormValues($keySoFar, $member)
     {
-        if (is_object($member) || is_array($member)) {
+        if (array_slice(explode('_', $keySoFar), -1)[0] === 'nameValues') {
+            // nameValues have special formatting, so loop through them and take care of them
+            $nameValues = array();
+            foreach ($member as $nameValue) {
+                $nameValues[] = new NameValue(
+                    $keySoFar . '_' . $nameValue->name,
+                    $nameValue->value
+                );
+            }
+            return $nameValues;
+        } elseif (is_object($member) || is_array($member)) {
             $values = array();
             foreach ($member as $key => $value) {
 
