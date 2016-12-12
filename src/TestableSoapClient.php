@@ -37,7 +37,7 @@ class TestableSoapClient extends SoapClient
     /**
      * @var array<mixed>
      */
-    protected static $lastOptions = [];
+    protected static $lastOptions = array();
 
     /**
      * @var string|null
@@ -47,7 +47,7 @@ class TestableSoapClient extends SoapClient
     /**
      * @var array<mixed>
      */
-    protected static $lastArguments = [];
+    protected static $lastArguments = array();
 
     public function __construct($wsdl, array $options = array())
     {
