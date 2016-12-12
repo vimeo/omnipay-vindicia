@@ -121,7 +121,7 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function getValidate()
     {

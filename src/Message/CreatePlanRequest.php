@@ -57,7 +57,7 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Get the units for the billing period (day, week, month, year)
      *
-     * @return string
+     * @return null|string
      */
     public function getInterval()
     {
@@ -78,7 +78,7 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Get the frequency of the billing period (using the units specified by the interval parameter)
      *
-     * @return int
+     * @return null|int
      */
     public function getIntervalCount()
     {
@@ -117,7 +117,8 @@ class CreatePlanRequest extends AbstractRequest
         $plan->billingStatementIdentifier = $this->getStatementDescriptor();
 
         $period = new stdClass();
-        $period->type = ucfirst(strtolower($this->getInterval()));
+        $interval = $this->getInterval();
+        $period->type = $interval !== null ? ucfirst(strtolower($interval)) : null;
         $period->quantity = $this->getIntervalCount();
         $period->cycles = 0; // use this period indefinitely
         $prices = $this->makePricesForVindicia();

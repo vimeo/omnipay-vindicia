@@ -498,7 +498,11 @@ class DataFakerTest extends TestCase
     {
         $priceArray = $this->faker->priceAsArray();
         $price = new Price($priceArray);
-        $this->assertTrue(Currency::find($price->getCurrency()) !== false);
+        $currency = $price->getCurrency();
+        $this->assertNotNull($currency);
+        if ($currency !== null) {
+            $this->assertTrue(Currency::find($currency) !== false);
+        }
         $this->assertTrue(is_numeric($price->getAmount()));
     }
 

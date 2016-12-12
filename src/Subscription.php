@@ -70,9 +70,8 @@ class Subscription
     /**
      * Get the subscription id
      *
-     * @return string
+     * @return null|string
      */
-
     public function getId()
     {
         return $this->getParameter('id');
@@ -92,7 +91,7 @@ class Subscription
     /**
      * Get the subscription reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -113,7 +112,7 @@ class Subscription
     /**
      * Get the currency
      *
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {
@@ -134,7 +133,7 @@ class Subscription
     /**
      * Get the customer
      *
-     * @return Customer
+     * @return null|Customer
      */
     public function getCustomer()
     {
@@ -155,7 +154,7 @@ class Subscription
     /**
      * Get the customer id
      *
-     * @return string
+     * @return null|string
      */
     public function getCustomerId()
     {
@@ -176,7 +175,7 @@ class Subscription
     /**
      * Get the customer reference
      *
-     * @return string
+     * @return null|string
      */
     public function getCustomerReference()
     {
@@ -197,7 +196,7 @@ class Subscription
     /**
      * Get the product
      *
-     * @return Product
+     * @return null|Product
      */
     public function getProduct()
     {
@@ -218,7 +217,7 @@ class Subscription
     /**
      * Get the product id
      *
-     * @return string
+     * @return null|string
      */
     public function getProductId()
     {
@@ -239,7 +238,7 @@ class Subscription
     /**
      * Get the product reference
      *
-     * @return string
+     * @return null|string
      */
     public function getProductReference()
     {
@@ -260,7 +259,7 @@ class Subscription
     /**
      * Get the plan
      *
-     * @return Plan
+     * @return null|Plan
      */
     public function getPlan()
     {
@@ -281,7 +280,7 @@ class Subscription
     /**
      * Get the plan id
      *
-     * @return string
+     * @return null|string
      */
     public function getPlanId()
     {
@@ -302,7 +301,7 @@ class Subscription
     /**
      * Get the plan reference
      *
-     * @return string
+     * @return null|string
      */
     public function getPlanReference()
     {
@@ -323,7 +322,7 @@ class Subscription
     /**
      * Get the payment method
      *
-     * @return PaymentMethod
+     * @return null|PaymentMethod
      */
     public function getPaymentMethod()
     {
@@ -344,7 +343,7 @@ class Subscription
     /**
      * Get the payment method id
      *
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodId()
     {
@@ -365,7 +364,7 @@ class Subscription
     /**
      * Get the payment method reference
      *
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodReference()
     {
@@ -386,7 +385,7 @@ class Subscription
     /**
      * Get the ip address
      *
-     * @return string
+     * @return null|string
      */
     public function getIp()
     {

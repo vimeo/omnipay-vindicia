@@ -72,7 +72,7 @@ class Attribute
     /**
      * Get the attribute name
      *
-     * @return string
+     * @return null|string
      */
     public function getName()
     {
@@ -93,7 +93,7 @@ class Attribute
     /**
      * Get the attribute value
      *
-     * @return int|float|bool|string
+     * @return null|int|float|bool|string
      */
     public function getValue()
     {

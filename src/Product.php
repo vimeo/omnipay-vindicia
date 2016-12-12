@@ -70,7 +70,7 @@ class Product
     /**
      * Get the product id
      *
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Product
     /**
      * Get the product reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -112,7 +112,7 @@ class Product
     /**
      * Get the plan
      *
-     * @return Plan
+     * @return null|Plan
      */
     public function getPlan()
     {
@@ -133,7 +133,7 @@ class Product
     /**
      * Get the plan id
      *
-     * @return string
+     * @return null|string
      */
     public function getPlanId()
     {
@@ -154,7 +154,7 @@ class Product
     /**
      * Get the plan reference
      *
-     * @return string
+     * @return null|string
      */
     public function getPlanReference()
     {
@@ -175,7 +175,7 @@ class Product
     /**
      * Get the product tax classification
      *
-     * @return string
+     * @return null|string
      */
     public function getTaxClassification()
     {

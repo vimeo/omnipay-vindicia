@@ -47,7 +47,7 @@ class CompleteHOARequest extends AbstractRequest
     /**
      * Get the gateway's reference to the web session being used for HOA
      *
-     * @return string
+     * @return null|string
      */
     public function getWebSessionReference()
     {

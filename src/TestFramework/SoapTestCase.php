@@ -39,7 +39,7 @@ class SoapTestCase extends TestCase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getLastEndpoint()
     {

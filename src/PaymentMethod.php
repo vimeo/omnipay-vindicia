@@ -71,7 +71,7 @@ class PaymentMethod
     /**
      * Get the payment method id
      *
-     * @return string
+     * @return null|string
      */
 
     public function getId()
@@ -93,7 +93,7 @@ class PaymentMethod
     /**
      * Get the payment method reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -114,7 +114,7 @@ class PaymentMethod
     /**
      * Get the card
      *
-     * @return CreditCard
+     * @return null|CreditCard
      */
     public function getCard()
     {

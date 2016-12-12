@@ -70,7 +70,7 @@ class Plan
     /**
      * Get the plan id
      *
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Plan
     /**
      * Get the plan reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -112,7 +112,7 @@ class Plan
     /**
      * Get the plan interval
      *
-     * @return string
+     * @return null|string
      */
     public function getInterval()
     {
@@ -133,7 +133,7 @@ class Plan
     /**
      * Get the plan interval count
      *
-     * @return string
+     * @return null|string
      */
     public function getIntervalCount()
     {
@@ -154,7 +154,7 @@ class Plan
     /**
      * Get the plan tax classification
      *
-     * @return string
+     * @return null|string
      */
     public function getTaxClassification()
     {

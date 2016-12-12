@@ -24,7 +24,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getUsername()
     {
@@ -40,7 +40,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPassword()
     {
@@ -60,7 +60,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * If not present, will default to 100 (always passing).
      * See Message\AuthorizeRequest for more info.
      *
-     * @return int
+     * @return null|int
      */
     public function getMinChargebackProbability()
     {

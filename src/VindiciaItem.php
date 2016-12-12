@@ -15,7 +15,7 @@ class VindiciaItem extends Item
     /**
      * Get the item sku
      *
-     * @return string
+     * @return null|string
      */
     public function getSku()
     {
@@ -36,7 +36,7 @@ class VindiciaItem extends Item
     /**
      * Get the item tax classification
      *
-     * @return string
+     * @return null|string
      */
     public function getTaxClassification()
     {

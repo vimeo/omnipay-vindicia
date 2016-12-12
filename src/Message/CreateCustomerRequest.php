@@ -104,7 +104,7 @@ class CreateCustomerRequest extends AbstractRequest
     /**
      * Get the customer's tax exemptions
      *
-     * @return TaxExemptionBag
+     * @return null|TaxExemptionBag
      */
     public function getTaxExemptions()
     {

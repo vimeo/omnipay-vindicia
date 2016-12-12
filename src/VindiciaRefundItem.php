@@ -73,7 +73,7 @@ class VindiciaRefundItem
     /**
      * Get the amount to refund
      *
-     * @return string
+     * @return null|string
      */
     public function getAmount()
     {
@@ -94,7 +94,7 @@ class VindiciaRefundItem
     /**
      * Get the sku of the item to refund
      *
-     * @return string
+     * @return null|string
      */
     public function getSku()
     {
@@ -118,7 +118,7 @@ class VindiciaRefundItem
      * and can be used as an alternative to sku to identify which item
      * to refund. Indexing starts at 1.
      *
-     * @return int
+     * @return null|int
      */
     public function getTransactionItemIndexNumber()
     {
@@ -142,7 +142,7 @@ class VindiciaRefundItem
     /**
      * Get boolean indicating whether you only want to refund the tax for the item
      *
-     * @return bool
+     * @return null|bool
      */
     public function getTaxOnly()
     {

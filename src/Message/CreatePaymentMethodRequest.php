@@ -171,7 +171,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * (generally by a 99 cent authorization). Validation may include CVV and
      * AVS validation as well, if set up with Vindicia. Default is false.
      *
-     * @return int
+     * @return null|int
      */
     public function getValidate()
     {
@@ -195,7 +195,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * If set to true, AVS validation will not be performed when the payment
      * method is validated. Default is false.
      *
-     * @return bool
+     * @return null|bool
      */
     public function getSkipAvsValidation()
     {
@@ -218,7 +218,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * If set to true, CVV validation will not be performed when the payment
      * method is validated. Default is false.
      *
-     * @return bool
+     * @return null|bool
      */
     public function getSkipCvvValidation()
     {
@@ -242,7 +242,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * method on an account, Vindicia will update the payment method details
      * on all subscriptions. Default is true.
      *
-     * @return bool
+     * @return null|bool
      */
     public function getUpdateSubscriptions()
     {

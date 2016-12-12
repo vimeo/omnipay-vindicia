@@ -117,7 +117,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getUsername()
     {
@@ -134,7 +134,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPassword()
     {
@@ -151,7 +151,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getIp()
     {
@@ -167,7 +167,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCustomerId()
     {
@@ -183,7 +183,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCustomerReference()
     {
@@ -201,7 +201,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Gets the customer's name
      *
-     * @return string
+     * @return null|string
      */
     public function getName()
     {
@@ -222,7 +222,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Gets the customer's email
      *
-     * @return string
+     * @return null|string
      */
     public function getEmail()
     {
@@ -241,7 +241,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getRefundId()
     {
@@ -257,7 +257,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodId()
     {
@@ -273,7 +273,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodReference()
     {
@@ -289,7 +289,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getTaxClassification()
     {
@@ -297,7 +297,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getSubscriptionId()
     {
@@ -313,7 +313,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getSubscriptionReference()
     {
@@ -329,7 +329,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPlanId()
     {
@@ -345,7 +345,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPlanReference()
     {
@@ -361,7 +361,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getProductId()
     {
@@ -377,7 +377,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getProductReference()
     {
@@ -443,7 +443,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Get amount of time to wait for connection or response, in seconds
      *
-     * @return int
+     * @return null|int
      */
     public function getTimeout()
     {
@@ -464,7 +464,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Get the start time.
      *
-     * @return string
+     * @return null|string
      */
     public function getStartTime()
     {
@@ -488,7 +488,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Get the end time.
      *
-     * @return string
+     * @return null|string
      */
     public function getEndTime()
     {
@@ -511,7 +511,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Gets the description shown on the customers billing statement from the bank
      *
-     * @return string
+     * @return null|string
      */
     public function getStatementDescriptor()
     {
@@ -535,11 +535,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Get the redirect url that the customer will be sent to after
      * HOA completes.
      *
-     * @return string
+     * @return null|string
      */
     public function getReturnUrl()
     {
-        return $this->getParameter('returnUrl');
+        /**
+         * @var null|string
+         */
+        return parent::getReturnUrl();
     }
 
     /**
@@ -551,7 +554,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function setReturnUrl($value)
     {
-        return $this->setParameter('returnUrl', $value);
+        /**
+         * @var static
+         */
+        return parent::setReturnUrl($value);
     }
 
     /**
@@ -560,7 +566,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * this value, the transaction will fail. If the value is 100,
      * all transactions will succeed.
      *
-     * @return int
+     * @return null|int
      */
     public function getMinChargebackProbability()
     {
@@ -584,11 +590,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Get the redirect url that will be used in the case of a cancel from PayPal's site.
      *
-     * @return string
+     * @return null|string
      */
     public function getCancelUrl()
     {
-        return $this->getParameter('cancelUrl');
+        /**
+         * @var null|string
+         */
+        return parent::getCancelUrl();
     }
 
     /**
@@ -599,13 +608,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function setCancelUrl($value)
     {
-        return $this->setParameter('cancelUrl', $value);
+        /**
+         * @var static
+         */
+        return parent::setCancelUrl($value);
     }
     /**
      * Gets whether PayPal redirected the customer to your success page. If false, they
      * were redirected to the error page.
      *
-     * @return bool
+     * @return null|bool
      */
     public function getSuccess()
     {
@@ -628,7 +640,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Gets the identifier generated by the gateway to represent the underlying
      * PayPal transaction.
      *
-     * @return string
+     * @return null|string
      */
     public function getPayPalTransactionReference()
     {
@@ -650,7 +662,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * A list of prices (currency and amount)
      *
-     * @return PriceBag|null
+     * @return null|PriceBag|null
      */
     public function getPrices()
     {
@@ -672,6 +684,97 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $this->setParameter('prices', $prices);
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|\Omnipay\Common\CreditCard
+     */
+    public function getCard()
+    {
+        /**
+         * @var null|\Omnipay\Common\CreditCard
+         */
+        return parent::getCard();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|bool
+     */
+    public function getTestMode()
+    {
+        /**
+         * @var null|bool
+         */
+        return parent::getTestMode();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|string
+     */
+    public function getAmount()
+    {
+        /**
+         * @var null|string
+         */
+        return parent::getAmount();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|string
+     */
+    public function getCurrency()
+    {
+        /**
+         * @var null|string
+         */
+        return parent::getCurrency();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        /**
+         * @var null|string
+         */
+        return parent::getDescription();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|string
+     */
+    public function getTransactionId()
+    {
+        /**
+         * @var null|string
+         */
+        return parent::getTransactionId();
+    }
+
+    /**
+     * Redefining to correct return type
+     *
+     * @return null|string
+     */
+    public function getTransactionReference()
+    {
+        /**
+         * @var null|string
+         */
+        return parent::getTransactionReference();
     }
 
     /**
@@ -712,7 +815,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $originalSocketTimeout = ini_get('default_socket_timeout');
         ini_set('soap.wsdl_cache_enabled', 1);
         ini_set('soap.wsdl_cache_ttl', 3600);
-        ini_set('default_socket_timeout', $this->getTimeout());
+        $timeout = $this->getTimeout();
+        if ($timeout !== null) {
+            ini_set('default_socket_timeout', $timeout);
+        }
 
         $data['srd'] = '';
 
@@ -736,7 +842,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 array(
                     'style'              => SOAP_DOCUMENT,
                     'use'                => SOAP_LITERAL,
-                    'connection_timeout' => $this->getTimeout(),
+                    'connection_timeout' => $timeout,
                     'trace'              => true,
                     'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
                     'location'           => ($this->getTestMode() === false ? self::LIVE_ENDPOINT : self::TEST_ENDPOINT)

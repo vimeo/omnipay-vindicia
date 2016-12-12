@@ -84,7 +84,7 @@ class CreateProductRequest extends AbstractRequest
     /**
      * Get the behavior if the exact same product is submitted twice with no id or reference
      *
-     * @return string
+     * @return null|string
      */
     public function getDuplicateBehavior()
     {

@@ -72,7 +72,7 @@ class Price
     /**
      * Get the currency
      *
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {
@@ -93,7 +93,7 @@ class Price
     /**
      * Get the monetary amount
      *
-     * @return int|float|bool|string
+     * @return null|int|float|bool|string
      */
     public function getAmount()
     {

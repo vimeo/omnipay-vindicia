@@ -70,7 +70,7 @@ class Refund
     /**
      * Get the refund id
      *
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Refund
     /**
      * Get the refund reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -112,7 +112,7 @@ class Refund
     /**
      * Get the currency
      *
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {
@@ -133,7 +133,7 @@ class Refund
     /**
      * Get the monetary amount
      *
-     * @return string
+     * @return null|string
      */
     public function getAmount()
     {
@@ -154,7 +154,7 @@ class Refund
     /**
      * Get the note
      *
-     * @return string
+     * @return null|string
      */
     public function getNote()
     {
@@ -175,7 +175,7 @@ class Refund
     /**
      * Get the time
      *
-     * @return string
+     * @return null|string
      */
     public function getTime()
     {
@@ -196,7 +196,7 @@ class Refund
     /**
      * Get the transaction
      *
-     * @return Transaction
+     * @return null|Transaction
      */
     public function getTransaction()
     {
@@ -217,7 +217,7 @@ class Refund
     /**
      * Get the transaction id
      *
-     * @return string
+     * @return null|string
      */
     public function getTransactionId()
     {
@@ -238,7 +238,7 @@ class Refund
     /**
      * Get the transaction reference
      *
-     * @return string
+     * @return null|string
      */
     public function getTransactionReference()
     {
@@ -259,7 +259,7 @@ class Refund
     /**
      * Get the items
      *
-     * @return VindiciaRefundItemBag
+     * @return null|VindiciaRefundItemBag
      */
     public function getItems()
     {

@@ -87,7 +87,7 @@ abstract class AbstractHOARequest extends AbstractRequest
     /**
      * Get the redirect url that will be used in the case of an error.
      *
-     * @return string
+     * @return null|string
      */
     public function getErrorUrl()
     {
@@ -110,7 +110,7 @@ abstract class AbstractHOARequest extends AbstractRequest
      * Get the attributes for the HOA WebSession object itself. (getAttributes returns
      * the attributes for the regular request object, such as the Customer or Transaction)
      *
-     * @return AttributeBag
+     * @return null|AttributeBag
      */
     public function getHOAAttributes()
     {

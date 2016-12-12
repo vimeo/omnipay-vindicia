@@ -70,7 +70,7 @@ class Chargeback
     /**
      * Get the chargeback id (not supported by Vindicia)
      *
-     * @return string
+     * @return null|string
      */
 
     public function getId()
@@ -92,7 +92,7 @@ class Chargeback
     /**
      * Get the chargeback reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -113,7 +113,7 @@ class Chargeback
     /**
      * Get the currency
      *
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {
@@ -134,7 +134,7 @@ class Chargeback
     /**
      * Get the monetary amount
      *
-     * @return string
+     * @return null|string
      */
     public function getAmount()
     {
@@ -155,7 +155,7 @@ class Chargeback
     /**
      * Get the status
      *
-     * @return string
+     * @return null|string
      */
     public function getStatus()
     {
@@ -176,7 +176,7 @@ class Chargeback
     /**
      * Get the time the status changed
      *
-     * @return string
+     * @return null|string
      */
     public function getStatusChangedTime()
     {
@@ -197,7 +197,7 @@ class Chargeback
     /**
      * Get the time the payment processor received the chargeback
      *
-     * @return string
+     * @return null|string
      */
     public function getProcessorReceivedTime()
     {
@@ -218,7 +218,7 @@ class Chargeback
     /**
      * Get the transaction (not provided by vindicia)
      *
-     * @return Transaction
+     * @return null|Transaction
      */
     public function getTransaction()
     {
@@ -239,7 +239,7 @@ class Chargeback
     /**
      * Get the transaction id
      *
-     * @return string
+     * @return null|string
      */
     public function getTransactionId()
     {
@@ -260,7 +260,7 @@ class Chargeback
     /**
      * Get the transaction reference (not provided by vindicia)
      *
-     * @return string
+     * @return null|string
      */
     public function getTransactionReference()
     {

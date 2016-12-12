@@ -458,7 +458,7 @@ class Response extends AbstractResponse
     /**
      * Returns the total sales tax. For use after a CalculateSalesTax request
      *
-     * @return float
+     * @return null|float
      */
     public function getSalesTax()
     {

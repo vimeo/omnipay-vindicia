@@ -128,7 +128,7 @@ class RefundRequest extends AbstractRequest
     /**
      * Get the note associated with this refund.
      *
-     * @return string
+     * @return null|string
      */
     public function getNote()
     {

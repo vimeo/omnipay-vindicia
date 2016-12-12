@@ -70,7 +70,7 @@ class Customer
     /**
      * Get the customer id
      *
-     * @return string
+     * @return null|string
      */
 
     public function getId()
@@ -92,7 +92,7 @@ class Customer
     /**
      * Get the customer reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -113,7 +113,7 @@ class Customer
     /**
      * Get the customer name
      *
-     * @return string
+     * @return null|string
      */
     public function getName()
     {
@@ -135,7 +135,7 @@ class Customer
     /**
      * Get the customer email
      *
-     * @return string
+     * @return null|string
      */
     public function getEmail()
     {
@@ -156,7 +156,7 @@ class Customer
     /**
      * Get the customer's tax exemptions
      *
-     * @return TaxExemptionBag
+     * @return null|TaxExemptionBag
      */
     public function getTaxExemptions()
     {

@@ -70,7 +70,7 @@ class Transaction
     /**
      * Get the transaction id
      *
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Transaction
     /**
      * Get the transaction reference
      *
-     * @return string
+     * @return null|string
      */
     public function getReference()
     {
@@ -112,7 +112,7 @@ class Transaction
     /**
      * Get the currency
      *
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {
@@ -133,7 +133,7 @@ class Transaction
     /**
      * Get the monetary amount
      *
-     * @return string
+     * @return null|string
      */
     public function getAmount()
     {
@@ -154,7 +154,7 @@ class Transaction
     /**
      * Get the customer
      *
-     * @return Customer
+     * @return null|Customer
      */
     public function getCustomer()
     {
@@ -175,7 +175,7 @@ class Transaction
     /**
      * Get the customer id
      *
-     * @return string
+     * @return null|string
      */
     public function getCustomerId()
     {
@@ -196,7 +196,7 @@ class Transaction
     /**
      * Get the customer reference
      *
-     * @return string
+     * @return null|string
      */
     public function getCustomerReference()
     {
@@ -217,7 +217,7 @@ class Transaction
     /**
      * Get the payment method
      *
-     * @return PaymentMethod
+     * @return null|PaymentMethod
      */
     public function getPaymentMethod()
     {
@@ -238,7 +238,7 @@ class Transaction
     /**
      * Get the payment method id
      *
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodId()
     {
@@ -259,7 +259,7 @@ class Transaction
     /**
      * Get the payment method reference
      *
-     * @return string
+     * @return null|string
      */
     public function getPaymentMethodReference()
     {
@@ -280,7 +280,7 @@ class Transaction
     /**
      * Get the items
      *
-     * @return array
+     * @return null|array
      */
     public function getItems()
     {
@@ -301,7 +301,7 @@ class Transaction
     /**
      * Get the ip address
      *
-     * @return string
+     * @return null|string
      */
     public function getIp()
     {
@@ -322,7 +322,7 @@ class Transaction
     /**
      * Get the authorization code
      *
-     * @return string
+     * @return null|string
      */
     public function getAuthorizationCode()
     {
@@ -343,7 +343,7 @@ class Transaction
     /**
      * Get the address verification system response code
      *
-     * @return string
+     * @return null|string
      */
     public function getAvsCode()
     {
@@ -364,7 +364,7 @@ class Transaction
     /**
      * Get the CVV verification code
      *
-     * @return string
+     * @return null|string
      */
     public function getCvvCode()
     {
@@ -385,7 +385,7 @@ class Transaction
     /**
      * Get the PayPal email
      *
-     * @return string
+     * @return null|string
      */
     public function getPayPalEmail()
     {
@@ -406,7 +406,7 @@ class Transaction
     /**
      * Get the PayPal redirect url
      *
-     * @return string
+     * @return null|string
      */
     public function getPayPalRedirectUrl()
     {
@@ -427,7 +427,7 @@ class Transaction
     /**
      * Get the status
      *
-     * @return string
+     * @return null|string
      */
     public function getStatus()
     {
@@ -448,7 +448,7 @@ class Transaction
     /**
      * Get the status log
      *
-     * @return array<TransactionStatus>
+     * @return null|array<TransactionStatus>
      */
     public function getStatusLog()
     {
@@ -469,7 +469,7 @@ class Transaction
     /**
      * A list of attributes
      *
-     * @return array
+     * @return null|array
      */
     public function getAttributes()
     {

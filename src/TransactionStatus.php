@@ -70,7 +70,7 @@ class TransactionStatus
     /**
      * Get the status
      *
-     * @return string
+     * @return null|string
      */
     public function getStatus()
     {
@@ -91,7 +91,7 @@ class TransactionStatus
     /**
      * Get the time
      *
-     * @return string
+     * @return null|string
      */
     public function getTime()
     {
@@ -112,7 +112,7 @@ class TransactionStatus
     /**
      * Get the authorization code
      *
-     * @return string
+     * @return null|string
      */
     public function getAuthorizationCode()
     {

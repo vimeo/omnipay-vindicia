@@ -34,7 +34,7 @@ class TestableSoapClient extends SoapClient
     protected static $lastFunctionName;
     protected static $lastArguments;
 
-    public function __construct($wsdl, array $options = null)
+    public function __construct($wsdl, array $options = [])
     {
         if (!isset(self::$nextResponseOverrideQueue)) {
             self::$nextResponseOverrideQueue = new SplQueue();
@@ -208,7 +208,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last wsdl that was used to construct a SoapClient
      *
-     * @return string
+     * @return null|string
      */
     public static function getLastWsdl()
     {
@@ -218,7 +218,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last options that were used to construct a SoapClient
      *
-     * @return string
+     * @return null|string
      */
     public static function getLastOptions()
     {
@@ -228,7 +228,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last function name that was used in a soap call
      *
-     * @return string
+     * @return null|string
      */
     public static function getLastFunctionName()
     {
@@ -238,7 +238,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last arguments that were used in a soap call
      *
-     * @return string
+     * @return null|string
      */
     public static function getLastArguments()
     {
