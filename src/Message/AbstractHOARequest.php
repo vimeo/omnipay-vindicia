@@ -185,7 +185,8 @@ abstract class AbstractHOARequest extends AbstractRequest
      */
     protected function buildPrivateFormValues($keySoFar, $member)
     {
-        if (array_slice(explode('_', $keySoFar), -1)[0] === 'nameValues') {
+        $lastKeyPart = array_slice(explode('_', $keySoFar), -1);
+        if ($lastKeyPart[0] === 'nameValues') {
             // nameValues have special formatting, so loop through them and take care of them
             $nameValues = array();
             foreach ($member as $nameValue) {
