@@ -34,7 +34,7 @@ class TestableSoapClient extends SoapClient
     protected static $lastFunctionName;
     protected static $lastArguments;
 
-    public function __construct($wsdl, array $options = [])
+    public function __construct($wsdl, array $options = array())
     {
         if (!isset(self::$nextResponseOverrideQueue)) {
             self::$nextResponseOverrideQueue = new SplQueue();
