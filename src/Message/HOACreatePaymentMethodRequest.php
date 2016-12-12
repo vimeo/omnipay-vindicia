@@ -92,7 +92,15 @@ use ReflectionMethod;
  */
 class HOACreatePaymentMethodRequest extends AbstractHOARequest
 {
+    /**
+     * @var string
+     */
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodRequest';
+
+    /**
+     * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+     */
+    protected $regularRequest;
 
     /**
      * @return HOACreatePaymentMethodRequest

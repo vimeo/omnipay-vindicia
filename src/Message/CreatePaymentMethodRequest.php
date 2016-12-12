@@ -171,7 +171,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * (generally by a 99 cent authorization). Validation may include CVV and
      * AVS validation as well, if set up with Vindicia. Default is false.
      *
-     * @return null|int
+     * @return null|bool
      */
     public function getValidate()
     {

@@ -29,10 +29,25 @@ class TestableSoapClient extends SoapClient
      */
     protected static $nextResponseOverrideQueue;
 
-    protected static $lastWsdl;
-    protected static $lastOptions;
-    protected static $lastFunctionName;
-    protected static $lastArguments;
+    /**
+     * @var string|null
+     */
+    protected static $lastWsdl = null;
+
+    /**
+     * @var array<mixed>
+     */
+    protected static $lastOptions = [];
+
+    /**
+     * @var string|null
+     */
+    protected static $lastFunctionName = null;
+
+    /**
+     * @var array<mixed>
+     */
+    protected static $lastArguments = [];
 
     public function __construct($wsdl, array $options = array())
     {
@@ -218,7 +233,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last options that were used to construct a SoapClient
      *
-     * @return null|string
+     * @return array<mixed>
      */
     public static function getLastOptions()
     {
@@ -238,7 +253,7 @@ class TestableSoapClient extends SoapClient
     /**
      * Returns the last arguments that were used in a soap call
      *
-     * @return null|string
+     * @return array<mixed>
      */
     public static function getLastArguments()
     {

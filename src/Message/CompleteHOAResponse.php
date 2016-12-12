@@ -39,9 +39,21 @@ class CompleteHOAResponse extends Response
     protected $isSuccessful;
 
     // Cached objects:
+    /**
+     * @var array<Attribute>
+     */
     protected $formValues;
+    /**
+     * @var \Omnipay\Vindicia\Transaction
+     */
     protected $transaction;
+    /**
+     * @var \Omnipay\Vindicia\Subscription
+     */
     protected $subscription;
+    /**
+     * @var \Omnipay\Vindicia\PaymentMethod
+     */
     protected $paymentMethod;
 
     /**
@@ -155,6 +167,7 @@ class CompleteHOAResponse extends Response
             return $this->transaction;
         }
 
+        $transaction = null;
         if (isset($this->data->session->apiReturnValues->transactionAuth->transaction)) {
             $transaction = $this->data->session->apiReturnValues->transactionAuth->transaction;
         } elseif (isset($this->data->session->apiReturnValues->transactionAuthCapture->transaction)) {

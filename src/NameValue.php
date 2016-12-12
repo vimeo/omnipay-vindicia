@@ -10,7 +10,14 @@ use InvalidArgumentException;
  */
 class NameValue
 {
+    /**
+     * @var string
+     */
     public $name;
+
+    /**
+     * @var string|int|bool|null
+     */
     public $value;
 
     /**

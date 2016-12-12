@@ -12,11 +12,16 @@ use Omnipay\Vindicia\AttributeBag;
 
 abstract class AbstractHOARequest extends AbstractRequest
 {
+    /**
+     * @var string
+     */
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\AbstractRequest';
 
     /**
      * The corresponding regular (non-HOA) request. This is used to fake
      * double inheritance since PHP doesn't support it.
+     *
+     * @var \Omnipay\Vindicia\Message\AbstractRequest
      */
     protected $regularRequest;
 
@@ -24,6 +29,10 @@ abstract class AbstractHOARequest extends AbstractRequest
     {
         // construct a corresponding instance of the regular (non HOA) request
         $reflectionClass = new ReflectionClass(static::$REGULAR_REQUEST_CLASS);
+        /**
+         * Really, it's static::$REGULAR_REQUEST_CLASS. But Psalm doesn't support that.
+         * @var AbstractRequest
+         */
         $this->regularRequest = $reflectionClass->newInstanceArgs(array($httpClient, $httpRequest, $isUpdate));
 
         parent::__construct($httpClient, $httpRequest, $isUpdate);

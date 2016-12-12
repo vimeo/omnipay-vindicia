@@ -34,14 +34,41 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Object names used in the Vindicia API
      */
+    /**
+     * @var string
+     */
     protected static $TRANSACTION_OBJECT = 'Transaction';
+    /**
+     * @var string
+     */
     protected static $SUBSCRIPTION_OBJECT = 'AutoBill';
+    /**
+     * @var string
+     */
     protected static $CUSTOMER_OBJECT = 'Account';
+    /**
+     * @var string
+     */
     protected static $PAYMENT_METHOD_OBJECT = 'PaymentMethod';
+    /**
+     * @var string
+     */
     protected static $REFUND_OBJECT = 'Refund';
+    /**
+     * @var string
+     */
     protected static $CHARGEBACK_OBJECT = 'Chargeback';
+    /**
+     * @var string
+     */
     protected static $PLAN_OBJECT = 'BillingPlan';
+    /**
+     * @var string
+     */
     protected static $PRODUCT_OBJECT = 'Product';
+    /**
+     * @var string
+     */
     protected static $WEB_SESSION_OBJECT = 'WebSession';
 
     /**

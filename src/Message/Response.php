@@ -9,21 +9,60 @@ use Omnipay\Common\Message\RequestInterface;
 
 class Response extends AbstractResponse
 {
+    /**
+     * @var array<int>
+     */
     protected static $SUCCESS_CODES = array(200);
 
+    /**
+     * @var ObjectHelper
+     */
     protected $objectHelper;
 
     // Cached objects:
+    /**
+     * @var \Omnipay\Vindicia\Transaction
+     */
     protected $transaction;
+    /**
+     * @var \Omnipay\Vindicia\Subscription
+     */
     protected $subscription;
+    /**
+     * @var \Omnipay\Vindicia\Customer
+     */
     protected $customer;
+    /**
+     * @var \Omnipay\Vindicia\Plan
+     */
     protected $plan;
+    /**
+     * @var \Omnipay\Vindicia\Product
+     */
     protected $product;
+    /**
+     * @var \Omnipay\Vindicia\PaymentMethod
+     */
     protected $paymentMethod;
+    /**
+     * @var array<\Omnipay\Vindicia\Refund>
+     */
     protected $refunds;
+    /**
+     * @var array<\Omnipay\Vindicia\Transaction>
+     */
     protected $transactions;
+    /**
+     * @var array<\Omnipay\Vindicia\Subscription>
+     */
     protected $subscriptions;
+    /**
+     * @var array<\Omnipay\Vindicia\Chargeback>
+     */
     protected $chargebacks;
+    /**
+     * @var array<\Omnipay\Vindicia\PaymentMethod>
+     */
     protected $paymentMethods;
 
     /**

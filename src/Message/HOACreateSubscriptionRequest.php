@@ -112,6 +112,9 @@ use Omnipay\Vindicia\NameValue;
  */
 class HOACreateSubscriptionRequest extends AbstractHOARequest
 {
+    /**
+     * @var string
+     */
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\CreateSubscriptionRequest';
 
     protected function getObjectParamNames()

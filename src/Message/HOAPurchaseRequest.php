@@ -83,6 +83,9 @@ use Omnipay\Vindicia\NameValue;
  */
 class HOAPurchaseRequest extends HOAAuthorizeRequest
 {
+    /**
+     * @var string
+     */
     protected static $REGULAR_REQUEST_CLASS = '\Omnipay\Vindicia\Message\PurchaseRequest';
 
     /**
