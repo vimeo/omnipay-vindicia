@@ -945,7 +945,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 $transactionItem->quantity = $item->getQuantity();
                 $transactionItem->indexNumber = $i + 1; // vindicia index numbers start at 1
                 $transactionItem->itemType = 'Purchase';
-                $transactionItem->taxClassification = $this->getTaxClassification();
+                $transactionItem->taxClassification = $item->getTaxClassification() ?: $this->getTaxClassification();
                 $transactionItem->sku = $item->getSku();
                 $transactionItem->nameValues = array(
                     new NameValue('description', $item->getDescription())

@@ -312,10 +312,9 @@ class PurchaseRequestTest extends SoapTestCase
             $this->assertSame($this->items[$i]['quantity'], $data['transaction']->transactionItems[$i]->quantity);
             $this->assertSame($this->items[$i]['sku'], $data['transaction']->transactionItems[$i]->sku);
             $this->assertEquals(array(new NameValue('description', $this->items[$i]['description'])), $data['transaction']->transactionItems[$i]->nameValues);
-            $this->assertSame($this->taxClassification, $data['transaction']->transactionItems[$i]->taxClassification);
+            $this->assertSame($this->items[$i]['taxClassification'], $data['transaction']->transactionItems[$i]->taxClassification);
         }
 
-        $this->assertSame($this->taxClassification, $data['transaction']->transactionItems[0]->taxClassification);
         $this->assertSame($this->currency, $data['transaction']->currency);
         $this->assertSame($this->customerId, $data['transaction']->account->merchantAccountId);
         $this->assertSame($this->customerReference, $data['transaction']->account->VID);

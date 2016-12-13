@@ -375,7 +375,7 @@ class HOAPurchaseRequestTest extends SoapTestCase
                 $data['session']->privateFormValues
             ));
             $this->assertTrue(in_array(
-                new NameValue('vin_Transaction_transactionItems_' . $i . '_taxClassification', $this->taxClassification),
+                new NameValue('vin_Transaction_transactionItems_' . $i . '_taxClassification', $this->items[$i]['taxClassification']),
                 $data['session']->privateFormValues
             ));
         }

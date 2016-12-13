@@ -401,6 +401,7 @@ class DataFakerTest extends TestCase
         $this->assertTrue(is_int($item->getQuantity()));
         $this->assertTrue(is_numeric($item->getPrice()));
         $this->assertTrue(is_string($item->getSku()));
+        $this->assertTrue(is_string($item->getTaxClassification()));
     }
 
     /**

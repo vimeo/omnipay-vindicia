@@ -551,7 +551,8 @@ class DataFaker
             ),
             'quantity' => $this->intBetween(1, 15),
             'price' => $this->monetaryAmount($currency),
-            'sku' => $this->sku()
+            'sku' => $this->sku(),
+            'taxClassification' => $this->taxClassification()
         );
     }
 
