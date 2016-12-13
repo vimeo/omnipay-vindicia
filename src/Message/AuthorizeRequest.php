@@ -23,7 +23,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - amount: The amount of the transaction. Either the amount or items parameter is required.
  * If both are provided, the sum of the items must equal the amount.
  * - items: Line-items for the transaction. Either the amount or items parameter is required.
- * Each item must contain a sku, price, quantity, and name. A description is optional.
+ * Each item must contain a sku, price, quantity, and name. A description and taxClassification
+ * are optional.
  * - currency: The three letter (capitalized) currency code for the transaction, eg) 'USD'
  * If not specified, the default will be left up to Vindicia, which will probably be USD for
  * most users.
