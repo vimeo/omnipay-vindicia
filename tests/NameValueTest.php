@@ -80,7 +80,7 @@ class NameValueTest extends TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @psalm-suppress    NullReference because we're testing to ensure that null can't be passed
+     * @psalm-suppress    NullArgument because we're testing to ensure that null can't be passed
      * @return            void
      */
     public function testNameMustNotBeNull()
