@@ -17,6 +17,10 @@ namespace Omnipay\Vindicia\Message;
  * most users.
  * - card: Card details are not necessary, but this parameter can be used to provide the address
  * details to determine where the tax will be applied and what rate should be used.
+ * - customerId: If the customer id or reference is provided, Vindicia can check them for
+ * tax exemptions. (optional)
+ * - customerReference: If the customer id or reference is provided, Vindicia can check them for
+ * tax exemptions. (optional)
  *
  * Example:
  * <code>
@@ -31,6 +35,7 @@ namespace Omnipay\Vindicia\Message;
  *       'currency' => 'USD',
  *       'card' => array(
  *           'country' => 'FR'
+ *           // you can specify other address components, such as 'postcode', if desired
  *       ),
  *       'taxClassification' => 'OtherTaxable'
  *   ))->send();

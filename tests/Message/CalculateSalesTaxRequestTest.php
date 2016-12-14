@@ -26,9 +26,13 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
             $this->tax_amount = $temp;
         }
         $this->country = $this->faker->region();
+        $this->postcode = $this->faker->postcode();
+        $this->customerId = $this->faker->customerId();
+        $this->customerReference = $this->faker->customerReference();
 
         $this->card = array(
-            'country' => $this->country
+            'country' => $this->country,
+            'postcode' => $this->postcode
         );
         $this->taxClassification = $this->faker->taxClassification();
 
@@ -38,7 +42,9 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
                 'amount' => $this->amount,
                 'currency' => $this->currency,
                 'card' => $this->card,
-                'taxClassification' => $this->taxClassification
+                'taxClassification' => $this->taxClassification,
+                'customerId' => $this->customerId,
+                'customerReference' => $this->customerReference
             )
         );
     }
@@ -95,6 +101,30 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testCustomerId()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setCustomerId($this->customerId));
+        $this->assertEquals($this->customerId, $request->getCustomerId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCustomerReference()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setCustomerReference($this->customerReference));
+        $this->assertEquals($this->customerReference, $request->getCustomerReference());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -103,6 +133,8 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $data['transaction']->currency);
         $this->assertSame($this->taxClassification, $data['transaction']->transactionItems[0]->taxClassification);
         $this->assertSame($this->card['country'], $data['transaction']->shippingAddress->country);
+        $this->assertSame($this->customerId, $data['transaction']->account->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['transaction']->account->VID);
         $this->assertFalse(isset($data['transaction']->sourcePaymentMethod));
 
         $this->assertSame('calculateSalesTax', $data['action']);
