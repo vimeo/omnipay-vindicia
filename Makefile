@@ -1,4 +1,4 @@
-all: no_psalm
+all: with_psalm
 
 no_psalm: style test
 
