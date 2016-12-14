@@ -15,6 +15,17 @@ matrix:
       env:
         - TEST_SUITE='with_psalm'
         - COMPOSER='composer-psalm.json'
+    - php: 7.0
+      env:
+        - TEST_SUITE='with_psalm'
+        - COMPOSER='composer-psalm.json'
+    - php: 7.1
+      env:
+        - TEST_SUITE='with_psalm'
+        - COMPOSER='composer-psalm.json'
+    - php: hhvm
+      env:
+        - TEST_SUITE='no_psalm'
 install: composer install
 script: make $TEST_SUITE
 notifications:
