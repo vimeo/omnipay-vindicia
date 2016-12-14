@@ -37,7 +37,7 @@ The following gateways are provided by this package:
 
 * [Vindicia](https://vindicia.com/)
 * Vindicia_PayPal (Vindicia's PayPal Express implementation)
-* Vindicia_HOA *[in progress]* ([Hosted Order Automation](https://www.vindicia.com/resources/data-sheets/hosted-order-automation), Vindicia's solution for minimizing your PCI compliance burden)
+* Vindicia_HOA ([Hosted Order Automation](https://www.vindicia.com/resources/data-sheets/hosted-order-automation), Vindicia's solution for minimizing your PCI compliance burden)
 
 **NOTE:** Unlike many gateways, Vindicia requires that every purchase have a corresponding customer. Therefore, the `customerId` or `customerReference` must be provided for every authorize or purchase request. If you pass a `customerId` that does not exist, Vindicia will create the customer object for you as part of the same request. (A `customerReference` that does not exist is an error.)
 
