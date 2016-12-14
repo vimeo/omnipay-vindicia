@@ -25,7 +25,7 @@ class NameValue
      * to strings, as is required for Vindicia's API.
      *
      * @param string $name
-     * @param string|int|bool|null $value
+     * @param string|int|bool|float|null $value
      * @psalm-suppress FailedTypeResolution Because we're making sure a non-string isn't passed at runtime
      */
     public function __construct($name, $value)
@@ -37,7 +37,7 @@ class NameValue
 
         if ($value === null) {
             $this->value = 'null';
-        } elseif (is_int($value)) {
+        } elseif (is_int($value) || is_float($value)) {
             $this->value = strval($value);
         } elseif (is_bool($value)) {
             // this attribute name actually takes a boolean value for some reason

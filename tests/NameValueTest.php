@@ -47,6 +47,10 @@ class NameValueTest extends TestCase
         $nameValue = new NameValue($this->faker->HOAParamName(), $integer);
         $this->assertSame(strval($integer), $nameValue->value);
 
+        $float = floatval($this->faker->intBetween(0, 999) . '.' . $this->faker->intBetween(0, 999));
+        $nameValue = new NameValue($this->faker->HOAParamName(), $float);
+        $this->assertSame(strval($float), $nameValue->value);
+
         // this attribute name actually takes a boolean value for some reason
         $nameValue = new NameValue('vin_PaymentMethod_active', true);
         $this->assertSame(true, $nameValue->value);
