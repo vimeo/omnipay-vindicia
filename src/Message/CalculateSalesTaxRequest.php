@@ -2,6 +2,8 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
+
 /**
  * Calculate the sales tax for a potential transaction.
  *
@@ -10,8 +12,13 @@ namespace Omnipay\Vindicia\Message;
  * Parameters:
  * - taxClassification: The tax classification to use for calculation. Values may vary depending
  * on your tax engine, consult with Vindicia to learn what values are available to you.
- * Common options include 'TaxExempt' (default) and 'OtherTaxable'.
- * - amount: The amount to calculate tax based on. Required.
+ * Common options include 'TaxExempt' (default) and 'OtherTaxable'. Can be overriden by a
+ * taxClassification parameter in an item.
+ * - amount: The amount to calculate tax based on. Either the amount or items parameter is required.
+ * - items: Line-items for the transaction. Either the amount or items parameter is required.
+ * Each item must contain a sku, price, quantity, and name. A description and taxClassification
+ * are optional. If a taxClassification is specified, it will take precedence over the request-
+ * level taxClassification parameter.
  * - currency: The three letter (capitalized) currency code for the amount, eg) 'USD'
  * If not specified, the default will be left up to Vindicia, which will probably be USD for
  * most users.
@@ -31,7 +38,11 @@ namespace Omnipay\Vindicia\Message;
  *   $gateway->setTestMode(false);
  *
  *   $response = $gateway->calculateSalesTax(array(
- *       'amount' => '10.00',
+ *       'items' => array(
+ *           array('name' => 'Item 1', 'sku' => '1', 'price' => '4.00', 'quantity' => 1),
+ *           array('name' => 'Item 2', 'sku' => '2', 'price' => '3.00', 'quantity' => 2)
+ *       ),
+ *       'amount' => '10.00', // not necessary since items are provided
  *       'currency' => 'USD',
  *       'card' => array(
  *           'country' => 'FR'
@@ -67,7 +78,11 @@ class CalculateSalesTaxRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('amount');
+        $amount = $this->getAmount();
+        $items = $this->getItems();
+        if (empty($amount) && empty($items)) {
+            throw new InvalidRequestException('Either the amount or items parameter is required.');
+        }
 
         // skip card validation since we only need the address info
         return array(

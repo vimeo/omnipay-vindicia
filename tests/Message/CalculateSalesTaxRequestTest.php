@@ -6,6 +6,7 @@ use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Common\CreditCard;
+use Omnipay\Vindicia\VindiciaItemBag;
 
 class CalculateSalesTaxRequestTest extends SoapTestCase
 {
@@ -47,6 +48,8 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
                 'customerReference' => $this->customerReference
             )
         );
+
+        $this->items = $this->faker->itemsAsArray($this->currency);
     }
 
     /**
@@ -125,6 +128,18 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testItems()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setItems($this->items));
+        $this->assertEquals(new VindiciaItemBag($this->items), $request->getItems());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -141,8 +156,34 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
     }
 
     /**
+     * @return void
+     */
+    public function testGetDataMultipleItems()
+    {
+        $this->request->setAmount(null)->setItems($this->items);
+
+        $data = $this->request->getData();
+
+        $numItems = count($this->items);
+        $this->assertSame($numItems, count($data['transaction']->transactionItems));
+        for ($i = 0; $i < $numItems; $i++) {
+            $this->assertSame($this->items[$i]['price'], $data['transaction']->transactionItems[$i]->price);
+            $this->assertSame($this->items[$i]['quantity'], $data['transaction']->transactionItems[$i]->quantity);
+            $this->assertSame($this->items[$i]['sku'], $data['transaction']->transactionItems[$i]->sku);
+            $this->assertSame($this->items[$i]['taxClassification'], $data['transaction']->transactionItems[$i]->taxClassification);
+        }
+        $this->assertSame($this->currency, $data['transaction']->currency);
+        $this->assertSame($this->card['country'], $data['transaction']->shippingAddress->country);
+        $this->assertSame($this->customerId, $data['transaction']->account->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['transaction']->account->VID);
+        $this->assertFalse(isset($data['transaction']->sourcePaymentMethod));
+
+        $this->assertSame('calculateSalesTax', $data['action']);
+    }
+
+    /**
      * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage The amount parameter is required
+     * @expectedExceptionMessage Either the amount or items parameter is required.
      * @return                   void
      */
     public function testAmountRequired()
