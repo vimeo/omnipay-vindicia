@@ -276,6 +276,8 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertTrue(in_array(new NameValue('CVN', $this->card['cvv']), $data['transaction']->sourcePaymentMethod->nameValues));
         $this->assertSame($this->card['postcode'], $data['transaction']->sourcePaymentMethod->billingAddress->postalCode);
         $this->assertSame($this->card['country'], $data['transaction']->sourcePaymentMethod->billingAddress->country);
+        $this->assertSame($this->card['postcode'], $data['transaction']->shippingAddress->postalCode);
+        $this->assertSame($this->card['country'], $data['transaction']->shippingAddress->country);
         $this->assertSame($this->statementDescriptor, $data['transaction']->billingStatementIdentifier);
         $this->assertSame($this->ip, $data['transaction']->sourceIp);
         $this->assertSame('CreditCard', $data['transaction']->sourcePaymentMethod->type);
@@ -325,6 +327,8 @@ class AuthorizeRequestTest extends SoapTestCase
         $this->assertTrue(in_array(new NameValue('CVN', $this->card['cvv']), $data['transaction']->sourcePaymentMethod->nameValues));
         $this->assertSame($this->card['postcode'], $data['transaction']->sourcePaymentMethod->billingAddress->postalCode);
         $this->assertSame($this->card['country'], $data['transaction']->sourcePaymentMethod->billingAddress->country);
+        $this->assertSame($this->card['postcode'], $data['transaction']->shippingAddress->postalCode);
+        $this->assertSame($this->card['country'], $data['transaction']->shippingAddress->country);
         $this->assertSame($this->statementDescriptor, $data['transaction']->billingStatementIdentifier);
         $this->assertSame($this->ip, $data['transaction']->sourceIp);
         $this->assertSame('CreditCard', $data['transaction']->sourcePaymentMethod->type);

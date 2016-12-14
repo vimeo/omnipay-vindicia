@@ -102,7 +102,8 @@ class CalculateSalesTaxRequestTest extends SoapTestCase
         $this->assertSame($this->amount, $data['transaction']->transactionItems[0]->price);
         $this->assertSame($this->currency, $data['transaction']->currency);
         $this->assertSame($this->taxClassification, $data['transaction']->transactionItems[0]->taxClassification);
-        $this->assertSame($this->card['country'], $data['transaction']->sourcePaymentMethod->billingAddress->country);
+        $this->assertSame($this->card['country'], $data['transaction']->shippingAddress->country);
+        $this->assertFalse(isset($data['transaction']->sourcePaymentMethod));
 
         $this->assertSame('calculateSalesTax', $data['action']);
     }

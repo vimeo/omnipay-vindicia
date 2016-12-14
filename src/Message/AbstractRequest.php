@@ -12,6 +12,8 @@ use SoapFault;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
+use InvalidArgumentException;
+use Omnipay\Common\CreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -973,14 +975,21 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $transactionItems[] = $transactionItem;
         }
 
+        $card = $this->getCard();
+
         $transaction = new stdClass();
         $transaction->account = $account;
         $transaction->currency = $this->getCurrency();
         $transaction->merchantTransactionId = $this->getTransactionId();
-        $transaction->sourcePaymentMethod = $this->buildPaymentMethod($paymentMethodType);
+        if ($paymentMethodType !== null) {
+            $transaction->sourcePaymentMethod = $this->buildPaymentMethod($paymentMethodType);
+        }
         $transaction->transactionItems = $transactionItems;
         $transaction->billingStatementIdentifier = $this->getStatementDescriptor();
         $transaction->sourceIp = $this->getIp();
+        if ($card !== null) {
+            $transaction->shippingAddress = $this->buildAddress($card);
+        }
 
         $attributes = $this->getAttributes();
         if ($attributes) {
@@ -995,11 +1004,12 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string $paymentMethodType default null
+     * @param string $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD or self::PAYMENT_METHOD_PAYPAL)
      * @param bool $addAttributes default false
      * @return stdClass
+     * @throws InvalidArgumentException if $paymentMethodType is not supported
      */
-    protected function buildPaymentMethod($paymentMethodType = null, $addAttributes = false)
+    protected function buildPaymentMethod($paymentMethodType, $addAttributes = false)
     {
         $paymentMethod = new stdClass();
         $paymentMethod->merchantPaymentMethodId = $this->getPaymentMethodId();
@@ -1034,11 +1044,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 $paymentMethod->paypal = $paypal;
                 break;
 
-            case null:
             default:
-                // this is for the null case, such as for when we're making a simple payment method
-                // to calculate sales tax
-                break;
+                throw new InvalidArgumentException('Unknown payment method type.');
         }
 
         // never change the type on an update
@@ -1052,19 +1059,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         if ($card !== null) {
-            $customerName = $card->getName();
-
-            $address = new stdClass();
-            $address->addr1 = $card->getAddress1();
-            $address->addr2 = $card->getAddress2();
-            $address->city = $card->getCity();
-            $address->country = $card->getCountry();
-            $address->district = $card->getState();
-            $address->name = $customerName;
-            $address->postalCode = $card->getPostcode();
-
-            $paymentMethod->accountHolderName = $customerName;
-            $paymentMethod->billingAddress = $address;
+            $paymentMethod->accountHolderName = $card->getName();
+            $paymentMethod->billingAddress = $this->buildAddress($card);
 
             if ($card->getCvv()) {
                 if (!isset($paymentMethod->nameValues)) {
@@ -1075,6 +1071,26 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $paymentMethod;
+    }
+
+    /**
+     * Helper function to make a Vindicia address
+     *
+     * @param CreditCard $card
+     * @return stdClass
+     */
+    protected function buildAddress(CreditCard $card)
+    {
+        $address = new stdClass();
+        $address->addr1 = $card->getAddress1();
+        $address->addr2 = $card->getAddress2();
+        $address->city = $card->getCity();
+        $address->country = $card->getCountry();
+        $address->district = $card->getState();
+        $address->name = $card->getName();
+        $address->postalCode = $card->getPostcode();
+
+        return $address;
     }
 
     /**
