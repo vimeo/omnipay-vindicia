@@ -178,22 +178,6 @@ class PayPalGateway extends AbstractVindiciaGateway
     }
 
     /**
-     * Create a new payment method.
-     *
-     * See Message\CreatePaymentMethodRequest for more details.
-     *
-     * @param array $parameters
-     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
-     */
-    public function createPaymentMethod(array $parameters = array())
-    {
-        /**
-         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
-         */
-        return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters);
-    }
-
-    /**
      * Update a payment method.
      *
      * See Message\CreatePaymentMethodRequest for more details.
