@@ -1,3 +1,5 @@
+# Test
+
 all: with_psalm
 
 no_psalm: style test
@@ -12,3 +14,13 @@ test:
 
 psalm:
 	vendor/bin/psalm
+
+# Install
+
+install: install_with_psalm
+
+install_with_psalm:
+	COMPOSER=composer-psalm.json php composer.phar install
+
+install_no_psalm:
+	php composer.phar install
