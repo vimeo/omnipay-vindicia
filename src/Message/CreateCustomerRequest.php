@@ -27,6 +27,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - paymentMethodReference: The gateway's identifier for the payment method. This would only
  * be used to attach an existing payment method to this new customer, and in this case can be
  * used in place of paymentMethodId if you wish.
+ * - taxExemptions: Tax exemptions to apply to the customer. Each tax exemption must contain
+ * an exemptionId and a region. Optionally, they can also contain an active parameter, which
+ * is true by default.
  * - attributes: Custom values you wish to have stored with the customer. They have
  * no affect on anything.
  *
@@ -50,6 +53,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           'postcode' => '12345'
  *       ),
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
+ *       'taxExemptions' => array(
+ *           array('exemptionId' => 'XY123456', 'region' => 'XY', 'active' => true) // active is true by default
+ *       ),
  *       'attributes' => array(
  *           'hasMustache' => false
  *       )
