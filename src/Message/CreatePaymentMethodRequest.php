@@ -14,8 +14,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * See Message\CreateCustomerRequest.
  *
  * Parameters:
- * - card: The card details you're adding. Required.
- * - paymentMethodId: Your identifier for the payment method. Required.
+ * - card: The card details you're adding. Required if you're creating a new payment method.
+ * - paymentMethodId: Your identifier for the payment method. Either the paymentMethodId
+ * or paymentMethodReference is required.
+ * - paymentMethodReference: The gateway's identifier for the payment method. Either the
+ * paymentMethodId or paymentMethodReference is required.
  * - customerId: Your identifier for the customer to whom this payment method will belong.
  * If provided, the customer must already exist.
  * - customerReference: The gateway's identifier for the customer to whom this payment method
@@ -128,7 +131,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      */
     public function initialize(array $parameters = array())
     {
-        $this->cardRequired = true;
+        $this->setCardRequired(!$this->isUpdate());
 
         if (!array_key_exists('validate', $parameters)) {
             $parameters['validate'] = false;

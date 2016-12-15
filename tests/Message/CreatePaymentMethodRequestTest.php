@@ -307,6 +307,45 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     }
 
     /**
+     * Test getData for an update. The card parameter is not required for updates.
+     *
+     * @return void
+     */
+    public function testGetDataUpdateNoCard()
+    {
+        $request = new CreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest(), true);
+        $request->initialize(
+            array(
+                'customerId' => $this->customerId,
+                'paymentMethodId' => $this->paymentMethodId,
+                'customerReference' => $this->customerReference,
+                'paymentMethodReference' => $this->paymentMethodReference,
+                'attributes' => $this->attributes
+            )
+        );
+
+        $data = $request->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
+
+        $numAttributes = count($this->attributes);
+        $this->assertSame($numAttributes, count($data['paymentMethod']->nameValues));
+        for ($i = 0; $i < $numAttributes; $i++) {
+            $this->assertSame($this->attributes[$i]['name'], $data['paymentMethod']->nameValues[$i]->name);
+            $this->assertSame($this->attributes[$i]['value'], $data['paymentMethod']->nameValues[$i]->value);
+        }
+
+        $this->assertSame(CreatePaymentMethodRequest::SKIP_CARD_VALIDATION, $data['updateBehavior']);
+        $this->assertFalse($data['ignoreAvsPolicy']);
+        $this->assertFalse($data['ignoreCvnPolicy']);
+        $this->assertTrue($data['replaceOnAllAutoBills']);
+        $this->assertSame('updatePaymentMethod', $data['action']);
+    }
+
+    /**
      * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The paymentMethodId parameter is required
      * @return                   void
