@@ -45,7 +45,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'name' => 'Test Customer',
  *       'email' => 'customer@example.com',
  *       'customerId' => '123456789', // you choose this
- *       'card' => array(
+ *       'card' => array( // not needed if you're using a saved card, just set paymentMethodId
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',
  *           'expiryYear' => '2020',
@@ -142,9 +142,11 @@ class CreateCustomerRequest extends AbstractRequest
             throw new InvalidRequestException('Either the customerId or customerReference parameter is required.');
         }
 
-        $card = $this->getCard();
         $paymentMethod = null;
-        if ($card) {
+        if ($this->getCard() !== null
+            || $this->getPaymentMethodId() !== null
+            || $this->getPaymentMethodReference() !== null
+        ) {
             if ($this->isUpdate()) {
                 throw new InvalidRequestException(
                     'Do not update a customer\'s card in an update customer request. Use update payment method instead.'

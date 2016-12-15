@@ -188,6 +188,32 @@ class CreateCustomerRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testGetDataWithExistingCard()
+    {
+        $this->request->setCard(null)->setPaymentMethodId($this->paymentMethodId);
+
+        $data = $this->request->getData();
+
+        $this->assertSame($this->name, $data['account']->name);
+        $this->assertSame($this->email, $data['account']->emailAddress);
+        $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
+
+        $numAttributes = count($this->attributes);
+        $this->assertSame($numAttributes, count($data['account']->nameValues));
+        for ($i = 0; $i < $numAttributes; $i++) {
+            $this->assertSame($this->attributes[$i]['name'], $data['account']->nameValues[$i]->name);
+            $this->assertSame($this->attributes[$i]['value'], $data['account']->nameValues[$i]->value);
+        }
+
+        $this->assertSame($this->paymentMethodId, $data['account']->paymentMethods[0]->merchantPaymentMethodId);
+
+        $this->assertSame('update', $data['action']);
+    }
+
+    /**
+     * @return void
+     */
     public function testGetDataWithTaxExemptions()
     {
         $exemptions = $this->faker->taxExemptionsAsArray();
