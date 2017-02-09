@@ -221,6 +221,16 @@ class TestableSoapClient extends SoapClient
     }
 
     /**
+     * Empty the queue of set responses.
+     *
+     * @return void
+     */
+    public static function emptyResponseQueue()
+    {
+        self::$nextResponseOverrideQueue = new SplQueue();
+    }
+
+    /**
      * Returns the last wsdl that was used to construct a SoapClient
      *
      * @return null|string
