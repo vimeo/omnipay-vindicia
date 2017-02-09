@@ -63,6 +63,14 @@ class TestableSoapClient extends SoapClient
         }
     }
 
+    /**
+     * @param string $function_name
+     * @param array<mixed> $arguments
+     * @param array<mixed> $options default null
+     * @param array<mixed> $input_headers default null
+     * @param array<mixed> $output_headers default null
+     * @return mixed
+     */
     public function __soapCall(
         $function_name,
         $arguments,
@@ -112,7 +120,7 @@ class TestableSoapClient extends SoapClient
      * or if the file can't be opened.
      *
      * @param  string $filename
-     * @param  array<string, string> $substitutions default array()
+     * @param  array<string, mixed> $substitutions default array()
      * @throws Omnipay\Common\Exception\BadMethodCallException
      * @return void
      */

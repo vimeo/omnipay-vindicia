@@ -72,7 +72,7 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
      * If not present, will default to 100 (always passing).
      * See Message\AuthorizeRequest for more info.
      *
-     * @param int
+     * @param int $value
      * @return static
      */
     public function setMinChargebackProbability($value)

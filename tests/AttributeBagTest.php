@@ -15,10 +15,10 @@ class AttributeBagTest extends TestCase
         $this->bag = new AttributeBag();
         $this->faker = new DataFaker();
         $attribute = $this->faker->attribute();
-        $this->name = $attribute->getName();
+        $this->attributeName = $attribute->getName();
         $this->value = $attribute->getValue();
         $attribute2 = $this->faker->attribute();
-        $this->name2 = $attribute2->getName();
+        $this->attributeName2 = $attribute2->getName();
         $this->value2 = $attribute2->getValue();
     }
 
@@ -28,7 +28,7 @@ class AttributeBagTest extends TestCase
     public function testConstruct()
     {
         $bag = new AttributeBag(array(array(
-            'name' => $this->name,
+            'name' => $this->attributeName,
             'value' => $this->value
         )));
         $this->assertCount(1, $bag);
@@ -43,27 +43,27 @@ class AttributeBagTest extends TestCase
     {
         $bagFromArrays = new AttributeBag(array(
             array(
-                'name' => $this->name,
+                'name' => $this->attributeName,
                 'value' => $this->value
             ),
             array(
-                'name' => $this->name2,
+                'name' => $this->attributeName2,
                 'value' => $this->value2
             )
         ));
         $bagFromObjects = new AttributeBag(array(
             new Attribute(array(
-                'name' => $this->name,
+                'name' => $this->attributeName,
                 'value' => $this->value
             )),
             new Attribute(array(
-                'name' => $this->name2,
+                'name' => $this->attributeName2,
                 'value' => $this->value2
             )),
         ));
         $bagFromSimplifiedArray = new AttributeBag(array(
-            $this->name => $this->value,
-            $this->name2 => $this->value2
+            $this->attributeName => $this->value,
+            $this->attributeName2 => $this->value2
         ));
 
         $this->assertEquals($bagFromArrays, $bagFromObjects);
@@ -98,7 +98,7 @@ class AttributeBagTest extends TestCase
     public function testAddWithAttribute()
     {
         $attribute = new Attribute();
-        $attribute->setName($this->name);
+        $attribute->setName($this->attributeName);
         $this->bag->add($attribute);
 
         $contents = $this->bag->all();
@@ -111,14 +111,14 @@ class AttributeBagTest extends TestCase
     public function testAddWithArray()
     {
         $attribute = array(
-            'name' => $this->name,
+            'name' => $this->attributeName,
             'value' => $this->value
         );
         $this->bag->add($attribute);
 
         $contents = $this->bag->all();
         $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $contents[0]);
-        $this->assertSame($this->name, $contents[0]->getName());
+        $this->assertSame($this->attributeName, $contents[0]->getName());
     }
 
     /**
@@ -127,7 +127,7 @@ class AttributeBagTest extends TestCase
     public function testGetIterator()
     {
         $attribute = new Attribute();
-        $attribute->setName($this->name);
+        $attribute->setName($this->attributeName);
         $this->bag->add($attribute);
 
         foreach ($this->bag as $bagAttribute) {

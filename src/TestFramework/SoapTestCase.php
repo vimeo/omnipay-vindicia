@@ -29,7 +29,7 @@ class SoapTestCase extends TestCase
      * or if the file can't be opened.
      *
      * @param  string $filename
-     * @param  array<string, string> $substitutions default array()
+     * @param  array<string, mixed> $substitutions default array()
      * @throws Omnipay\Common\Exception\BadMethodCallException
      * @return void
      */

@@ -479,7 +479,7 @@ class Transaction
     /**
      * Set the attributes in this order
      *
-     * @param array
+     * @param array $attributes
      * @return static
      */
     public function setAttributes($attributes)

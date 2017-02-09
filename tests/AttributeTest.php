@@ -15,7 +15,7 @@ class AttributeTest extends TestCase
         $this->attribute = new Attribute();
         $this->faker = new DataFaker();
         $attribute = $this->faker->attribute();
-        $this->name = $attribute->getName();
+        $this->attributeName = $attribute->getName();
         $this->value = $attribute->getValue();
     }
 
@@ -25,10 +25,10 @@ class AttributeTest extends TestCase
     public function testConstructWithParams()
     {
         $attribute = new Attribute(array(
-            'name' => $this->name,
+            'name' => $this->attributeName,
             'value' => $this->value
         ));
-        $this->assertSame($this->name, $attribute->getName());
+        $this->assertSame($this->attributeName, $attribute->getName());
         $this->assertSame($this->value, $attribute->getValue());
     }
 
@@ -38,10 +38,10 @@ class AttributeTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->attribute, $this->attribute->initialize(array(
-            'name' => $this->name,
+            'name' => $this->attributeName,
             'value' => $this->value
         )));
-        $this->assertSame($this->name, $this->attribute->getName());
+        $this->assertSame($this->attributeName, $this->attribute->getName());
         $this->assertSame($this->value, $this->attribute->getValue());
     }
 
@@ -50,8 +50,8 @@ class AttributeTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->attribute, $this->attribute->setName($this->name)->setValue($this->value));
-        $this->assertSame(array('name' => $this->name, 'value' => $this->value), $this->attribute->getParameters());
+        $this->assertSame($this->attribute, $this->attribute->setName($this->attributeName)->setValue($this->value));
+        $this->assertSame(array('name' => $this->attributeName, 'value' => $this->value), $this->attribute->getParameters());
     }
 
     /**
@@ -59,8 +59,8 @@ class AttributeTest extends TestCase
      */
     public function testName()
     {
-        $this->assertSame($this->attribute, $this->attribute->setName($this->name));
-        $this->assertSame($this->name, $this->attribute->getName());
+        $this->assertSame($this->attribute, $this->attribute->setName($this->attributeName));
+        $this->assertSame($this->attributeName, $this->attribute->getName());
     }
 
     /**

@@ -123,6 +123,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class AuthorizeRequest extends AbstractRequest
 {
     /**
+     * @param array<string, mixed> $parameters
      * @return AuthorizeRequest
      */
     public function initialize(array $parameters = array())

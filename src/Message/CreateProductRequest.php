@@ -51,6 +51,7 @@ class CreateProductRequest extends AbstractRequest
     const BEHAVIOR_SUCCEED_IGNORE = 'SucceedIgnore';
 
     /**
+     * @param array<string, mixed> $parameters
      * @return CreateProductRequest
      */
     public function initialize(array $parameters = array())

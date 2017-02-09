@@ -14,7 +14,7 @@ class TransactionStatusTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->transactionStatus = new TransactionStatus();
-        $this->status = $this->faker->status();
+        $this->transactionStatusStatus = $this->faker->status();
     }
 
     /**
@@ -23,9 +23,9 @@ class TransactionStatusTest extends TestCase
     public function testConstructWithParams()
     {
         $transactionStatus = new TransactionStatus(array(
-            'status' => $this->status
+            'status' => $this->transactionStatusStatus
         ));
-        $this->assertSame($this->status, $transactionStatus->getStatus());
+        $this->assertSame($this->transactionStatusStatus, $transactionStatus->getStatus());
     }
 
     /**
@@ -34,9 +34,9 @@ class TransactionStatusTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->transactionStatus, $this->transactionStatus->initialize(array(
-            'status' => $this->status
+            'status' => $this->transactionStatusStatus
         )));
-        $this->assertSame($this->status, $this->transactionStatus->getStatus());
+        $this->assertSame($this->transactionStatusStatus, $this->transactionStatus->getStatus());
     }
 
     /**
@@ -44,8 +44,8 @@ class TransactionStatusTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->transactionStatus, $this->transactionStatus->setStatus($this->status));
-        $this->assertSame(array('status' => $this->status), $this->transactionStatus->getParameters());
+        $this->assertSame($this->transactionStatus, $this->transactionStatus->setStatus($this->transactionStatusStatus));
+        $this->assertSame(array('status' => $this->transactionStatusStatus), $this->transactionStatus->getParameters());
     }
 
     /**

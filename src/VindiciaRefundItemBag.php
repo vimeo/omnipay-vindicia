@@ -12,6 +12,11 @@ use Omnipay\Common\ItemBag;
 class VindiciaRefundItemBag extends ItemBag
 {
     /**
+     * @var array<int, mixed>
+     */
+    protected $items;
+
+    /**
      * Add an item to the bag
      *
      * @param  VindiciaRefundItem|array $item An existing item, or associative array of item parameters

@@ -103,6 +103,7 @@ class HOACreatePaymentMethodRequest extends AbstractHOARequest
     protected $regularRequest;
 
     /**
+     * @param array<string, mixed> $parameters
      * @return HOACreatePaymentMethodRequest
      */
     public function initialize(array $parameters = array())

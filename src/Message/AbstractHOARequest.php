@@ -39,6 +39,7 @@ abstract class AbstractHOARequest extends AbstractRequest
     }
 
     /**
+     * @param array<string, mixed> $parameters
      * @return AbstractHOARequest
      */
     public function initialize(array $parameters = array())

@@ -12,6 +12,11 @@ use Omnipay\Common\ItemBag;
 class TaxExemptionBag extends ItemBag
 {
     /**
+     * @var array<int, mixed>
+     */
+    protected $items;
+
+    /**
      * Add an item to the bag
      *
      * @param  TaxExemption|array $item An existing item, or associative array of item parameters

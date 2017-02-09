@@ -127,6 +127,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
     protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\CreatePaymentMethodResponse';
 
     /**
+     * @param array<string, mixed> $parameters
      * @return CreatePaymentMethodRequest
      */
     public function initialize(array $parameters = array())
@@ -209,7 +210,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * If set to true, AVS validation will not be performed when the payment
      * method is validated. Default is false.
      *
-     * @param bool
+     * @param bool $value
      * @return static
      */
     public function setSkipAvsValidation($value)
@@ -232,7 +233,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * If set to true, CVV validation will not be performed when the payment
      * method is validated. Default is false.
      *
-     * @param bool
+     * @param bool $value
      * @return static
      */
     public function setSkipCvvValidation($value)
