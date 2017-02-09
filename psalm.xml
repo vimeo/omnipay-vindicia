@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
-<codeinspector
+<psalm
     name="Psalm for Vindicia Omnipay driver"
     stopOnFirstError="false"
     useDocblockTypes="true"
     >
-  <inspectFiles>
+  <projectFiles>
     <directory name="src" />
     <directory name="tests" />
     <directory name="psalm_plugins" />
-  </inspectFiles>
+  </projectFiles>
 
   <fileExtensions>
     <extension name=".php" />
@@ -18,7 +18,7 @@
     <plugin filename="psalm_plugins/StringChecker.php" />
   </plugins>
 
-  <issueHandler>
+  <issueHandlers>
     <MixedArgument errorLevel="suppress" />
     <MixedMethodCall errorLevel="suppress" />
     <MixedPropertyFetch errorLevel="suppress" />
@@ -28,22 +28,22 @@
 
     <!-- Unit tests set lots of instance variables inline -->
     <UndefinedThisPropertyAssignment>
-      <excludeFiles>
+      <errorLevel type="suppress">
         <directory name="tests" />
-      </excludeFiles>
+      </errorLevel>
     </UndefinedThisPropertyAssignment>
     <UndefinedThisPropertyFetch>
-      <excludeFiles>
+      <errorLevel type="suppress">
         <directory name="tests" />
-      </excludeFiles>
+      </errorLevel>
     </UndefinedThisPropertyFetch>
     <MissingPropertyDeclaration>
-      <excludeFiles>
+      <errorLevel type="suppress">
         <directory name="tests" />
-      </excludeFiles>
+      </errorLevel>
     </MissingPropertyDeclaration>
-  </issueHandler>
+  </issueHandlers>
   <mockClasses>
     <class name="Mockery\MockInterface" />
   </mockClasses>
-</codeinspector>
+</psalm>
