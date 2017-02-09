@@ -24,3 +24,13 @@ install_with_psalm:
 
 install_no_psalm:
 	php composer.phar install
+
+# Update
+
+update: update_with_psalm
+
+update_with_psalm:
+	COMPOSER=composer-psalm.json php composer.phar update
+
+update_no_psalm:
+	php composer.phar update
