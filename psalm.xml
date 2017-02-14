@@ -28,11 +28,6 @@
 
     <!-- Psalm bugs, should remove this when fixed -->
     <PropertyNotSetInConstructor errorLevel="suppress" />
-    <MethodSignatureMismatch>
-      <errorLevel type="suppress">
-        <file name="src/TestableSoapClient.php" />
-      </errorLevel>
-    </MethodSignatureMismatch>
 
     <!-- Unit tests set lots of instance variables inline -->
     <UndefinedThisPropertyAssignment>

@@ -66,17 +66,17 @@ class TestableSoapClient extends SoapClient
     /**
      * @param string $function_name
      * @param array<mixed> $arguments
-     * @param array<mixed> $options default null
+     * @param array<mixed> $options default array()
      * @param array<mixed> $input_headers default null
-     * @param array<mixed> $output_headers default null
+     * @param array<mixed> $output_headers default array()
      * @return mixed
      */
     public function __soapCall(
         $function_name,
         $arguments,
-        $options = null,
+        $options = array(),
         $input_headers = null,
-        &$output_headers = null
+        &$output_headers = array()
     ) {
         if (!self::$nextResponseOverrideQueue->isEmpty()) {
             self::$lastArguments = $arguments;
