@@ -21,8 +21,13 @@ class ObjectHelper
         if (isset($object->transactionItems)) {
             $items = array();
             foreach ($object->transactionItems as $item) {
+                $price = null;
+                if (isset($item->price) && isset($item->total)) {
+                    // Vindicia only stores the total tax amount in the total field, not the price field
+                    $price = $item->price == 0 && $item->total != 0 ? $item->total : $item->price;
+                }
                 $items[] = new VindiciaItem(array(
-                    'price' => isset($item->price) ? $item->price : null,
+                    'price' => $price,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
                     'name' => isset($item->name) ? $item->name : null,

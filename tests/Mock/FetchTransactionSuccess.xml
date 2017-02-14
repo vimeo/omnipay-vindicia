@@ -123,9 +123,14 @@
           <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
           <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
+          <tax xmlns="" xsi:type="vin:TaxItem">
+            <jurisdiction xmlns="" xsi:type="xsd:string">COUNTRY</jurisdiction>
+            <name xmlns="" xsi:type="xsd:string">XY COUNTRY SALES TAX</name>
+            <amount xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</amount>
+          </tax>
           <discount xmlns="" xsi:type="xsd:decimal">0</discount>
           <subtotal xmlns="" xsi:type="xsd:decimal">0</subtotal>
-          <total xmlns="" xsi:type="xsd:decimal">0</total>
+          <total xmlns="" xsi:type="xsd:decimal">[TAX_AMOUNT]</total>
         </transactionItems>
         <sourceIp xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</sourceIp>
         <nameValues xmlns="" xsi:type="vin:NameValuePair">

@@ -27,6 +27,12 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->transactionReference = $this->faker->transactionReference();
         $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount($this->currency);
+        $this->tax_amount = $this->faker->monetaryAmount($this->currency);
+        if ($this->amount < $this->tax_amount) {
+            $temp = $this->tax_amount;
+            $this->tax_amount = $this->amount;
+            $this->amount = $this->tax_amount;
+        }
         $this->customerId = $this->faker->customerId();
         $this->customerReference = $this->faker->customerReference();
         $this->paymentMethodId = $this->faker->paymentMethodId();
@@ -109,6 +115,7 @@ class FetchTransactionRequestTest extends SoapTestCase
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
             'AMOUNT' => $this->amount,
+            'TAX_AMOUNT' => $this->tax_amount,
             'CUSTOMER_ID' => $this->customerId,
             'CUSTOMER_REFERENCE' => $this->customerReference,
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
@@ -155,10 +162,12 @@ class FetchTransactionRequestTest extends SoapTestCase
                 $this->assertSame($this->taxClassification, $item->getTaxClassification());
                 $this->assertSame($this->amount, $item->getPrice());
                 $this->assertSame($this->sku, $item->getSku());
+            } else if ($i === 1) {
+                $this->assertSame('Total Tax', $item->getSku());
+                $this->assertSame($this->tax_amount, $item->getPrice());
             }
         }
         $this->assertSame($this->amount, $items[0]->getPrice());
-        $this->assertEquals(0, $items[1]->getPrice()); // tax
         $this->assertSame($this->ipAddress, $transaction->getIp());
         $this->assertEquals($this->authorizationCode, $transaction->getAuthorizationCode());
         $this->assertEquals($this->cvvCode, $transaction->getCvvCode());
