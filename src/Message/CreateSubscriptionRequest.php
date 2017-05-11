@@ -176,6 +176,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         $subscription->VID = $subscriptionReference;
         $subscription->sourceIp = $this->getIp();
         $subscription->startTimestamp = $this->getStartTime();
+        $subscription->billingDay = $this->getBillingDay();
         $subscription->statementFormat = 'DoNotSend';
 
         $account = new stdClass();

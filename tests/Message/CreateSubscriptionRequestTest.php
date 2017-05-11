@@ -29,6 +29,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->statementDescriptor = $this->faker->statementDescriptor();
         $this->ip = $this->faker->ipAddress();
         $this->startTime = $this->faker->timestamp();
+        $this->billingDay = $this->faker->intBetween(1, 31);
         $this->card = $this->faker->card();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
@@ -52,6 +53,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
                 'statementDescriptor' => $this->statementDescriptor,
                 'ip' => $this->ip,
                 'startTime' => $this->startTime,
+                'billingDay' => $this->billingDay,
                 'card' => $this->card,
                 'paymentMethodId' => $this->paymentMethodId,
                 'paymentMethodReference' => $this->paymentMethodReference,
@@ -290,6 +292,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $data['autobill']->currency);
         $this->assertSame($this->ip, $data['autobill']->sourceIp);
         $this->assertSame($this->startTime, $data['autobill']->startTimestamp);
+        $this->assertSame($this->billingDay, $data['autobill']->billingDay);
         $this->assertSame('DoNotSend', $data['autobill']->statementFormat);
         $this->assertSame($this->statementDescriptor, $data['autobill']->billingStatementIdentifier);
         $this->assertSame($this->paymentMethodId, $data['autobill']->paymentMethod->merchantPaymentMethodId);

@@ -214,6 +214,16 @@ class AbstractRequestTest extends SoapTestCase
         $this->assertSame($ip, $this->request->getIp());
     }
 
+     /**
+     * @return void
+     */
+    public function testBillingDay()
+    {
+        $billingDay = $this->faker->intBetween(1, 31);
+        $this->assertSame($this->request, $this->request->setBillingDay($billingDay));
+        $this->assertSame($billingDay, $this->request->getBillingDay());
+    }
+
     /**
      * @return void
      */
