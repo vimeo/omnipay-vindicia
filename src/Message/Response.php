@@ -64,6 +64,10 @@ class Response extends AbstractResponse
      * @var array<\Omnipay\Vindicia\PaymentMethod>
      */
     protected $paymentMethods;
+    /**
+     * @var int
+     */
+    protected $billingDay;
 
     /**
      * Constructor
@@ -337,6 +341,19 @@ class Response extends AbstractResponse
     {
         if (isset($this->data->autobill)) {
             return $this->data->autobill->status;
+        }
+        return null;
+    }
+
+    /**
+     * Get the billing day of the subscription.
+     *
+     * @return int|null
+     */
+    public function getBillingDay()
+    {
+        if (isset($this->data->autobill)) {
+            return $this->data->autobill->billingDay;
         }
         return null;
     }

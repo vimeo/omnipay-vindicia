@@ -377,7 +377,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'STATEMENT_DESCRIPTOR' => $this->statementDescriptor,
             'IP_ADDRESS' => $this->ip,
-            'RISK_SCORE' => $this->riskScore
+            'RISK_SCORE' => $this->riskScore,
+            'BILLING_DAY' => $this->billingDay
         ));
 
         $response = $this->request->send();
@@ -390,6 +391,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
         $this->assertSame('Pending Activation', $response->getSubscriptionStatus());
         $this->assertSame($this->riskScore, $response->getRiskScore());
+        $this->assertSame($this->billingDay, $response->getBillingDay());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
