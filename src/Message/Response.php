@@ -353,7 +353,7 @@ class Response extends AbstractResponse
     public function getBillingDay()
     {
         if (isset($this->data->autobill)) {
-            return $this->data->autobill->billingDay;
+            return intval($this->data->autobill->billingDay);
         }
         return null;
     }
