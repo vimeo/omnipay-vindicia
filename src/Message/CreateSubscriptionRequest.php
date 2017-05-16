@@ -90,7 +90,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
  *       'subscriptionId' => '111111', // you choose this
  *       'productId' => $productResponse->getProductId(),
- *       'planId' => $planResponse->getPlanId() // not necessary since it's already on the product
+ *       'planId' => $planResponse->getPlanId(), // not necessary since it's already on the product
+ *       'billingDay' => 15 // Day of the month when user gets charged must be between 1-31
  *   ))->send();
  *
  *   if ($subscriptionResponse->isSuccessful()) {
@@ -113,6 +114,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'paymentMethodId' => 'cc-234567', // this ID will be assigned to the card
  *        // reference the subscription created above. you could also reference it by subscriptionReference:
  *       'subscriptionId' => $subscriptionResponse->getSubscriptionId()
+ *       'billingDay' => 15 // Day of the month when user gets charged must be between 1-31
  *   ))->send();
  *
  *   if ($updateResponse->isSuccessful()) {
