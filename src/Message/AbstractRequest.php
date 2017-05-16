@@ -491,6 +491,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Get the billing day
+     *
+     * @return null|int
+     */
+    public function getBillingDay()
+    {
+        return $this->getParameter('billingDay');
+    }
+
+    /**
+     * Set the billing day
+     *
+     * @param int $value
+     * @return static
+     */
+    public function setBillingDay($value)
+    {
+        return $this->setParameter('billingDay', $value);
+    }
+
+    /**
      * Get the start time.
      *
      * @return null|string

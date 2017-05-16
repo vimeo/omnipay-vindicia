@@ -31,6 +31,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * precedence over one specified on the product.
  * - startTimestamp: The time to start billing. If not specified, defaults to the current
  * time. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
+ * - billingDay: the day of the month when the next charge will be issue, defaults to the day of `startTimeStamp`
  *
  * <code>
  *   // set up the gateway
@@ -90,7 +91,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
  *       'subscriptionId' => '111111', // you choose this
  *       'productId' => $productResponse->getProductId(),
- *       'planId' => $planResponse->getPlanId() // not necessary since it's already on the product
+ *       'planId' => $planResponse->getPlanId(), // not necessary since it's already on the product
+ *       'billingDay' => 15 // Day of the month when user gets charged must be between 1-31
  *   ))->send();
  *
  *   if ($subscriptionResponse->isSuccessful()) {
@@ -113,6 +115,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'paymentMethodId' => 'cc-234567', // this ID will be assigned to the card
  *        // reference the subscription created above. you could also reference it by subscriptionReference:
  *       'subscriptionId' => $subscriptionResponse->getSubscriptionId()
+ *       'billingDay' => 15 // Day of the month when user gets charged must be between 1-31
  *   ))->send();
  *
  *   if ($updateResponse->isSuccessful()) {
@@ -176,6 +179,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         $subscription->VID = $subscriptionReference;
         $subscription->sourceIp = $this->getIp();
         $subscription->startTimestamp = $this->getStartTime();
+        $subscription->billingDay = $this->getBillingDay();
         $subscription->statementFormat = 'DoNotSend';
 
         $account = new stdClass();

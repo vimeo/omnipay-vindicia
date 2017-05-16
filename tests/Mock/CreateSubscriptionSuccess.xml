@@ -120,7 +120,7 @@
         </items>
         <sourceIp xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</sourceIp>
         <billingStatementIdentifier xmlns="" xsi:type="xsd:string">[STATEMENT_DESCRIPTOR]</billingStatementIdentifier>
-        <billingDay xmlns="" xsi:type="xsd:int">1</billingDay>
+        <billingDay xmlns="" xsi:type="xsd:int">[BILLING_DAY]</billingDay>
         <minimumCommitment xmlns="" xsi:type="xsd:int">0</minimumCommitment>
         <warnOnExpiration xmlns="" xsi:type="xsd:boolean">0</warnOnExpiration>
         <nextBilling xmlns="" xsi:type="vin:Transaction">

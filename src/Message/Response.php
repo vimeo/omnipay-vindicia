@@ -64,6 +64,10 @@ class Response extends AbstractResponse
      * @var array<\Omnipay\Vindicia\PaymentMethod>
      */
     protected $paymentMethods;
+    /**
+     * @var int
+     */
+    protected $billingDay;
 
     /**
      * Constructor
@@ -342,6 +346,19 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the billing day of the subscription.
+     *
+     * @return int|null
+     */
+    public function getBillingDay()
+    {
+        if (isset($this->data->autobill)) {
+            return intval($this->data->autobill->billingDay);
+        }
+        return null;
+    }
+
+    /**
      * @return null|\Omnipay\Vindicia\PaymentMethod
      */
     public function getPaymentMethod()
@@ -406,7 +423,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<index, \Omnipay\Vindicia\Refund>
+     * @return null|array<\Omnipay\Vindicia\Refund>
      */
     public function getRefunds()
     {
@@ -421,7 +438,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<index, \Omnipay\Vindicia\Transaction>
+     * @return null|array<\Omnipay\Vindicia\Transaction>
      */
     public function getTransactions()
     {
@@ -436,7 +453,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<index, \Omnipay\Vindicia\Subscription>
+     * @return null|array<\Omnipay\Vindicia\Subscription>
      */
     public function getSubscriptions()
     {
@@ -451,7 +468,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<index, \Omnipay\Vindicia\PaymentMethod>
+     * @return null|array<\Omnipay\Vindicia\PaymentMethod>
      */
     public function getPaymentMethods()
     {
@@ -466,7 +483,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<index, \Omnipay\Vindicia\Chargeback>
+     * @return null|array<\Omnipay\Vindicia\Chargeback>
      */
     public function getChargebacks()
     {
