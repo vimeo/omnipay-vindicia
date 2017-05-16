@@ -31,6 +31,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * precedence over one specified on the product.
  * - startTimestamp: The time to start billing. If not specified, defaults to the current
  * time. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
+ * - billingDay: the day of the month when the next charge will be issue, defaults to the day of `startTimeStamp`
  *
  * <code>
  *   // set up the gateway
