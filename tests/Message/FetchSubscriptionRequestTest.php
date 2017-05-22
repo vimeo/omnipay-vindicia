@@ -31,7 +31,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->productId = $this->faker->productId();
-        $this->sku => $this->productId,
+        $this->sku = $this->productId;
         $this->productReference = $this->faker->productReference();
         $this->planId = $this->faker->planId();
         $this->planReference = $this->faker->planReference();
