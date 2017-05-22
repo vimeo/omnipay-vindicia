@@ -31,6 +31,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->productId = $this->faker->productId();
+        $this->sku = $this->productId;
         $this->productReference = $this->faker->productReference();
         $this->planId = $this->faker->planId();
         $this->planReference = $this->faker->planReference();
@@ -111,6 +112,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
             'PRODUCT_ID' => $this->productId,
+            'SKU' => $this->sku,
             'PRODUCT_REFERENCE' => $this->productReference,
             'PLAN_ID' => $this->planId,
             'PLAN_REFERENCE' => $this->planReference,
@@ -151,6 +153,12 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $plan->getId());
         $this->assertSame($this->planReference, $subscription->getPlanReference());
         $this->assertSame($this->planReference, $plan->getReference());
+        $items = $subscription->getItems();
+        $this->assertSame(1, count($items));
+        foreach ($items as $i => $item) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaItem', $item);
+            $this->assertSame($this->sku, $item->getSku());
+        }
         $this->assertSame($this->ipAddress, $subscription->getIp());
         $attributes = $subscription->getAttributes();
         $this->assertSame(2, count($attributes));

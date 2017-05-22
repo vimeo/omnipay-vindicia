@@ -130,6 +130,28 @@ class Subscription
         return $this->setParameter('currency', $value);
     }
 
+     /**
+     * Get the items
+     *
+     * @return null|array
+     */
+    public function getItems()
+    {
+        return $this->getParameter('items');
+    }
+
+    /**
+     * Set the items
+     *
+     * @param array $items
+     * @return static
+     */
+    public function setItems($items)
+    {
+        return $this->setParameter('items', $items);
+    }
+
+
     /**
      * Get the customer
      *

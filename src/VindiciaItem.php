@@ -34,6 +34,27 @@ class VindiciaItem extends Item
     }
 
     /**
+     * Get the item currency
+     *
+     * @return null|string
+     */
+    public function getCurrency()
+    {
+        return $this->getParameter('currency');
+    }
+
+    /**
+     * Set the item sku
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCurrency($value)
+    {
+        return $this->setParameter('currency', $value);
+    }
+
+    /**
      * Get the item tax classification
      *
      * @return null|string

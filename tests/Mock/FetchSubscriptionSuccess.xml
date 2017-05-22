@@ -76,6 +76,7 @@
         <items xmlns="" xsi:type="vin:AutoBillItem">
           <VID xmlns="" xsi:type="xsd:string">9876543221abcdef9876543221abcdef</VID>
           <index xmlns="" xsi:type="xsd:int">0</index>
+          <sku xmlns="" xsi:type="xsd:string">[SKU]</sku>
           <product xmlns="" xsi:type="vin:Product">
             <VID xmlns="" xsi:type="xsd:string">[PRODUCT_REFERENCE]</VID>
             <merchantProductId xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</merchantProductId>
