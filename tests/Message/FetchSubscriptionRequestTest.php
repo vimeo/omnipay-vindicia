@@ -156,8 +156,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $items = $subscription->getItems();
         $this->assertSame(1, count($items));
         foreach ($items as $i => $item) {
-            $this->assertInstanceOf('\Omnipay\Vindicia\SubscriptionItem', $item);
-            $item->validate();
+            $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaItem', $item);
             $this->assertSame($this->sku, $item->getSku());
         }
         $this->assertSame($this->ipAddress, $subscription->getIp());

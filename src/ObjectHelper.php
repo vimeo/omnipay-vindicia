@@ -263,7 +263,7 @@ class ObjectHelper
         if (isset($object->items)) {
             $items = array();
             foreach ($object->items as $item) {
-                $items[] = new SubscriptionItem(array(
+                $items[] = new VindiciaItem(array(
                     'price' => isset($item->price) ? $item->price : null,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
