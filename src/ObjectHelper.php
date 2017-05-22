@@ -259,6 +259,21 @@ class ObjectHelper
         $plan = isset($object->billingPlan) ? $this->buildPlan($object->billingPlan) : null;
         $paymentMethod = isset($object->paymentMethod) ? $this->buildPaymentMethod($object->paymentMethod) : null;
 
+        $items = null;
+        if (isset($object->items)) {
+            $items = array();
+            foreach ($object->items as $item) {
+                $items[] = new SubscriptionItem(array(
+                    'price' => isset($item->price) ? $item->price : null,
+                    'sku' => isset($item->sku) ? $item->sku : null,
+                    'quantity' => isset($item->quantity) ? $item->quantity : null,
+                    'name' => isset($item->name) ? $item->name : null,
+                    'taxClassification' => isset($item->taxClassification) ? $item->taxClassification : null,
+                    'currency' => isset($item->currency) ? $item->currency : null
+                ));
+            }
+        }
+
         return new Subscription(array(
             'id' => isset($object->merchantAutoBillId) ? $object->merchantAutoBillId : null,
             'reference' => isset($object->VID) ? $object->VID : null,
@@ -266,6 +281,7 @@ class ObjectHelper
             'customer' => isset($customer) ? $customer : null,
             'customerId' => isset($customer) ? $customer->getId() : null,
             'customerReference' => isset($customer) ? $customer->getReference() : null,
+            'items' => $items,
             'product' => isset($product) ? $product : null,
             'productId' => isset($product) ? $product->getId() : null,
             'productReference' => isset($product) ? $product->getReference() : null,
