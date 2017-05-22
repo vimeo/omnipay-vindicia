@@ -12,6 +12,28 @@ use Omnipay\Vindicia\Exception\InvalidItemException;
  */
 class VindiciaItem extends Item
 {
+
+    /**
+     * Get the item reference
+     *
+     * @return null|string
+     */
+    public function getReference()
+    {
+        return $this->getParameter('reference');
+    }
+
+    /**
+     * Set the item reference
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setReference($value)
+    {
+        return $this->setParameter('reference', $value);
+    }
+
     /**
      * Get the item sku
      *

@@ -264,6 +264,7 @@ class ObjectHelper
             $items = array();
             foreach ($object->items as $item) {
                 $items[] = new VindiciaItem(array(
+                    'reference' => isset($item->VID) ? $item->VID : null,
                     'price' => isset($item->price) ? $item->price : null,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
