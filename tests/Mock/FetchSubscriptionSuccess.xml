@@ -71,8 +71,8 @@
         <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
         <status xmlns="" xsi:type="vin:AutoBillStatus">Pending Cancel</status>
         <billingState xmlns="" xsi:type="vin:BillingState">Billing Completed</billingState>
-        <startTimestamp xmlns="" xsi:type="xsd:dateTime">2016-12-01T12:00:00-08:00</startTimestamp>
-        <endTimestamp xmlns="" xsi:type="xsd:dateTime">2016-12-01T23:59:59-08:00</endTimestamp>
+        <startTimestamp xmlns="" xsi:type="xsd:dateTime">[START_TIMESTAMP]</startTimestamp>
+        <endTimestamp xmlns="" xsi:type="xsd:dateTime">[END_TIMESTAMP]</endTimestamp>
         <items xmlns="" xsi:type="vin:AutoBillItem">
           <VID xmlns="" xsi:type="xsd:string">9876543221abcdef9876543221abcdef</VID>
           <index xmlns="" xsi:type="xsd:int">0</index>

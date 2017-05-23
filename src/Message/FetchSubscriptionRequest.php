@@ -114,6 +114,8 @@ class FetchSubscriptionRequest extends AbstractRequest
     {
         $subscriptionId = $this->getSubscriptionId();
         $subscriptionReference = $this->getSubscriptionReference();
+        $startTime = $this->getStartTime();
+        $endTime = $this->getEndTime();
 
         if (!$subscriptionId && !$subscriptionReference) {
             throw new InvalidRequestException(
@@ -131,6 +133,8 @@ class FetchSubscriptionRequest extends AbstractRequest
             $data['vid'] = $this->getSubscriptionReference();
         }
 
+        $data['startTime'] = $startTime;
+        $data['endTime'] = $endTime;
         return $data;
     }
 }

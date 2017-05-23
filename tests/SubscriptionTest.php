@@ -204,6 +204,26 @@ class SubscriptionTest extends TestCase
     /**
      * @return void
      */
+    public function testStartTime()
+    {
+        $time = $this->faker->timestamp();
+        $this->assertSame($this->subscription, $this->subscription->setStartTime($time));
+        $this->assertSame($time, $this->subscription->getStartTime());
+    }
+
+    /**
+     * @return void
+     */
+    public function testEndTime()
+    {
+        $time = $this->faker->timestamp();
+        $this->assertSame($this->subscription, $this->subscription->setEndTime($time));
+        $this->assertSame($time, $this->subscription->getEndTime());
+    }
+
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

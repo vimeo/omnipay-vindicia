@@ -426,6 +426,48 @@ class Subscription
     }
 
     /**
+     * Get the start tume
+     *
+     * @return null|string
+     */
+    public function getStartTime()
+    {
+        return $this->getParameter('startTime');
+    }
+
+    /**
+     * Set the start time
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setStartTime($value)
+    {
+        return $this->setParameter('startTime', $value);
+    }
+
+    /**
+     * Get the end tume
+     *
+     * @return null|string
+     */
+    public function getEndTime()
+    {
+        return $this->getParameter('endTime');
+    }
+
+    /**
+     * Set the end time
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setEndTime($value)
+    {
+        return $this->setParameter('endTime', $value);
+    }
+
+    /**
      * A list of attributes
      *
      * @return AttributeBag|null

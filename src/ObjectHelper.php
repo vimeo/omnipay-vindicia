@@ -293,6 +293,8 @@ class ObjectHelper
             'paymentMethodId' => isset($paymentMethod) ? $paymentMethod->getId() : null,
             'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getReference() : null,
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
+            'startTime' => isset($object->startTimestamp) ? $object->startTimestamp : null,
+            'endTime' => isset($object->endTimestamp) ? $object->endTimestamp : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
         ));
     }
