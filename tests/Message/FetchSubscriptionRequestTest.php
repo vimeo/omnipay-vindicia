@@ -38,6 +38,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->ipAddress = $this->faker->ipAddress();
         $this->startTime = $this->faker->timestamp();
         $this->endTime = $this->faker->timestamp();
+        $this->subscriptionStatus = $this->faker->subscriptionStatus();
     }
 
     /**
@@ -120,7 +121,8 @@ class FetchSubscriptionRequestTest extends SoapTestCase
             'PLAN_REFERENCE' => $this->planReference,
             'IP_ADDRESS' => $this->ipAddress,
             'START_TIMESTAMP' => $this->startTime,
-            'END_TIMESTAMP' => $this->endTime
+            'END_TIMESTAMP' => $this->endTime,
+            'STATUS' => $this->subscriptionStatus
         ));
 
         $response = $this->request->send();
@@ -138,6 +140,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->currency, $subscription->getCurrency());
         $this->assertSame($this->startTime, $subscription->getStartTime());
         $this->assertSame($this->endTime, $subscription->getEndTime());
+        $this->assertSame($this->subscriptionStatus, $subscription->getStatus());
         $customer = $subscription->getCustomer();
         $this->assertSame($this->customerId, $subscription->getCustomerId());
         $this->assertSame($this->customerId, $customer->getId());

@@ -69,7 +69,7 @@
           <active xmlns="" xsi:type="xsd:boolean">1</active>
         </paymentMethod>
         <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
-        <status xmlns="" xsi:type="vin:AutoBillStatus">Pending Cancel</status>
+        <status xmlns="" xsi:type="vin:AutoBillStatus">[STATUS]</status>
         <billingState xmlns="" xsi:type="vin:BillingState">Billing Completed</billingState>
         <startTimestamp xmlns="" xsi:type="xsd:dateTime">[START_TIMESTAMP]</startTimestamp>
         <endTimestamp xmlns="" xsi:type="xsd:dateTime">[END_TIMESTAMP]</endTimestamp>
