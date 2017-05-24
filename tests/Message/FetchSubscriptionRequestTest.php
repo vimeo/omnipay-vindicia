@@ -36,6 +36,8 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->planId = $this->faker->planId();
         $this->planReference = $this->faker->planReference();
         $this->ipAddress = $this->faker->ipAddress();
+        $this->startTime = $this->faker->timestamp();
+        $this->endTime = $this->faker->timestamp();
     }
 
     /**
@@ -116,7 +118,9 @@ class FetchSubscriptionRequestTest extends SoapTestCase
             'PRODUCT_REFERENCE' => $this->productReference,
             'PLAN_ID' => $this->planId,
             'PLAN_REFERENCE' => $this->planReference,
-            'IP_ADDRESS' => $this->ipAddress
+            'IP_ADDRESS' => $this->ipAddress,
+            'START_TIMESTAMP' => $this->startTime,
+            'END_TIMESTAMP' => $this->endTime
         ));
 
         $response = $this->request->send();
@@ -125,7 +129,6 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-
         $subscription = $response->getSubscription();
         $this->assertInstanceOf('\Omnipay\Vindicia\Subscription', $subscription);
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
@@ -133,6 +136,8 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $subscription->getId());
         $this->assertSame($this->subscriptionReference, $subscription->getReference());
         $this->assertSame($this->currency, $subscription->getCurrency());
+        $this->assertSame($this->startTime, $subscription->getStartTime());
+        $this->assertSame($this->endTime, $subscription->getEndTime());
         $customer = $subscription->getCustomer();
         $this->assertSame($this->customerId, $subscription->getCustomerId());
         $this->assertSame($this->customerId, $customer->getId());
