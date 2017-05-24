@@ -231,7 +231,6 @@ class SubscriptionTest extends TestCase
         $this->assertSame($status, $this->subscription->getStatus());
     }
 
-
     /**
      * @return void
      */

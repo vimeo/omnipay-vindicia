@@ -202,7 +202,7 @@ class DataFaker
      */
     public function subscriptionStatus()
     {
-        $statuses = array("Active", "Suspended", "Cancelled");
+        $statuses = array('Active', 'Suspended', 'Cancelled');
         shuffle($statuses);
         return current($statuses);
     }
