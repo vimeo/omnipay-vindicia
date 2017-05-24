@@ -224,6 +224,17 @@ class SubscriptionTest extends TestCase
     /**
      * @return void
      */
+    public function testStatus()
+    {
+        $status = $this->faker->subscriptionStatus();
+        $this->assertSame($this->subscription, $this->subscription->setStatus($status));
+        $this->assertSame($status, $this->subscription->getStatus());
+    }
+
+
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

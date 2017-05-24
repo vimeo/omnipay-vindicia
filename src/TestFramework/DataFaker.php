@@ -195,6 +195,18 @@ class DataFaker
         return $result;
     }
 
+     /**
+     * Return a subscription status
+     *
+     * @return string
+     */
+    public function subscriptionStatus()
+    {
+        $statuses = array("Active", "Suspended", "Cancelled");
+        shuffle($statuses);
+        return current($statuses);
+    }
+
     /**
      * Return a product id
      *

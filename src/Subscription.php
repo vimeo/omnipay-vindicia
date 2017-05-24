@@ -467,6 +467,27 @@ class Subscription
         return $this->setParameter('endTime', $value);
     }
 
+     /**
+     * Get the status
+     *
+     * @return null|string
+     */
+    public function getStatus()
+    {
+        return $this->getParameter('status');
+    }
+
+    /**
+     * Set the status
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setStatus($value)
+    {
+        return $this->setParameter('status', $value);
+    }
+
     /**
      * A list of attributes
      *
