@@ -489,7 +489,7 @@ class Subscription
     }
 
     /**
-     * Get the billing day of the subscription.
+     * Get the billing day (day of the month when subscription was charge) of the subscription.
      *
      * @return int|null
      */
