@@ -241,7 +241,6 @@ class SubscriptionTest extends TestCase
         $this->assertSame($billingDay, $this->subscription->getBillingDay());
     }
 
-
     /**
      * @return void
      */
