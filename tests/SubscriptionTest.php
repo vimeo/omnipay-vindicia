@@ -234,6 +234,16 @@ class SubscriptionTest extends TestCase
     /**
      * @return void
      */
+    public function testBillingDay()
+    {
+        $billingDay = $this->faker->intBetween(1, 31);
+        $this->assertSame($this->subscription, $this->subscription->setBillingDay($billingDay));
+        $this->assertSame($billingDay, $this->subscription->getBillingDay());
+    }
+
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

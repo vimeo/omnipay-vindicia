@@ -467,7 +467,7 @@ class Subscription
         return $this->setParameter('endTime', $value);
     }
 
-     /**
+    /**
      * Get the status
      *
      * @return null|string
@@ -486,6 +486,27 @@ class Subscription
     public function setStatus($value)
     {
         return $this->setParameter('status', $value);
+    }
+
+    /**
+     * Get the billing day (day of the month when subscription was charge) of the subscription.
+     *
+     * @return int|null
+     */
+    public function getBillingDay()
+    {
+        return $this->getParameter('billingDay');
+    }
+
+    /**
+     * Set the billing day
+     *
+     * @param int $value
+     * @return static
+     */
+    public function setBillingDay($value)
+    {
+        return $this->setParameter('billingDay', $value);
     }
 
     /**
