@@ -393,10 +393,6 @@ class HOACreateSubscriptionRequestTest extends SoapTestCase
             $data['session']->privateFormValues
         ));
         $this->assertTrue(in_array(
-            new NameValue('vin_AutoBill_items_0_product_VID', $this->productReference),
-            $data['session']->privateFormValues
-        ));
-        $this->assertTrue(in_array(
             new NameValue('vin_PaymentMethod_VID', $this->paymentMethodReference),
             $data['session']->privateFormValues
         ));
