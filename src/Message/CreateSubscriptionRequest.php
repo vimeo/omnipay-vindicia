@@ -196,8 +196,9 @@ class CreateSubscriptionRequest extends AuthorizeRequest
 
         $product = new stdClass();
         $product->merchantProductId = $productId;
-        $product->VID = $productReference;
+
         $item = new stdClass();
+        $item->index = 0; // Set the item index
         $item->product = $product;
         $subscription->items = array($item);
 
