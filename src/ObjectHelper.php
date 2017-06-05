@@ -295,6 +295,7 @@ class ObjectHelper
             'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getReference() : null,
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
             'status' => isset($object->status) ? $object->status : null,
+            'billingState' => isset($object->billingState) ? $object->billingState : null,
             'startTime' => isset($object->startTimestamp) ? $object->startTimestamp : null,
             'endTime' => isset($object->endTimestamp) ? $object->endTimestamp : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null

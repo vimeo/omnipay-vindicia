@@ -39,6 +39,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->startTime = $this->faker->timestamp();
         $this->endTime = $this->faker->timestamp();
         $this->subscriptionStatus = $this->faker->subscriptionStatus();
+        $this->subscriptionBillingState = $this->faker->subscriptionBillingState();
     }
 
     /**
@@ -122,7 +123,8 @@ class FetchSubscriptionRequestTest extends SoapTestCase
             'IP_ADDRESS' => $this->ipAddress,
             'START_TIMESTAMP' => $this->startTime,
             'END_TIMESTAMP' => $this->endTime,
-            'STATUS' => $this->subscriptionStatus
+            'STATUS' => $this->subscriptionStatus,
+            'BILLING_STATE' => $this->subscriptionBillingState
         ));
 
         $response = $this->request->send();
@@ -141,6 +143,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->startTime, $subscription->getStartTime());
         $this->assertSame($this->endTime, $subscription->getEndTime());
         $this->assertSame($this->subscriptionStatus, $subscription->getStatus());
+        $this->assertSame($this->subscriptionBillingState, $subscription->getBillingState());
         $customer = $subscription->getCustomer();
         $this->assertSame($this->customerId, $subscription->getCustomerId());
         $this->assertSame($this->customerId, $customer->getId());

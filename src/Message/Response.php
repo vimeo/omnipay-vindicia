@@ -346,6 +346,19 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the billing state of the subscription.
+     *
+     * @return string|null
+     */
+    public function getSubscriptionBillingState()
+    {
+        if (isset($this->data->autobill)) {
+            return $this->data->autobill->billingState;
+        }
+        return null;
+    }
+
+    /**
      * Get the billing day of the subscription.
      *
      * @return int|null

@@ -195,7 +195,7 @@ class DataFaker
         return $result;
     }
 
-     /**
+    /**
      * Return a subscription status
      *
      * @return string
@@ -205,6 +205,25 @@ class DataFaker
         $statuses = array('Active', 'Suspended', 'Cancelled');
         shuffle($statuses);
         return current($statuses);
+    }
+
+    /**
+     * Return a subscription billing state
+     *
+     * @return string
+     */
+    public function subscriptionBillingState()
+    {
+        $billingState = array(
+            'Unbilled',
+            'Good Standing',
+            'Free/Trial',
+            'In Retry',
+            'Unusable Payment Method',
+            'Billing Completed'
+        );
+        shuffle($billingState);
+        return current($billingState);
     }
 
     /**

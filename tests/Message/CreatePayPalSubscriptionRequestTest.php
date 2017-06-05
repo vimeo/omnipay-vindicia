@@ -33,6 +33,8 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->startTime = $this->faker->timestamp();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->attributes = $this->faker->attributesAsArray();
+        $this->subscriptionStatus = $this->faker->subscriptionStatus();
+        $this->subscriptionBillingState = $this->faker->subscriptionBillingState();
         $this->returnUrl = $this->faker->url();
         $this->cancelUrl = $this->faker->url();
         $this->card = array(
@@ -384,7 +386,9 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
             'RETURN_URL' => $this->returnUrl,
             'CANCEL_URL' => $this->cancelUrl,
             'PAYPAL_TOKEN' => $this->payPalToken,
-            'RISK_SCORE' => $this->riskScore
+            'RISK_SCORE' => $this->riskScore,
+            'STATUS' => $this->subscriptionStatus,
+            'BILLING_STATE' => $this->subscriptionBillingState
         ));
 
         $response = $this->request->send();
@@ -395,6 +399,8 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
+        $this->assertSame($this->subscriptionStatus, $response->getSubscriptionStatus());
+        $this->assertSame($this->subscriptionBillingState, $response->getSubscriptionBillingState());
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . $this->payPalToken, $response->getRedirectUrl());
         $this->assertSame($this->riskScore, $response->getRiskScore());
 

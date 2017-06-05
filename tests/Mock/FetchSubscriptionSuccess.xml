@@ -70,7 +70,7 @@
         </paymentMethod>
         <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
         <status xmlns="" xsi:type="vin:AutoBillStatus">[STATUS]</status>
-        <billingState xmlns="" xsi:type="vin:BillingState">Billing Completed</billingState>
+        <billingState xmlns="" xsi:type="vin:BillingState">[BILLING_STATE]</billingState>
         <startTimestamp xmlns="" xsi:type="xsd:dateTime">[START_TIMESTAMP]</startTimestamp>
         <endTimestamp xmlns="" xsi:type="xsd:dateTime">[END_TIMESTAMP]</endTimestamp>
         <items xmlns="" xsi:type="vin:AutoBillItem">
