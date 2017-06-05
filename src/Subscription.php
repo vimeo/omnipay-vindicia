@@ -489,6 +489,27 @@ class Subscription
     }
 
     /**
+     * Get the billing state
+     *
+     * @return null|string
+     */
+    public function getBillingState()
+    {
+        return $this->getParameter('billingState');
+    }
+
+    /**
+     * Set the billing state
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setBillingState($value)
+    {
+        return $this->setParameter('billingState', $value);
+    }
+
+    /**
      * Get the billing day (day of the month when subscription was charge) of the subscription.
      *
      * @return int|null

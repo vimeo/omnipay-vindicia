@@ -65,8 +65,8 @@
           <active xmlns="" xsi:type="xsd:boolean">1</active>
         </paymentMethod>
         <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
-        <status xmlns="" xsi:type="vin:AutoBillStatus">Pending Activation</status>
-        <billingState xmlns="" xsi:type="vin:BillingState">Unbilled</billingState>
+        <status xmlns="" xsi:type="vin:AutoBillStatus">[STATUS]</status>
+        <billingState xmlns="" xsi:type="vin:BillingState">[BILLING_STATE]</billingState>
         <startTimestamp xmlns="" xsi:type="xsd:dateTime">2016-12-01T12:00:00-08:00</startTimestamp>
         <items xmlns="" xsi:type="vin:AutoBillItem">
           <VID xmlns="" xsi:type="xsd:string">01234567899876543210abcdeffedcba</VID>

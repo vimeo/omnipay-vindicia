@@ -339,8 +339,23 @@ class Response extends AbstractResponse
      */
     public function getSubscriptionStatus()
     {
-        if (isset($this->data->autobill)) {
-            return $this->data->autobill->status;
+        $subscription = $this->getSubscription();
+        if ($subscription) {
+            return $subscription->getStatus();
+        }
+        return null;
+    }
+
+    /**
+     * Get the billing state of the subscription.
+     *
+     * @return string|null
+     */
+    public function getSubscriptionBillingState()
+    {
+        $subscription = $this->getSubscription();
+        if ($subscription) {
+            return $subscription->getBillingState();
         }
         return null;
     }

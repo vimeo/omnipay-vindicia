@@ -36,6 +36,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->minChargebackProbability = $this->faker->chargebackProbability();
         $this->name = $this->faker->name();
         $this->email = $this->faker->email();
+        $this->subscriptionStatus = $this->faker->subscriptionStatus();
+        $this->subscriptionBillingState = $this->faker->subscriptionBillingState();
         $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -378,7 +380,9 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             'STATEMENT_DESCRIPTOR' => $this->statementDescriptor,
             'IP_ADDRESS' => $this->ip,
             'RISK_SCORE' => $this->riskScore,
-            'BILLING_DAY' => $this->billingDay
+            'BILLING_DAY' => $this->billingDay,
+            'STATUS' => $this->subscriptionStatus,
+            'BILLING_STATE' => $this->subscriptionBillingState
         ));
 
         $response = $this->request->send();
@@ -389,7 +393,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
-        $this->assertSame('Pending Activation', $response->getSubscriptionStatus());
+        $this->assertSame($this->subscriptionStatus, $response->getSubscriptionStatus());
+        $this->assertSame($this->subscriptionBillingState, $response->getSubscriptionBillingState());
         $this->assertSame($this->riskScore, $response->getRiskScore());
         $this->assertSame($this->billingDay, $response->getBillingDay());
 
