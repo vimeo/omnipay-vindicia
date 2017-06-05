@@ -203,8 +203,8 @@ class DataFaker
     public function subscriptionStatus()
     {
         $statuses = array('Active', 'Suspended', 'Cancelled');
-        shuffle($statuses);
-        return current($statuses);
+        $index = $this->intBetween(0, 2);
+        return $statuses[$index];
     }
 
     /**
@@ -222,8 +222,8 @@ class DataFaker
             'Unusable Payment Method',
             'Billing Completed'
         );
-        shuffle($billingState);
-        return current($billingState);
+        $index = $this->intBetween(0, 5);
+        return $billingState[$index];
     }
 
     /**
