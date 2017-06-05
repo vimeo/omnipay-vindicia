@@ -284,7 +284,6 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planReference, $data['autobill']->billingPlan->VID);
         $this->assertSame(1, count($data['autobill']->items));
         $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
-        $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
         $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
         $this->assertSame($this->name, $data['autobill']->account->name);
         $this->assertSame($this->email, $data['autobill']->account->emailAddress);

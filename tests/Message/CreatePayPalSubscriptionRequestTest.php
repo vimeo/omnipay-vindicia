@@ -275,7 +275,6 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame(1, count($data['autobill']->items));
         $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
         $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
-        $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
         $this->assertSame($this->customerReference, $data['autobill']->account->VID);
         $this->assertSame($this->currency, $data['autobill']->currency);
         $this->assertSame($this->ip, $data['autobill']->sourceIp);
