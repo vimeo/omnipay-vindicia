@@ -93,6 +93,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *   if ($refundResponse->isSuccessful()) {
  *       echo "Refund id: " . $refundResponse->getRefundId() . PHP_EOL;
  *       echo "Refund reference: " . $refundResponse->getRefundReference() . PHP_EOL;
+ *       echo "Refund amount: " . $refundResponse->getRefund()->getAmount() . PHP_EOL;
  *   } else {
  *       // error handling
  *   }
