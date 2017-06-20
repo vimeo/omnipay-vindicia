@@ -34,8 +34,9 @@ class RefundResponse extends Response
      */
     public function getRefundReference()
     {
-        if (isset($this->data->refunds[0]->VID)) {
-            return $this->data->refunds[0]->VID;
+        $refund = $this->getRefund();
+        if ($refund) {
+            return $refund->getReference();
         }
         return null;
     }
@@ -49,8 +50,9 @@ class RefundResponse extends Response
      */
     public function getRefundId()
     {
-        if (isset($this->data->refunds[0]->merchantRefundId)) {
-            return $this->data->refunds[0]->merchantRefundId;
+        $refund = $this->getRefund();
+        if ($refund) {
+            return $refund->getId();
         }
         return null;
     }
@@ -63,7 +65,7 @@ class RefundResponse extends Response
     public function getRefund()
     {
         if (isset($this->data->refunds[0])) {
-            return $this->data->refunds[0];
+            return $this->objectHelper->buildRefund($this->data->refunds[0]);
         }
         return null;
     }

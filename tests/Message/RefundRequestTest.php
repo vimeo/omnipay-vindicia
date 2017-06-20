@@ -340,9 +340,14 @@ class RefundRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
+        $refund = $response->getRefund();
+        $this->assertNotNull($refund);
         $this->assertSame($this->refundId, $response->getRefundId());
+        $this->assertSame($this->refundId, $refund->getId());
         $this->assertSame($this->refundReference, $response->getRefundReference());
-        $this->assertNotNull($response->getRefund());
+        $this->assertSame($this->refundReference, $refund->getReference());
+        $this->assertSame($this->refundAmount, $refund->getAmount());
+        $this->assertSame($this->note, $refund->getNote());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
