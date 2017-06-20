@@ -19,7 +19,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "vimeo/omnipay-vindicia": "~2.0"
+        "vimeo/omnipay-vindicia": "2.6.*"
     }
 }
 ```
@@ -30,6 +30,8 @@ And run composer to update your dependencies:
 $ curl -s http://getcomposer.org/installer | php
 $ php composer.phar update
 ```
+
+_(Note that we recommend pinning the minor version. While `v2.*` will remain fully compatible with Omnipay 2, features added in addition to the base Omnipay features, such as subscriptions, may have breaking changes in a minor version bump.)_
 
 ## Basic Usage
 
