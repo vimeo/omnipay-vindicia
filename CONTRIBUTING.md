@@ -8,7 +8,9 @@
 * Ensure your code is nicely formatted in the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 style and that all tests pass.
 * Send the pull request.
-* Check that the Travis CI build passed. If not, rinse and repeat. **Note:** This repo uses [Psalm](https://github.com/vimeo/psalm) to statically analyze all the code. Psalm runs on all the builds for PHP 5.5+. 
+* Check that the Travis CI build passed. If not, rinse and repeat. **Note:** This repo uses [Psalm](https://github.com/vimeo/psalm) to statically analyze all the code. Psalm runs on all the builds for PHP 5.5+.
+
+**NOTE:** This repo requires pull-request reviews for all changes on branches bound for production in accordance with Vimeo policy.
 
 ## Testing locally
 To install Psalm and run the full test suite locally, download [Composer](https://getcomposer.org/) into the repository and then run:
