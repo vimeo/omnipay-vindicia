@@ -153,7 +153,7 @@ class Response extends AbstractResponse
     {
         $transaction = $this->getTransaction();
         if ($transaction) {
-            return $transaction->getReference();
+            return $transaction->getTransactionReference();
         }
         return null;
     }
@@ -170,7 +170,7 @@ class Response extends AbstractResponse
     {
         $transaction = $this->getTransaction();
         if ($transaction) {
-            return $transaction->getId();
+            return $transaction->getTransactionId();
         }
         return null;
     }
@@ -313,7 +313,7 @@ class Response extends AbstractResponse
     {
         $subscription = $this->getSubscription();
         if ($subscription) {
-            return $subscription->getReference();
+            return $subscription->getSubscriptionReference();
         }
         return null;
     }
@@ -327,7 +327,7 @@ class Response extends AbstractResponse
     {
         $subscription = $this->getSubscription();
         if ($subscription) {
-            return $subscription->getId();
+            return $subscription->getSubscriptionId();
         }
         return null;
     }

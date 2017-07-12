@@ -242,8 +242,8 @@ class ObjectHelper
             'note' => isset($object->note) ? $object->note : null,
             'time' => isset($object->timestamp) ? $object->timestamp : null,
             'transaction' => isset($transaction) ? $transaction : null,
-            'transactionId' => isset($transaction) ? $transaction->getId() : null,
-            'transactionReference' => isset($transaction) ? $transaction->getReference() : null,
+            'transactionId' => isset($transaction) ? $transaction->getTransactionId() : null,
+            'transactionReference' => isset($transaction) ? $transaction->getTransactionReference() : null,
             'items' => isset($items) ? $items : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
         ));

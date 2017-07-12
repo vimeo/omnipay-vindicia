@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class TransactionTest extends TestCase
 {
+    /** @var Transaction */
+    protected $transaction;
+
     /**
      * @return void
      */
@@ -14,8 +17,8 @@ class TransactionTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->transaction = new Transaction();
-        $this->id = $this->faker->transactionId();
-        $this->reference = $this->faker->transactionReference();
+        $this->transactionId = $this->faker->transactionId();
+        $this->transactionReference = $this->faker->transactionReference();
     }
 
     /**
@@ -24,11 +27,11 @@ class TransactionTest extends TestCase
     public function testConstructWithParams()
     {
         $transaction = new Transaction(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'transactionId' => $this->transactionId,
+            'transactionReference' => $this->transactionReference
         ));
-        $this->assertSame($this->id, $transaction->getId());
-        $this->assertSame($this->reference, $transaction->getReference());
+        $this->assertSame($this->transactionId, $transaction->getTransactionId());
+        $this->assertSame($this->transactionReference, $transaction->getTransactionReference());
     }
 
     /**
@@ -37,11 +40,11 @@ class TransactionTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->transaction, $this->transaction->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'transactionId' => $this->transactionId,
+            'transactionReference' => $this->transactionReference
         )));
-        $this->assertSame($this->id, $this->transaction->getId());
-        $this->assertSame($this->reference, $this->transaction->getReference());
+        $this->assertSame($this->transactionId, $this->transaction->getTransactionId());
+        $this->assertSame($this->transactionReference, $this->transaction->getTransactionReference());
     }
 
     /**
@@ -49,26 +52,46 @@ class TransactionTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->transaction, $this->transaction->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->transaction->getParameters());
+        $this->assertSame($this->transaction, $this->transaction->setTransactionId($this->transactionId)->setTransactionReference($this->transactionReference));
+        $this->assertSame(array('transactionId' => $this->transactionId, 'transactionReference' => $this->transactionReference), $this->transaction->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testTransactionId()
+    {
+        $this->assertSame($this->transaction, $this->transaction->setTransactionId($this->transactionId));
+        $this->assertSame($this->transactionId, $this->transaction->getTransactionId());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->transaction, $this->transaction->setId($this->id));
-        $this->assertSame($this->id, $this->transaction->getId());
+        $this->assertSame($this->transaction, $this->transaction->setId($this->transactionId));
+        $this->assertSame($this->transactionId, $this->transaction->getId());
     }
 
     /**
      * @return void
      */
+    public function testTransactionReference()
+    {
+        $this->assertSame($this->transaction, $this->transaction->setTransactionReference($this->transactionReference));
+        $this->assertSame($this->transactionReference, $this->transaction->getTransactionReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
+     */
     public function testReference()
     {
-        $this->assertSame($this->transaction, $this->transaction->setReference($this->reference));
-        $this->assertSame($this->reference, $this->transaction->getReference());
+        $this->assertSame($this->transaction, $this->transaction->setReference($this->transactionReference));
+        $this->assertSame($this->transactionReference, $this->transaction->getReference());
     }
 
     /**

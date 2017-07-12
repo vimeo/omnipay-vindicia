@@ -72,9 +72,9 @@ class Transaction
      *
      * @return null|string
      */
-    public function getId()
+    public function getTransactionId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('transactionId');
     }
 
     /**
@@ -83,9 +83,9 @@ class Transaction
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setTransactionId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('transactionId', $value);
     }
 
     /**
@@ -93,9 +93,9 @@ class Transaction
      *
      * @return null|string
      */
-    public function getReference()
+    public function getTransactionReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('transactionReference');
     }
 
     /**
@@ -104,9 +104,55 @@ class Transaction
      * @param string $value
      * @return static
      */
+    public function setTransactionReference($value)
+    {
+        return $this->setParameter('transactionReference', $value);
+    }
+
+    /**
+     * Get the transaction id
+     *
+     * @return null|string
+     * @deprecated see getTransactionId
+     */
+    public function getId()
+    {
+        return $this->getTransactionId();
+    }
+
+    /**
+     * Set the transaction id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setTransactionId
+     */
+    public function setId($value)
+    {
+        return $this->setTransactionId($value);
+    }
+
+    /**
+     * Get the transaction reference
+     *
+     * @return null|string
+     * @deprecated see getTransactionReference
+     */
+    public function getReference()
+    {
+        return $this->getTransactionReference();
+    }
+
+    /**
+     * Set the transaction reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setTransactionReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setTransactionReference($value);
     }
 
     /**
@@ -458,7 +504,7 @@ class Transaction
     /**
      * Set the status log
      *
-     * @param string $value
+     * @param array<TransactionStatus> $value
      * @return static
      */
     public function setStatusLog($value)
