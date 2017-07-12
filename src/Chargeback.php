@@ -72,10 +72,9 @@ class Chargeback
      *
      * @return null|string
      */
-
-    public function getId()
+    public function getChargebackId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('chargebackId');
     }
 
     /**
@@ -84,9 +83,9 @@ class Chargeback
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setChargebackId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('chargebackId', $value);
     }
 
     /**
@@ -94,9 +93,9 @@ class Chargeback
      *
      * @return null|string
      */
-    public function getReference()
+    public function getChargebackReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('chargebackReference');
     }
 
     /**
@@ -105,9 +104,55 @@ class Chargeback
      * @param string $value
      * @return static
      */
+    public function setChargebackReference($value)
+    {
+        return $this->setParameter('chargebackReference', $value);
+    }
+
+    /**
+     * Get the chargeback id (not supported by Vindicia)
+     *
+     * @return null|string
+     * @deprecated see getChargebackId
+     */
+    public function getId()
+    {
+        return $this->getChargebackId();
+    }
+
+    /**
+     * Set the chargeback id (not supported by Vindicia)
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setChargebackId
+     */
+    public function setId($value)
+    {
+        return $this->setChargebackId($value);
+    }
+
+    /**
+     * Get the chargeback reference
+     *
+     * @return null|string
+     * @deprecated see getChargebackReference
+     */
+    public function getReference()
+    {
+        return $this->getChargebackReference();
+    }
+
+    /**
+     * Set the chargeback reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setChargebackReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setChargebackReference($value);
     }
 
     /**

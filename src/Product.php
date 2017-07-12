@@ -72,9 +72,9 @@ class Product
      *
      * @return null|string
      */
-    public function getId()
+    public function getProductId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('productId');
     }
 
     /**
@@ -83,9 +83,9 @@ class Product
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setProductId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('productId', $value);
     }
 
     /**
@@ -93,9 +93,9 @@ class Product
      *
      * @return null|string
      */
-    public function getReference()
+    public function getProductReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('productReference');
     }
 
     /**
@@ -104,9 +104,55 @@ class Product
      * @param string $value
      * @return static
      */
+    public function setProductReference($value)
+    {
+        return $this->setParameter('productReference', $value);
+    }
+
+    /**
+     * Get the product id
+     *
+     * @return null|string
+     * @deprecated see getProductId
+     */
+    public function getId()
+    {
+        return $this->getProductId();
+    }
+
+    /**
+     * Set the product id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setProductId
+     */
+    public function setId($value)
+    {
+        return $this->setProductId($value);
+    }
+
+    /**
+     * Get the product reference
+     *
+     * @return null|string
+     * @deprecated see getProductReference
+     */
+    public function getReference()
+    {
+        return $this->getProductReference();
+    }
+
+    /**
+     * Set the product reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setProductReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setProductReference($value);
     }
 
     /**

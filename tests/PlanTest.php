@@ -14,8 +14,8 @@ class PlanTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->plan = new Plan();
-        $this->id = $this->faker->planId();
-        $this->reference = $this->faker->planReference();
+        $this->planId = $this->faker->planId();
+        $this->planReference = $this->faker->planReference();
     }
 
     /**
@@ -24,11 +24,11 @@ class PlanTest extends TestCase
     public function testConstructWithParams()
     {
         $plan = new Plan(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'planId' => $this->planId,
+            'planReference' => $this->planReference
         ));
-        $this->assertSame($this->id, $plan->getId());
-        $this->assertSame($this->reference, $plan->getReference());
+        $this->assertSame($this->planId, $plan->getPlanId());
+        $this->assertSame($this->planReference, $plan->getPlanReference());
     }
 
     /**
@@ -37,11 +37,11 @@ class PlanTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->plan, $this->plan->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'planId' => $this->planId,
+            'planReference' => $this->planReference
         )));
-        $this->assertSame($this->id, $this->plan->getId());
-        $this->assertSame($this->reference, $this->plan->getReference());
+        $this->assertSame($this->planId, $this->plan->getPlanId());
+        $this->assertSame($this->planReference, $this->plan->getPlanReference());
     }
 
     /**
@@ -49,8 +49,26 @@ class PlanTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->plan, $this->plan->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->plan->getParameters());
+        $this->assertSame($this->plan, $this->plan->setPlanId($this->planId)->setPlanReference($this->planReference));
+        $this->assertSame(array('planId' => $this->planId, 'planReference' => $this->planReference), $this->plan->getParameters());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPlanId()
+    {
+        $this->assertSame($this->plan, $this->plan->setPlanId($this->planId));
+        $this->assertSame($this->planId, $this->plan->getPlanId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPlanReference()
+    {
+        $this->assertSame($this->plan, $this->plan->setPlanReference($this->planReference));
+        $this->assertSame($this->planReference, $this->plan->getPlanReference());
     }
 
     /**
@@ -58,8 +76,8 @@ class PlanTest extends TestCase
      */
     public function testId()
     {
-        $this->assertSame($this->plan, $this->plan->setId($this->id));
-        $this->assertSame($this->id, $this->plan->getId());
+        $this->assertSame($this->plan, $this->plan->setId($this->planId));
+        $this->assertSame($this->planId, $this->plan->getId());
     }
 
     /**
@@ -67,8 +85,8 @@ class PlanTest extends TestCase
      */
     public function testReference()
     {
-        $this->assertSame($this->plan, $this->plan->setReference($this->reference));
-        $this->assertSame($this->reference, $this->plan->getReference());
+        $this->assertSame($this->plan, $this->plan->setReference($this->planReference));
+        $this->assertSame($this->planReference, $this->plan->getReference());
     }
 
     /**

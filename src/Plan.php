@@ -72,9 +72,9 @@ class Plan
      *
      * @return null|string
      */
-    public function getId()
+    public function getPlanId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('planId');
     }
 
     /**
@@ -83,9 +83,9 @@ class Plan
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setPlanId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('planId', $value);
     }
 
     /**
@@ -93,9 +93,9 @@ class Plan
      *
      * @return null|string
      */
-    public function getReference()
+    public function getPlanReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('planReference');
     }
 
     /**
@@ -104,9 +104,55 @@ class Plan
      * @param string $value
      * @return static
      */
+    public function setPlanReference($value)
+    {
+        return $this->setParameter('planReference', $value);
+    }
+
+    /**
+     * Get the plan id
+     *
+     * @return null|string
+     * @deprecated see getPlanId
+     */
+    public function getId()
+    {
+        return $this->getPlanId();
+    }
+
+    /**
+     * Set the plan id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setPlanId
+     */
+    public function setId($value)
+    {
+        return $this->setPlanId($value);
+    }
+
+    /**
+     * Get the plan reference
+     *
+     * @return null|string
+     * @deprecated see getPlanReference
+     */
+    public function getReference()
+    {
+        return $this->getPlanReference();
+    }
+
+    /**
+     * Set the plan reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setPlanReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setPlanReference($value);
     }
 
     /**

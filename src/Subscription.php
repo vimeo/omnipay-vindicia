@@ -72,9 +72,9 @@ class Subscription
      *
      * @return null|string
      */
-    public function getId()
+    public function getSubscriptionId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('subscriptionId');
     }
 
     /**
@@ -83,9 +83,9 @@ class Subscription
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setSubscriptionId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('subscriptionId', $value);
     }
 
     /**
@@ -93,9 +93,9 @@ class Subscription
      *
      * @return null|string
      */
-    public function getReference()
+    public function getSubscriptionReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('subscriptionReference');
     }
 
     /**
@@ -104,9 +104,55 @@ class Subscription
      * @param string $value
      * @return static
      */
+    public function setSubscriptionReference($value)
+    {
+        return $this->setParameter('subscriptionReference', $value);
+    }
+
+    /**
+     * Get the subscription id
+     *
+     * @return null|string
+     * @deprecated see getSubscriptionId
+     */
+    public function getId()
+    {
+        return $this->getSubscriptionId();
+    }
+
+    /**
+     * Set the subscription id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setSubscriptionId
+     */
+    public function setId($value)
+    {
+        return $this->setSubscriptionId($value);
+    }
+
+    /**
+     * Get the subscription reference
+     *
+     * @return null|string
+     * @deprecated see getSubscriptionReference
+     */
+    public function getReference()
+    {
+        return $this->getSubscriptionReference();
+    }
+
+    /**
+     * Set the subscription reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setSubscriptionReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setSubscriptionReference($value);
     }
 
     /**

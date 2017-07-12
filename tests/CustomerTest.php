@@ -14,8 +14,8 @@ class CustomerTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->customer = new Customer();
-        $this->id = $this->faker->customerId();
-        $this->reference = $this->faker->customerReference();
+        $this->customerId = $this->faker->customerId();
+        $this->customerReference = $this->faker->customerReference();
     }
 
     /**
@@ -24,11 +24,11 @@ class CustomerTest extends TestCase
     public function testConstructWithParams()
     {
         $customer = new Customer(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'customerId' => $this->customerId,
+            'customerReference' => $this->customerReference
         ));
-        $this->assertSame($this->id, $customer->getId());
-        $this->assertSame($this->reference, $customer->getReference());
+        $this->assertSame($this->customerId, $customer->getCustomerId());
+        $this->assertSame($this->customerReference, $customer->getCustomerReference());
     }
 
     /**
@@ -37,11 +37,11 @@ class CustomerTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->customer, $this->customer->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'customerId' => $this->customerId,
+            'customerReference' => $this->customerReference
         )));
-        $this->assertSame($this->id, $this->customer->getId());
-        $this->assertSame($this->reference, $this->customer->getReference());
+        $this->assertSame($this->customerId, $this->customer->getCustomerId());
+        $this->assertSame($this->customerReference, $this->customer->getCustomerReference());
     }
 
     /**
@@ -49,26 +49,46 @@ class CustomerTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->customer, $this->customer->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->customer->getParameters());
+        $this->assertSame($this->customer, $this->customer->setCustomerId($this->customerId)->setCustomerReference($this->customerReference));
+        $this->assertSame(array('customerId' => $this->customerId, 'customerReference' => $this->customerReference), $this->customer->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testCustomerId()
+    {
+        $this->assertSame($this->customer, $this->customer->setCustomerId($this->customerId));
+        $this->assertSame($this->customerId, $this->customer->getCustomerId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCustomerReference()
+    {
+        $this->assertSame($this->customer, $this->customer->setCustomerReference($this->customerReference));
+        $this->assertSame($this->customerReference, $this->customer->getCustomerReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->customer, $this->customer->setId($this->id));
-        $this->assertSame($this->id, $this->customer->getId());
+        $this->assertSame($this->customer, $this->customer->setId($this->customerId));
+        $this->assertSame($this->customerId, $this->customer->getId());
     }
 
     /**
      * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testReference()
     {
-        $this->assertSame($this->customer, $this->customer->setReference($this->reference));
-        $this->assertSame($this->reference, $this->customer->getReference());
+        $this->assertSame($this->customer, $this->customer->setReference($this->customerReference));
+        $this->assertSame($this->customerReference, $this->customer->getReference());
     }
 
     /**

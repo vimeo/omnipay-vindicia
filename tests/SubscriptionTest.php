@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class SubscriptionTest extends TestCase
 {
+    /** @var Subscription */
+    protected $subscription;
+
     /**
      * @return void
      */
@@ -14,8 +17,8 @@ class SubscriptionTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->subscription = new Subscription();
-        $this->id = $this->faker->subscriptionId();
-        $this->reference = $this->faker->subscriptionReference();
+        $this->subscriptionId = $this->faker->subscriptionId();
+        $this->subscriptionReference = $this->faker->subscriptionReference();
     }
 
     /**
@@ -24,11 +27,11 @@ class SubscriptionTest extends TestCase
     public function testConstructWithParams()
     {
         $subscription = new Subscription(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'subscriptionId' => $this->subscriptionId,
+            'subscriptionReference' => $this->subscriptionReference
         ));
-        $this->assertSame($this->id, $subscription->getId());
-        $this->assertSame($this->reference, $subscription->getReference());
+        $this->assertSame($this->subscriptionId, $subscription->getSubscriptionId());
+        $this->assertSame($this->subscriptionReference, $subscription->getSubscriptionReference());
     }
 
     /**
@@ -37,11 +40,11 @@ class SubscriptionTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->subscription, $this->subscription->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'subscriptionId' => $this->subscriptionId,
+            'subscriptionReference' => $this->subscriptionReference
         )));
-        $this->assertSame($this->id, $this->subscription->getId());
-        $this->assertSame($this->reference, $this->subscription->getReference());
+        $this->assertSame($this->subscriptionId, $this->subscription->getSubscriptionId());
+        $this->assertSame($this->subscriptionReference, $this->subscription->getSubscriptionReference());
     }
 
     /**
@@ -49,26 +52,46 @@ class SubscriptionTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->subscription, $this->subscription->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->subscription->getParameters());
+        $this->assertSame($this->subscription, $this->subscription->setSubscriptionId($this->subscriptionId)->setSubscriptionReference($this->subscriptionReference));
+        $this->assertSame(array('subscriptionId' => $this->subscriptionId, 'subscriptionReference' => $this->subscriptionReference), $this->subscription->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testSubscriptionId()
+    {
+        $this->assertSame($this->subscription, $this->subscription->setSubscriptionId($this->subscriptionId));
+        $this->assertSame($this->subscriptionId, $this->subscription->getSubscriptionId());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->subscription, $this->subscription->setId($this->id));
-        $this->assertSame($this->id, $this->subscription->getId());
+        $this->assertSame($this->subscription, $this->subscription->setId($this->subscriptionId));
+        $this->assertSame($this->subscriptionId, $this->subscription->getId());
     }
 
     /**
      * @return void
      */
+    public function testSubscriptionReference()
+    {
+        $this->assertSame($this->subscription, $this->subscription->setSubscriptionReference($this->subscriptionReference));
+        $this->assertSame($this->subscriptionReference, $this->subscription->getSubscriptionReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
+     */
     public function testReference()
     {
-        $this->assertSame($this->subscription, $this->subscription->setReference($this->reference));
-        $this->assertSame($this->reference, $this->subscription->getReference());
+        $this->assertSame($this->subscription, $this->subscription->setReference($this->subscriptionReference));
+        $this->assertSame($this->subscriptionReference, $this->subscription->getReference());
     }
 
     /**
