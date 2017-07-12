@@ -14,8 +14,8 @@ class RefundTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->refund = new Refund();
-        $this->id = $this->faker->refundId();
-        $this->reference = $this->faker->refundReference();
+        $this->refundId = $this->faker->refundId();
+        $this->refundReference = $this->faker->refundReference();
     }
 
     /**
@@ -24,11 +24,11 @@ class RefundTest extends TestCase
     public function testConstructWithParams()
     {
         $refund = new Refund(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'refundId' => $this->refundId,
+            'refundReference' => $this->refundReference
         ));
-        $this->assertSame($this->id, $refund->getId());
-        $this->assertSame($this->reference, $refund->getReference());
+        $this->assertSame($this->refundId, $refund->getRefundId());
+        $this->assertSame($this->refundReference, $refund->getRefundReference());
     }
 
     /**
@@ -37,11 +37,11 @@ class RefundTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->refund, $this->refund->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'refundId' => $this->refundId,
+            'refundReference' => $this->refundReference
         )));
-        $this->assertSame($this->id, $this->refund->getId());
-        $this->assertSame($this->reference, $this->refund->getReference());
+        $this->assertSame($this->refundId, $this->refund->getRefundId());
+        $this->assertSame($this->refundReference, $this->refund->getRefundReference());
     }
 
     /**
@@ -49,26 +49,46 @@ class RefundTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->refund, $this->refund->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->refund->getParameters());
+        $this->assertSame($this->refund, $this->refund->setRefundId($this->refundId)->setRefundReference($this->refundReference));
+        $this->assertSame(array('refundId' => $this->refundId, 'refundReference' => $this->refundReference), $this->refund->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testRefundId()
+    {
+        $this->assertSame($this->refund, $this->refund->setRefundId($this->refundId));
+        $this->assertSame($this->refundId, $this->refund->getRefundId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testRefundReference()
+    {
+        $this->assertSame($this->refund, $this->refund->setRefundReference($this->refundReference));
+        $this->assertSame($this->refundReference, $this->refund->getRefundReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->refund, $this->refund->setId($this->id));
-        $this->assertSame($this->id, $this->refund->getId());
+        $this->assertSame($this->refund, $this->refund->setId($this->refundId));
+        $this->assertSame($this->refundId, $this->refund->getId());
     }
 
     /**
      * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testReference()
     {
-        $this->assertSame($this->refund, $this->refund->setReference($this->reference));
-        $this->assertSame($this->reference, $this->refund->getReference());
+        $this->assertSame($this->refund, $this->refund->setReference($this->refundReference));
+        $this->assertSame($this->refundReference, $this->refund->getReference());
     }
 
     /**

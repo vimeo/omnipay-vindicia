@@ -72,10 +72,9 @@ class Customer
      *
      * @return null|string
      */
-
-    public function getId()
+    public function getCustomerId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('customerId');
     }
 
     /**
@@ -84,9 +83,9 @@ class Customer
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setCustomerId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('customerId', $value);
     }
 
     /**
@@ -94,9 +93,9 @@ class Customer
      *
      * @return null|string
      */
-    public function getReference()
+    public function getCustomerReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('customerReference');
     }
 
     /**
@@ -105,9 +104,55 @@ class Customer
      * @param string $value
      * @return static
      */
+    public function setCustomerReference($value)
+    {
+        return $this->setParameter('customerReference', $value);
+    }
+
+    /**
+     * Get the customer id
+     *
+     * @return null|string
+     * @deprecated see getCustomerId
+     */
+    public function getId()
+    {
+        return $this->getCustomerId();
+    }
+
+    /**
+     * Set the customer id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setCustomerId
+     */
+    public function setId($value)
+    {
+        return $this->setCustomerId($value);
+    }
+
+    /**
+     * Get the customer reference
+     *
+     * @return null|string
+     * @deprecated see getCustomerReference
+     */
+    public function getReference()
+    {
+        return $this->getCustomerReference();
+    }
+
+    /**
+     * Set the customer reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setCustomerReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setCustomerReference($value);
     }
 
     /**

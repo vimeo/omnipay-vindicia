@@ -14,8 +14,8 @@ class ProductTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->product = new Product();
-        $this->id = $this->faker->productId();
-        $this->reference = $this->faker->productReference();
+        $this->productId = $this->faker->productId();
+        $this->productReference = $this->faker->productReference();
     }
 
     /**
@@ -24,11 +24,11 @@ class ProductTest extends TestCase
     public function testConstructWithParams()
     {
         $product = new Product(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'productId' => $this->productId,
+            'productReference' => $this->productReference
         ));
-        $this->assertSame($this->id, $product->getId());
-        $this->assertSame($this->reference, $product->getReference());
+        $this->assertSame($this->productId, $product->getProductId());
+        $this->assertSame($this->productReference, $product->getProductReference());
     }
 
     /**
@@ -37,11 +37,11 @@ class ProductTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->product, $this->product->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'productId' => $this->productId,
+            'productReference' => $this->productReference
         )));
-        $this->assertSame($this->id, $this->product->getId());
-        $this->assertSame($this->reference, $this->product->getReference());
+        $this->assertSame($this->productId, $this->product->getProductId());
+        $this->assertSame($this->productReference, $this->product->getProductReference());
     }
 
     /**
@@ -49,26 +49,46 @@ class ProductTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->product, $this->product->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->product->getParameters());
+        $this->assertSame($this->product, $this->product->setProductId($this->productId)->setProductReference($this->productReference));
+        $this->assertSame(array('productId' => $this->productId, 'productReference' => $this->productReference), $this->product->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testProductId()
+    {
+        $this->assertSame($this->product, $this->product->setProductId($this->productId));
+        $this->assertSame($this->productId, $this->product->getProductId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testProductReference()
+    {
+        $this->assertSame($this->product, $this->product->setProductReference($this->productReference));
+        $this->assertSame($this->productReference, $this->product->getProductReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->product, $this->product->setId($this->id));
-        $this->assertSame($this->id, $this->product->getId());
+        $this->assertSame($this->product, $this->product->setId($this->productId));
+        $this->assertSame($this->productId, $this->product->getId());
     }
 
     /**
      * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testReference()
     {
-        $this->assertSame($this->product, $this->product->setReference($this->reference));
-        $this->assertSame($this->reference, $this->product->getReference());
+        $this->assertSame($this->product, $this->product->setReference($this->productReference));
+        $this->assertSame($this->productReference, $this->product->getReference());
     }
 
     /**

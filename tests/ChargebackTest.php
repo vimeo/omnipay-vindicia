@@ -14,8 +14,8 @@ class ChargebackTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->chargeback = new Chargeback();
-        $this->id = $this->faker->chargebackId();
-        $this->reference = $this->faker->chargebackReference();
+        $this->chargebackId = $this->faker->chargebackId();
+        $this->chargebackReference = $this->faker->chargebackReference();
     }
 
     /**
@@ -24,11 +24,11 @@ class ChargebackTest extends TestCase
     public function testConstructWithParams()
     {
         $chargeback = new Chargeback(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'chargebackId' => $this->chargebackId,
+            'chargebackReference' => $this->chargebackReference
         ));
-        $this->assertSame($this->id, $chargeback->getId());
-        $this->assertSame($this->reference, $chargeback->getReference());
+        $this->assertSame($this->chargebackId, $chargeback->getChargebackId());
+        $this->assertSame($this->chargebackReference, $chargeback->getChargebackReference());
     }
 
     /**
@@ -37,11 +37,11 @@ class ChargebackTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->chargeback, $this->chargeback->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'chargebackId' => $this->chargebackId,
+            'chargebackReference' => $this->chargebackReference
         )));
-        $this->assertSame($this->id, $this->chargeback->getId());
-        $this->assertSame($this->reference, $this->chargeback->getReference());
+        $this->assertSame($this->chargebackId, $this->chargeback->getChargebackId());
+        $this->assertSame($this->chargebackReference, $this->chargeback->getChargebackReference());
     }
 
     /**
@@ -49,26 +49,46 @@ class ChargebackTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->chargeback, $this->chargeback->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->chargeback->getParameters());
+        $this->assertSame($this->chargeback, $this->chargeback->setChargebackId($this->chargebackId)->setChargebackReference($this->chargebackReference));
+        $this->assertSame(array('chargebackId' => $this->chargebackId, 'chargebackReference' => $this->chargebackReference), $this->chargeback->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testChargebackId()
+    {
+        $this->assertSame($this->chargeback, $this->chargeback->setChargebackId($this->chargebackId));
+        $this->assertSame($this->chargebackId, $this->chargeback->getChargebackId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testChargebackReference()
+    {
+        $this->assertSame($this->chargeback, $this->chargeback->setChargebackReference($this->chargebackReference));
+        $this->assertSame($this->chargebackReference, $this->chargeback->getChargebackReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->chargeback, $this->chargeback->setId($this->id));
-        $this->assertSame($this->id, $this->chargeback->getId());
+        $this->assertSame($this->chargeback, $this->chargeback->setId($this->chargebackId));
+        $this->assertSame($this->chargebackId, $this->chargeback->getId());
     }
 
     /**
      * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testReference()
     {
-        $this->assertSame($this->chargeback, $this->chargeback->setReference($this->reference));
-        $this->assertSame($this->reference, $this->chargeback->getReference());
+        $this->assertSame($this->chargeback, $this->chargeback->setReference($this->chargebackReference));
+        $this->assertSame($this->chargebackReference, $this->chargeback->getReference());
     }
 
     /**

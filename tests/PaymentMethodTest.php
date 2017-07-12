@@ -15,8 +15,8 @@ class PaymentMethodTest extends TestCase
     {
         $this->faker = new DataFaker();
         $this->paymentMethod = new PaymentMethod();
-        $this->id = $this->faker->paymentMethodId();
-        $this->reference = $this->faker->paymentMethodReference();
+        $this->paymentMethodId = $this->faker->paymentMethodId();
+        $this->paymentMethodReference = $this->faker->paymentMethodReference();
     }
 
     /**
@@ -25,11 +25,11 @@ class PaymentMethodTest extends TestCase
     public function testConstructWithParams()
     {
         $paymentMethod = new PaymentMethod(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'paymentMethodId' => $this->paymentMethodId,
+            'paymentMethodReference' => $this->paymentMethodReference
         ));
-        $this->assertSame($this->id, $paymentMethod->getId());
-        $this->assertSame($this->reference, $paymentMethod->getReference());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getPaymentMethodReference());
     }
 
     /**
@@ -38,11 +38,11 @@ class PaymentMethodTest extends TestCase
     public function testInitializeWithParams()
     {
         $this->assertSame($this->paymentMethod, $this->paymentMethod->initialize(array(
-            'id' => $this->id,
-            'reference' => $this->reference
+            'paymentMethodId' => $this->paymentMethodId,
+            'paymentMethodReference' => $this->paymentMethodReference
         )));
-        $this->assertSame($this->id, $this->paymentMethod->getId());
-        $this->assertSame($this->reference, $this->paymentMethod->getReference());
+        $this->assertSame($this->paymentMethodId, $this->paymentMethod->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $this->paymentMethod->getPaymentMethodReference());
     }
 
     /**
@@ -50,26 +50,46 @@ class PaymentMethodTest extends TestCase
      */
     public function testGetParameters()
     {
-        $this->assertSame($this->paymentMethod, $this->paymentMethod->setId($this->id)->setReference($this->reference));
-        $this->assertSame(array('id' => $this->id, 'reference' => $this->reference), $this->paymentMethod->getParameters());
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setPaymentMethodId($this->paymentMethodId)->setPaymentMethodReference($this->paymentMethodReference));
+        $this->assertSame(array('paymentMethodId' => $this->paymentMethodId, 'paymentMethodReference' => $this->paymentMethodReference), $this->paymentMethod->getParameters());
     }
 
     /**
      * @return void
+     */
+    public function testPaymentMethodId()
+    {
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setPaymentMethodId($this->paymentMethodId));
+        $this->assertSame($this->paymentMethodId, $this->paymentMethod->getPaymentMethodId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPaymentMethodReference()
+    {
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setPaymentMethodReference($this->paymentMethodReference));
+        $this->assertSame($this->paymentMethodReference, $this->paymentMethod->getPaymentMethodReference());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testId()
     {
-        $this->assertSame($this->paymentMethod, $this->paymentMethod->setId($this->id));
-        $this->assertSame($this->id, $this->paymentMethod->getId());
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setId($this->paymentMethodId));
+        $this->assertSame($this->paymentMethodId, $this->paymentMethod->getId());
     }
 
     /**
      * @return void
+     * @psalm-suppress DeprecatedMethod because we want to make sure it still works
      */
     public function testReference()
     {
-        $this->assertSame($this->paymentMethod, $this->paymentMethod->setReference($this->reference));
-        $this->assertSame($this->reference, $this->paymentMethod->getReference());
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setReference($this->paymentMethodReference));
+        $this->assertSame($this->paymentMethodReference, $this->paymentMethod->getReference());
     }
 
     /**

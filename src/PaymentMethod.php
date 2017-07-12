@@ -69,46 +69,91 @@ class PaymentMethod
     }
 
     /**
-     * Get the payment method id
+     * Get the paymentMethod id
      *
      * @return null|string
      */
-
-    public function getId()
+    public function getPaymentMethodId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('paymentMethodId');
     }
 
     /**
-     * Set the payment method id
+     * Set the paymentMethod id
      *
      * @param string $value
      * @return static
+     */
+    public function setPaymentMethodId($value)
+    {
+        return $this->setParameter('paymentMethodId', $value);
+    }
+
+    /**
+     * Get the paymentMethod reference
+     *
+     * @return null|string
+     */
+    public function getPaymentMethodReference()
+    {
+        return $this->getParameter('paymentMethodReference');
+    }
+
+    /**
+     * Set the paymentMethod reference
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPaymentMethodReference($value)
+    {
+        return $this->setParameter('paymentMethodReference', $value);
+    }
+
+    /**
+     * Get the paymentMethod id
+     *
+     * @return null|string
+     * @deprecated see getPaymentMethodId
+     */
+    public function getId()
+    {
+        return $this->getPaymentMethodId();
+    }
+
+    /**
+     * Set the paymentMethod id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setPaymentMethodId
      */
     public function setId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setPaymentMethodId($value);
     }
 
     /**
-     * Get the payment method reference
+     * Get the paymentMethod reference
      *
      * @return null|string
+     * @deprecated see getPaymentMethodReference
      */
     public function getReference()
     {
-        return $this->getParameter('reference');
+        return $this->getPaymentMethodReference();
     }
 
     /**
-     * Set the payment method reference
+     * Set the paymentMethod reference
      *
      * @param string $value
      * @return static
+     * @deprecated see setPaymentMethodReference
      */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setPaymentMethodReference($value);
     }
 
     /**

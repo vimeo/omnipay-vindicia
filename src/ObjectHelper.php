@@ -51,16 +51,16 @@ class ObjectHelper
         }
 
         return new Transaction(array(
-            'id' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'transactionId' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
+            'transactionReference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
             'amount' => isset($object->amount) ? $object->amount : null,
             'customer' => $customer,
-            'customerId' => isset($customer) ? $customer->getId() : null,
-            'customerReference' => isset($customer) ? $customer->getReference() : null,
+            'customerId' => isset($customer) ? $customer->getCustomerId() : null,
+            'customerReference' => isset($customer) ? $customer->getCustomerReference() : null,
             'paymentMethod' => isset($paymentMethod) ? $paymentMethod : null,
-            'paymentMethodId' => isset($paymentMethod) ? $paymentMethod->getId() : null,
-            'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getReference() : null,
+            'paymentMethodId' => isset($paymentMethod) ? $paymentMethod->getPaymentMethodId() : null,
+            'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getPaymentMethodReference() : null,
             'items' => $items,
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
             'authorizationCode' => isset($object->statusLog[0]->creditCardStatus->authCode)
@@ -90,8 +90,8 @@ class ObjectHelper
     public function buildChargeback(stdClass $object)
     {
         return new Chargeback(array(
-            'id' => null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'chargebackId' => null,
+            'chargebackReference' => isset($object->VID) ? $object->VID : null,
             'transactionId' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
             'transactionReference' => null,
             'transaction' => null,
@@ -123,8 +123,8 @@ class ObjectHelper
         }
 
         return new Customer(array(
-            'id' => isset($object->merchantAccountId) ? $object->merchantAccountId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'customerId' => isset($object->merchantAccountId) ? $object->merchantAccountId : null,
+            'customerReference' => isset($object->VID) ? $object->VID : null,
             'name' => isset($object->name) ? $object->name : null,
             'email' => isset($object->emailAddress) ? $object->emailAddress : null,
             'taxExemptions' => isset($taxExemptions) ? $taxExemptions : null,
@@ -153,8 +153,8 @@ class ObjectHelper
         }
 
         return new PaymentMethod(array(
-            'id' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
+            'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
             // NonStrippingCreditCard won't remove the X's that Vindicia masks with
             'card' => new NonStrippingCreditCard(array(
                 'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
@@ -183,8 +183,8 @@ class ObjectHelper
     public function buildPlan(stdClass $object)
     {
         return new Plan(array(
-            'id' => isset($object->merchantBillingPlanId) ? $object->merchantBillingPlanId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'planId' => isset($object->merchantBillingPlanId) ? $object->merchantBillingPlanId : null,
+            'planReference' => isset($object->VID) ? $object->VID : null,
             'interval' => isset($object->periods[0]->type) ? strtolower($object->periods[0]->type) : null,
             'intervalCount' => isset($object->periods[0]->quantity) ? strtolower($object->periods[0]->quantity) : null,
             'taxClassification' => isset($object->taxClassification) ? $object->taxClassification : null,
@@ -201,11 +201,11 @@ class ObjectHelper
         $plan = isset($object->defaultBillingPlan) ? $this->buildPlan($object->defaultBillingPlan) : null;
 
         return new Product(array(
-            'id' => isset($object->merchantProductId) ? $object->merchantProductId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'productId' => isset($object->merchantProductId) ? $object->merchantProductId : null,
+            'productReference' => isset($object->VID) ? $object->VID : null,
             'plan' => isset($plan) ? $plan : null,
-            'planId' => isset($plan) ? $plan->getId() : null,
-            'planReference' => isset($plan) ? $plan->getReference() : null,
+            'planId' => isset($plan) ? $plan->getPlanId() : null,
+            'planReference' => isset($plan) ? $plan->getPlanReference() : null,
             'taxClassification' => isset($object->taxClassification) ? $object->taxClassification : null,
             'prices' => isset($object->prices) ? $this->buildPrices($object->prices) : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
@@ -235,8 +235,8 @@ class ObjectHelper
         }
 
         return new Refund(array(
-            'id' => isset($object->merchantRefundId) ? $object->merchantRefundId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'refundId' => isset($object->merchantRefundId) ? $object->merchantRefundId : null,
+            'refundReference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
             'amount' => isset($object->amount) ? $object->amount : null,
             'note' => isset($object->note) ? $object->note : null,
@@ -264,7 +264,7 @@ class ObjectHelper
             $items = array();
             foreach ($object->items as $item) {
                 $items[] = new VindiciaItem(array(
-                    'reference' => isset($item->VID) ? $item->VID : null,
+                    'itemReference' => isset($item->VID) ? $item->VID : null,
                     'sku' => isset($item->product->merchantProductId) ? $item->product->merchantProductId : null,
                     'index' => isset($item->index) ? $item->index : null,
                     'price' => isset($item->price) ? $item->price : null,
@@ -277,22 +277,22 @@ class ObjectHelper
         }
 
         return new Subscription(array(
-            'id' => isset($object->merchantAutoBillId) ? $object->merchantAutoBillId : null,
-            'reference' => isset($object->VID) ? $object->VID : null,
+            'subscriptionId' => isset($object->merchantAutoBillId) ? $object->merchantAutoBillId : null,
+            'subscriptionReference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
             'customer' => isset($customer) ? $customer : null,
-            'customerId' => isset($customer) ? $customer->getId() : null,
-            'customerReference' => isset($customer) ? $customer->getReference() : null,
+            'customerId' => isset($customer) ? $customer->getCustomerId() : null,
+            'customerReference' => isset($customer) ? $customer->getCustomerReference() : null,
             'items' => $items,
             'product' => isset($product) ? $product : null,
-            'productId' => isset($product) ? $product->getId() : null,
-            'productReference' => isset($product) ? $product->getReference() : null,
+            'productId' => isset($product) ? $product->getProductId() : null,
+            'productReference' => isset($product) ? $product->getProductReference() : null,
             'plan' => isset($plan) ? $plan : null,
-            'planId' => isset($plan) ? $plan->getId() : null,
-            'planReference' => isset($plan) ? $plan->getReference() : null,
+            'planId' => isset($plan) ? $plan->getPlanId() : null,
+            'planReference' => isset($plan) ? $plan->getPlanReference() : null,
             'paymentMethod' => isset($paymentMethod) ? $paymentMethod : null,
-            'paymentMethodId' => isset($paymentMethod) ? $paymentMethod->getId() : null,
-            'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getReference() : null,
+            'paymentMethodId' => isset($paymentMethod) ? $paymentMethod->getPaymentMethodId() : null,
+            'paymentMethodReference' => isset($paymentMethod) ? $paymentMethod->getPaymentMethodReference() : null,
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
             'status' => isset($object->status) ? $object->status : null,
             'billingState' => isset($object->billingState) ? $object->billingState : null,

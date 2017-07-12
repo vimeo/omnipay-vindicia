@@ -195,7 +195,7 @@ class Response extends AbstractResponse
     {
         $customer = $this->getCustomer();
         if ($customer) {
-            return $customer->getReference();
+            return $customer->getCustomerReference();
         }
         return null;
     }
@@ -210,7 +210,7 @@ class Response extends AbstractResponse
     {
         $customer = $this->getCustomer();
         if ($customer) {
-            return $customer->getId();
+            return $customer->getCustomerId();
         }
         return null;
     }
@@ -235,7 +235,7 @@ class Response extends AbstractResponse
     {
         $plan = $this->getPlan();
         if ($plan) {
-            return $plan->getReference();
+            return $plan->getPlanReference();
         }
         return null;
     }
@@ -249,7 +249,7 @@ class Response extends AbstractResponse
     {
         $plan = $this->getPlan();
         if ($plan) {
-            return $plan->getId();
+            return $plan->getPlanId();
         }
         return null;
     }
@@ -274,7 +274,7 @@ class Response extends AbstractResponse
     {
         $product = $this->getProduct();
         if ($product) {
-            return $product->getReference();
+            return $product->getProductReference();
         }
         return null;
     }
@@ -288,7 +288,7 @@ class Response extends AbstractResponse
     {
         $product = $this->getProduct();
         if ($product) {
-            return $product->getId();
+            return $product->getProductId();
         }
         return null;
     }
@@ -416,7 +416,7 @@ class Response extends AbstractResponse
     {
         $paymentMethod = $this->getPaymentMethod();
         if ($paymentMethod) {
-            return $paymentMethod->getId();
+            return $paymentMethod->getPaymentMethodId();
         }
 
         return null;
@@ -431,7 +431,7 @@ class Response extends AbstractResponse
     {
         $paymentMethod = $this->getPaymentMethod();
         if ($paymentMethod) {
-            return $paymentMethod->getReference();
+            return $paymentMethod->getPaymentMethodReference();
         }
 
         return null;

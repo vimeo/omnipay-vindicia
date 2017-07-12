@@ -12,15 +12,14 @@ use Omnipay\Vindicia\Exception\InvalidItemException;
  */
 class VindiciaItem extends Item
 {
-
     /**
      * Get the item reference
      *
      * @return null|string
      */
-    public function getReference()
+    public function getItemReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('itemReference');
     }
 
     /**
@@ -29,9 +28,32 @@ class VindiciaItem extends Item
      * @param string $value
      * @return static
      */
+    public function setItemReference($value)
+    {
+        return $this->setParameter('itemReference', $value);
+    }
+
+    /**
+     * Get the item reference
+     *
+     * @return null|string
+     * @deprecated see getItemReference
+     */
+    public function getReference()
+    {
+        return $this->getItemReference();
+    }
+
+    /**
+     * Set the item reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setItemReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setItemReference($value);
     }
 
     /**

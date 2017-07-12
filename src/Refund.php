@@ -72,9 +72,9 @@ class Refund
      *
      * @return null|string
      */
-    public function getId()
+    public function getRefundId()
     {
-        return $this->getParameter('id');
+        return $this->getParameter('refundId');
     }
 
     /**
@@ -83,9 +83,9 @@ class Refund
      * @param string $value
      * @return static
      */
-    public function setId($value)
+    public function setRefundId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('refundId', $value);
     }
 
     /**
@@ -93,9 +93,9 @@ class Refund
      *
      * @return null|string
      */
-    public function getReference()
+    public function getRefundReference()
     {
-        return $this->getParameter('reference');
+        return $this->getParameter('refundReference');
     }
 
     /**
@@ -104,9 +104,55 @@ class Refund
      * @param string $value
      * @return static
      */
+    public function setRefundReference($value)
+    {
+        return $this->setParameter('refundReference', $value);
+    }
+
+    /**
+     * Get the refund id
+     *
+     * @return null|string
+     * @deprecated see getRefundId
+     */
+    public function getId()
+    {
+        return $this->getRefundId();
+    }
+
+    /**
+     * Set the refund id
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setRefundId
+     */
+    public function setId($value)
+    {
+        return $this->setRefundId($value);
+    }
+
+    /**
+     * Get the refund reference
+     *
+     * @return null|string
+     * @deprecated see getRefundReference
+     */
+    public function getReference()
+    {
+        return $this->getRefundReference();
+    }
+
+    /**
+     * Set the refund reference
+     *
+     * @param string $value
+     * @return static
+     * @deprecated see setRefundReference
+     */
     public function setReference($value)
     {
-        return $this->setParameter('reference', $value);
+        return $this->setRefundReference($value);
     }
 
     /**
