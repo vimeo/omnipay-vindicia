@@ -7,6 +7,9 @@ use Omnipay\Tests\TestCase;
 
 class RefundTest extends TestCase
 {
+    /** @var Refund */
+    protected $refund;
+
     /**
      * @return void
      */
@@ -114,11 +117,23 @@ class RefundTest extends TestCase
     /**
      * @return void
      */
+    public function testReason()
+    {
+        $reason = $this->faker->refundReason();
+        $this->assertSame($this->refund, $this->refund->setReason($reason));
+        $this->assertSame($reason, $this->refund->getReason());
+    }
+
+    /**
+     * @return void
+     * @psalm-suppress DeprecatedMethod because we're testing that it still works
+     */
     public function testNote()
     {
-        $note = $this->faker->note();
-        $this->assertSame($this->refund, $this->refund->setNote($note));
-        $this->assertSame($note, $this->refund->getNote());
+        $reason = $this->faker->refundReason();
+        $this->assertSame($this->refund, $this->refund->setNote($reason));
+        $this->assertSame($reason, $this->refund->getNote());
+        $this->assertSame($reason, $this->refund->getReason());
     }
 
     /**

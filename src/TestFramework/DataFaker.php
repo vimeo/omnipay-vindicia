@@ -1007,6 +1007,16 @@ class DataFaker
     }
 
     /**
+     * Return a refund reason
+     *
+     * @return string
+     */
+    public function refundReason()
+    {
+        return $this->note();
+    }
+
+    /**
      * Return a note
      *
      * @return string

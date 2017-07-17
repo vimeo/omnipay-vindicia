@@ -184,10 +184,7 @@ class GatewayTest extends GatewayTestCase
 
         $transactionId = $this->faker->transactionId();
         $transactionReference = $this->faker->transactionReference();
-        $note = $this->faker->randomCharacters(
-            DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER,
-            $this->faker->intBetween(10, 50)
-        );
+        $reason = $this->faker->refundReason();
 
         $request = $this->gateway->refund(
             array(
@@ -195,7 +192,7 @@ class GatewayTest extends GatewayTestCase
                 'currency' => $currency,
                 'transactionId' => $transactionId,
                 'transactionReference' => $transactionReference,
-                'note' => $note
+                'reason' => $reason
             )
         );
 
@@ -204,7 +201,7 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($currency, $request->getCurrency());
         $this->assertSame($transactionId, $request->getTransactionId());
         $this->assertSame($transactionReference, $request->getTransactionReference());
-        $this->assertSame($note, $request->getNote());
+        $this->assertSame($reason, $request->getReason());
     }
 
     /**

@@ -70,7 +70,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           array('transactionItemIndexNumber' => '2', 'sku' => '2', 'amount' => '19.98')
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
- *       'note' => 'A note about the refund'
+ *       'reason' => 'The reason for the refund'
  *   ))->send();
  *
  *   if ($refundResponse->isSuccessful()) {

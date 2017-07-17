@@ -33,7 +33,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  * transactionItemIndex number is the position of the item in the original transaction, indexed
  * starting at 1. A taxOnly parameter can be set to true if only the tax should be refunded.
  * Refunding by items may not work if you are using Vindicia's old tax engine.
- * - note: A note to attach to the refund. Optional.
+ * - reason: A reason to attach to the refund. Optional.
  * - attributes: Custom values you wish to have stored with the refund. They have
  * no affect on anything.
  *
@@ -87,7 +87,7 @@ use Omnipay\Vindicia\VindiciaRefundItemBag;
  *           array('transactionItemIndexNumber' => '2', 'sku' => '2', 'amount' => '19.98')
  *       ),
  *       'amount' => '23.48', // not necessary since items are provided
- *       'note' => 'A note about the refund'
+ *       'reason' => 'The reason for the refund'
  *   ))->send();
  *
  *   if ($refundResponse->isSuccessful()) {
@@ -127,24 +127,47 @@ class RefundRequest extends AbstractRequest
     }
 
     /**
-     * Get the note associated with this refund.
+     * Get the reason associated with this refund.
      *
      * @return null|string
      */
-    public function getNote()
+    public function getReason()
     {
-        return $this->getParameter('note');
+        return $this->getParameter('reason');
     }
 
     /**
-     * Set a note to be associated with this refund.
+     * Set a reason to be associated with this refund.
      *
      * @param string $value
      * @return static
      */
+    public function setReason($value)
+    {
+        return $this->setParameter('reason', $value);
+    }
+
+    /**
+     * Get the reason associated with this refund.
+     *
+     * @return null|string
+     * @deprecated in favor of getReason
+     */
+    public function getNote()
+    {
+        return $this->getReason();
+    }
+
+    /**
+     * Set a reason to be associated with this refund.
+     *
+     * @param string $value
+     * @return static
+     * @deprecated in favor of setReason
+     */
     public function setNote($value)
     {
-        return $this->setParameter('note', $value);
+        return $this->setReason($value);
     }
 
     /**
@@ -183,7 +206,7 @@ class RefundRequest extends AbstractRequest
         $refund = new stdClass();
         $refund->amount = $this->getAmount();
         $refund->currency = $this->getCurrency();
-        $refund->note = $this->getNote();
+        $refund->note = $this->getReason();
 
         $transaction = new stdClass();
         $transaction->merchantTransactionId = $transactionId;

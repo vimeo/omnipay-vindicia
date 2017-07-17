@@ -32,7 +32,7 @@ class RefundRequestTest extends SoapTestCase
 
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
-        $this->note = $this->faker->note();
+        $this->reason = $this->faker->refundReason();
 
         $this->attributes = $this->faker->attributesAsArray();
 
@@ -44,7 +44,7 @@ class RefundRequestTest extends SoapTestCase
                 'currency' => $this->currency,
                 'transactionId' => $this->transactionId,
                 'transactionReference' => $this->transactionReference,
-                'note' => $this->note,
+                'reason' => $this->reason,
                 'attributes' => $this->attributes
             )
         );
@@ -70,13 +70,26 @@ class RefundRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testReason()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setReason($this->reason));
+        $this->assertSame($this->reason, $request->getReason());
+    }
+
+    /**
+     * @return void
+     */
     public function testNote()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\RefundRequest')->makePartial();
         $request->initialize();
 
-        $this->assertSame($request, $request->setNote($this->note));
-        $this->assertSame($this->note, $request->getNote());
+        $this->assertSame($request, $request->setNote($this->reason));
+        $this->assertSame($this->reason, $request->getNote());
+        $this->assertSame($this->reason, $request->getReason());
     }
 
     /**
@@ -183,7 +196,7 @@ class RefundRequestTest extends SoapTestCase
 
         $this->assertSame($this->refundAmount, $data['refunds'][0]->amount);
         $this->assertSame($this->currency, $data['refunds'][0]->currency);
-        $this->assertSame($this->note, $data['refunds'][0]->note);
+        $this->assertSame($this->reason, $data['refunds'][0]->note);
         $this->assertSame('None', $data['refunds'][0]->refundDistributionStrategy);
         $this->assertSame($this->transactionId, $data['refunds'][0]->transaction->merchantTransactionId);
         $this->assertSame($this->transactionReference, $data['refunds'][0]->transaction->VID);
@@ -206,7 +219,7 @@ class RefundRequestTest extends SoapTestCase
 
         $this->assertNull($data['refunds'][0]->amount);
         $this->assertSame($this->currency, $data['refunds'][0]->currency);
-        $this->assertSame($this->note, $data['refunds'][0]->note);
+        $this->assertSame($this->reason, $data['refunds'][0]->note);
         $this->assertSame('RemainingBalance', $data['refunds'][0]->refundDistributionStrategy);
         $this->assertSame($this->transactionId, $data['refunds'][0]->transaction->merchantTransactionId);
         $this->assertSame($this->transactionReference, $data['refunds'][0]->transaction->VID);
@@ -242,7 +255,7 @@ class RefundRequestTest extends SoapTestCase
                 $this->assertSame($refundItems[$i]['transactionItemIndexNumber'], $data['refunds'][0]->refundItems[$i]->transactionItemIndexNumber);
             }
             $this->assertSame($this->currency, $data['refunds'][0]->currency);
-            $this->assertSame($this->note, $data['refunds'][0]->note);
+            $this->assertSame($this->reason, $data['refunds'][0]->note);
             $this->assertSame('SpecifiedItems', $data['refunds'][0]->refundDistributionStrategy);
             $this->assertSame($this->transactionId, $data['refunds'][0]->transaction->merchantTransactionId);
             $this->assertSame($this->transactionReference, $data['refunds'][0]->transaction->VID);
@@ -331,7 +344,7 @@ class RefundRequestTest extends SoapTestCase
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'REFUND_ID' => $this->refundId,
             'REFUND_REFERENCE' => $this->refundReference,
-            'NOTE' => $this->note
+            'REASON' => $this->reason
         ));
 
         $response = $this->request->send();
@@ -347,7 +360,7 @@ class RefundRequestTest extends SoapTestCase
         $this->assertSame($this->refundReference, $response->getRefundReference());
         $this->assertSame($this->refundReference, $refund->getReference());
         $this->assertSame($this->refundAmount, $refund->getAmount());
-        $this->assertSame($this->note, $refund->getNote());
+        $this->assertSame($this->reason, $refund->getReason());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
     }

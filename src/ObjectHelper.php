@@ -239,7 +239,7 @@ class ObjectHelper
             'refundReference' => isset($object->VID) ? $object->VID : null,
             'currency' => isset($object->currency) ? $object->currency : null,
             'amount' => isset($object->amount) ? $object->amount : null,
-            'note' => isset($object->note) ? $object->note : null,
+            'reason' => isset($object->note) ? $object->note : null,
             'time' => isset($object->timestamp) ? $object->timestamp : null,
             'transaction' => isset($transaction) ? $transaction : null,
             'transactionId' => isset($transaction) ? $transaction->getTransactionId() : null,
