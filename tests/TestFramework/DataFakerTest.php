@@ -776,6 +776,16 @@ class DataFakerTest extends TestCase
     /**
      * @return void
      */
+    public function testRefundReason()
+    {
+        $refundReason = $this->faker->refundReason();
+        $this->assertTrue(is_string($refundReason));
+        $this->assertTrue(strlen($refundReason) > 0);
+    }
+
+    /**
+     * @return void
+     */
     public function testStatus()
     {
         $status = $this->faker->status();

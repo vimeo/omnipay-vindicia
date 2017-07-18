@@ -198,24 +198,47 @@ class Refund
     }
 
     /**
-     * Get the note
+     * Get the reason
      *
      * @return null|string
      */
-    public function getNote()
+    public function getReason()
     {
-        return $this->getParameter('note');
+        return $this->getParameter('reason');
     }
 
     /**
-     * Set the note
+     * Set the reason
      *
      * @param string $value
      * @return static
      */
+    public function setReason($value)
+    {
+        return $this->setParameter('reason', $value);
+    }
+
+    /**
+     * Get the reason
+     *
+     * @return null|string
+     * @deprecated in favor of getReason
+     */
+    public function getNote()
+    {
+        return $this->getReason();
+    }
+
+    /**
+     * Set the reason
+     *
+     * @param string $value
+     * @return static
+     * @deprecated in favor of setReason
+     */
     public function setNote($value)
     {
-        return $this->setParameter('note', $value);
+        return $this->setReason($value);
     }
 
     /**
