@@ -15,6 +15,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
      */
     public function setUp()
     {
+        date_default_timezone_set('Europe/London');
         $this->faker = new DataFaker();
 
         $this->subscriptionId = $this->faker->subscriptionId();

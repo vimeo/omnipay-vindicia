@@ -18,6 +18,7 @@ class AbstractRequestTest extends SoapTestCase
      */
     public function setUp()
     {
+        date_default_timezone_set('Europe/London');
         $this->request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
         $this->request->initialize();
         $this->faker = new DataFaker();

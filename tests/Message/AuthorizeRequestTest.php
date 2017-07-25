@@ -17,6 +17,7 @@ class AuthorizeRequestTest extends SoapTestCase
      */
     public function setUp()
     {
+        date_default_timezone_set('Europe/London');
         $this->faker = new DataFaker();
 
         $this->currency = $this->faker->currency();
