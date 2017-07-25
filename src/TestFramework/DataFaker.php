@@ -31,7 +31,6 @@ class DataFaker
     public function __construct()
     {
         mt_srand();
-        date_default_timezone_set('Europe/London');
     }
 
     /**

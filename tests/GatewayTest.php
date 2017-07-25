@@ -14,6 +14,7 @@ class GatewayTest extends GatewayTestCase
      */
     public function setUp()
     {
+        date_default_timezone_set('Europe/London');
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setTestMode(true);
         $this->faker = new DataFaker();
