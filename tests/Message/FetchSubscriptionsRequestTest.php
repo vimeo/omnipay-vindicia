@@ -19,6 +19,8 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->customerReference = $this->faker->customerReference();
         $this->startTime = $this->faker->timestamp();
         $this->endTime = $this->faker->timestamp();
+        $this->page = $this->faker->intBetween(0, 10);
+        $this->pageSize = $this->faker->intBetween(10, 10000);
         // make sure endTime is after startTime
         if ($this->endTime < $this->startTime) {
             $temp = $this->endTime;
@@ -30,7 +32,9 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->request->initialize(
             array(
                 'customerId' => $this->customerId,
-                'customerReference' => $this->customerReference
+                'customerReference' => $this->customerReference,
+                'page' => $this->page,
+                'pageSize' => $this->pageSize
             )
         );
     }
@@ -74,12 +78,54 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testPageSize()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setPageSize($this->pageSize));
+        $this->assertSame($this->pageSize, $request->getPageSize());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPage()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionsRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setPage($this->page));
+        $this->assertSame($this->page, $request->getPage());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
 
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
         $this->assertSame($this->customerReference, $data['account']->VID);
+        $this->assertSame($this->page, $data['page']);
+        $this->assertSame($this->pageSize, $data['pageSize']);
+        $this->assertSame('fetchByAccount', $data['action']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetDataDefaultPageAndSize()
+    {
+        $this->request->setPage(null);
+        $this->request->setPageSize(null);
+        $data = $this->request->getData();
+
+        $this->assertSame($this->customerId, $data['account']->merchantAccountId);
+        $this->assertSame($this->customerReference, $data['account']->VID);
+        $this->assertSame(0, $data['page']);
+        $this->assertSame(10000, $data['pageSize']);
         $this->assertSame('fetchByAccount', $data['action']);
     }
 
@@ -96,6 +142,8 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
 
         $this->assertSame($this->startTime, $data['timestamp']);
         $this->assertSame($this->endTime, $data['endTimestamp']);
+        $this->assertSame($this->page, $data['page']);
+        $this->assertSame($this->pageSize, $data['pageSize']);
         $this->assertSame('fetchDeltaSince', $data['action']);
     }
 
