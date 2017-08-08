@@ -21,6 +21,11 @@ namespace Omnipay\Vindicia\Message;
  * Message\CreateSubscriptionRequest for the differences between a create and update and an example.
  * Remember, you should NOT change the currency of an existing subscription.
  *
+ * If you would like to create or update a subscription to use a saved PayPal payment method without
+ * going through PayPal's site, use the Vindicia gateway instead of the Vindicia PayPal gateway. See
+ * Message\CreateSubscriptionRequest, particularly the code example about updating a subscription to
+ * use a saved payment method.
+ *
  * Example:
  * <code>
  *   // set up the gateway
