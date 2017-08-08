@@ -313,7 +313,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         }
 
         $this->assertSame('update', $data['action']);
-        $this->assertSame('doNotSaveAutoBill', $data['immediateAuthFailurePolicy']);
+        $this->assertSame('putAutoBillInRetryCycleIfPaymentMethodIsValid', $data['immediateAuthFailurePolicy']);
         $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);

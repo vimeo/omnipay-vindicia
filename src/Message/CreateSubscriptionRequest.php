@@ -256,7 +256,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         return array(
             'autobill' => $subscription,
             'action' => $this->getFunction(),
-            'immediateAuthFailurePolicy' => 'doNotSaveAutoBill',
+            'immediateAuthFailurePolicy' => 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
             'validateForFuturePayment' => $this->getShouldAuthorize() ?: false,
             'ignoreAvsPolicy' => false,
             'ignoreCvnPolicy' => false,
