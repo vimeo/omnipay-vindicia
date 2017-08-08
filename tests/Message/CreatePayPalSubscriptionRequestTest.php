@@ -41,6 +41,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
             'country' => $this->faker->region(),
             'postcode' => $this->faker->postcode()
         );
+        $this->shouldAuthorize = $this->faker->bool();
 
         $this->request = new CreatePayPalSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -61,7 +62,8 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
                 'paymentMethodId' => $this->paymentMethodId,
                 'attributes' => $this->attributes,
                 'returnUrl' => $this->returnUrl,
-                'cancelUrl' => $this->cancelUrl
+                'cancelUrl' => $this->cancelUrl,
+                'shouldAuthorize' => $this->shouldAuthorize,
             )
         );
 
@@ -266,6 +268,18 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testShouldAuthorize()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setShouldAuthorize($this->shouldAuthorize));
+        $this->assertSame($this->shouldAuthorize, $request->getShouldAuthorize());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -300,7 +314,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
 
         $this->assertSame('update', $data['action']);
         $this->assertSame('doNotSaveAutoBill', $data['immediateAuthFailurePolicy']);
-        $this->assertSame(true, $data['validateForFuturePayment']);
+        $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
         $this->assertSame(null, $data['campaignCode']);

@@ -31,7 +31,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * precedence over one specified on the product.
  * - startTimestamp: The time to start billing. If not specified, defaults to the current
  * time. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
- * - billingDay: the day of the month when the next charge will be issue, defaults to the day of `startTimeStamp`
+ * - billingDay: the day of the month when the next charge will be issue, defaults to the day
+ * of `startTimeStamp`
+ * - shouldAuthorize: Whether an authorization should be performed on the card before creating
+ * the subscription. If true and the authorization fails, the subscription creation will fail.
+ * Defaults to false.
  *
  * <code>
  *   // set up the gateway
@@ -147,6 +151,29 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class CreateSubscriptionRequest extends AuthorizeRequest
 {
     /**
+     * Returns whether an authorization will be performed to validate the card
+     * before creating the subscription.
+     *
+     * @return null|bool
+     */
+    public function getShouldAuthorize()
+    {
+        return $this->getParameter('shouldAuthorize');
+    }
+
+    /**
+     * Sets whether an authorization will be performed to validate the card
+     * before creating the subscription.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setShouldAuthorize($value)
+    {
+        return $this->setParameter('shouldAuthorize', $value);
+    }
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
@@ -230,7 +257,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
             'autobill' => $subscription,
             'action' => $this->getFunction(),
             'immediateAuthFailurePolicy' => 'doNotSaveAutoBill',
-            'validateForFuturePayment' => true,
+            'validateForFuturePayment' => $this->getShouldAuthorize() ?: false,
             'ignoreAvsPolicy' => false,
             'ignoreCvnPolicy' => false,
             'campaignCode' => null,

@@ -39,6 +39,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->email = $this->faker->email();
         $this->subscriptionStatus = $this->faker->subscriptionStatus();
         $this->subscriptionBillingState = $this->faker->subscriptionBillingState();
+        $this->shouldAuthorize = $this->faker->bool();
         $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -63,6 +64,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
                 'minChargebackProbability' => $this->minChargebackProbability,
                 'name' => $this->name,
                 'email' => $this->email,
+                'shouldAuthorize' => $this->shouldAuthorize,
                 'attributes' => $this->attributes
             )
         );
@@ -277,6 +279,18 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testShouldAuthorize()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setShouldAuthorize($this->shouldAuthorize));
+        $this->assertSame($this->shouldAuthorize, $request->getShouldAuthorize());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -317,7 +331,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
 
         $this->assertSame('update', $data['action']);
         $this->assertSame('doNotSaveAutoBill', $data['immediateAuthFailurePolicy']);
-        $this->assertSame(true, $data['validateForFuturePayment']);
+        $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
         $this->assertSame(null, $data['campaignCode']);
@@ -365,13 +379,23 @@ class CreateSubscriptionRequestTest extends SoapTestCase
 
         $this->assertSame('update', $data['action']);
         $this->assertSame('doNotSaveAutoBill', $data['immediateAuthFailurePolicy']);
-        $this->assertSame(true, $data['validateForFuturePayment']);
+        $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
         $this->assertSame(null, $data['campaignCode']);
         $this->assertSame(false, $data['dryrun']);
         $this->assertSame(null, $data['cancelReasonCode']);
         $this->assertSame($this->minChargebackProbability, $data['minChargebackProbability']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetDataDefaultShouldAuthorize()
+    {
+        $this->request->setShouldAuthorize(null);
+        $data = $this->request->getData();
+        $this->assertFalse($data['validateForFuturePayment']);
     }
 
     /**
