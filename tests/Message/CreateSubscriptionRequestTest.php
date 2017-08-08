@@ -327,6 +327,54 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
+     * @return void
+     */
+    public function testGetDataNoCard()
+    {
+        $this->request->setCard(null);
+        $data = $this->request->getData();
+
+        $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
+        $this->assertSame($this->planId, $data['autobill']->billingPlan->merchantBillingPlanId);
+        $this->assertSame($this->subscriptionReference, $data['autobill']->VID);
+        $this->assertSame($this->planReference, $data['autobill']->billingPlan->VID);
+        $this->assertSame(1, count($data['autobill']->items));
+        $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
+        $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
+        $this->assertSame($this->name, $data['autobill']->account->name);
+        $this->assertSame($this->email, $data['autobill']->account->emailAddress);
+        $this->assertSame($this->customerReference, $data['autobill']->account->VID);
+        $this->assertSame($this->currency, $data['autobill']->currency);
+        $this->assertSame($this->ip, $data['autobill']->sourceIp);
+        $this->assertSame($this->startTime, $data['autobill']->startTimestamp);
+        $this->assertSame($this->billingDay, $data['autobill']->billingDay);
+        $this->assertSame('DoNotSend', $data['autobill']->statementFormat);
+        $this->assertSame($this->statementDescriptor, $data['autobill']->billingStatementIdentifier);
+        $this->assertSame($this->paymentMethodId, $data['autobill']->paymentMethod->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['autobill']->paymentMethod->VID);
+        $this->assertFalse(isset($data['autobill']->paymentMethod->creditCard));
+        $this->assertFalse(isset($data['autobill']->paymentMethod->type));
+
+        $numAttributes = count($this->attributes);
+        $this->assertSame($numAttributes, count($data['autobill']->nameValues));
+        for ($i = 0; $i < $numAttributes; $i++) {
+            $this->assertSame($this->attributes[$i]['name'], $data['autobill']->nameValues[$i]->name);
+            $this->assertSame($this->attributes[$i]['value'], $data['autobill']->nameValues[$i]->value);
+        }
+
+        $this->assertSame('update', $data['action']);
+        $this->assertSame('doNotSaveAutoBill', $data['immediateAuthFailurePolicy']);
+        $this->assertSame(true, $data['validateForFuturePayment']);
+        $this->assertSame(false, $data['ignoreAvsPolicy']);
+        $this->assertSame(false, $data['ignoreCvnPolicy']);
+        $this->assertSame(null, $data['campaignCode']);
+        $this->assertSame(false, $data['dryrun']);
+        $this->assertSame(null, $data['cancelReasonCode']);
+        $this->assertSame($this->minChargebackProbability, $data['minChargebackProbability']);
+    }
+
+    /**
      * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Either the productId or productReference parameter is required.
      * @return                   void

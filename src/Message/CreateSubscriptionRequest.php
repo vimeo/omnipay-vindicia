@@ -104,7 +104,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   }
  *
  *   // now maybe we want to update the subscription to switch it to a different card
- *   $updateResponse = $gateway->createSubscription(array(
+ *   $updateResponse = $gateway->updateSubscription(array(
  *       'card' => array(
  *           'number' => '5555555555554444',
  *           'expiryMonth' => '01',
@@ -122,6 +122,22 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       // These are the same as from the original $subscriptionResponse, since it's the same subscription
  *       echo "Subscription id: " . $updateResponse->getSubscriptionId() . PHP_EOL;
  *       echo "Subscription reference: " . $updateResponse->getSubscriptionReference() . PHP_EOL;
+ *   } else {
+ *       // error handling
+ *   }
+ *
+ *   // we could also update the subscription to used a saved payment method
+ *   // you should not specify a card parameter in this case
+ *   $updateResponse2 = $gateway->updateSubscription(array(
+ *       'paymentMethodId' => '1234567', // this is the ID of the saved payment method we want to use
+ *                                       // it could be a credit card or a PayPal payment method
+ *        // reference the subscription created above. you could also reference it by subscriptionReference:
+ *       'subscriptionId' => $subscriptionResponse->getSubscriptionId()
+ *       'billingDay' => 15 // Day of the month when user gets charged must be between 1-31
+ *   ))->send();
+ *
+ *   if ($updateResponse2->isSuccessful()) {
+ *       // do stuff
  *   } else {
  *       // error handling
  *   }
@@ -148,7 +164,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         return self::$SUBSCRIPTION_OBJECT;
     }
 
-    public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
+    public function getData($paymentMethodType = null)
     {
         $subscriptionId = $this->getSubscriptionId();
         $subscriptionReference = $this->getSubscriptionReference();

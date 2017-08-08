@@ -19,7 +19,7 @@ namespace Omnipay\Vindicia\Message;
  * - payPalTransactionReference: When PayPal redirects to the returnUrl or cancelUrl,
  * a vindicia_vid parameter will be added to the URL. It's value must be set here.
  *
- * See CreatePayPalSubscriptioinRequest for a code example.
+ * See CreatePayPalSubscriptionRequest for a code example.
  */
 class CompleteCreatePayPalSubscriptionRequest extends AbstractRequest
 {

@@ -1025,7 +1025,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD or self::PAYMENT_METHOD_PAYPAL)
+     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD or self::PAYMENT_METHOD_PAYPAL,
+     *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
@@ -1040,38 +1041,42 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $card = $this->getCard();
 
-        switch ($paymentMethodType) {
-            case self::PAYMENT_METHOD_CREDIT_CARD:
-                if ($card) {
-                    // if we're adding a new credit card, the whole thing needs to be provided
-                    if (!$this->isUpdate()) {
-                        $card->validate();
-                    }
-
-                    $creditCard = new stdClass();
-                    $creditCard->account = $card->getNumber();
-                    $creditCard->expirationDate = $card->getExpiryDate('Ym');
-
-                    $paymentMethod->creditCard = $creditCard;
+        if ($paymentMethodType === self::PAYMENT_METHOD_CREDIT_CARD
+            || ($paymentMethodType === null && $card)
+        ) {
+            if ($card) {
+                // if we're adding a new credit card, the whole thing needs to be provided
+                if (!$this->isUpdate()) {
+                    $card->validate();
                 }
-                break;
 
-            case self::PAYMENT_METHOD_PAYPAL:
-                $paypal = new stdClass();
-                $paypal->cancelUrl = $this->getCancelUrl();
-                $paypal->returnUrl = $this->getReturnUrl();
-                $paypal->requestReferenceId = true;
+                $creditCard = new stdClass();
+                $creditCard->account = $card->getNumber();
+                $creditCard->expirationDate = $card->getExpiryDate('Ym');
 
-                $paymentMethod->paypal = $paypal;
-                break;
+                $paymentMethod->creditCard = $creditCard;
+            }
 
-            default:
-                throw new InvalidArgumentException('Unknown payment method type.');
-        }
+            // never change the type on an update
+            if (!$this->isUpdate()) {
+                $paymentMethod->type = self::PAYMENT_METHOD_CREDIT_CARD;
+            }
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_PAYPAL
+                  || ($paymentMethodType === null && $this->getReturnUrl())
+        ) {
+            $paypal = new stdClass();
+            $paypal->cancelUrl = $this->getCancelUrl();
+            $paypal->returnUrl = $this->getReturnUrl();
+            $paypal->requestReferenceId = true;
 
-        // never change the type on an update
-        if (!$this->isUpdate() && $paymentMethodType) {
-            $paymentMethod->type = $paymentMethodType;
+            $paymentMethod->paypal = $paypal;
+
+            // never change the type on an update
+            if (!$this->isUpdate()) {
+                $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
+            }
+        } elseif ($paymentMethodType !== null) {
+            throw new InvalidArgumentException('Unknown payment method type.');
         }
 
         $attributes = $this->getAttributes();
