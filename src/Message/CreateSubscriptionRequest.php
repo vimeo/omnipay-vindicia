@@ -205,13 +205,13 @@ class CreateSubscriptionRequest extends AuthorizeRequest
 
         $productId = $this->getProductId();
         $productReference = $this->getProductReference();
-        if (!$productId && !$productReference) {
+        if (!$this->isUpdate() && !$productId && !$productReference) {
             throw new InvalidRequestException('Either the productId or productReference parameter is required.');
         }
 
         $customerId = $this->getCustomerId();
         $customerReference = $this->getCustomerReference();
-        if (!$customerId && !$customerReference) {
+        if (!$this->isUpdate() && !$customerId && !$customerReference) {
             throw new InvalidRequestException('Either the customerId or customerReference parameter is required.');
         }
 
