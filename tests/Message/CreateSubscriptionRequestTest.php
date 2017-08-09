@@ -436,6 +436,18 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testProductAndCustomerIdAndReferenceOptionalForUpdates()
+    {
+        $request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest(), true);
+        $request->initialize(array(
+            'subscriptionId' => $this->subscriptionId
+        ));
+        $this->assertNotNull($request->getData());
+    }
+
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockSoapResponse('CreateSubscriptionSuccess.xml', array(
