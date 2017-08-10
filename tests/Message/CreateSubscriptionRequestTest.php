@@ -389,6 +389,52 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
+     * Make sure that empty subobjects aren't set on the autobill object
+     *
+     * @return void
+     */
+    public function testGetDataNoSubobjects()
+    {
+        $request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest(), true);
+        $request->initialize(array(
+            'subscriptionId' => $this->subscriptionId,
+            'subscriptionReference' => $this->subscriptionReference,
+            'currency' => $this->currency,
+            'statementDescriptor' => $this->statementDescriptor,
+            'ip' => $this->ip,
+            'startTime' => $this->startTime,
+            'billingDay' => $this->billingDay,
+            'minChargebackProbability' => $this->minChargebackProbability,
+            'shouldAuthorize' => $this->shouldAuthorize
+        ));
+
+        $data = $request->getData();
+
+        $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
+        $this->assertSame($this->subscriptionReference, $data['autobill']->VID);
+        $this->assertFalse(isset($data['autobill']->billingPlan));
+        $this->assertFalse(isset($data['autobill']->items));
+        $this->assertFalse(isset($data['autobill']->account));
+        $this->assertFalse(isset($data['autobill']->paymentMethod));
+        $this->assertSame($this->currency, $data['autobill']->currency);
+        $this->assertSame($this->ip, $data['autobill']->sourceIp);
+        $this->assertSame($this->startTime, $data['autobill']->startTimestamp);
+        $this->assertSame($this->billingDay, $data['autobill']->billingDay);
+        $this->assertSame('DoNotSend', $data['autobill']->statementFormat);
+        $this->assertSame($this->statementDescriptor, $data['autobill']->billingStatementIdentifier);
+
+        $this->assertSame('update', $data['action']);
+        $this->assertSame('putAutoBillInRetryCycleIfPaymentMethodIsValid', $data['immediateAuthFailurePolicy']);
+        $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
+        $this->assertSame(false, $data['ignoreAvsPolicy']);
+        $this->assertSame(false, $data['ignoreCvnPolicy']);
+        $this->assertSame(null, $data['campaignCode']);
+        $this->assertSame(false, $data['dryrun']);
+        $this->assertSame(null, $data['cancelReasonCode']);
+        $this->assertSame($this->minChargebackProbability, $data['minChargebackProbability']);
+    }
+
+    /**
      * @return void
      */
     public function testGetDataDefaultShouldAuthorize()
@@ -431,18 +477,6 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->request->setCustomerId(null);
         $this->request->setCustomerReference(null);
         $this->request->getData();
-    }
-
-    /**
-     * @return void
-     */
-    public function testProductAndCustomerIdAndReferenceOptionalForUpdates()
-    {
-        $request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest(), true);
-        $request->initialize(array(
-            'subscriptionId' => $this->subscriptionId
-        ));
-        $this->assertNotNull($request->getData());
     }
 
     /**
