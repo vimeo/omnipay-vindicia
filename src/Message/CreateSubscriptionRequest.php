@@ -225,33 +225,45 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         $subscription->billingDay = $this->getBillingDay();
         $subscription->statementFormat = 'DoNotSend';
 
-        $account = new stdClass();
-        $account->merchantAccountId = $customerId;
-        $account->VID = $customerReference;
-        $account->name = $this->getName();
-        $account->emailAddress = $this->getEmail();
-        $subscription->account = $account;
+        $name = $this->getName();
+        $email = $this->getEmail();
+        if ($customerId !== null || $customerReference !== null || $name !== null || $email !== null) {
+            $account = new stdClass();
+            $account->merchantAccountId = $customerId;
+            $account->VID = $customerReference;
+            $account->name = $name;
+            $account->emailAddress = $email;
+            $subscription->account = $account;
+        }
 
-        $plan = new stdClass();
-        $plan->merchantBillingPlanId = $this->getPlanId();
-        $plan->VID = $this->getPlanReference();
-        $subscription->billingPlan = $plan;
+        $planId = $this->getPlanId();
+        $planReference = $this->getPlanReference();
+        if ($planId !== null || $planReference !== null) {
+            $plan = new stdClass();
+            $plan->merchantBillingPlanId = $planId;
+            $plan->VID = $planReference;
+            $subscription->billingPlan = $plan;
+        }
 
-        $product = new stdClass();
-        $product->merchantProductId = $productId;
-        $product->VID = $productReference;
+        if ($productId !== null || $productReference !== null) {
+            $product = new stdClass();
+            $product->merchantProductId = $productId;
+            $product->VID = $productReference;
 
-        $item = new stdClass();
-        $item->index = 0; //set the item index
-        $item->product = $product;
-        $subscription->items = array($item);
+            $item = new stdClass();
+            $item->index = 0; //set the item index
+            $item->product = $product;
+            $subscription->items = array($item);
+        }
 
         $attributes = $this->getAttributes();
         if ($attributes) {
             $subscription->nameValues = $this->buildNameValues($attributes);
         }
 
-        $subscription->paymentMethod = $this->buildPaymentMethod($paymentMethodType);
+        if ($this->getPaymentMethodId() !== null || $this->getPaymentMethodReference() !== null) {
+            $subscription->paymentMethod = $this->buildPaymentMethod($paymentMethodType);
+        }
 
         return array(
             'autobill' => $subscription,
