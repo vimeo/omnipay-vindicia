@@ -40,6 +40,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->subscriptionStatus = $this->faker->subscriptionStatus();
         $this->subscriptionBillingState = $this->faker->subscriptionBillingState();
         $this->shouldAuthorize = $this->faker->bool();
+        $this->retryIfInvalidPaymentMethod = $this->faker->bool();
         $this->attributes = $this->faker->attributesAsArray();
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -65,6 +66,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
                 'name' => $this->name,
                 'email' => $this->email,
                 'shouldAuthorize' => $this->shouldAuthorize,
+                'retryIfInvalidPaymentMethod' => $this->retryIfInvalidPaymentMethod,
                 'attributes' => $this->attributes
             )
         );
@@ -291,6 +293,18 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testRetryIfInvalidPaymentMethod()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreateSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setRetryIfInvalidPaymentMethod($this->retryIfInvalidPaymentMethod));
+        $this->assertSame($this->retryIfInvalidPaymentMethod, $request->getRetryIfInvalidPaymentMethod());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -330,7 +344,10 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         }
 
         $this->assertSame('update', $data['action']);
-        $this->assertSame('putAutoBillInRetryCycleIfPaymentMethodIsValid', $data['immediateAuthFailurePolicy']);
+        $this->assertSame(
+            $this->retryIfInvalidPaymentMethod ? 'putAutoBillInRetryCycle' : 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
+            $data['immediateAuthFailurePolicy']
+        );
         $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
@@ -378,7 +395,10 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         }
 
         $this->assertSame('update', $data['action']);
-        $this->assertSame('putAutoBillInRetryCycleIfPaymentMethodIsValid', $data['immediateAuthFailurePolicy']);
+        $this->assertSame(
+            $this->retryIfInvalidPaymentMethod ? 'putAutoBillInRetryCycle' : 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
+            $data['immediateAuthFailurePolicy']
+        );
         $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
@@ -405,7 +425,8 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             'startTime' => $this->startTime,
             'billingDay' => $this->billingDay,
             'minChargebackProbability' => $this->minChargebackProbability,
-            'shouldAuthorize' => $this->shouldAuthorize
+            'shouldAuthorize' => $this->shouldAuthorize,
+            'retryIfInvalidPaymentMethod' => $this->retryIfInvalidPaymentMethod
         ));
 
         $data = $request->getData();
@@ -424,7 +445,10 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->statementDescriptor, $data['autobill']->billingStatementIdentifier);
 
         $this->assertSame('update', $data['action']);
-        $this->assertSame('putAutoBillInRetryCycleIfPaymentMethodIsValid', $data['immediateAuthFailurePolicy']);
+        $this->assertSame(
+            $this->retryIfInvalidPaymentMethod ? 'putAutoBillInRetryCycle' : 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
+            $data['immediateAuthFailurePolicy']
+        );
         $this->assertSame($this->shouldAuthorize, $data['validateForFuturePayment']);
         $this->assertSame(false, $data['ignoreAvsPolicy']);
         $this->assertSame(false, $data['ignoreCvnPolicy']);
