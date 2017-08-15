@@ -36,6 +36,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - shouldAuthorize: Whether an authorization should be performed on the card before creating
  * the subscription. If true and the authorization fails, the subscription creation will fail.
  * Defaults to false.
+ * - retryIfInvalidPaymentMethod: Should the subscription be put into the retry cycle even if
+ * Vindicia thinks that the payment method is invalid? Default false.
  *
  * <code>
  *   // set up the gateway
@@ -174,6 +176,29 @@ class CreateSubscriptionRequest extends AuthorizeRequest
     }
 
     /**
+     * Returns whether the subscription should be put into the retry cycle even
+     * if Vindicia thinks the payment method is invalid.
+     *
+     * @return null|bool
+     */
+    public function getRetryIfInvalidPaymentMethod()
+    {
+        return $this->getParameter('retryIfInvalidPaymentMethod');
+    }
+
+    /**
+     * Sets whether the subscription should be put into the retry cycle even
+     * if Vindicia thinks the payment method is invalid.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setRetryIfInvalidPaymentMethod($value)
+    {
+        return $this->setParameter('retryIfInvalidPaymentMethod', $value);
+    }
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
@@ -268,7 +293,9 @@ class CreateSubscriptionRequest extends AuthorizeRequest
         return array(
             'autobill' => $subscription,
             'action' => $this->getFunction(),
-            'immediateAuthFailurePolicy' => 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
+            'immediateAuthFailurePolicy' => $this->getRetryIfInvalidPaymentMethod()
+                                            ? 'putAutoBillInRetryCycle'
+                                            : 'putAutoBillInRetryCycleIfPaymentMethodIsValid',
             'validateForFuturePayment' => $this->getShouldAuthorize() ?: false,
             'ignoreAvsPolicy' => false,
             'ignoreCvnPolicy' => false,
