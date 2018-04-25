@@ -82,7 +82,7 @@ test mode endpoint, which this library will use when set to test mode.
 
 ## Support
 
-This driver is very new and at this point may not be completely reliable. If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/Vimeo/omnipay-vindicia/issues),
+If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/Vimeo/omnipay-vindicia/issues),
 or better yet, fork the library and submit a pull request.
 
 If you are having general issues with Omnipay, we suggest posting on
