@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <psalm
     name="Psalm for Vindicia Omnipay driver"
-    stopOnFirstError="false"
     useDocblockTypes="true"
     >
   <projectFiles>
@@ -40,11 +39,11 @@
         <directory name="tests" />
       </errorLevel>
     </UndefinedThisPropertyFetch>
-    <MissingPropertyDeclaration>
+    <MissingPropertyType>
       <errorLevel type="suppress">
         <directory name="tests" />
       </errorLevel>
-    </MissingPropertyDeclaration>
+    </MissingPropertyType>
     <InaccessibleProperty>
       <errorLevel type="suppress">
         <directory name="tests" />
