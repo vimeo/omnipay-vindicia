@@ -28,6 +28,6 @@
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
-        "vimeo/psalm": "^2.0"
+        "vimeo/psalm": "0.3.*"
     }
 }
