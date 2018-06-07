@@ -53,10 +53,12 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       var_dump($fetchResponse->getTransactions());
  *   }
  *
- *   // alternatively, you could fetch by a time range
+ *   // alternatively, you could fetch by a time range and optionally page and page size
  *   $fetchResponse = $gateway->fetchTransactions(array(
  *       'startTime' => '2016-06-01T12:30:00-04:00',
- *       'endTime' => '2016-07-01T12:30:00-04:00'
+ *       'endTime' => '2016-07-01T12:30:00-04:00',
+ *       'page' => 5,
+ *       'pageSize' => 500
  *   ))->send();
  *
  *   if ($fetchResponse->isSuccessful()) {
@@ -67,7 +69,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class FetchTransactionsRequest extends AbstractRequest
 {
-    const DEFAULT_PAGE_SIZE = 10000;
+    const DEFAULT_PAGE_SIZE = 1000;
 
     /**
      * The name of the function to be called in Vindicia's API
