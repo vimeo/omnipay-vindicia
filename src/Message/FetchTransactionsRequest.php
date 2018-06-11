@@ -19,6 +19,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - endTime: The end of the date range for which transactions should be fetched.
  * If fetching by date range, startTime and endTime are required and a customer cannot be
  * specified. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
+ * - pageSize: The number of results to return. Will attempt to return up to 10000 if this
+ * parameter is not specified. This request will likely time out if there are that many records
+ * to return.
+ * - page: The page number to return. Starts at 0. For example, if pageSize is 10 and page is
+ * 0, returns the first 10 results. If page is 1, returns the second 10 results. Defaults to 0.
  *
  * Example:
  * <code>
