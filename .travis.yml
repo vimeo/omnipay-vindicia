@@ -2,6 +2,7 @@ language: php
 matrix:
   include:
     - php: 5.3
+      dist: precise
       env:
         - TEST_SUITE='no_psalm'
     - php: 5.4
