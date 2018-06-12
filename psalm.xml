@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <psalm
     name="Psalm for Vindicia Omnipay driver"
-    stopOnFirstError="false"
     useDocblockTypes="true"
     >
   <projectFiles>
@@ -40,16 +39,114 @@
         <directory name="tests" />
       </errorLevel>
     </UndefinedThisPropertyFetch>
-    <MissingPropertyDeclaration>
+    <MissingPropertyType>
       <errorLevel type="suppress">
         <directory name="tests" />
       </errorLevel>
-    </MissingPropertyDeclaration>
+    </MissingPropertyType>
     <InaccessibleProperty>
       <errorLevel type="suppress">
         <directory name="tests" />
       </errorLevel>
     </InaccessibleProperty>
+
+    <!-- Error suppression made in June, will be removed later after fix-->
+    <MissingParamType errorLevel="info" />
+
+    <DuplicateArrayKey>
+      <errorLevel type="suppress">
+        <file name="tests/Message/CompleteHOARequestTest.php" />
+        <file name="tests/Message/HOACreateSubscriptionRequestTest.php" />
+      </errorLevel>
+    </DuplicateArrayKey>
+
+    <ImplementedReturnTypeMismatch>
+      <errorLevel type="info">
+        <file name="src/Message/AbstractRequest.php" />
+        <file name="src/Message/Response.php" />
+      </errorLevel>
+    </ImplementedReturnTypeMismatch>
+
+    <InvalidArgument>
+      <errorLevel type="suppress">
+        <file name="psalm_plugins/StringChecker.php" />
+      </errorLevel>
+    </InvalidArgument>
+
+    <MoreSpecificImplementedParamType>
+      <errorLevel type="info">
+        <file name="src/Message/AbstractRequest.php" />
+        <file name="src/Message/RefundRequest.php" />
+        <file name="src/TaxExemptionBag.php" />
+        <file name="src/VindiciaRefundItemBag.php" />
+      </errorLevel>
+    </MoreSpecificImplementedParamType>
+
+    <MoreSpecificReturnType>
+      <errorLevel type="suppress">
+        <file name="src/Message/AbstractRequest.php" />
+      </errorLevel>
+    </MoreSpecificReturnType>
+
+    <LessSpecificReturnType>
+      <errorLevel type="suppress">
+        <file name="src/Message/AbstractRequest.php" />
+      </errorLevel>
+    </LessSpecificReturnType>
+
+    <LessSpecificReturnStatement>
+      <errorLevel type="info">
+        <file name="src/Message/AbstractRequest.php" />
+      </errorLevel>
+    </LessSpecificReturnStatement>
+
+    <TypeCoercion>
+      <errorLevel type="info">
+        <file name="src/Message/AbstractRequest.php" />
+      </errorLevel>
+    </TypeCoercion>
+
+    <NullableReturnStatement>
+      <errorLevel type="suppress">
+        <file name="src/Message/CompleteHOAResponse.php" />
+      </errorLevel>
+    </NullableReturnStatement>
+
+    <PossiblyNullArrayOffset>
+      <errorLevel type="info">
+        <file name="src/PriceBag.php" />
+      </errorLevel>
+    </PossiblyNullArrayOffset>
+
+    <PossiblyNullReference>
+      <errorLevel type="suppress">
+        <file name="src/TestableSoapClient.php" />
+      </errorLevel>
+    </PossiblyNullReference>
+
+    <PossiblyNullPropertyFetch>
+      <errorLevel type="suppress">
+        <file name="src/TestableSoapClient.php" />
+      </errorLevel>
+    </PossiblyNullPropertyFetch>
+
+    <PossiblyNullArgument>
+      <errorLevel type="suppress">
+        <file name="src/TestableSoapClient.php" />
+      </errorLevel>
+    </PossiblyNullArgument>
+
+    <InvalidThrow>
+      <errorLevel type="suppress">
+        <file name="src/TestableSoapClient.php" />
+      </errorLevel>
+    </InvalidThrow>
+
+    <RedundantConditionGivenDocblockType>
+      <errorLevel type="info">
+        <file name="src/NameValue.php" />
+      </errorLevel>
+    </RedundantConditionGivenDocblockType>
   </issueHandlers>
   <mockClasses>
     <class name="Mockery\MockInterface" />

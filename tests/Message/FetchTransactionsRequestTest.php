@@ -19,6 +19,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->customerReference = $this->faker->customerReference();
         $this->startTime = $this->faker->timestamp();
         $this->endTime = $this->faker->timestamp();
+        $this->page = $this->faker->intBetween(0, 10);
+        $this->pageSize = $this->faker->intBetween(10, 10000);
         // make sure endTime is after startTime
         if ($this->endTime < $this->startTime) {
             $temp = $this->endTime;
@@ -86,6 +88,30 @@ class FetchTransactionsRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testPageSize()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setPageSize($this->pageSize));
+        $this->assertSame($this->pageSize, $request->getPageSize());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPage()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchTransactionsRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setPage($this->page));
+        $this->assertSame($this->page, $request->getPage());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -102,12 +128,16 @@ class FetchTransactionsRequestTest extends SoapTestCase
     {
         $this->request->setStartTime($this->startTime);
         $this->request->setEndTime($this->endTime);
+        $this->request->setPage($this->page);
+        $this->request->setPageSize($this->pageSize);
         $this->request->setCustomerId(null);
         $this->request->setCustomerReference(null);
         $data = $this->request->getData();
 
         $this->assertSame($this->startTime, $data['timestamp']);
         $this->assertSame($this->endTime, $data['endTimestamp']);
+        $this->assertSame($this->page, $data['page']);
+        $this->assertSame($this->pageSize, $data['pageSize']);
         $this->assertSame('fetchDeltaSince', $data['action']);
     }
 
