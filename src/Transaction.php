@@ -532,4 +532,25 @@ class Transaction
     {
         return $this->setParameter('attributes', $attributes);
     }
+
+    /**
+     * Get the timestamp of this transaction
+     *
+     * @return null|string
+     */
+    public function getTimestamp()
+    {
+        return $this->getParameter('timestamp');
+    }
+
+    /**
+     * Set the timestamp
+     *
+     * @param string $timestamp
+     * @return static
+     */
+    public function setTimestamp($timestamp)
+    {
+        return $this->setParameter('timestamp', $timestamp);
+    }
 }
