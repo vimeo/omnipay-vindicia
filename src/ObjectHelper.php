@@ -50,6 +50,16 @@ class ObjectHelper
             }
         }
 
+        // Vindicia screw up the paypal email field by a camel case typo in the response
+        // we need to deal with "payPalEmail" and "paypalEmail" in case they fix it on their side
+        $paypal_email = null;
+        if (isset($object->statusLog[0]->payPalStatus->payPalEmail)) {
+            $paypal_email = $object->statusLog[0]->payPalStatus->payPalEmail;
+        }
+        if (isset($object->statusLog[0]->payPalStatus->paypalEmail)) {
+            $paypal_email = $object->statusLog[0]->payPalStatus->paypalEmail;
+        }
+
         return new Transaction(array(
             'transactionId' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
             'transactionReference' => isset($object->VID) ? $object->VID : null,
@@ -74,9 +84,7 @@ class ObjectHelper
                        : null,
             'status' => isset($object->statusLog[0]->status) ? $object->statusLog[0]->status : null,
             'statusLog' => $statusLog,
-            'payPalEmail' => isset($object->statusLog[0]->payPalStatus->payPalEmail)
-                           ? $object->statusLog[0]->payPalStatus->payPalEmail
-                           : null,
+            'payPalEmail' => $paypal_email,
             'payPalRedirectUrl' => isset($object->statusLog[0]->payPalStatus->redirectUrl)
                                  ? $object->statusLog[0]->payPalStatus->redirectUrl
                                  : null,
