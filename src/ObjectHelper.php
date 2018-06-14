@@ -80,7 +80,8 @@ class ObjectHelper
             'payPalRedirectUrl' => isset($object->statusLog[0]->payPalStatus->redirectUrl)
                                  ? $object->statusLog[0]->payPalStatus->redirectUrl
                                  : null,
-            'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
+            'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null,
+            'timestamp' => isset($object->timestamp) ? $object->timestamp : null
         ));
     }
 

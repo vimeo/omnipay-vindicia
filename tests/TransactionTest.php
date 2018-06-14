@@ -275,4 +275,14 @@ class TransactionTest extends TestCase
         $this->assertSame($this->transaction, $this->transaction->setAttributes($attributes));
         $this->assertSame($attributes, $this->transaction->getAttributes());
     }
+
+    /**
+     * @return void
+     */
+    public function testTimestamp()
+    {
+        $time = $this->faker->timestamp();
+        $this->assertSame($this->transaction, $this->transaction->setTimestamp($time));
+        $this->assertSame($time, $this->transaction->getTimestamp());
+    }
 }
