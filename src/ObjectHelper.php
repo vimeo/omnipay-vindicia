@@ -50,10 +50,10 @@ class ObjectHelper
             }
         }
 
-        // Vindicia screw up the PayPal email field used in PayPal checkout
+        // Vindicia made a small typo in the response field of PayPal email used in PayPal checkout
         // they return 'paypalEmail' instead of camel case 'payPalEmail' in fetch transaction response
-        // also there is a discrepancy between Vindicia document and actual response regarding 'paypalEmail`field
-        // as PayPal email field is documented in under Payment Method object, not Transaction Statuslog
+        // Also there is a discrepancy between Vindicia document and actual response regarding 'paypalEmail'field
+        // as PayPal email field is documented under Payment Method object, but it's under Transaction Statuslog actually
         // we should deal with "payPalEmail" and "paypalEmail" in case they fix the camel case typo on their side
         $paypalEmail = null;
         if (isset($object->statusLog[0]->payPalStatus->payPalEmail)) {
