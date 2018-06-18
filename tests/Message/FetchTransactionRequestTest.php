@@ -261,7 +261,7 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendPayPalSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionPayPalSuccess.xml', array(
+        $this->setMockSoapResponse('FetchPayPalTransactionSuccess.xml', array(
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
@@ -337,25 +337,5 @@ class FetchTransactionRequestTest extends SoapTestCase
         }
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
-    }
-
-    /**
-     * @return void
-     */
-    public function testSendPayPalFailure()
-    {
-        $this->setMockSoapResponse('FetchTransactionPayPalFailure.xml', array(
-            'TRANSACTION_ID' => $this->transactionId,
-        ));
-
-        $response = $this->request->send();
-
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertFalse($response->isPending());
-        $this->assertSame('404', $response->getCode());
-        $this->assertSame('Unable to load transaction by merchantTransactionId "' . $this->transactionId . '":  ', $response->getMessage());
-
-        $this->assertNull($response->getTransaction());
     }
 }
