@@ -105,6 +105,36 @@ class PaymentMethodTest extends TestCase
     /**
      * @return void
      */
+    public function testType()
+    {
+        $type = 'PayPal';
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setType($type));
+        $this->assertSame($type, $this->paymentMethod->getType());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPostcode()
+    {
+        $postcode = $this->faker->postcode();
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setPostcode($postcode));
+        $this->assertSame($postcode, $this->paymentMethod->getPostcode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCountry()
+    {
+        $country = $this->faker->region();
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setCountry($country));
+        $this->assertSame($country, $this->paymentMethod->getCountry());
+    }
+
+    /**
+     * @return void
+     */
     public function testAttributes()
     {
         $attributes = array($this->faker->attribute());

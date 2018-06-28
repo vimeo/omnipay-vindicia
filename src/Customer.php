@@ -201,7 +201,7 @@ class Customer
     /**
      * Get the customer's tax exemptions
      *
-     * @return null|TaxExemptionBag
+     * @return null|array
      */
     public function getTaxExemptions()
     {
