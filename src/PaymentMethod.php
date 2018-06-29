@@ -178,6 +178,69 @@ class PaymentMethod
     }
 
     /**
+     * Get the payment method type, either PayPal or CreditCard
+     *
+     * @return null|string
+     */
+    public function getType()
+    {
+        return $this->getParameter('type');
+    }
+
+    /**
+     * Sets the payment method type
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setType($value)
+    {
+        return $this->setParameter('type', $value);
+    }
+
+    /**
+     * Get the billing postcode.
+     *
+     * @return null|string
+     */
+    public function getPostcode()
+    {
+        return $this->getParameter('postcode');
+    }
+
+    /**
+     * Sets the billing postcode.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPostcode($value)
+    {
+        return $this->setParameter('postcode', $value);
+    }
+
+    /**
+     * Get the billing country.
+     *
+     * @return null|string
+     */
+    public function getCountry()
+    {
+        return $this->getParameter('country');
+    }
+
+    /**
+     * Sets the billing country.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCountry($value)
+    {
+        return $this->setParameter('country', $value);
+    }
+
+    /**
      * A list of attributes
      *
      * @return AttributeBag|null

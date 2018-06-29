@@ -194,4 +194,43 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
 
         $this->assertNull($response->getPaymentMethod());
     }
+
+    /**
+     * @return void
+     */
+    public function testSendPayPalSuccess()
+    {
+        $this->setMockSoapResponse('FetchPayPalPaymentMethodSuccess.xml', array(
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
+            'COUNTRY' => $this->card['country'],
+            'POSTCODE' => $this->card['postcode']
+
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+
+        $paymentMethod = $response->getPaymentMethod();
+        $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
+        $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
+        $this->assertSame('PayPal', $paymentMethod->getType());
+        $this->assertSame($this->card['country'], $paymentMethod->getCountry());
+        $this->assertSame($this->card['postcode'], $paymentMethod->getPostcode());
+
+        $attributes = $paymentMethod->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+    }
 }

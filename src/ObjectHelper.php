@@ -166,6 +166,9 @@ class ObjectHelper
         return new PaymentMethod(array(
             'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
             'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
+            'type' => isset($object->type) ? $object->type : null,
+            'postcode' => isset($object->billingAddress->postalCode) ? $object->billingAddress->postalCode : null,
+            'country' => isset($object->billingAddress->country) ? $object->billingAddress->country : null,
             // NonStrippingCreditCard won't remove the X's that Vindicia masks with
             'card' => new NonStrippingCreditCard(array(
                 'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
