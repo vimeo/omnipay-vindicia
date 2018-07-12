@@ -45,6 +45,9 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->avsCode = $this->faker->statusCode();
         $this->token = $this->faker->payPalToken();
         $this->paypalEmail = $this->faker->email();
+
+        /* timestamp should set to current time or it will break vod test */
+        $this->timestamp = date('Y-m-d\T12:00:00-04:00');
     }
 
     /**
@@ -112,7 +115,7 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionSuccess.xml', array(
+        $this->setMockSoapResponse('FetchTransactionSuccess.xml', [
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
@@ -127,8 +130,9 @@ class FetchTransactionRequestTest extends SoapTestCase
             'SKU' => $this->sku,
             'AUTHORIZATION_CODE' => $this->authorizationCode,
             'CVV_CODE' => $this->cvvCode,
-            'AVS_CODE' => $this->avsCode
-        ));
+            'AVS_CODE' => $this->avsCode,
+            'TIMESTAMP' => $this->timestamp
+        ]);
 
         $response = $this->request->send();
 
@@ -189,6 +193,7 @@ class FetchTransactionRequestTest extends SoapTestCase
             $this->assertTrue(is_string($attribute->getName()));
             $this->assertTrue(is_string($attribute->getValue()));
         }
+        $this->assertEquals($this->timestamp, $transaction->getTimestamp());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -198,10 +203,11 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendByReferenceSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionByReferenceSuccess.xml', array(
+        $this->setMockSoapResponse('FetchTransactionByReferenceSuccess.xml', [
             'TRANSACTION_ID' => $this->transactionId,
-            'TRANSACTION_REFERENCE' => $this->transactionReference
-        ));
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
+            'TIMESTAMP' => $this->timestamp
+        ]);
 
         $response = $this->request->send();
 
@@ -212,6 +218,7 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $response->getTransactionId());
         $this->assertSame($this->transactionReference, $response->getTransactionReference());
         $this->assertSame($this->transactionId, $response->getTransaction()->getId());
+        $this->assertEquals($this->timestamp, $response->getTransaction()->getTimestamp());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -221,9 +228,9 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendFailure()
     {
-        $this->setMockSoapResponse('FetchTransactionFailure.xml', array(
+        $this->setMockSoapResponse('FetchTransactionFailure.xml', [
             'TRANSACTION_ID' => $this->transactionId,
-        ));
+        ]);
 
         $response = $this->request->send();
 
@@ -241,9 +248,9 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendByReferenceFailure()
     {
-        $this->setMockSoapResponse('FetchTransactionByReferenceFailure.xml', array(
+        $this->setMockSoapResponse('FetchTransactionByReferenceFailure.xml', [
             'TRANSACTION_REFERENCE' => $this->transactionReference,
-        ));
+        ]);
 
         $response = $this->request->send();
 
@@ -261,7 +268,7 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendPayPalSuccess()
     {
-        $this->setMockSoapResponse('FetchPayPalTransactionSuccess.xml', array(
+        $this->setMockSoapResponse('FetchPayPalTransactionSuccess.xml', [
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
@@ -275,8 +282,9 @@ class FetchTransactionRequestTest extends SoapTestCase
             'TAX_CLASSIFICATION' => $this->taxClassification,
             'SKU' => $this->sku,
             'TOKEN' => $this->token,
-            'PAYPAL_EMAIL' => $this->paypalEmail
-        ));
+            'PAYPAL_EMAIL' => $this->paypalEmail,
+            'TIMESTAMP' => $this->timestamp
+        ]);
 
         $response = $this->request->send();
 
@@ -335,6 +343,7 @@ class FetchTransactionRequestTest extends SoapTestCase
             $this->assertTrue(is_string($attribute->getName()));
             $this->assertTrue(is_string($attribute->getValue()));
         }
+        $this->assertEquals($this->timestamp, $transaction->getTimestamp());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

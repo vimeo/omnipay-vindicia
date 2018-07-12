@@ -35,6 +35,7 @@ class FetchTransactionsRequestTest extends SoapTestCase
                 'customerReference' => $this->customerReference
             )
         );
+        $this->timestamp = date('Y-m-d\T12:00:00-04:00', time());
     }
 
     /**
@@ -170,7 +171,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionsSuccess.xml');
+        $this->setMockSoapResponse('FetchTransactionsSuccess.xml', [
+            'TIMESTAMP' => $this->timestamp
+        ]);
 
         $response = $this->request->send();
 
@@ -185,6 +188,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertInstanceOf('\Omnipay\Vindicia\Transaction', $transactions[1]);
         $this->assertNotNull($transactions[0]->getId());
         $this->assertNotNull($transactions[1]->getId());
+        $this->assertEquals($this->timestamp, $transactions[0]->getTimestamp());
+        $this->assertEquals($this->timestamp, $transactions[1]->getTimestamp());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
@@ -194,7 +199,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
      */
     public function testSendByTimeSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionsByTimeSuccess.xml');
+        $this->setMockSoapResponse('FetchTransactionsByTimeSuccess.xml', [
+            'TIMESTAMP' => $this->timestamp
+        ]);
 
         $response = $this->request->send();
 
@@ -207,6 +214,8 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertSame(2, count($transactions));
         $this->assertNotNull($transactions[0]->getId());
         $this->assertNotNull($transactions[1]->getId());
+        $this->assertEquals($this->timestamp, $transactions[0]->getTimestamp());
+        $this->assertEquals($this->timestamp, $transactions[1]->getTimestamp());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
