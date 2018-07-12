@@ -22,7 +22,7 @@
           <currency xmlns="" xsi:type="xsd:string">USD</currency>
           <divisionNumber xmlns="" xsi:type="xsd:string">12345</divisionNumber>
           <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ12345678</merchantTransactionId>
-          <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:04-07:00</timestamp>
+          <timestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</timestamp>
           <account xmlns="" xsi:type="vin:Account">
             <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
             <merchantAccountId xmlns="" xsi:type="xsd:string">123456789abcd</merchantAccountId>
@@ -58,7 +58,7 @@
           </sourcePaymentMethod>
           <statusLog xmlns="" xsi:type="vin:TransactionStatus">
             <status xmlns="" xsi:type="vin:TransactionStatusType">Authorized</status>
-            <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:05-07:00</timestamp>
+            <timestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</timestamp>
             <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
             <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
               <authCode xmlns="" xsi:type="xsd:string">100</authCode>
@@ -77,7 +77,7 @@
           </statusLog>
           <statusLog xmlns="" xsi:type="vin:TransactionStatus">
             <status xmlns="" xsi:type="vin:TransactionStatusType">New</status>
-            <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:04-07:00</timestamp>
+            <timestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</timestamp>
             <paymentMethodType xmlns="" xsi:type="vin:PaymentMethodType">CreditCard</paymentMethodType>
             <creditCardStatus xmlns="" xsi:type="vin:TransactionStatusCreditCard">
               <authCode xmlns="" xsi:type="xsd:string">100</authCode>
@@ -125,7 +125,7 @@
         <amount xmlns="" xsi:type="xsd:decimal">140</amount>
         <amountIncludesTax xmlns="" xsi:type="xsd:boolean">0</amountIncludesTax>
         <currency xmlns="" xsi:type="xsd:string">USD</currency>
-        <timestamp xmlns="" xsi:type="xsd:dateTime">2016-10-04T08:06:08-07:00</timestamp>
+        <timestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</timestamp>
         <tokenAction xmlns="" xsi:type="vin:RefundTokenAction">None</tokenAction>
         <status xmlns="" xsi:type="vin:RefundStatus">Processing</status>
       </refunds>

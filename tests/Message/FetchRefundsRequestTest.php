@@ -38,6 +38,7 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->refundReference = $this->faker->refundReference();
         $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount($this->currency);
+        $this->timestamp = date('Y-m-d\T12:00:00-04:00');
     }
 
     /**
@@ -151,7 +152,8 @@ class FetchRefundsRequestTest extends SoapTestCase
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
-            'AMOUNT' => $this->amount
+            'AMOUNT' => $this->amount,
+            'TIMESTAMP' => $this->timestamp
         ));
 
         $response = $this->request->send();
@@ -189,7 +191,9 @@ class FetchRefundsRequestTest extends SoapTestCase
      */
     public function testSendByTimeSuccess()
     {
-        $this->setMockSoapResponse('FetchRefundsByTimeSuccess.xml');
+        $this->setMockSoapResponse('FetchRefundsByTimeSuccess.xml', array(
+            'TIMESTAMP' => $this->timestamp
+        ));
 
         $response = $this->request->send();
 
