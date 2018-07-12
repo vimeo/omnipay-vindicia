@@ -171,9 +171,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionsSuccess.xml', [
+        $this->setMockSoapResponse('FetchTransactionsSuccess.xml', array(
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -199,9 +199,9 @@ class FetchTransactionsRequestTest extends SoapTestCase
      */
     public function testSendByTimeSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionsByTimeSuccess.xml', [
+        $this->setMockSoapResponse('FetchTransactionsByTimeSuccess.xml', array(
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 

@@ -115,7 +115,7 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionSuccess.xml', [
+        $this->setMockSoapResponse('FetchTransactionSuccess.xml', array(
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
@@ -132,7 +132,7 @@ class FetchTransactionRequestTest extends SoapTestCase
             'CVV_CODE' => $this->cvvCode,
             'AVS_CODE' => $this->avsCode,
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -203,11 +203,11 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendByReferenceSuccess()
     {
-        $this->setMockSoapResponse('FetchTransactionByReferenceSuccess.xml', [
+        $this->setMockSoapResponse('FetchTransactionByReferenceSuccess.xml', array(
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -228,9 +228,9 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendFailure()
     {
-        $this->setMockSoapResponse('FetchTransactionFailure.xml', [
+        $this->setMockSoapResponse('FetchTransactionFailure.xml', array(
             'TRANSACTION_ID' => $this->transactionId,
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -248,9 +248,9 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendByReferenceFailure()
     {
-        $this->setMockSoapResponse('FetchTransactionByReferenceFailure.xml', [
+        $this->setMockSoapResponse('FetchTransactionByReferenceFailure.xml', array(
             'TRANSACTION_REFERENCE' => $this->transactionReference,
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -268,7 +268,7 @@ class FetchTransactionRequestTest extends SoapTestCase
      */
     public function testSendPayPalSuccess()
     {
-        $this->setMockSoapResponse('FetchPayPalTransactionSuccess.xml', [
+        $this->setMockSoapResponse('FetchPayPalTransactionSuccess.xml', array(
             'TRANSACTION_ID' => $this->transactionId,
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'CURRENCY' => $this->currency,
@@ -284,7 +284,7 @@ class FetchTransactionRequestTest extends SoapTestCase
             'TOKEN' => $this->token,
             'PAYPAL_EMAIL' => $this->paypalEmail,
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 

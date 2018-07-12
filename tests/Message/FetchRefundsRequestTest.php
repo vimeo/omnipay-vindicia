@@ -146,7 +146,7 @@ class FetchRefundsRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('FetchRefundsSuccess.xml', [
+        $this->setMockSoapResponse('FetchRefundsSuccess.xml', array(
             'REFUND_ID' => $this->refundId,
             'REFUND_REFERENCE' => $this->refundReference,
             'TRANSACTION_ID' => $this->transactionId,
@@ -154,7 +154,7 @@ class FetchRefundsRequestTest extends SoapTestCase
             'CURRENCY' => $this->currency,
             'AMOUNT' => $this->amount,
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 
@@ -191,9 +191,9 @@ class FetchRefundsRequestTest extends SoapTestCase
      */
     public function testSendByTimeSuccess()
     {
-        $this->setMockSoapResponse('FetchRefundsByTimeSuccess.xml', [
+        $this->setMockSoapResponse('FetchRefundsByTimeSuccess.xml', array(
             'TIMESTAMP' => $this->timestamp
-        ]);
+        ));
 
         $response = $this->request->send();
 
