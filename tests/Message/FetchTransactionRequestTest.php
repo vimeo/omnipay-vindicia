@@ -53,8 +53,8 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->billingCountry = $this->faker->region();
         $this->shippingPostcode = $this->faker->postcode();
         $this->shippingCountry = $this->faker->region();
-        $this->shippingAddress1 = $this->faker->randomCharacters($this->faker::ALPHABET_UPPER, 12);
-        $this->shippingCity = $this->faker->randomCharacters($this->faker::ALPHABET_UPPER, 8);
+        $this->shippingAddress1 = $this->faker->randomCharacters(DataFaker::ALPHABET_UPPER, 12);
+        $this->shippingCity = $this->faker->randomCharacters(DataFaker::ALPHABET_UPPER, 8);
     }
 
     /**
