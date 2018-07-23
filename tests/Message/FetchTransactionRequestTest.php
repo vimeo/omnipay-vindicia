@@ -48,6 +48,13 @@ class FetchTransactionRequestTest extends SoapTestCase
 
         /* timestamp should set to current time or it will break vod test */
         $this->timestamp = date('Y-m-d\T12:00:00-04:00');
+
+        $this->billingPostcode = $this->faker->postcode();
+        $this->billingCountry = $this->faker->region();
+        $this->shippingPostcode = $this->faker->postcode();
+        $this->shippingCountry = $this->faker->region();
+        $this->shippingAddress1 = $this->faker->randomCharacters($this->faker::ALPHABET_UPPER, 12);
+        $this->shippingCity = $this->faker->randomCharacters($this->faker::ALPHABET_UPPER, 8);
     }
 
     /**
@@ -131,7 +138,13 @@ class FetchTransactionRequestTest extends SoapTestCase
             'AUTHORIZATION_CODE' => $this->authorizationCode,
             'CVV_CODE' => $this->cvvCode,
             'AVS_CODE' => $this->avsCode,
-            'TIMESTAMP' => $this->timestamp
+            'TIMESTAMP' => $this->timestamp,
+            'POSTCODE' => $this->billingPostcode,
+            'COUNTRY' => $this->billingCountry,
+            'SHIPPINGPOSTCODE' => $this->shippingPostcode,
+            'SHIPPINGCOUNTRY' => $this->shippingCountry,
+            'SHIPPINGADDRESS1' => $this->shippingAddress1,
+            'SHIPPINGCITY'=> $this->shippingCity
         ));
 
         $response = $this->request->send();
@@ -194,6 +207,16 @@ class FetchTransactionRequestTest extends SoapTestCase
             $this->assertTrue(is_string($attribute->getValue()));
         }
         $this->assertEquals($this->timestamp, $transaction->getTimestamp());
+
+        $card = $paymentMethod->getCard();
+        $this->assertEquals($this->billingPostcode, $card->getPostcode());
+        $this->assertEquals($this->billingCountry, $card->getCountry());
+        $this->assertEquals($this->shippingPostcode, $card->getShippingPostcode());
+        $this->assertNotEquals($this->billingPostcode, $card->getShippingPostcode());
+        $this->assertEquals($this->shippingCountry, $card->getShippingCountry());
+        $this->assertNotEquals($this->billingCountry, $card->getShippingCountry());
+        $this->assertEquals($this->shippingAddress1, $card->getShippingAddress1());
+        $this->assertEquals($this->shippingCity, $card->getShippingCity());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }

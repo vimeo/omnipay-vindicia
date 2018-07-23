@@ -13,9 +13,17 @@ class ObjectHelper
     public function buildTransaction(stdClass $object)
     {
         $customer = isset($object->account) ? $this->buildCustomer($object->account) : null;
-        $paymentMethod = isset($object->sourcePaymentMethod)
-                       ? $this->buildPaymentMethod($object->sourcePaymentMethod)
-                       : null;
+
+        // fetch transaction response may have salesTaxAddress field as shipping address
+        // we should dump this info into the card and use it when creating transaction record
+        $paymentMethod = null;
+        if (isset($object->sourcePaymentMethod)) {
+            if (isset($object->salesTaxAddress)) {
+                $paymentMethod = $this->buildPaymentMethod($object->sourcePaymentMethod, $object->salesTaxAddress);
+            } else {
+                $paymentMethod = $this->buildPaymentMethod($object->sourcePaymentMethod);
+            }
+        }
 
         $items = null;
         if (isset($object->transactionItems)) {
@@ -144,9 +152,11 @@ class ObjectHelper
     }
 
     /**
+     * @param stdClass $object raw payment object
+     * @param stdClass $sales_tax_address salesTaxAddress info from fetch transaction response
      * @return \Omnipay\Vindicia\PaymentMethod
      */
-    public function buildPaymentMethod(stdClass $object)
+    public function buildPaymentMethod(stdClass $object, stdClass $sales_tax_address = null)
     {
         $cvv = null;
         $nameValues = null;
@@ -163,6 +173,35 @@ class ObjectHelper
             }
         }
 
+        $card_info = array(
+            'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
+            'address1' => isset($object->billingAddress->addr1) ? $object->billingAddress->addr1 : null,
+            'address2' => isset($object->billingAddress->addr2) ? $object->billingAddress->addr2 : null,
+            'city' => isset($object->billingAddress->city) ? $object->billingAddress->city : null,
+            'postcode' => isset($object->billingAddress->postalCode) ? $object->billingAddress->postalCode : null,
+            'state' => isset($object->billingAddress->district) ? $object->billingAddress->district : null,
+            'country' => isset($object->billingAddress->country) ? $object->billingAddress->country : null,
+            'number' => isset($object->creditCard->account) ? $object->creditCard->account : null,
+            'expiryMonth' => isset($object->creditCard->expirationDate)
+                           ? substr($object->creditCard->expirationDate, 4)
+                           : null,
+            'expiryYear' => isset($object->creditCard->expirationDate)
+                          ? substr($object->creditCard->expirationDate, 0, 4)
+                          : null,
+            'cvv' => $cvv
+        );
+        if ($sales_tax_address !== null) {
+            $sales_tax_address_info = array(
+                'shippingAddress1' => isset($sales_tax_address->addr1) ? $sales_tax_address->addr1 : null,
+                'shippingAddress2' => isset($sales_tax_address->addr2) ? $sales_tax_address->addr2 : null,
+                'shippingCity' => isset($sales_tax_address->city) ? $sales_tax_address->city : null,
+                'shippingPostcode' => isset($sales_tax_address->postalCode) ? $sales_tax_address->postalCode : null,
+                'shippingState' => isset($sales_tax_address->district) ? $sales_tax_address->district : null,
+                'shippingCountry' => isset($sales_tax_address->country) ? $sales_tax_address->country : null
+            );
+            $card_info = array_merge($card_info, $sales_tax_address_info);
+        }
+
         return new PaymentMethod(array(
             'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
             'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
@@ -170,23 +209,7 @@ class ObjectHelper
             'postcode' => isset($object->billingAddress->postalCode) ? $object->billingAddress->postalCode : null,
             'country' => isset($object->billingAddress->country) ? $object->billingAddress->country : null,
             // NonStrippingCreditCard won't remove the X's that Vindicia masks with
-            'card' => new NonStrippingCreditCard(array(
-                'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
-                'address1' => isset($object->billingAddress->addr1) ? $object->billingAddress->addr1 : null,
-                'address2' => isset($object->billingAddress->addr2) ? $object->billingAddress->addr2 : null,
-                'city' => isset($object->billingAddress->city) ? $object->billingAddress->city : null,
-                'postcode' => isset($object->billingAddress->postalCode) ? $object->billingAddress->postalCode : null,
-                'state' => isset($object->billingAddress->district) ? $object->billingAddress->district : null,
-                'country' => isset($object->billingAddress->country) ? $object->billingAddress->country : null,
-                'number' => isset($object->creditCard->account) ? $object->creditCard->account : null,
-                'expiryMonth' => isset($object->creditCard->expirationDate)
-                               ? substr($object->creditCard->expirationDate, 4)
-                               : null,
-                'expiryYear' => isset($object->creditCard->expirationDate)
-                              ? substr($object->creditCard->expirationDate, 0, 4)
-                              : null,
-                'cvv' => $cvv
-            )),
+            'card' => new NonStrippingCreditCard($card_info),
             'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null
         ));
     }
