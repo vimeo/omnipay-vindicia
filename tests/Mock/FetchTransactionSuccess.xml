@@ -134,10 +134,10 @@
         </transactionItems>
         <salesTaxAddress>
           <VID xmlns="" xsi:type="xsd:string">5b484390ebb889cd2f4fe9523c7720b8653406ed</VID>
-          <addr1 xmlns="" xsi:type="xsd:string">[SHIPPINGADDRESS1]</addr1>
-          <city xmlns="" xsi:type="xsd:string">[SHIPPINGCITY]</city>
-          <postalCode xmlns="" xsi:type="xsd:string">[SHIPPINGPOSTCODE]</postalCode>
-          <country xmlns="" xsi:type="xsd:string">[SHIPPINGCOUNTRY]</country>
+          <addr1 xmlns="" xsi:type="xsd:string">[SHIPPING_ADDRESS_1]</addr1>
+          <city xmlns="" xsi:type="xsd:string">[SHIPPING_CITY]</city>
+          <postalCode xmlns="" xsi:type="xsd:string">[SHIPPING_POSTCODE]</postalCode>
+          <country xmlns="" xsi:type="xsd:string">[SHIPPING_COUNTRY]</country>
         </salesTaxAddress>
         <sourceIp xmlns="" xsi:type="xsd:string">[IP_ADDRESS]</sourceIp>
         <nameValues xmlns="" xsi:type="vin:NameValuePair">

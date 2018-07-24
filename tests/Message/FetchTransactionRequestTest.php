@@ -141,10 +141,10 @@ class FetchTransactionRequestTest extends SoapTestCase
             'TIMESTAMP' => $this->timestamp,
             'POSTCODE' => $this->billingPostcode,
             'COUNTRY' => $this->billingCountry,
-            'SHIPPINGPOSTCODE' => $this->shippingPostcode,
-            'SHIPPINGCOUNTRY' => $this->shippingCountry,
-            'SHIPPINGADDRESS1' => $this->shippingAddress1,
-            'SHIPPINGCITY'=> $this->shippingCity
+            'SHIPPING_POSTCODE' => $this->shippingPostcode,
+            'SHIPPING_COUNTRY' => $this->shippingCountry,
+            'SHIPPING_ADDRESS_1' => $this->shippingAddress1,
+            'SHIPPING_CITY'=> $this->shippingCity
         ));
 
         $response = $this->request->send();
@@ -212,9 +212,7 @@ class FetchTransactionRequestTest extends SoapTestCase
         $this->assertEquals($this->billingPostcode, $card->getPostcode());
         $this->assertEquals($this->billingCountry, $card->getCountry());
         $this->assertEquals($this->shippingPostcode, $card->getShippingPostcode());
-        $this->assertNotEquals($this->billingPostcode, $card->getShippingPostcode());
         $this->assertEquals($this->shippingCountry, $card->getShippingCountry());
-        $this->assertNotEquals($this->billingCountry, $card->getShippingCountry());
         $this->assertEquals($this->shippingAddress1, $card->getShippingAddress1());
         $this->assertEquals($this->shippingCity, $card->getShippingCity());
 
