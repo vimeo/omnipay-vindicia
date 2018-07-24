@@ -205,7 +205,6 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
             'COUNTRY' => $this->card['country'],
             'POSTCODE' => $this->card['postcode']
-
         ));
 
         $response = $this->request->send();
@@ -222,8 +221,10 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
         $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
         $this->assertSame('PayPal', $paymentMethod->getType());
-        $this->assertSame($this->card['country'], $paymentMethod->getCountry());
-        $this->assertSame($this->card['postcode'], $paymentMethod->getPostcode());
+        $card = $paymentMethod->getCard();
+        $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
+        $this->assertSame($this->card['country'], $card->getCountry());
+        $this->assertSame($this->card['postcode'], $card->getPostcode());
 
         $attributes = $paymentMethod->getAttributes();
         $this->assertSame(2, count($attributes));

@@ -199,48 +199,6 @@ class PaymentMethod
     }
 
     /**
-     * Get the billing postcode.
-     *
-     * @return null|string
-     */
-    public function getPostcode()
-    {
-        return $this->getParameter('postcode');
-    }
-
-    /**
-     * Sets the billing postcode.
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setPostcode($value)
-    {
-        return $this->setParameter('postcode', $value);
-    }
-
-    /**
-     * Get the billing country.
-     *
-     * @return null|string
-     */
-    public function getCountry()
-    {
-        return $this->getParameter('country');
-    }
-
-    /**
-     * Sets the billing country.
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setCountry($value)
-    {
-        return $this->setParameter('country', $value);
-    }
-
-    /**
      * A list of attributes
      *
      * @return AttributeBag|null
