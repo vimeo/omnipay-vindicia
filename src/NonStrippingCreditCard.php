@@ -12,6 +12,13 @@ use Omnipay\Common\CreditCard;
 class NonStrippingCreditCard extends CreditCard
 {
     /**
+     * Internal storage of all of the card parameters.
+     *
+     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     */
+    protected $parameters;
+
+    /**
      * Set Card Number
      *
      * Unlike the parent class, non-numeric characters are NOT stripped out of
@@ -27,5 +34,101 @@ class NonStrippingCreditCard extends CreditCard
          * @var static
          */
         return $this->setParameter('number', $value);
+    }
+
+    /**
+     * Sets the payment instrument name.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPaymentInstrumentName($value)
+    {
+        /**
+         * @var static
+         */
+        return $this->setParameter('paymentInstrumentName', $value);
+    }
+
+    /**
+     * Gets the payment instrument name.
+     *
+     * @return string|null
+     */
+    public function getPaymentInstrumentName()
+    {
+        return $this->getParameter('paymentInstrumentName');
+    }
+
+    /**
+     * Sets the payment network.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPaymentNetwork($value)
+    {
+        /**
+         * @var static
+         */
+        return $this->setParameter('paymentNetwork', $value);
+    }
+
+    /**
+     * Gets the payment network.
+     *
+     * @return string|null
+     */
+    public function getPaymentNetwork()
+    {
+        return $this->getParameter('paymentNetwork');
+    }
+
+    /**
+     * Sets the transaction identifier.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setTransactionIdentifier($value)
+    {
+        /**
+         * @var static
+         */
+        return $this->setParameter('transactionIdentifier', $value);
+    }
+
+    /**
+     * Gets the transaction identifier.
+     * 
+     * @return string|null
+     */
+    public function getTransactionIdentifier()
+    {
+        return $this->getParameter('transactionIdentifier');
+    }
+
+    /**
+     * Sets the country, zip code, expiration date and account holder name.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPaymentData($value)
+    {
+        /**
+         * @var static
+         */
+        return $this->setParameter('paymentData', $value);
+    }
+
+    /**
+     * Gets the country, zip code, expiration date and account holder name.
+     *
+     * @return string|null
+     */
+    public function getPaymentData()
+    {
+        return $this->getParameter('paymentData');
     }
 }
