@@ -322,4 +322,46 @@ class Chargeback
     {
         return $this->setParameter('transactionReference', $value);
     }
+
+    /**
+     * Get the reason code
+     *
+     * @return null|string
+     */
+    public function getReasonCode()
+    {
+        return $this->getParameter('reasonCode');
+    }
+
+    /**
+     * Set the reason code
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setReasonCode($value)
+    {
+        return $this->setParameter('reasonCode', $value);
+    }
+
+        /**
+     * Get the case number
+     *
+     * @return null|string
+     */
+    public function getCaseNumber()
+    {
+        return $this->getParameter('caseNumber');
+    }
+
+    /**
+     * Set the case number
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCaseNumber($value)
+    {
+        return $this->setParameter('caseNumber', $value);
+    }
 }
