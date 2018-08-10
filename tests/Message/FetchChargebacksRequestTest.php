@@ -36,6 +36,11 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->chargebackReference = $this->faker->chargebackReference();
         $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount($this->currency);
+
+        $this->timestamp = date('Y-m-d\T12:00:00-04:00');
+
+        $this->reasonCode = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(5, 10));
+        $this->caseNumber = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(5, 10));
     }
 
     /**
@@ -157,7 +162,10 @@ class FetchChargebacksRequestTest extends SoapTestCase
             'CHARGEBACK_REFERENCE' => $this->chargebackReference,
             'TRANSACTION_ID' => $this->transactionId,
             'CURRENCY' => $this->currency,
-            'AMOUNT' => $this->amount
+            'AMOUNT' => $this->amount,
+            'REASON_CODE' => $this->reasonCode,
+            'CASE_NUMBER' => $this->caseNumber,
+            'TIMESTAMP' => $this->timestamp
         ));
 
         $response = $this->request->send();
@@ -176,6 +184,8 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->transactionId, $chargeback->getTransactionId());
         $this->assertSame($this->currency, $chargeback->getCurrency());
         $this->assertSame($this->amount, $chargeback->getAmount());
+        $this->assertSame($this->caseNumber, $chargeback->getCaseNumber());
+        $this->assertSame($this->reasonCode, $chargeback->getReasonCode());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
@@ -185,7 +195,9 @@ class FetchChargebacksRequestTest extends SoapTestCase
      */
     public function testSendByTimeSuccess()
     {
-        $this->setMockSoapResponse('FetchChargebacksByTimeSuccess.xml');
+        $this->setMockSoapResponse('FetchChargebacksByTimeSuccess.xml', array(
+            'TIMESTAMP' => $this->timestamp
+        ));
 
         $response = $this->request->send();
 
