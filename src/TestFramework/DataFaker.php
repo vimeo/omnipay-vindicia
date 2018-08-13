@@ -1076,4 +1076,52 @@ class DataFaker
     {
         return $this->intBetween(-2, 100);
     }
+
+    /**
+     * Return a payment instrument name.
+     *
+     * @return string
+     */
+    public function paymentInstrumentName()
+    {
+        return $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 10));
+    }
+
+    /**
+     * Return a payment network.
+     *
+     * @return string
+     */
+    public function paymentNetwork()
+    {
+        return $this->randomCharacters(self::ALPHABET_UPPER . self::ALPHABET_LOWER, $this->intBetween(4, 16));
+    }
+
+    /**
+     * Return payment data.
+     *
+     * @return array
+     */
+    public function testPaymentData()
+    {
+        return [
+            'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
+            'data' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 120)),
+            'signature' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 20)),
+            'header' => [
+                'ephemeralPublicKey' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 300)
+                ),
+                'publicKeyHash' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 20)
+                ),
+                'transactionId' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 30)
+                ),
+            ]
+        ];
+    }
 }

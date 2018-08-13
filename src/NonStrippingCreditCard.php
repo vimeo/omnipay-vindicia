@@ -12,13 +12,6 @@ use Omnipay\Common\CreditCard;
 class NonStrippingCreditCard extends CreditCard
 {
     /**
-     * Internal storage of all of the card parameters.
-     *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
-     */
-    protected $parameters;
-
-    /**
      * Set Card Number
      *
      * Unlike the parent class, non-numeric characters are NOT stripped out of
