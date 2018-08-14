@@ -1120,8 +1120,8 @@ class DataFaker
                 'transactionId' => $this->randomCharacters(
                     self::ALPHABET_UPPER . self::DIGITS,
                     $this->intBetween(4, 30)
-                ),
-            );
+                )
+            )
         );
     }
 }
