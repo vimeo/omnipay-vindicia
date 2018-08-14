@@ -1104,7 +1104,7 @@ class DataFaker
      */
     public function paymentData()
     {
-        return [
+        return array(
             'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
             'data' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 120)),
             'signature' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 20)),
@@ -1122,6 +1122,6 @@ class DataFaker
                     $this->intBetween(4, 30)
                 ),
             ]
-        ];
+        );
     }
 }
