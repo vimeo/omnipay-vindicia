@@ -1108,7 +1108,7 @@ class DataFaker
             'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
             'data' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 120)),
             'signature' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 20)),
-            'header' => [
+            'header' => array(
                 'ephemeralPublicKey' => $this->randomCharacters(
                     self::ALPHABET_UPPER . self::DIGITS,
                     $this->intBetween(4, 300)
@@ -1121,7 +1121,7 @@ class DataFaker
                     self::ALPHABET_UPPER . self::DIGITS,
                     $this->intBetween(4, 30)
                 ),
-            ]
+            );
         );
     }
 }
