@@ -260,7 +260,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentNetwork, $response->getPaymentNetwork());
         $this->assertSame($this->transactionIdentifier, $paymentMethod->getTransactionIdentifier());
         $this->assertSame($this->paymentData, $paymentMethod->getPaymentData());
-        $this->assertSame('Apple Pay', $paymentMethod->getType());
+        $this->assertSame('ApplePay', $paymentMethod->getType());
         $card = $paymentMethod->getCard();
         $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
         $this->assertSame($this->card['country'], $card->getCountry());
