@@ -234,4 +234,44 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
+
+    /**
+     * @return void
+     */
+    public function testSendApplePaySuccess()
+    {
+        $this->setMockSoapResponse('FetchApplePayPaymentMethodSuccess.xml', array(
+            'PAYMENT_INSTRUMENT_NAME' => $this->paymentInstrumentName,
+            'PAYMENT_NETWORK' => $this->paymentNetwork,
+            'TRANSACTION_IDENTIFIER' => $this->transactionIdentifier,
+            'PAYMENT_DATA' => $this->paymentData
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+
+        $paymentMethod = $response->getPaymentMethod();
+        $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
+        $this->assertSame($this->paymentInstrumentName, $response->getPaymentInstrumentName());
+        $this->assertSame($this->paymentNetwork, $response->getPaymentNetwork());
+        $this->assertSame($this->transactionIdentifier, $paymentMethod->getTransactionIdentifier());
+        $this->assertSame($this->paymentData, $paymentMethod->getPaymentData());
+        $this->assertSame('Apple Pay', $paymentMethod->getType());
+        $card = $paymentMethod->getCard();
+        $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
+        $this->assertSame($this->card['country'], $card->getCountry());
+        $this->assertSame($this->card['postcode'], $card->getPostcode());
+
+        $attributes = $paymentMethod->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+        }
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+    }
 }

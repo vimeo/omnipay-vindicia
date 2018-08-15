@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v21_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+   <soap:Body>
+      <authCaptureResponse xmlns="http://soap.vindicia.com/v21_0/Transaction">
+         <return xmlns="" xsi:type="vin:Return">
+            <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+            <soapId xsi:type="xsd:string">e62b630079cc77cade4590cb19eadf6dd97ad2a9</soapId>
+            <returnString xsi:type="xsd:string">OK</returnString>
+         </return>
+         <transaction xmlns="" xsi:type="vin:Transaction">
+            <VID xsi:type="xsd:string">562327f6e018d8cbb589f4b144f4269c435ac8f7</VID>
+            <amount xsi:type="xsd:decimal">250.00</amount>
+            <currency xsi:type="xsd:string">USD</currency>
+            <divisionNumber xsi:type="xsd:string">7515312</divisionNumber>
+            <merchantTransactionId xsi:type="xsd:string">SEATT90011</merchantTransactionId>
+            <timestamp xsi:type="xsd:dateTime">2018-07-26T09:42:46-07:00</timestamp>
+            <account xsi:type="vin:Account">
+               <VID xsi:type="xsd:string">d0f3dcfc3feb71e85c541ce1c2af99571edfac6d</VID>
+               <merchantAccountId xsi:type="xsd:string">vin_test_acct_1532623364495</merchantAccountId>
+               <emailAddress xsi:type="xsd:string">smangal@vindicia.com</emailAddress>
+               <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
+               <name xsi:type="xsd:string">Simulated Customer-1532623364495</name>
+               <paymentMethods xsi:type="vin:PaymentMethod">
+                  <VID xsi:type="xsd:string">3d947e2e3e4d14972c0902d6a2d014045ce8b75b</VID>
+                  <type xsi:type="vin:PaymentMethodType">ApplePay</type>
+                  <applePay xsi:type="vin:ApplePay">
+                     <paymentInstrumentName xsi:type="xsd:string">AmEx 1362</paymentInstrumentName>
+                     <paymentNetwork xsi:type="xsd:string">AmEx</paymentNetwork>
+                     <transactionIdentifier xsi:type="xsd:string">7e0c086a15c67fc8b573e4c43cde55c85785aadacd585ee66789a675fce116b1</transactionIdentifier>
+                     <paymentData xsi:type="xsd:string">{  
+         "version":"EC_v1",
+         "data":"evb9LioL0u7rgqgZZj5DttZwav5cPZlGyCI7Ha63PmDL3ejFzZFZCFJ96hw1HyvO71Mm5+sSvSdUwnIWH9oGYi8PcTwEOFQbebvSb/eSFf+NQLrK3lhYfGJUV7HaRBbpKJrcI0GBJQ0kXWqXZoren0iInLM/c/R9FoFfMJ76aCK68/82X+jQ5vLMgBID3NNC31qvlFSAMaSWlZ0JCnbWvSo1INwLvRLYXvLgWzbjsCLF/le9mkAaGfRe4aCPsaOxCYyqRaKkY65QjHj6QnXS8t8FUkoPrgvgD6sCpSuPAqGxiEBQM0OyOAFje4pfEzjfGVUpFXZ+DBYAShiP+5jQAgyIAu4G7Dia0gBBMU6W0n/D5Bzsus4clxkMM+ReJ3EV03+z9ISlI4+QZJk=",
+         "signature":"MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIID5jCCA4ugAwIBAgIIaGD2mdnMpw8wCgYIKoZIzj0EAwIwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTE2MDYwMzE4MTY0MFoXDTIxMDYwMjE4MTY0MFowYjEoMCYGA1UEAwwfZWNjLXNtcC1icm9rZXItc2lnbl9VQzQtU0FOREJPWDEUMBIGA1UECwwLaU9TIFN5c3RlbXMxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgjD9q8Oc914gLFDZm0US5jfiqQHdbLPgsc1LUmeY+M9OvegaJajCHk</paymentData>
+                     <expirationDate xsi:type="xsd:string">202009</expirationDate>
+                  </applePay>
+                  <accountHolderName xsi:type="xsd:string">Saurabh Mangal</accountHolderName>
+                  <billingAddress xsi:type="vin:Address">
+                     <VID xsi:type="xsd:string">35649808c0182853e810651465df53dff1132042</VID>
+                     <addr1 xsi:type="xsd:string">10 Ditka Ave Suite 2500</addr1>
+                     <city xsi:type="xsd:string">Chicago</city>
+                     <district xsi:type="xsd:string">IL</district>
+                     <postalCode xsi:type="xsd:string">60602</postalCode>
+                     <country xsi:type="xsd:string">US</country>
+                  </billingAddress>
+                  <merchantPaymentMethodId xsi:type="xsd:string">vin_test_acct_1532623364495_Apple1532623364495</merchantPaymentMethodId>
+                  <sortOrder xsi:type="xsd:int">0</sortOrder>
+                  <active xsi:type="xsd:boolean">1</active>
+               </paymentMethods>
+            </account>
+            <sourcePaymentMethod xsi:type="vin:PaymentMethod">
+               <VID xsi:type="xsd:string">3d947e2e3e4d14972c0902d6a2d014045ce8b75b</VID>
+               <type xsi:type="vin:PaymentMethodType">ApplePay</type>
+               <applePay xsi:type="vin:ApplePay">
+                  <paymentInstrumentName xsi:type="xsd:string">AmEx 1362</paymentInstrumentName>
+                  <paymentNetwork xsi:type="xsd:string">AmEx</paymentNetwork>
+                  <transactionIdentifier xsi:type="xsd:string">7e0c086a15c67fc8b573e4c43cde55c85785aadacd585ee66789a675fce116b1</transactionIdentifier>
+                  <paymentData xsi:type="xsd:string">{  
+         "version":"EC_v1",
+         "data":"evb9LioL0u7rgqgZZj5DttZwav5cPZlGyCI7Ha63PmDL3ejFzZFZCFJ96hw1HyvO71Mm5+sSvSdUwnIWH9oGYi8PcTwEOFQbebvSb/eSFf+NQLrK3lhYfGJUV7HaRBbpKJrcI0GBJQ0kXWqXZoren0iInLM/c/R9FoFfMJ76aCK68/82X+jQ5vLMgBID3NNC31qvlFSAMaSWlZ0JCnbWvSo1INwLvRLYXvLgWzbjsCLF/le9mkAaGfRe4aCPsaOxCYyqRaKkY65QjHj6QnXS8t8FUkoPrgvgD6sCpSuPAqGxiEBQM0OyOAFje4pfEzjfGVUpFXZ+DBYAShiP+5jQAgyIAu4G7Dia0gBBMU6W0n/D5Bzsus4clxkMM+ReJ3EV03+z9ISlI4+QZJk=",
+         "signature":"MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIID5jCCA4ugAwIBAgIIaGD2mdnMpw8wCgYIKoZIzj0EAwIwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTE2MDYwMzE4MTY0MFoXDTIxMDYwMjE4MTY0MFowYjEoMCYGA1UEAwwfZWNjLXNtcC1icm9rZXItc2lnbl9VQzQtU0FOREJPWDEUMBIGA1UECwwLaU9TIFN5c3RlbXMxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgjD9q8Oc914gLFDZm0US5jfiqQHdbLPgsc1LUmeY+M9OvegaJajCHk</paymentData>
+                  <expirationDate xsi:type="xsd:string">202009</expirationDate>
+               </applePay>
+               <accountHolderName xsi:type="xsd:string">Saurabh Mangal</accountHolderName>
+               <billingAddress xsi:type="vin:Address">
+                  <VID xsi:type="xsd:string">35649808c0182853e810651465df53dff1132042</VID>
+                  <addr1 xsi:type="xsd:string">10 Ditka Ave Suite 2500</addr1>
+                  <city xsi:type="xsd:string">Chicago</city>
+                  <district xsi:type="xsd:string">IL</district>
+                  <postalCode xsi:type="xsd:string">60602</postalCode>
+                  <country xsi:type="xsd:string">US</country>
+               </billingAddress>
+               <merchantPaymentMethodId xsi:type="xsd:string">vin_test_acct_1532623364495_Apple1532623364495</merchantPaymentMethodId>
+               <sortOrder xsi:type="xsd:int">0</sortOrder>
+               <active xsi:type="xsd:boolean">1</active>
+            </sourcePaymentMethod>
+            <statusLog xsi:type="vin:TransactionStatus">
+               <status xsi:type="vin:TransactionStatusType">Authorized</status>
+               <timestamp xsi:type="xsd:dateTime">2018-07-26T09:42:47-07:00</timestamp>
+               <paymentMethodType xsi:type="vin:PaymentMethodType">ApplePay</paymentMethodType>
+               <applePayStatus xsi:type="vin:TransactionStatusApplePay">
+                  <authCode xsi:type="xsd:string">000</authCode>
+               </applePayStatus>
+               <vinAVS xsi:type="vin:AVSMatchType">FullMatch</vinAVS>
+            </statusLog>
+            <statusLog xsi:type="vin:TransactionStatus">
+               <status xsi:type="vin:TransactionStatusType">New</status>
+               <timestamp xsi:type="xsd:dateTime">2018-07-26T09:42:46-07:00</timestamp>
+               <paymentMethodType xsi:type="vin:PaymentMethodType">ApplePay</paymentMethodType>
+               <applePayStatus xsi:type="vin:TransactionStatusApplePay">
+                  <authCode xsi:type="xsd:string">000</authCode>
+               </applePayStatus>
+            </statusLog>
+            <paymentProcessor xsi:type="xsd:string">Litle</paymentProcessor>
+            <paymentProcessorTransactionId xsi:type="xsd:string">SEATT90011</paymentProcessorTransactionId>
+            <transactionItems xsi:type="vin:TransactionItem">
+               <sku xsi:type="xsd:string">TEST_APPLE_PAY_AUTH</sku>
+               <indexNumber xsi:type="xsd:int">1</indexNumber>
+               <itemType xsi:type="vin:TransactionItemType">Purchase</itemType>
+               <name xsi:type="xsd:string">For Validation Only - no charge to you</name>
+               <price xsi:type="xsd:decimal">250</price>
+               <quantity xsi:type="xsd:decimal">1</quantity>
+               <servicePeriodStartDate xsi:type="xsd:dateTime">2018-02-02T00:00:00-08:00</servicePeriodStartDate>
+               <servicePeriodEndDate xsi:type="xsd:dateTime">2022-02-01T00:00:00-08:00</servicePeriodEndDate>
+               <taxType xsi:type="xsd:string">Exclusive Sales</taxType>
+               <subtotal xsi:type="xsd:decimal">250</subtotal>
+               <total xsi:type="xsd:decimal">250</total>
+            </transactionItems>
+            <transactionItems xsi:type="vin:TransactionItem">
+               <sku xsi:type="xsd:string">Total Tax</sku>
+               <indexNumber xsi:type="xsd:int">2</indexNumber>
+               <itemType xsi:type="vin:TransactionItemType">Purchase</itemType>
+               <name xsi:type="xsd:string">Total Tax</name>
+               <price xsi:type="xsd:decimal">0</price>
+               <quantity xsi:type="xsd:decimal">1</quantity>
+               <taxClassification xsi:type="xsd:string">TaxExempt</taxClassification>
+               <taxType xsi:type="xsd:string">Exclusive Sales</taxType>
+               <discount xsi:type="xsd:decimal">0</discount>
+               <subtotal xsi:type="xsd:decimal">0</subtotal>
+               <total xsi:type="xsd:decimal">0</total>
+            </transactionItems>
+            <salesTaxAddress xsi:type="vin:Address">
+               <VID xsi:type="xsd:string">399c9d9b63ffa2def0ac49a8b72eb1a773dc1544</VID>
+               <addr1 xsi:type="xsd:string">10 Ditka Ave Suite 2500</addr1>
+               <city xsi:type="xsd:string">CHICAGO</city>
+               <district xsi:type="xsd:string">IL</district>
+               <postalCode xsi:type="xsd:string">60602</postalCode>
+               <country xsi:type="xsd:string">US</country>
+            </salesTaxAddress>
+         </transaction>
+         <score xmlns="" xsi:type="xsd:int">-1</score>
+      </authCaptureResponse>
+   </soap:Body>
+</soap:Envelope>

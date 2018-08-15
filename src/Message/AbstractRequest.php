@@ -93,6 +93,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var string
      */
     const PAYMENT_METHOD_PAYPAL = 'PayPal';
+    const PAYMENT_METHOD_APPLE_PAY = 'Apple Pay';
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
 
     /**
@@ -1025,8 +1026,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD or self::PAYMENT_METHOD_PAYPAL,
-     *                                        null autodetects or sets nothing if no specifying data provided)
+     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL, 
+     *                                        self::PAYMENT_METHOD_APPLE_PAY, 
+     *                                         null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
@@ -1074,6 +1076,21 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // never change the type on an update
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
+            }
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY
+                  || ($paymentMethodType === null && $this->getReturnUrl())
+        ) {
+            $apple_pay = new stdClass();
+            $apple_pay->paymentInstrumentName = $this->getPaymentInstrumentName();
+            $apple_pay->paymentNetwork = $this->getPaymentNetwork();
+            $apple_pay->paymentData = $this->getPaymentData();
+            $apple_pay->expirationDate = $apple_pay->getExpiryDate('Ym');
+
+            $paymentMethod->apple_pay = $apple_pay;
+
+            // never change the type on an update
+            if (!$this->isUpdate()) {
+                $paymentMethod->type = self::PAYMENT_METHOD_APPLE_PAY;
             }
         } elseif ($paymentMethodType !== null) {
             throw new InvalidArgumentException('Unknown payment method type.');
