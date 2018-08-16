@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
-use Omnipay\Common\NonStrippingCreditCard;
+use NonStrippingCreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -830,58 +830,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Redefining to correct return type
-     *
-     * @return null|\Omnipay\Common\NonStrippingCreditCard
-     */
-    public function getPaymentInstrumentName()
-    {
-        /**
-         * @var null|string
-         */
-        return parent::getPaymentInstrumentName();
-    }
-
-    /**
-     * Redefining to correct return type
-     *
-     * @return null|\Omnipay\Common\NonStrippingCreditCard
-     */
-    public function getPaymentNetwork()
-    {
-        /**
-         * @var null|string
-         */
-        return parent::getPaymentNetwork();
-    }
-
-    /**
-     * Redefining to correct return type
-     *
-     * @return null|\Omnipay\Common\NonStrippingCreditCard
-     */
-    public function getToken()
-    {
-        /**
-         * @var null|string
-         */
-        return parent::getToken();
-    }
-
-    /**
-     * Redefining to correct return type
-     *
-     * @return null|\Omnipay\Common\NonStrippingCreditCard
-     */
-    public function getTransactionIdentifier()
-    {
-        /**
-         * @var null|string
-         */
-        return parent::getTransactionIdentifier();
-    }
-
-    /**
      * The object type on which the API call will be made
      *
      * @return string
@@ -1132,10 +1080,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             }
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
             $applePay = new stdClass();
-            $applePay->paymentInstrumentName = $this->getPaymentInstrumentName();
-            $applePay->paymentNetwork = $this->getPaymentNetwork();
-            $applePay->paymentData = $this->getToken();
-            $applePay->transactionIdentifier = $this->getTransactionIdentifier();
+            $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
+            $applePay->paymentNetwork = $card->getPaymentNetwork();
+            $applePay->paymentData = $card->getToken();
+            $applePay->transactionIdentifier = $card->getTransactionIdentifier();
 
             $paymentMethod->applePay = $applePay;
 
