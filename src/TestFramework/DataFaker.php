@@ -1102,7 +1102,7 @@ class DataFaker
      *
      * @return array
      */
-    public function paymentData()
+    public function token()
     {
         return array(
             'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
