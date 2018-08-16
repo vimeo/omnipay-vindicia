@@ -93,7 +93,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var string
      */
     const PAYMENT_METHOD_PAYPAL = 'PayPal';
-    const PAYMENT_METHOD_APPLE_PAY = 'Apple Pay';
+    const PAYMENT_METHOD_APPLE_PAY = 'ApplePay';
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
 
     /**
@@ -1077,16 +1077,13 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
             }
-        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY
-                  || ($paymentMethodType === null && $this->getReturnUrl())
-        ) {
-            $apple_pay = new stdClass();
-            $apple_pay->paymentInstrumentName = $this->getPaymentInstrumentName();
-            $apple_pay->paymentNetwork = $this->getPaymentNetwork();
-            $apple_pay->paymentData = $this->getPaymentData();
-            $apple_pay->expirationDate = $apple_pay->getExpiryDate('Ym');
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
+            $applePay = new stdClass();
+            $applePay->paymentInstrumentName = $this->getPaymentInstrumentName();
+            $applePay->paymentNetwork = $this->getPaymentNetwork();
+            $applePay->paymentData = $this->getToken();
 
-            $paymentMethod->apple_pay = $apple_pay;
+            $paymentMethod->applePay = $applePay;
 
             // never change the type on an update
             if (!$this->isUpdate()) {

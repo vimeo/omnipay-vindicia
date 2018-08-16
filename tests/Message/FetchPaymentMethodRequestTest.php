@@ -17,9 +17,13 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->faker = new DataFaker();
 
         $this->paymentMethodId = $this->faker->paymentMethodId();
+        $this->paymentInstrumentName = $this->faker->paymentInstrumentName();
+        $this->paymentNetwork = $this->faker->paymentNetwork();
+        $this->paymentData = $this->faker->token();
+        $this->transactionId = $this->faker->transactionId();
 
         $this->request = new FetchPaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(
+        $this->request->initialize(         
             array(
                 'paymentMethodId' => $this->paymentMethodId
             )
@@ -259,7 +263,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentInstrumentName, $response->getPaymentInstrumentName());
         $this->assertSame($this->paymentNetwork, $response->getPaymentNetwork());
         $this->assertSame($this->transactionIdentifier, $paymentMethod->getTransactionIdentifier());
-        $this->assertSame($this->paymentData, $paymentMethod->getPaymentData());
+        $this->assertSame($this->paymentData, $paymentMethod->getToken());
         $this->assertSame('ApplePay', $paymentMethod->getType());
         $card = $paymentMethod->getCard();
         $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);

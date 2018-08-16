@@ -67,10 +67,10 @@ class NonStrippingCreditCardTest extends TestCase
     /**
      * @return void
      */
-    public function testPaymentData()
+    public function testToken()
     {
-        $paymentData = $this->faker->paymentData();
-        $this->assertSame($this->card, $this->card->setPaymentData($paymentData));
-        $this->assertSame($paymentData, $this->card->getPaymentData());
+        $token = $this->faker->token();
+        $this->assertSame($this->card, $this->card->setToken($token));
+        $this->assertSame($token, $this->card->getToken());
     }
 }

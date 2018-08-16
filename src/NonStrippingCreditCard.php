@@ -102,12 +102,13 @@ class NonStrippingCreditCard extends CreditCard
     }
 
     /**
-     * Sets the country, zip code, expiration date and account holder name.
+     * Sets the token receieved from Apple Pay payment sheet.
+     * Includes the country, zip code, expiration date and account holder name.
      *
      * @param string $value
      * @return static
      */
-    public function setPaymentData($value)
+    public function setToken($value)
     {
         /**
          * @var static
@@ -116,11 +117,12 @@ class NonStrippingCreditCard extends CreditCard
     }
 
     /**
-     * Gets the country, zip code, expiration date and account holder name.
+     * Gets the token receieved from Apple Pay payment sheet.
+     * Includes the country, zip code, expiration date and account holder name.
      *
      * @return string|null
      */
-    public function getPaymentData()
+    public function getToken()
     {
         return $this->getParameter('paymentData');
     }
