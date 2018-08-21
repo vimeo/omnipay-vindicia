@@ -245,12 +245,12 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
     public function testSendApplePaySuccess()
     {
         $this->setMockSoapResponse('FetchApplePayPaymentMethodSuccess.xml', array(
+            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
             'PAYMENT_INSTRUMENT_NAME' => $this->paymentInstrumentName,
             'PAYMENT_NETWORK' => $this->paymentNetwork,
             'TRANSACTION_IDENTIFIER' => $this->transactionIdentifier,
             'PAYMENT_DATA' => $this->paymentData,
-            'PAYMENT_METHOD_ID' => $this->paymentMethodId,
-            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
         ));
 
         $response = $this->request->send();
@@ -261,12 +261,13 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
 
         $paymentMethod = $response->getPaymentMethod();
+        $this->assertSame('ApplePay', $paymentMethod->getType());
+        
         $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
         $this->assertSame($this->paymentInstrumentName, $response->getPaymentInstrumentName());
         $this->assertSame($this->paymentNetwork, $response->getPaymentNetwork());
         $this->assertSame($this->transactionIdentifier, $paymentMethod->getTransactionIdentifier());
         $this->assertSame($this->paymentData, $paymentMethod->getToken());
-        $this->assertSame('ApplePay', $paymentMethod->getType());
         $card = $paymentMethod->getCard();
         $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
         $this->assertSame($this->card['country'], $card->getCountry());

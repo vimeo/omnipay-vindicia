@@ -1088,6 +1088,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->paymentNetwork = $card->getPaymentNetwork();
             $applePay->paymentData = $card->getToken();
             $applePay->transactionIdentifier = $card->getTransactionIdentifier();
+            $applePay->expirationDate = $card->getExpiryDate('Ym');
 
             $paymentMethod->ApplePay = $applePay;
 
