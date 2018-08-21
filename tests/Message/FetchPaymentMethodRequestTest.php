@@ -260,7 +260,11 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
 
+        var_dump($response);
+
         $paymentMethod = $response->getPaymentMethod();
+        var_dump($paymentMethod);
+        var_dump($paymentMethod->getType());
         $this->assertSame('ApplePay', $paymentMethod->getType());
         
         $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
