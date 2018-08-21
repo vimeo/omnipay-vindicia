@@ -155,6 +155,8 @@ class ObjectHelper
      */
     public function buildPaymentMethod(stdClass $object, stdClass $salesTaxAddress = null)
     {
+        var_dump($object);
+
         $cvv = null;
         $nameValues = null;
         if (isset($object->nameValues)) {
@@ -211,6 +213,11 @@ class ObjectHelper
             );
         }
         $card_info = array_merge($card_info, $address_info);
+        var_dump($card_info);
+
+        var_dump($nameValues);
+        var_dump($object->type);
+
 
         return new PaymentMethod(array(
             'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,

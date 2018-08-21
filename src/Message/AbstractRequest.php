@@ -1042,7 +1042,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $paymentMethod->active = true;
         $paymentMethod->currency = $this->getCurrency();
 
-        var_dump($paymentMethodType);
+        //var_dump($paymentMethodType);
 
         $card = $this->getCard();
 
@@ -1084,7 +1084,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
             $applePay = new stdClass();
 
-            var_dump(__LINE__);
+            // var_dump(__LINE__);
 
             /**
              * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
@@ -1095,12 +1095,12 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->transactionIdentifier = $card->getTransactionIdentifier();
             $applePay->expirationDate = $card->getExpiryDate('Ym');
 
-            var_dump($paymentMethod);
-            var_dump($applePay->paymentInstrumentName);
-            var_dump($applePay->paymentNetwork);
-            var_dump($applePay->paymentData);
-            var_dump($applePay->transactionIdentifier);
-            var_dump($applePay->expirationDate);
+            // var_dump($paymentMethod);
+            // var_dump($applePay->paymentInstrumentName);
+            // var_dump($applePay->paymentNetwork);
+            // var_dump($applePay->paymentData);
+            // var_dump($applePay->transactionIdentifier);
+            // var_dump($applePay->expirationDate);
 
             $paymentMethod->applePay = $applePay;
 
