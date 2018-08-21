@@ -45,7 +45,7 @@
                      <postalCode xsi:type="xsd:string">attributePostalcode</postalCode>
                      <country xsi:type="xsd:string">attributeCountry</country>
                   </billingAddress>
-                  <merchantPaymentMethodId xsi:type="xsd:string">234567890abcdef1234567890_Apple1234567890abcdef1234567890</merchantPaymentMethodId>
+                  <merchantPaymentMethodId xsi:type="xsd:string">[PAYMENT_ID]</merchantPaymentMethodId>
                   <sortOrder xsi:type="xsd:int">0</sortOrder>
                   <active xsi:type="xsd:boolean">1</active>
                </paymentMethods>
