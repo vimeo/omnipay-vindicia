@@ -1047,6 +1047,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         if ($paymentMethodType === self::PAYMENT_METHOD_CREDIT_CARD
             || ($paymentMethodType === null && $card)
         ) {
+            var_dump(__LINE__);
             if ($card) {
                 // if we're adding a new credit card, the whole thing needs to be provided
                 if (!$this->isUpdate()) {
@@ -1081,6 +1082,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
             $applePay = new stdClass();
 
+            var_dump(__LINE__);
+
             /**
              * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
              */
@@ -1090,13 +1093,21 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->transactionIdentifier = $card->getTransactionIdentifier();
             $applePay->expirationDate = $card->getExpiryDate('Ym');
 
-            $paymentMethod->ApplePay = $applePay;
+            var_dump($paymentMethod);
+            var_dump($applePay->paymentInstrumentName);
+            var_dump($applePay->paymentNetwork);
+            var_dump($applePay->paymentData);
+            var_dump($applePay->transactionIdentifier);
+            var_dump($applePay->expirationDate);
+
+            $paymentMethod->applePay = $applePay;
 
             // never change the type on an update
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_APPLE_PAY;
             }
         } elseif ($paymentMethodType !== null) {
+            var_dump(__LINE__);
             throw new InvalidArgumentException('Unknown payment method type.');
         }
 
@@ -1106,6 +1117,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         if ($card !== null) {
+            var_dump(__LINE__);
             $paymentMethod->accountHolderName = $card->getName();
             $paymentMethod->billingAddress = $this->buildAddress($card);
 
