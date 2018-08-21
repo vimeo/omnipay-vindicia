@@ -246,7 +246,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
     {
         $this->setMockSoapResponse('FetchApplePayPaymentMethodSuccess.xml', array(
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
-            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference
+            'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
             'PAYMENT_INSTRUMENT_NAME' => $this->paymentInstrumentName,
             'PAYMENT_NETWORK' => $this->paymentNetwork,
             'TRANSACTION_IDENTIFIER' => $this->transactionIdentifier,
