@@ -1042,6 +1042,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $paymentMethod->active = true;
         $paymentMethod->currency = $this->getCurrency();
 
+        var_dump($paymentMethodType);
+
         $card = $this->getCard();
 
         if ($paymentMethodType === self::PAYMENT_METHOD_CREDIT_CARD
