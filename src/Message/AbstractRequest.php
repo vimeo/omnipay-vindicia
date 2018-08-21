@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
+use Omnipay\Common\NonStrippingCreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -1079,12 +1080,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             }
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
             $applePay = new stdClass();
+
+            /**
+             * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
+             */
             $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
             $applePay->paymentNetwork = $card->getPaymentNetwork();
             $applePay->paymentData = $card->getToken();
             $applePay->transactionIdentifier = $card->getTransactionIdentifier();
 
-            $paymentMethod->applePay = $applePay;
+            $paymentMethod->ApplePay = $applePay;
 
             // never change the type on an update
             if (!$this->isUpdate()) {

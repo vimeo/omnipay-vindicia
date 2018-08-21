@@ -1100,11 +1100,11 @@ class DataFaker
     /**
      * Return payment data.
      *
-     * @return array
+     * @return string
      */
     public function token()
     {
-        return array(
+        return json_encode(array(
             'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
             'data' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 120)),
             'signature' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 20)),
@@ -1122,6 +1122,6 @@ class DataFaker
                     $this->intBetween(4, 30)
                 )
             )
-        );
+        ));
     }
 }
