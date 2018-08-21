@@ -14,7 +14,7 @@
             <returnString xsi:type="xsd:string">OK</returnString>
          </return>
          <transaction xmlns="" xsi:type="vin:Transaction">
-            <VID xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
+            <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
             <amount xsi:type="xsd:decimal">0.00</amount>
             <currency xsi:type="xsd:string">attributeCurrency</currency>
             <divisionNumber xsi:type="xsd:string">1234567890</divisionNumber>
