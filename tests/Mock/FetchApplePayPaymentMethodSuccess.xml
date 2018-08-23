@@ -20,7 +20,7 @@
                <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
                <name xsi:type="xsd:string">1234567890abcdef</name>
                <paymentMethods xsi:type="vin:PaymentMethod">
-                  <VID xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
+                  <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
                   <type xsi:type="vin:PaymentMethodType">ApplePay</type>
                   <applePay xsi:type="vin:ApplePay">
                      <paymentInstrumentName xsi:type="xsd:string">[PAYMENT_INSTRUMENT_NAME]</paymentInstrumentName>
@@ -31,7 +31,7 @@
                   </applePay>
                   <accountHolderName xsi:type="xsd:string">attributeName</accountHolderName>
                   <billingAddress xsi:type="vin:Address">
-                     <VID xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
+                     <VID xsi:type="xsd:string">99988877766655544433322211100000</VID>
                      <addr1 xsi:type="xsd:string">attributeAddress1</addr1>
                      <city xsi:type="xsd:string">attributeCity</city>
                      <district xsi:type="xsd:string">attributeDistrict</district>
