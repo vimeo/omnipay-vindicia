@@ -35,8 +35,8 @@
                      <addr1 xsi:type="xsd:string">attributeAddress1</addr1>
                      <city xsi:type="xsd:string">attributeCity</city>
                      <district xsi:type="xsd:string">attributeDistrict</district>
-                     <postalCode xsi:type="xsd:string">attributePostalcode</postalCode>
-                     <country xsi:type="xsd:string">attributeCountry</country>
+                     <postalCode xsi:type="xsd:string">[POSTCODE]</postalCode>
+                     <country xsi:type="xsd:string">[COUNTRY]</country>
                   </billingAddress>
                   <merchantPaymentMethodId xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
                   <sortOrder xsi:type="xsd:int">0</sortOrder>
