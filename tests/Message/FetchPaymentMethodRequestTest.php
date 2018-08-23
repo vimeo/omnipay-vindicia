@@ -261,7 +261,6 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
 
         var_dump($response);
-        var_dump($response->data);
 
         $paymentMethod = $response->getPaymentMethod();
         var_dump($paymentMethod);
