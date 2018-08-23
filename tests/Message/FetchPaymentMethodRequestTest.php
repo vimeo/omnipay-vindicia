@@ -279,12 +279,6 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['country'], $card->getCountry());
         $this->assertSame($this->card['postcode'], $card->getPostcode());
 
-        $attributes = $paymentMethod->getAttributes();
-        $this->assertSame(2, count($attributes));
-        foreach ($attributes as $attribute) {
-            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
-        }
-
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 }
