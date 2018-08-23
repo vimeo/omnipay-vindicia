@@ -265,13 +265,13 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $paymentMethod = $response->getPaymentMethod();
         var_dump($paymentMethod);
         var_dump($paymentMethod->getType());
-        $this->assertSame('ApplePay', $paymentMethod->getType());
         
         $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
-        $this->assertSame($this->paymentInstrumentName, $response->getPaymentInstrumentName());
-        $this->assertSame($this->paymentNetwork, $response->getPaymentNetwork());
-        $this->assertSame($this->transactionIdentifier, $paymentMethod->getTransactionIdentifier());
-        $this->assertSame($this->paymentData, $paymentMethod->getToken());
+        $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
+        $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
+        $this->assertSame($this->paymentMethodId, $paymentMethod->getId());
+        $this->assertSame($this->paymentMethodReference, $paymentMethod->getReference());
+        $this->assertSame('ApplePay', $paymentMethod->getType());
         $card = $paymentMethod->getCard();
         $this->assertInstanceOf('\Omnipay\Common\CreditCard', $card);
         $this->assertSame($this->card['country'], $card->getCountry());
