@@ -14,7 +14,7 @@
             <returnString xsi:type="xsd:string">OK</returnString>
          </return>
             <account xsi:type="vin:Account">
-               <VID xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
+               <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
                <merchantAccountId xsi:type="xsd:string">vin_test_acct_1234567890</merchantAccountId>
                <emailAddress xsi:type="xsd:string">smangal@vindicia.com</emailAddress>
                <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
