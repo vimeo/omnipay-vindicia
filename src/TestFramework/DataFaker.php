@@ -1098,6 +1098,19 @@ class DataFaker
     }
 
     /**
+     * Return an Apple Pay transaction reference.
+     *
+     * @return string
+     */
+    public function applePayTransactionReference()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while ($result == 0);
+        return $result;
+    }
+
+    /**
      * The token receieved from Apple Pay payment sheet.
      * Includes the country, zip code, expiration date and account holder name.
      * Need to use json encode so that it is parsed as a string instead of an array to match token object.

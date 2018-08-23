@@ -57,11 +57,11 @@ class NonStrippingCreditCardTest extends TestCase
     /**
      * @return void
      */
-    public function testTransactionIdentifier()
+    public function testApplePayTransactionReference()
     {
-        $transactionIdentifier = $this->faker->transactionId();
-        $this->assertSame($this->card, $this->card->setTransactionIdentifier($transactionIdentifier));
-        $this->assertSame($transactionIdentifier, $this->card->getTransactionIdentifier());
+        $applePayTransactionReference = $this->faker->applePayTransactionReference();
+        $this->assertSame($this->card, $this->card->setApplePayTransactionReference($applePayTransactionReference));
+        $this->assertSame($applePayTransactionReference, $this->card->getApplePayTransactionReference());
     }
 
     /**
