@@ -13,13 +13,6 @@
             <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
             <returnString xsi:type="xsd:string">OK</returnString>
          </return>
-         <transaction xmlns="" xsi:type="vin:Transaction">
-            <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
-            <amount xsi:type="xsd:decimal">0.00</amount>
-            <currency xsi:type="xsd:string">attributeCurrency</currency>
-            <divisionNumber xsi:type="xsd:string">1234567890</divisionNumber>
-            <merchantTransactionId xsi:type="xsd:string">attributeTransactionID</merchantTransactionId>
-            <timestamp xsi:type="xsd:dateTime">0000-00-00T00:00:00-00:00</timestamp>
             <account xsi:type="vin:Account">
                <VID xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
                <merchantAccountId xsi:type="xsd:string">vin_test_acct_1234567890</merchantAccountId>
@@ -50,7 +43,6 @@
                   <active xsi:type="xsd:boolean">1</active>
                </paymentMethods>
             </account>
-         </transaction>
          <score xmlns="" xsi:type="xsd:int">-1</score>
       </authCaptureResponse>
    </soap:Body>
