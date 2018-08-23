@@ -1115,7 +1115,7 @@ class DataFaker
      * Includes the country, zip code, expiration date and account holder name.
      * Need to use json encode so that it is parsed as a string instead of an array to match token object.
      *
-     * @return array
+     * @return string
      */
     public function token()
     {
