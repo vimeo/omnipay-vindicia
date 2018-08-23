@@ -399,6 +399,7 @@ class Response extends AbstractResponse
         foreach ($this->data->account->paymentMethods as $paymentMethod) {
             var_dump($paymentMethod->merchantPaymentMethodId);
             var_dump($this->getRequest()->getPaymentMethodId());
+            var_dump($paymentMethod);
             if ($paymentMethod->merchantPaymentMethodId === $this->getRequest()->getPaymentMethodId()) {
                 var_dump(__LINE__);
                 $this->paymentMethod = $this->objectHelper->buildPaymentMethod($paymentMethod);

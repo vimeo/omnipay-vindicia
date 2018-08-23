@@ -1051,6 +1051,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         ) {
             var_dump(__LINE__);
             if ($card) {
+                var_dump(__LINE__);
                 // if we're adding a new credit card, the whole thing needs to be provided
                 if (!$this->isUpdate()) {
                     $card->validate();
