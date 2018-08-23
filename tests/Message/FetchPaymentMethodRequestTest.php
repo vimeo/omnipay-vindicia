@@ -251,6 +251,8 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             'PAYMENT_NETWORK' => $this->paymentNetwork,
             'TRANSACTION_IDENTIFIER' => $this->transactionIdentifier,
             'PAYMENT_DATA' => $this->paymentData,
+            'COUNTRY' => $this->card['country'],
+            'POSTCODE' => $this->card['postcode']
         ));
 
         $response = $this->request->send();
