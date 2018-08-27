@@ -79,7 +79,7 @@ class NonStrippingCreditCard extends CreditCard
 
     /**
      * Sets Apple Pay's transaction reference.
-     * It's Apple Pay's reference to a transaction.
+     * Apple Pay calls this a transactionIdentifier.
      *
      * @param string $value
      * @return static
@@ -89,18 +89,18 @@ class NonStrippingCreditCard extends CreditCard
         /**
          * @var static
          */
-        return $this->setParameter('transactionIdentifier', $value);
+        return $this->setParameter('applePayTransactionReference', $value);
     }
 
     /**
      * Gets Apple Pay's transaction reference.
-     * It's Apple Pay's reference to a transaction.
+     * Apple Pay calls this a transactionIdentifier.
      * 
      * @return string|null
      */
     public function getApplePayTransactionReference()
     {
-        return $this->getParameter('transactionIdentifier');
+        return $this->getParameter('applePayTransactionReference');
     }
 
     /**
@@ -115,7 +115,7 @@ class NonStrippingCreditCard extends CreditCard
         /**
          * @var static
          */
-        return $this->setParameter('paymentData', $value);
+        return $this->setParameter('token', $value);
     }
 
     /**
@@ -126,6 +126,6 @@ class NonStrippingCreditCard extends CreditCard
      */
     public function getToken()
     {
-        return $this->getParameter('paymentData');
+        return $this->getParameter('token');
     }
 }
