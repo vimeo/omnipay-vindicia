@@ -570,7 +570,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Returns the invoice numbers. For use of FetchSubscriptionInvoiceNumbers request
+     * Returns the invoice numbers. For use of FetchSubscriptionInvoice request
      *
      * @return null|array<string>
      */

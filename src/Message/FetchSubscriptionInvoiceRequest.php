@@ -5,101 +5,61 @@ namespace Omnipay\Vindicia\Message;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * Fetch a Vindicia subscription object.
+ * Fetch a Vindicia subscription invoice object.
  *
  * Parameters:
  * - subscriptionId: Your identifier for the subscription to be fetched. Either subscriptionId
  * or subscriptionReference is required.
  * - subscriptionReference: The gateway's identifier for the subscription to be fetched. Either
  * subscriptionId or subscriptionReference is required.
+ * - invoiceId: the invoice number which uniquely identifies the fetched invoice within the subscription
+ * - invoiceState: the invoice state which limits the returned objects to the specified state:
+ * Open, Due, Paid, Overdue, or WrittenOff.
  *
  * Example:
  * <code>
- *   // set up the gateway
- *   $gateway = \Omnipay\Omnipay::create('Vindicia');
- *   $gateway->setUsername('your_username');
- *   $gateway->setPassword('y0ur_p4ssw0rd');
- *   $gateway->setTestMode(false);
+ *   // first create gateway, plan, product and subscription as described in FetchSubsciptionRequest
+ *   // then use subscriptionId returned from $subscriptionResponse->getSubscriptionId()
+ *   // and fetch an array of invoice numbers filtered by subscription id and invoice state
  *
- *   // create a plan to govern the behavior of the subscription (eg billing frequency)
- *   $planResponse = $gateway->createPlan(array(
- *       'planId' => '123456789', // you choose this
- *       'interval' => 'week',
- *       'intervalCount' => 2,
- *       'prices' => array(
- *           'USD' => '9.99',
- *           'CAD' => '12.99'
- *       )
+ *   // get $subscriptionResponse from createSubscription call
+ *
+ *   $fetchInvoiceNumbersResponse = $gateway->fetchSubscriptionInvoice(array(
+ *       'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
+ *       'invoiceState' => 'Overdue'
  *   ))->send();
  *
- *   if ($planResponse->isSuccessful()) {
- *       echo "Plan id: " . $planResponse->getPlanId() . PHP_EOL;
- *       echo "Plan reference: " . $planResponse->getPlanReference() . PHP_EOL;
- *   } else {
- *       // error handling
+ *   if ($fetchInvoiceNumbersResponse->isSuccessful()) {
+ *       echo 'Invoice numbers: " . $fetchInvoiceNumbersResponse->getInvoiceNumbers() . PHP_EOL;'
  *   }
  *
- *   // create a product using that plan for the user to subscribe to
- *   $productResponse = $gateway->createProduct(array(
- *       'productId' => '123456789', // you choose this
- *       'planId' => $planResponse->getPlanId(), // assign the plan you created above to it
- *       'statementDescriptor' => 'Statement descriptor',
- *       'duplicateBehavior' => CreateProductRequest::BEHAVIOR_SUCCEED_IGNORE,
- *       'prices' => array(
- *           'USD' => '9.99',
- *           'CAD' => '12.99'
- *       )
+ *   // then take the first invoice number as invoice id to fetch the invoice object
+ *   // normally fetch invoice number only returns an array with one invoice identifier
+ *   $fetchInvoiceResponse = $gateway->fetchSubscriptionInvoice(array(
+ *       'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
+ *       'invoiceId' => $fetchInvoiceNumbersResponse->getInvoiceNumbers()
  *   ))->send();
  *
- *   if ($productResponse->isSuccessful()) {
- *       echo "Product id: " . $productResponse->getProductId() . PHP_EOL;
- *       echo "Product reference: " . $productResponse->getProductReference() . PHP_EOL;
- *   } else {
- *       // error handling
+ *   if ($fetchInvoiceResponse->isSuccessful()) {
+ *       var_dump($fetchInvoiceResponse->getInvoice());
  *   }
  *
- *   // finally we can create the subscription!
- *   $subscriptionResponse = $gateway->createSubscription(array(
- *       'currency' => 'GBP',
- *       'customerId' => '123456', // will be created if it doesn't already exist
- *       'card' => array(
- *           'number' => '5555555555554444',
- *           'expiryMonth' => '01',
- *           'expiryYear' => '2020',
- *           'cvv' => '123',
- *           'postcode' => '12345'
- *       ),
- *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card
- *       'subscriptionId' => '111111', // you choose this
- *       'productId' => $productResponse->getProductId(),
- *       'planId' => $planResponse->getPlanId() // not necessary since it's already on the product
- *   ))->send();
- *
- *   if ($subscriptionResponse->isSuccessful()) {
- *       echo "Subscription id: " . $subscriptionResponse->getSubscriptionId() . PHP_EOL;
- *       echo "Subscription reference: " . $subscriptionResponse->getSubscriptionReference() . PHP_EOL;
- *   } else {
- *       // error handling
- *   }
- *
- *   $fetchResponse = $gateway->fetchSubscription(array(
- *       'subscriptionId' => $subscriptionResponse->getSubscriptionId() // could also do by reference
- *   ))->send();
- *
- *   if ($fetchResponse->isSuccessful()) {
- *       var_dump($fetchResponse->getSubscription());
- *   }
+ * </code>
  */
 class FetchSubscriptionInvoiceRequest extends AbstractRequest
 {
     /**
-     * Returns the invoice id
+     * Returns the first invoice numbers as invoice id
      *
      * @return null|string
      */
     public function getInvoiceId()
     {
-        return $this->getParameter('invoiceId');
+        $invoice_numbers = $this->getParameter('invoiceId');
+        if (!is_array($invoice_numbers) || empty($invoice_numbers)) {
+            return null;
+        }
+        return $invoice_numbers[0];
     }
 
     /**
@@ -114,13 +74,34 @@ class FetchSubscriptionInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Returns the invoice state, one of 'Open', 'Due', 'Paid', 'Overdue', or 'WrittenOff'
+     *
+     * @return null|string
+     */
+    public function getInvoiceState()
+    {
+        return $this->getParameter('invoiceState');
+    }
+
+    /**
+     * Sets the invoice state
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setInvoiceState($value)
+    {
+        return $this->setParameter('invoiceState', $value);
+    }
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
      */
     protected function getFunction()
     {
-        return 'fetchInvoice';
+        return $this->getInvoiceId() ? 'fetchInvoice' : 'fetchInvoiceNumbers';
     }
 
     /**
@@ -146,16 +127,26 @@ class FetchSubscriptionInvoiceRequest extends AbstractRequest
         $subscription->merchantAutoBillId = $subscriptionId;
         $subscription->VID = $subscriptionReference;
 
+        $invoiceId = $this->getInvoiceId();
+
         $data = array(
             'action' => $this->getFunction()
         );
 
-        $data['autobill'] = $subscription;
-        $data['invoiceId'] = $this->getInvoiceId();
-        $data['asPDF'] = false;
-        $data['statementTemplateId'] = null;
-        $data['dunningIndex'] = 0;
-        $data['language'] = 'en-US';
+        // fetchInvoiceNumbers call, should go before fetchInvoice call
+        if ($invoiceId === null) {
+            $data['autobill'] = $subscription;
+            $data['invoicestate'] = $this->getInvoiceState(); // not camel case as described in the doc
+        }
+        // fetchInvoice call
+        else {
+            $data['autobill'] = $subscription;
+            $data['invoiceId'] = $this->getInvoiceId();
+            $data['asPDF'] = false;
+            $data['statementTemplateId'] = null;
+            $data['dunningIndex'] = 0;
+            $data['language'] = 'en-US';
+        }
 
         return $data;
     }
