@@ -422,6 +422,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Returns the invoice id, which is normally the first element of invoice numbers array
+     *
+     * @return null|string
+     */
+    public function getInvoiceId()
+    {
+        return $this->getParameter('invoiceId');
+    }
+
+    /**
+     * Sets the invoice id
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setInvoiceId($value)
+    {
+        return $this->setParameter('invoiceId', $value);
+    }
+
+    /**
      * @return static
      */
     public function setTaxClassification($value)

@@ -2,6 +2,7 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
@@ -18,6 +19,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * make the payment. Either paymentMethodId or paymentMethodReference is required.
  * - amount: The amount of the outstanding invoice balance. That should be obtained from reading
  * the invoice text to get the total amount due.
+ * - invoiceId: An optional parameter of the ID of the Invoice against which the payment is to be 
+ * made. If not specified, the oldest unpaid invoice for this AutoBill will be selected for payment. 
  *
  * Example:
  * <code>
@@ -42,27 +45,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class MakePaymentRequest extends AbstractRequest
 {
-    /**
-     * Returns the overdue amount
-     *
-     * @return null|string
-     */
-    public function getAmount()
-    {
-        return $this->getParameter('amount');
-    }
-
-    /**
-     * Sets the overdue amount
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setAmount($value)
-    {
-        return $this->setParameter('amount', $value);
-    }
-
     /**
      * The name of the function to be called in Vindicia's API
      *
@@ -95,13 +77,13 @@ class MakePaymentRequest extends AbstractRequest
         $paymentMethodReference = $this->getPaymentMethodReference();
         if (!$paymentMethodId && !$paymentMethodReference) {
             throw new InvalidRequestException(
-                'Either the $paymentMethodId or $paymentMethodReference parameter is required.'
+                'Either the paymentMethodId or paymentMethodReference parameter is required.'
             );
         }
 
         $amount = $this->getAmount();
         if (!$amount) {
-            throw new InvalidRequestException('$amount parameter is required.');
+            throw new InvalidRequestException('The amount parameter is required.');
         }
 
         $subscription = new stdClass();
@@ -113,10 +95,10 @@ class MakePaymentRequest extends AbstractRequest
         );
 
         $data['autobill'] = $subscription;
-        $data['paymentMethod'] = $this->buildPaymentMethod();
+        $data['paymentMethod'] = $this->buildPaymentMethod(null);
         $data['amount'] = $amount;
         $data['currency'] = null;
-        $data['invoiceId'] = null;
+        $data['invoiceId'] = $this->getInvoiceId();
         $data['overageDisposition'] = null;
         $data['note'] = 'Payment initiated by makePayment';
 

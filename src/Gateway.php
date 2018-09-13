@@ -167,17 +167,17 @@ class Gateway extends AbstractVindiciaGateway
     /**
      * Fetch the invoice number of a subscription
      *
-     * See Message\FetchSubscriptionInvoiceNumbersRequest for more details.
+     * See Message\FetchSubscriptionInvoiceRequest for more details.
      *
      * @param array $parameters
-     * @return \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceNumbersRequest
+     * @return \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest
      */
     public function fetchSubscriptionInvoiceNumbers(array $parameters = array())
     {
         /**
-         * @var \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceNumberRequest
+         * @var \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest
          */
-        return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionInvoiceNumbersRequest', $parameters);
+        return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest', $parameters);
     }
 
     /**
