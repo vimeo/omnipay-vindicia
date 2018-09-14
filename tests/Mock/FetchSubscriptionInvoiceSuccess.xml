@@ -14,11 +14,11 @@
         <returnString xsi:type="xsd:string">OK</returnString>
       </return>
       <invoice xmlns="" xsi:type="string">
-Vimeo                                      Invoice #: [INVOICE_ID]
+Company Name                                     Invoice #: [INVOICE_ID]
                                                 Date: 2020-09-12
 
-Charles Smith
-07030
+Customer Name
+12345
 US 
 
 Previous Balance:                                                              0.00
@@ -31,8 +31,8 @@ Total Payments                                                                 0
 BALANCE                                                                        0.00
 ___________________________________________________________________________________
 Current Charges:
-    101                      Recurring Charge, Billing Plan 101    x 1         0.00
-    1217985                  Vimeo Producer                        x 1     [AMOUNT]
+    Product ID                    Product Name                      x 1        0.00
+    Product ID                    Product Name                      x 1    [AMOUNT]
 ___________________________________________________________________________________
 Total Current Charges                                                      [AMOUNT]
 
