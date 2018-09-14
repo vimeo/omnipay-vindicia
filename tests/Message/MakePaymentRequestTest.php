@@ -17,7 +17,6 @@ class MakePaymentRequestTest extends SoapTestCase
 
         $this->subscriptionId = $this->faker->subscriptionId();
         $this->paymentMethodId = $this->faker->paymentMethodId();
-        $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount('USD');
         $this->invoiceId = $this->faker->invoiceId();
 
@@ -31,8 +30,11 @@ class MakePaymentRequestTest extends SoapTestCase
             )
         );
 
-        // amount, currency, merchantTransactionId, attributes
+        $this->currency = $this->faker->currency();
         $this->subscriptionReference = $this->faker->subscriptionReference();
+        $this->transactionId = $this->faker->transactionId();
+        $this->timestamp = date('Y-m-d\T12:00:00-04:00');
+        $this->summary = $this->faker->summary();
     }
 
     /**
@@ -109,5 +111,66 @@ class MakePaymentRequestTest extends SoapTestCase
     {
         $this->request->setAmount(null);
         $this->request->getData();
+    }
+
+    /**
+     * @return void
+     */
+    public function testSendSuccess()
+    {
+        $this->setMockSoapResponse('MakePaymentSuccess.xml', array(
+            'TRANSACTION_ID' => $this->transactionId,
+            'CURRENCY' => $this->currency,
+            'AMOUNT' => $this->amount,
+            'TIMESTAMP' => $this->timestamp,
+            'SUMMARY' => $this->summary
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+
+        $transaction = $response->getTransaction();
+        $this->assertInstanceOf('\Omnipay\Vindicia\Transaction', $transaction);
+        $this->assertSame($this->transactionId, $response->getTransactionId());
+        $this->assertSame($this->currency, $transaction->getCurrency());
+        $this->assertSame($this->amount, $transaction->getAmount());
+
+        $attributes = $transaction->getAttributes();
+        $this->assertSame(2, count($attributes));
+        foreach ($attributes as $attribute) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
+            $this->assertTrue(is_string($attribute->getName()));
+            $this->assertTrue(is_string($attribute->getValue()));
+        }
+        $this->assertEquals($this->timestamp, $transaction->getTimestamp());
+
+        $this->assertSame($this->summary, $response->getSummary());
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+    }
+
+        /**
+     * @return void
+     */
+    public function testSendFailure()
+    {
+        $this->setMockSoapResponse('MakePaymentFailure.xml', array(
+            'SUBSCRIPTION_ID' => $this->subscriptionId
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('400', $response->getCode());
+
+        $message = 'Failed to make payment: No Transaction Billing objects which can accept ' .
+                   'payment were found for AutoBill Product Serial ' . $this->subscriptionId;
+        $this->assertSame($message, $response->getMessage());
     }
 }

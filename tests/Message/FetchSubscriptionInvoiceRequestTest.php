@@ -18,13 +18,15 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
         $this->subscriptionId = $this->faker->subscriptionId();
         $this->invoiceState = $this->faker->invoiceState();
         $this->invoiceId = $this->faker->invoiceId();
+        $this->amount = $this->faker->monetaryAmount('USD');
 
         $this->request = new FetchSubscriptionInvoiceRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
                 'subscriptionId' => $this->subscriptionId,
                 'invoiceState' => $this->invoiceState,
-                'invoiceId' => $this->invoiceId
+                'invoiceId' => $this->invoiceId,
+                'amount' => $this->amount
             )
         );
 
@@ -109,5 +111,91 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
         $this->request->setSubscriptionId(null);
         $this->request->setSubscriptionReference(null);
         $this->request->getData();
+    }
+
+    /**
+     * @return void
+     */
+    public function testFetchSubscriptionInvoiceNumbersSendSuccess()
+    {
+        $this->setMockSoapResponse('FetchSubscriptionInvoiceNumbersSuccess.xml', array(
+            'INVOICE_ID' => $this->invoiceId
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+
+        $invoice_numbers_array = $response->getInvoiceNumbers();
+        $this->assertNotNull($invoice_numbers_array);
+        $this->assertEquals(2, count($invoice_numbers_array));
+        $this->assertSame($this->invoiceId, $invoice_numbers_array[0]);
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+    }
+
+    /**
+     * @return void
+     */
+    public function testFetchSubscriptionInvoiceSendSuccess()
+    {
+        $this->setMockSoapResponse('FetchSubscriptionInvoiceSuccess.xml', array(
+            'INVOICE_ID' => $this->invoiceId,
+            'AMOUNT' => $this->amount
+        ));
+
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('OK', $response->getMessage());
+
+        $invoice_lines = explode("\n", $response->getInvoice());
+        $amount = null;
+        foreach ($invoice_lines as $line) {
+            if (stripos($line, 'Total Amount Due:') !== false) {
+                preg_match_all('!\d+(?:\.\d+)?!', $line, $matches);
+                $floats = array_map('floatval', $matches[0]);
+                $amount = $floats[0];
+            }
+        }
+        $this->assertEquals($this->amount, $amount);
+
+        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+    }
+
+    /**
+     * @return void
+     */
+    public function testFetchSubscriptionInvoiceNumbersSendFailure()
+    {
+        $this->setMockSoapResponse('FetchSubscriptionInvoiceNumbersFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('400', $response->getCode());
+        $this->assertSame('Unable to load AutoBill: ', $response->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testFetchSubscriptionInvoiceSendFailure()
+    {
+        $this->setMockSoapResponse('FetchSubscriptionInvoiceFailure.xml');
+
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertFalse($response->isPending());
+        $this->assertSame('400', $response->getCode());
     }
 }
