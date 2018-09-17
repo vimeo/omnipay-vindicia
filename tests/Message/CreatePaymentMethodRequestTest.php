@@ -95,14 +95,14 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function testDeactivatePaymentMethod()
+    public function testActivatePaymentMethod()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
         $request->initialize();
 
         $value = $this->faker->bool();
-        $this->assertSame($request, $request->setDeactivatePaymentMethod($value));
-        $this->assertSame($value, $request->getDeactivatePaymentMethod());
+        $this->assertSame($request, $request->setActivatePaymentMethod($value));
+        $this->assertSame($value, $request->getActivatePaymentMethod());
     }
 
     /**
@@ -247,7 +247,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
      */
     public function testGetDataDeactivatePaymentMethod()
     {
-        $data = $this->request->setDeactivatePaymentMethod(true)->getData();
+        $data = $this->request->setActivatePaymentMethod(false)->getData();
 
         $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
         $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
