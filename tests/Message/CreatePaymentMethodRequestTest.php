@@ -95,6 +95,19 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testActivatePaymentMethod()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
+        $request->initialize();
+
+        $value = $this->faker->bool();
+        $this->assertSame($request, $request->setActivatePaymentMethod($value));
+        $this->assertSame($value, $request->getActivatePaymentMethod());
+    }
+
+    /**
+     * @return void
+     */
     public function testCustomerId()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest')->makePartial();
@@ -168,6 +181,7 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['postcode'], $data['paymentMethod']->billingAddress->postalCode);
         $this->assertSame($this->card['country'], $data['paymentMethod']->billingAddress->country);
         $this->assertSame('CreditCard', $data['paymentMethod']->type);
+        $this->assertTrue($data['paymentMethod']->active);
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
         $this->assertSame($this->customerReference, $data['account']->VID);
 
@@ -225,6 +239,22 @@ class CreatePaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->customerId, $data['account']->merchantAccountId);
         $this->assertSame($this->customerReference, $data['account']->VID);
         $this->assertFalse($data['replaceOnAllAutoBills']);
+        $this->assertSame('updatePaymentMethod', $data['action']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetDataDeactivatePaymentMethod()
+    {
+        $data = $this->request->setActivatePaymentMethod(false)->getData();
+
+        $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
+        $this->assertSame($this->paymentMethodReference, $data['paymentMethod']->VID);
+        $this->assertSame($this->card['number'], $data['paymentMethod']->creditCard->account);
+        $this->assertSame($this->card['expiryYear'], substr($data['paymentMethod']->creditCard->expirationDate, 0, 4));
+        $this->assertSame(intval($this->card['expiryMonth']), intval(substr($data['paymentMethod']->creditCard->expirationDate, 4)));
+        $this->assertFalse($data['paymentMethod']->active);
         $this->assertSame('updatePaymentMethod', $data['action']);
     }
 
