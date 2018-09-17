@@ -30,8 +30,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * method is validated. Default is false.
  * - skipCvvValidation: If set to true, CVV validation will not be performed when the payment
  * method is validated. Default is false.
- * - activate: If set to false, the specific payment method will be deactivated on Vindicia side.
- * Default is true.
+ * - active: If set to false, Vindicia will deactivate the given payment method. Default is true.
  * - updateSubscriptions: If result is true and this request is an update to an existing payment
  * method on an account, Vindicia will update the payment method details on all subscriptions.
  * Default is true.
@@ -145,8 +144,8 @@ class CreatePaymentMethodRequest extends AbstractRequest
         if (!array_key_exists('skipCvvValidation', $parameters)) {
             $parameters['skipCvvValidation'] = false;
         }
-        if (!array_key_exists('activate', $parameters)) {
-            $parameters['activate'] = true;
+        if (!array_key_exists('active', $parameters)) {
+            $parameters['active'] = true;
         }
         if (!array_key_exists('updateSubscriptions', $parameters)) {
             $parameters['updateSubscriptions'] = true;
@@ -276,9 +275,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
      *
      * @return null|bool
      */
-    public function getActivatePaymentMethod()
+    public function getActive()
     {
-        return $this->getParameter('activate');
+        return $this->getParameter('active');
     }
 
     /**
@@ -287,9 +286,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
      * @param bool $value
      * @return static
      */
-    public function setActivatePaymentMethod($value)
+    public function setActive($value)
     {
-        return $this->setParameter('activate', $value);
+        return $this->setParameter('active', $value);
     }
 
     /**
@@ -333,7 +332,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
         }
 
         $paymentMethod = $this->buildPaymentMethod($paymentMethodType, true);
-        if ($this->getActivatePaymentMethod() === false) {
+        if ($this->getActive() === false) {
             $paymentMethod->active = false;
         }
 
