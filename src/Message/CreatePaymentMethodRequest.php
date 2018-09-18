@@ -30,7 +30,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * method is validated. Default is false.
  * - skipCvvValidation: If set to true, CVV validation will not be performed when the payment
  * method is validated. Default is false.
- * - active: If set to false, Vindicia will deactivate the given payment method. Default is true.
+ * - active: If set to false, Vindicia will deactivate the given payment method.
+ * Default is true.
  * - updateSubscriptions: If result is true and this request is an update to an existing payment
  * method on an account, Vindicia will update the payment method details on all subscriptions.
  * Default is true.
@@ -271,7 +272,8 @@ class CreatePaymentMethodRequest extends AbstractRequest
     }
 
     /**
-     * If set to false we set the payment method active flag to be false
+     * If set to false Vindicia will deactivate the given payment method.
+     * Default is true.
      *
      * @return null|bool
      */
@@ -281,7 +283,8 @@ class CreatePaymentMethodRequest extends AbstractRequest
     }
 
     /**
-     * If set to false we set the payment method active flag to be false
+     * If set to false Vindicia will deactivate the given payment method.
+     * Default is true.
      *
      * @param bool $value
      * @return static
