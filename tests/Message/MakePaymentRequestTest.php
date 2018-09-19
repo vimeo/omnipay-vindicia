@@ -19,6 +19,7 @@ class MakePaymentRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->amount = $this->faker->monetaryAmount('USD');
         $this->invoiceId = $this->faker->invoiceId();
+        $this->note = $this->faker->note();
 
         $this->request = new MakePaymentRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -26,7 +27,8 @@ class MakePaymentRequestTest extends SoapTestCase
                 'subscriptionId' => $this->subscriptionId,
                 'paymentMethodId' => $this->paymentMethodId,
                 'amount' => $this->amount,
-                'invoiceId' => $this->invoiceId
+                'invoiceId' => $this->invoiceId,
+                'note' => $this->note
             )
         );
 
@@ -64,6 +66,18 @@ class MakePaymentRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testNote()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\MakePaymentRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setNote($this->note));
+        $this->assertSame($this->note, $request->getNote());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -75,7 +89,8 @@ class MakePaymentRequestTest extends SoapTestCase
         $this->assertSame($this->invoiceId, $data['invoiceId']);
         $this->assertNull($data['currency']);
         $this->assertNull($data['overageDisposition']);
-        $this->assertSame('Payment initiated by makePayment', $data['note']);
+        $this->assertTrue($data['usePaymentMethodForFutureBilling']);
+        $this->assertSame($this->note, $data['note']);
     }
 
     /**

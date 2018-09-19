@@ -6,7 +6,11 @@ use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * Make payment against an outstanding invoice amount.
+ * Make payment against an outstanding invoice amount. This is usually used when the customer
+ * has an active subsciption but their payment method is in soft/hard failure. In that scenario,
+ * the customer is owing money to merchant, and an outstanding invoice can be fetched from gateway.
+ * Using this request with a payment method as parameter, the customer can make payment to clear
+ * outstanding invoice, and they are charged by given amount, normally the amount shown on invoice.
  *
  * Parameters:
  * - subscriptionId: Your identifier for the subscription to be fetched. Either subscriptionId
@@ -38,13 +42,33 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *
  *   if ($makePaymentResponse->isSuccessful()) {
  *       echo 'Payment summary " . $makePaymentResponse->getSummary() . PHP_EOL;';
- *       vardump($makePaymentResponse->getTransaction());
+ *       var_dump($makePaymentResponse->getTransaction());
  *   }
  *
  * </code>
  */
 class MakePaymentRequest extends AbstractRequest
 {
+    /**
+     * Returns the note for this payment.
+     *
+     * @return null|string
+     */
+    public function getNote()
+    {
+        return $this->getParameter('note');
+    }
+
+    /**
+     * Sets the note for this payment
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setNote($value)
+    {
+        return $this->setParameter('note', $value);
+    }
     /**
      * The name of the function to be called in Vindicia's API
      *
@@ -100,7 +124,8 @@ class MakePaymentRequest extends AbstractRequest
         $data['currency'] = null;
         $data['invoiceId'] = $this->getInvoiceId();
         $data['overageDisposition'] = null;
-        $data['note'] = 'Payment initiated by makePayment';
+        $data['usePaymentMethodForFutureBilling'] = true;
+        $data['note'] = $this->getNote();
 
         return $data;
     }
