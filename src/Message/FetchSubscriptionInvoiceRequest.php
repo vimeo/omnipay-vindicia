@@ -13,36 +13,34 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * or subscriptionReference is required.
  * - subscriptionReference: The gateway's identifier for the subscription to be fetched. Either
  * subscriptionId or subscriptionReference is required.
- * - invoiceId: the invoice number which uniquely identifies the fetched invoice within the subscription
- * - invoiceState: the invoice state which limits the returned objects to the specified state:
- * Open, Due, Paid, Overdue, or WrittenOff.
+ * - invoiceReference: the invoice number which uniquely identifies the fetched invoice within subscription
  *
  * Example:
  * <code>
  *   // first create gateway, plan, product and subscription as described in FetchSubsciptionRequest
  *   // then use subscriptionId returned from $subscriptionResponse->getSubscriptionId()
- *   // and fetch an array of invoice numbers filtered by subscription id and invoice state
+ *   // and fetch an array of invoice references filtered by subscription id and invoice state
  *
  *   // get $subscriptionResponse from createSubscription call
  *
- *   $fetchInvoiceNumbersResponse = $gateway->fetchSubscriptionInvoice(array(
+ *   $fetchInvoiceReferencesResponse = $gateway->fetchSubscriptionInvoiceReferences(array(
  *       'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
  *       'invoiceState' => 'Overdue'
  *   ))->send();
  *
- *   if ($fetchInvoiceNumbersResponse->isSuccessful()) {
- *       var_dump($fetchInvoiceNumbersResponse->getInvoiceNumbers());
+ *   if ($fetchInvoiceReferencesResponse->isSuccessful()) {
+ *       var_dump($fetchInvoiceReferencesResponse->getInvoiceReferences());
  *   }
  *
- *   // then take the first invoice number as invoice id to fetch the invoice object
- *   // normally fetch invoice number only returns an array with one invoice identifier
+ *   // then take the first invoice reference as invoice identifier to fetch the invoice object
+ *   // normally fetch invoice references only returns an array with one invoice identifier
  *
- *.  $invoice_numbers = $fetchInvoiceNumbersResponse->getInvoiceNumbers(); // array of strings
- *   if (!empty($invoice_numbers)) {
- *       $invoice_id = $invoice_numbers[0];
+ *.  $invoice_references = $fetchInvoiceReferencesResponse->getInvoiceReferences(); // array of strings
+ *   if (!empty($invoice_references)) {
+ *       $invoice_reference = $invoice_references[0];
  *       $fetchInvoiceResponse = $gateway->fetchSubscriptionInvoice(array(
  *           'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
- *           'invoiceId' => $invoice_id
+ *           'invoiceReference' => $invoice_reference
  *        ))->send();
  *
  *        if ($fetchInvoiceResponse->isSuccessful()) {
@@ -54,34 +52,13 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class FetchSubscriptionInvoiceRequest extends AbstractRequest
 {
     /**
-     * Returns the invoice state, one of 'Open', 'Due', 'Paid', 'Overdue', or 'WrittenOff'
-     *
-     * @return null|string
-     */
-    public function getInvoiceState()
-    {
-        return $this->getParameter('invoiceState');
-    }
-
-    /**
-     * Sets the invoice state
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setInvoiceState($value)
-    {
-        return $this->setParameter('invoiceState', $value);
-    }
-
-    /**
      * The name of the function to be called in Vindicia's API
      *
      * @return string
      */
     protected function getFunction()
     {
-        return $this->getInvoiceId() ? 'fetchInvoice' : 'fetchInvoiceNumbers';
+        return 'fetchInvoice';
     }
 
     /**
@@ -107,25 +84,21 @@ class FetchSubscriptionInvoiceRequest extends AbstractRequest
         $subscription->merchantAutoBillId = $subscriptionId;
         $subscription->VID = $subscriptionReference;
 
-        $invoiceId = $this->getInvoiceId();
+        $invoiceReference = $this->getInvoiceReference();
+        if (!$invoiceReference) {
+            throw new InvalidRequestException('The invoiceReference parameter is required.');
+        }
 
         $data = array(
             'action' => $this->getFunction()
         );
 
-        if ($invoiceId === null) {
-            // fetchInvoiceNumbers call, should go before fetchInvoice call
-            $data['autobill'] = $subscription;
-            $data['invoicestate'] = $this->getInvoiceState(); // not camel case as described in the doc
-        } else {
-            // fetchInvoice call
-            $data['autobill'] = $subscription;
-            $data['invoiceId'] = $this->getInvoiceId();
-            $data['asPDF'] = false;
-            $data['statementTemplateId'] = null;
-            $data['dunningIndex'] = 0;
-            $data['language'] = 'en-US';
-        }
+        $data['autobill'] = $subscription;
+        $data['invoiceId'] = $invoiceReference;
+        $data['asPDF'] = false;
+        $data['statementTemplateId'] = null;
+        $data['dunningIndex'] = 0;
+        $data['language'] = 'en-US';
 
         return $data;
     }

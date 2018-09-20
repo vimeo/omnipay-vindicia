@@ -14,7 +14,7 @@
         <returnString xsi:type="xsd:string">OK</returnString>
       </return>
       <invoice xmlns="" xsi:type="string">
-Company Name                                     Invoice #: [INVOICE_ID]
+Company Name                                     Invoice #: [INVOICE_REFERENCE]
                                                 Date: 2020-09-12
 
 Customer Name

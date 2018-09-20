@@ -198,11 +198,11 @@ class AbstractRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function testInvoiceId()
+    public function testInvoiceReference()
     {
-        $invoiceId = $this->faker->invoiceId();
-        $this->assertSame($this->request, $this->request->setInvoiceId($invoiceId));
-        $this->assertSame($invoiceId, $this->request->getInvoiceId());
+        $invoiceReference = $this->faker->invoiceReference();
+        $this->assertSame($this->request, $this->request->setInvoiceReference($invoiceReference));
+        $this->assertSame($invoiceReference, $this->request->getInvoiceReference());
     }
 
     /**

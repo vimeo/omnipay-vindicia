@@ -422,24 +422,24 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Returns the invoice id, which is normally the first element of invoice numbers array
+     * Returns the invoice reference, which is normally the first element of invoice references array
      *
      * @return null|string
      */
-    public function getInvoiceId()
+    public function getInvoiceReference()
     {
-        return $this->getParameter('invoiceId');
+        return $this->getParameter('invoiceReference');
     }
 
     /**
-     * Sets the invoice id
+     * Sets the invoice reference
      *
      * @param string $value
      * @return static
      */
-    public function setInvoiceId($value)
+    public function setInvoiceReference($value)
     {
-        return $this->setParameter('invoiceId', $value);
+        return $this->setParameter('invoiceReference', $value);
     }
 
     /**

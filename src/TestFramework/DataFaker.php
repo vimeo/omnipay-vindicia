@@ -226,11 +226,11 @@ class DataFaker
     }
 
     /**
-     * Return an subscription invoice id
+     * Return an subscription invoice reference
      *
      * @return string
      */
-    public function invoiceId()
+    public function invoiceReference()
     {
         return strval($this->intBetween(1, 99999999));
     }

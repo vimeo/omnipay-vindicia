@@ -23,8 +23,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * make the payment. Either paymentMethodId or paymentMethodReference is required.
  * - amount: The amount of the outstanding invoice balance. That should be obtained from reading
  * the invoice text to get the total amount due.
- * - invoiceId: An optional parameter of the ID of the Invoice against which the payment is to be 
- * made. If not specified, the oldest unpaid invoice for this AutoBill will be selected for payment. 
+ * - invoiceReference: An optional parameter of the identifier of the Invoice against which the payment 
+ * is to be made. If not specified, the oldest unpaid invoice for this AutoBill is selected for payment. 
  *
  * Example:
  * <code>
@@ -122,7 +122,7 @@ class MakePaymentRequest extends AbstractRequest
         $data['paymentMethod'] = $this->buildPaymentMethod(null);
         $data['amount'] = $amount;
         $data['currency'] = null;
-        $data['invoiceId'] = $this->getInvoiceId();
+        $data['invoiceId'] = $this->getInvoiceReference();
         $data['overageDisposition'] = null;
         $data['usePaymentMethodForFutureBilling'] = true;
         $data['note'] = $this->getNote();

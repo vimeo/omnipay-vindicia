@@ -16,16 +16,14 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
         $this->faker = new DataFaker();
 
         $this->subscriptionId = $this->faker->subscriptionId();
-        $this->invoiceState = $this->faker->invoiceState();
-        $this->invoiceId = $this->faker->invoiceId();
+        $this->invoiceReference = $this->faker->invoiceReference();
         $this->amount = $this->faker->monetaryAmount('USD');
 
         $this->request = new FetchSubscriptionInvoiceRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
                 'subscriptionId' => $this->subscriptionId,
-                'invoiceState' => $this->invoiceState,
-                'invoiceId' => $this->invoiceId,
+                'invoiceReference' => $this->invoiceReference,
                 'amount' => $this->amount
             )
         );
@@ -60,40 +58,12 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function testInvoiceState()
+    public function testGetData()
     {
-        $request = Mocker::mock('\Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest')->makePartial();
-        $request->initialize();
-
-        $this->assertSame($request, $request->setInvoiceState($this->invoiceState));
-        $this->assertSame($this->invoiceState, $request->getInvoiceState());
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetDataInvoiceNumbers()
-    {
-        $this->request->setInvoiceId(null);
-
         $data = $this->request->getData();
 
         $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
-        $this->assertSame('fetchInvoiceNumbers', $data['action']);
-        $this->assertSame($this->invoiceState, $data['invoicestate']);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetDataInvoice()
-    {
-        $this->request->setInvoiceId($this->invoiceId);
-
-        $data = $this->request->getData();
-
-        $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
-        $this->assertSame($this->invoiceId, $data['invoiceId']);
+        $this->assertSame($this->invoiceReference, $data['invoiceId']);
         $this->assertSame('fetchInvoice', $data['action']);
         $this->assertFalse($data['asPDF']);
         $this->assertNull($data['statementTemplateId']);
@@ -114,36 +84,23 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
     }
 
     /**
-     * @return void
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage The invoiceReference parameter is required.
+     * @return                   void
      */
-    public function testFetchSubscriptionInvoiceNumbersSendSuccess()
+    public function testInvoiceReferenceRequired()
     {
-        $this->setMockSoapResponse('FetchSubscriptionInvoiceNumbersSuccess.xml', array(
-            'INVOICE_ID' => $this->invoiceId
-        ));
-
-        $response = $this->request->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertFalse($response->isPending());
-        $this->assertSame('OK', $response->getMessage());
-
-        $invoice_numbers_array = $response->getInvoiceNumbers();
-        $this->assertNotNull($invoice_numbers_array);
-        $this->assertEquals(2, count($invoice_numbers_array));
-        $this->assertSame($this->invoiceId, $invoice_numbers_array[0]);
-
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->request->setInvoiceReference(null);
+        $this->request->getData();
     }
 
     /**
      * @return void
      */
-    public function testFetchSubscriptionInvoiceSendSuccess()
+    public function testSendSuccess()
     {
         $this->setMockSoapResponse('FetchSubscriptionInvoiceSuccess.xml', array(
-            'INVOICE_ID' => $this->invoiceId,
+            'INVOICE_REFERENCE' => $this->invoiceReference,
             'AMOUNT' => $this->amount
         ));
 
@@ -171,23 +128,7 @@ class FetchSubscriptionInvoiceRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function testFetchSubscriptionInvoiceNumbersSendFailure()
-    {
-        $this->setMockSoapResponse('FetchSubscriptionInvoiceNumbersFailure.xml');
-
-        $response = $this->request->send();
-
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertFalse($response->isPending());
-        $this->assertSame('400', $response->getCode());
-        $this->assertSame('Unable to load AutoBill: ', $response->getMessage());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFetchSubscriptionInvoiceSendFailure()
+    public function testSendFailure()
     {
         $this->setMockSoapResponse('FetchSubscriptionInvoiceFailure.xml');
 

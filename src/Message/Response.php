@@ -570,11 +570,11 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Returns the invoice numbers. For use of FetchSubscriptionInvoice request
+     * Returns the invoice references. For use of FetchSubscriptionInvoiceReferences request
      *
      * @return null|array<string>
      */
-    public function getInvoiceNumbers()
+    public function getInvoiceReferences()
     {
         if (isset($this->data->invoicenum)) {
             return $this->data->invoicenum;

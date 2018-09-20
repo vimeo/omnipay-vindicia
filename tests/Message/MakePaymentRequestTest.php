@@ -18,7 +18,7 @@ class MakePaymentRequestTest extends SoapTestCase
         $this->subscriptionId = $this->faker->subscriptionId();
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->amount = $this->faker->monetaryAmount('USD');
-        $this->invoiceId = $this->faker->invoiceId();
+        $this->invoiceReference = $this->faker->invoiceReference();
         $this->note = $this->faker->note();
 
         $this->request = new MakePaymentRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -27,7 +27,7 @@ class MakePaymentRequestTest extends SoapTestCase
                 'subscriptionId' => $this->subscriptionId,
                 'paymentMethodId' => $this->paymentMethodId,
                 'amount' => $this->amount,
-                'invoiceId' => $this->invoiceId,
+                'invoiceReference' => $this->invoiceReference,
                 'note' => $this->note
             )
         );
@@ -86,7 +86,7 @@ class MakePaymentRequestTest extends SoapTestCase
         $this->assertSame('makePayment', $data['action']);
         $this->assertSame($this->paymentMethodId, $data['paymentMethod']->merchantPaymentMethodId);
         $this->assertSame($this->amount, $data['amount']);
-        $this->assertSame($this->invoiceId, $data['invoiceId']);
+        $this->assertSame($this->invoiceReference, $data['invoiceId']);
         $this->assertNull($data['currency']);
         $this->assertNull($data['overageDisposition']);
         $this->assertTrue($data['usePaymentMethodForFutureBilling']);
