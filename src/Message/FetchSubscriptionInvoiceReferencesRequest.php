@@ -13,7 +13,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * or subscriptionReference is required.
  * - subscriptionReference: The gateway's identifier for the subscription to be fetched. Either
  * subscriptionId or subscriptionReference is required.
- * - invoiceState: the invoice state which limits the returned objects to the specified state:
+ * - invoiceState: An optional parameter which limits the returned objects to the specified state:
  * Open, Due, Paid, Overdue, or WrittenOff.
  *
  * Example:
@@ -42,11 +42,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       $fetchInvoiceResponse = $gateway->fetchSubscriptionInvoice(array(
  *           'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
  *           'invoiceReference' => $invoice_reference
- *        ))->send();
+ *       ))->send();
  *
- *        if ($fetchInvoiceResponse->isSuccessful()) {
- *            var_dump($fetchInvoiceResponse->getInvoice());
- *        }
+ *       if ($fetchInvoiceResponse->isSuccessful()) {
+ *           var_dump($fetchInvoiceResponse->getInvoice());
+ *       }
  *.  }
  * </code>
  */

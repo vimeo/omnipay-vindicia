@@ -121,9 +121,9 @@ class MakePaymentRequest extends AbstractRequest
         $data['autobill'] = $subscription;
         $data['paymentMethod'] = $this->buildPaymentMethod(null);
         $data['amount'] = $amount;
-        $data['currency'] = null;
+        $data['currency'] = null;    // using the default Autobill/Invoice currency
         $data['invoiceId'] = $this->getInvoiceReference();
-        $data['overageDisposition'] = null;
+        $data['overageDisposition'] = null;    // using the default applyToOldestInvoice
         $data['usePaymentMethodForFutureBilling'] = true;
         $data['note'] = $this->getNote();
 

@@ -422,7 +422,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Returns the invoice reference, which is normally the first element of invoice references array
+     * Returns the invoice reference
      *
      * @return null|string
      */

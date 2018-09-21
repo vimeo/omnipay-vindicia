@@ -13,7 +13,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * or subscriptionReference is required.
  * - subscriptionReference: The gateway's identifier for the subscription to be fetched. Either
  * subscriptionId or subscriptionReference is required.
- * - invoiceReference: the invoice number which uniquely identifies the fetched invoice within subscription
+ * - invoiceReference: the invoice number which uniquely identifies the fetched invoice within
+ * the subscription. This number should be obtained from FetchSubscriptionInvoiceReferences request.
  *
  * Example:
  * <code>
@@ -41,11 +42,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       $fetchInvoiceResponse = $gateway->fetchSubscriptionInvoice(array(
  *           'subscriptionId' => $subscriptionResponse->getSubscriptionId(), // could also do by reference
  *           'invoiceReference' => $invoice_reference
- *        ))->send();
+ *       ))->send();
  *
- *        if ($fetchInvoiceResponse->isSuccessful()) {
- *            var_dump($fetchInvoiceResponse->getInvoice());
- *        }
+ *       if ($fetchInvoiceResponse->isSuccessful()) {
+ *           var_dump($fetchInvoiceResponse->getInvoice());
+ *       }
  *.  }
  * </code>
  */
@@ -95,9 +96,9 @@ class FetchSubscriptionInvoiceRequest extends AbstractRequest
 
         $data['autobill'] = $subscription;
         $data['invoiceId'] = $invoiceReference;
-        $data['asPDF'] = false;
-        $data['statementTemplateId'] = null;
-        $data['dunningIndex'] = 0;
+        $data['asPDF'] = false;    // using HTML text format as default
+        $data['statementTemplateId'] = null;    // using the default template defined by the AutoBill
+        $data['dunningIndex'] = 0;    // by default we fetch the invoice that was the first issued to the user
         $data['language'] = 'en-US';
 
         return $data;

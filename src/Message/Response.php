@@ -583,7 +583,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Returns the invoice in PDF/HTML format. For use of FetchSubscriptionInvoice request
+     * Returns the invoice in HTML text format. For use of FetchSubscriptionInvoice request
      *
      * @return null|string
      */
