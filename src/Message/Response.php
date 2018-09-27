@@ -570,6 +570,45 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Returns the invoice references. For use of FetchSubscriptionInvoiceReferences request
+     *
+     * @return null|array<string>
+     */
+    public function getInvoiceReferences()
+    {
+        if (isset($this->data->invoicenum)) {
+            return $this->data->invoicenum;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the invoice in HTML text format. For use of FetchSubscriptionInvoice request
+     *
+     * @return null|string
+     */
+    public function getInvoice()
+    {
+        if (isset($this->data->invoice)) {
+            return $this->data->invoice;
+        }
+        return null;
+    }
+
+    /**
+     * Returns summary of an invoice payment, either 'Success', 'Failure', or 'Pending'. For use of MakePayment request
+     *
+     * @return null|string
+     */
+    public function getSummary()
+    {
+        if (isset($this->data->summary)) {
+            return $this->data->summary;
+        }
+        return null;
+    }
+
+    /**
      * Override to set return type correctly
      *
      * @return AbstractRequest

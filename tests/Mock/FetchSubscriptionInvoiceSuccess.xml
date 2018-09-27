@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <fetchSubscriptionInvoiceResponse xmlns="http://soap.vindicia.com/v18_0/AutoBill">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+      <invoice xmlns="" xsi:type="string">
+Company Name                                     Invoice #: [INVOICE_REFERENCE]
+                                                Date: 2020-09-12
+
+Customer Name
+12345
+US 
+
+Previous Balance:                                                              0.00
+___________________________________________________________________________________
+
+Payments:
+___________________________________________________________________________________
+Total Payments                                                                 0.00
+
+BALANCE                                                                        0.00
+___________________________________________________________________________________
+Current Charges:
+    Product ID                    Product Name                      x 1        0.00
+    Product ID                    Product Name                      x 1    [AMOUNT]
+___________________________________________________________________________________
+Total Current Charges                                                      [AMOUNT]
+
+Credits:            
+___________________________________________________________________________________
+Total Credits                                                                  0.00
+
+TAX                                                                            0.00
+___________________________________________________________________________________
+Total Amount Due:                                                          [AMOUNT]
+Pay By:                                                                  2020-09-12
+      </invoice>
+    </fetchSubscriptionInvoiceResponse>
+  </soap:Body>
+</soap:Envelope>

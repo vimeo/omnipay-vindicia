@@ -226,6 +226,40 @@ class DataFaker
     }
 
     /**
+     * Return an subscription invoice reference
+     *
+     * @return string
+     */
+    public function invoiceReference()
+    {
+        return strval($this->intBetween(1, 99999999));
+    }
+
+    /**
+     * Return an subscription invoice state
+     *
+     * @return string
+     */
+    public function invoiceState()
+    {
+        $invoiceState = array('Open', 'Due', 'Paid', 'Overdue', 'WrittenOff');
+        $index = $this->intBetween(0, 4);
+        return $invoiceState[$index];
+    }
+
+    /**
+     * Return summary of make payment to an overdue invoice
+     *
+     * @return string
+     */
+    public function summary()
+    {
+        $summary = array('Success', 'Failure', 'Pending');
+        $index = $this->intBetween(0, 2);
+        return $summary[$index];
+    }
+
+    /**
      * Return a product id
      *
      * @return string
