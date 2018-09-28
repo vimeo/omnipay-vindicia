@@ -19,7 +19,7 @@ class ApplePayGateway extends AbstractVindiciaGateway
      * Authorize an Apple Pay purchase.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Common\Message\ApplePayAuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
