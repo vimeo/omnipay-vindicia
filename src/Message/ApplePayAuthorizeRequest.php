@@ -6,11 +6,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     public function getData()
     {
-        $this->validate('validationURL');
-
         $data = array();
 
-        $data['validationURL'] = $this->getValidationUrl();
+        $data['merchantIdentifier'] = 'merchant.com.vimeo';
+        $data['displayName'] = 'Vimeo';
+        $data['initiative'] = 'web';
+        $data['initiativeContext'] = "vimeo.com";
         return $data;
     }
 
@@ -20,13 +21,25 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        $headers = array();
+        $headers['endpointURL'] = getValidationURL()."/paymentSession";
+
+        return $headers;
+    }
+
+    /**
      * Overriding AbstractReuqest::sendData() so that we can make a REST call instead of a SOAP call.
      */
     public function sendData($data)
     {
         $headers = array_merge(
-            $this->getHeaders(),
-            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
+            $this->getHeaders(), array(
+                'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'),
+                'json': true)
         );
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
@@ -82,29 +95,4 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     abstract public function getEndpoint();
-
-    /**
-     * @return array
-     */
-    public function getHeaders()
-    {
-        $headers = array();
-        if ($this->getConnectedStripeAccountHeader()) {
-            $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
-        }
-        if ($this->getIdempotencyKeyHeader()) {
-            $headers['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
-        }
-        return $headers;
-    }
-
-    /**
-     * Get the gateway API Key.
-     *
-     * @return string
-     */
-    public function getApiKey()
-    {
-        return $this->getParameter('apiKey');
-    }
 }
