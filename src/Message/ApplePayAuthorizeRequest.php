@@ -37,9 +37,11 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     public function sendData($data)
     {
         $headers = array_merge(
-            $this->getHeaders(), array(
+            $this->getHeaders(),
+            [
                 'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'),
-                'json': true)
+                'json': true
+            ]
         );
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
