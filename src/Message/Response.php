@@ -577,7 +577,7 @@ class Response extends AbstractResponse
     public function getInvoiceReferences()
     {
         if (isset($this->data->invoicenum)) {
-            // Vindicia may mess up the field if only one invoice num is returned
+            // PHP SOAP parsing may mess up the field if only one invoice num is in the response
             // so we force it to return an array of string
             if (is_string($this->data->invoicenum)) {
                 return array($this->data->invoicenum);
