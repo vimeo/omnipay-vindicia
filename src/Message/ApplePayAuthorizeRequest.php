@@ -26,7 +26,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getHeaders()
     {
         $headers = array();
-        $headers['endpointURL'] = getValidationURL()."/paymentSession";
+        //TODO: Add Apple Pay certs here.
 
         return $headers;
     }
@@ -96,5 +96,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return 'POST';
     }
 
-    abstract public function getEndpoint();
+    public function getEndpoint()
+    {
+        return getValidationURL()."/paymentSession";
+    }
 }
