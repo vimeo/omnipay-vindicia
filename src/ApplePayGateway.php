@@ -12,7 +12,7 @@ class ApplePayGateway extends AbstractVindiciaGateway
      */
     public function getName()
     {
-        return 'Vindicia Apple Pay';
+        return 'Vindicia ApplePay';
     }
 
     /**

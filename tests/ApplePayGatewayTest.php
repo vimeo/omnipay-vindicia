@@ -23,14 +23,14 @@ class ApplePayGatewayTest extends GatewayTestCase
      */
     public function testGetName()
     {
-        $this->assertSame('Vindicia Apple Pay', $this->gateway->getName());
+        $this->assertSame('Vindicia ApplePay', $this->gateway->getName());
     }
     /**
      * @return void
      */
     public function testCreation()
     {
-        $gateway = Omnipay::create('Vindicia_Apple_Pay');
+        $gateway = Omnipay::create('Vindicia_ApplePay');
         $this->assertInstanceOf('Omnipay\Vindicia\ApplePayGateway', $gateway);
     }
 }
