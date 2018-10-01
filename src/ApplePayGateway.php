@@ -16,22 +16,22 @@ class ApplePayGateway extends AbstractVindiciaGateway
     }
 
     /**
-     * Authorize an Apple Pay purchase.
+     * Makes request to Apple to set up session between Vimeo and Apple 
+     * (instead of extending the usual AbstractRequest).
      *
-     * @param array $parameters
+     * @param String $parameters
      * @return \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
      */
-    public function authorize(array $parameters = array())
+    public function authorize($validationURL)
     {
         /**
          * @var \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
          */
-        return $this->createRequest('\Omnipay-Vindicia\Message\ApplePayAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay-Vindicia\Message\ApplePayAuthorizeRequest', $validationURL);
     }
 
     /**
-     * Makes request to Apple to set up session between Vimeo and Apple 
-     * (instead of extending the usual AbstractRequest).
+     * Complete an Apple Pay purchase.
      *
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest
