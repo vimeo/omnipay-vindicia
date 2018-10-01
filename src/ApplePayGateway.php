@@ -22,7 +22,7 @@ class ApplePayGateway extends AbstractVindiciaGateway
      * @param String $parameters
      * @return \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
      */
-    public function authorize($validationURL)
+    public function authorize($validationURL = null)
     {
         /**
          * @var \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
