@@ -19,7 +19,7 @@ class ApplePayGateway extends AbstractVindiciaGateway
      * Makes request to Apple to set up session between Vimeo and Apple 
      * (instead of extending the usual AbstractRequest).
      *
-     * @param String $parameters
+     * @param array $parameters
      * @return \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
      */
     public function authorize(array $parameters = array())

@@ -4,6 +4,9 @@ namespace Omnipay\Vindicia\Message;
 
 class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 {
+    /**
+     * @return array
+     */
     public function getData()
     {
         $data = array();
@@ -15,6 +18,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function getValidationUrl()
     {
         return $this->getParameter('validationURL');
@@ -40,10 +46,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $headers = array_merge(
             $this->getHeaders(),
-            [
+            array(
                 'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'),
-                'json': true
-            ]
+                'json' => true
+            )
         );
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
@@ -71,6 +77,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         // don't throw exceptions for 4xx errors
         $this->httpClient->getEventDispatcher()->addListener(
             'request.error',
+            /**
+             * @param $event null 
+             * @var void
+             */
             function ($event) {
                 if ($event['response']->isClientError()) {
                     $event->stopPropagation();
@@ -97,9 +107,11 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return 'POST';
     }
-
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
-        return 'https://'.getValidationURL()."/paymentSession";
+        return 'https://'.$this->getValidationURL()."/paymentSession";
     }
 }
