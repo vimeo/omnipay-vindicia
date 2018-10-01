@@ -22,12 +22,12 @@ class ApplePayGateway extends AbstractVindiciaGateway
      * @param String $parameters
      * @return \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
      */
-    public function authorize($validationURL = null)
+    public function authorize(array $parameters = array())
     {
         /**
          * @var \Omnipay-Vindicia\Message\ApplePayAuthorizeRequest
          */
-        return $this->createRequest('\Omnipay-Vindicia\Message\ApplePayAuthorizeRequest', $validationURL);
+        return $this->createRequest('\Omnipay-Vindicia\Message\ApplePayAuthorizeRequest', $parameters);
     }
 
     /**

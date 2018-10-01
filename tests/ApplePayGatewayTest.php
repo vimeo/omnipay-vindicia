@@ -33,4 +33,16 @@ class ApplePayGatewayTest extends GatewayTestCase
         $gateway = Omnipay::create('Vindicia_ApplePay');
         $this->assertInstanceOf('Omnipay\Vindicia\ApplePayGateway', $gateway);
     }
+
+    /**
+     * @return void
+     */
+    public function testAuthorize()
+    {
+        $request = $this->gateway->authorize(
+            array(
+                'validationURL' => 'https://apple-pay-gateway-nc-pod5.apple.com/paymentservices/startSession',
+            )
+        );
+    }
 }

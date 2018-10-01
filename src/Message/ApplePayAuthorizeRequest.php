@@ -100,6 +100,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function getEndpoint()
     {
-        return getValidationURL()."/paymentSession";
+        return 'https://'.getValidationURL()."/paymentSession";
     }
 }
