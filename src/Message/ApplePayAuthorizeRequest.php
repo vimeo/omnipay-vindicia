@@ -78,9 +78,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $this->httpClient->getEventDispatcher()->addListener(
             'request.error',
             /**
-             * @param $event null 
-             * @var void
-             */
+            * @param $event null 
+            * @var void
+            */
             function ($event) {
                 if ($event['response']->isClientError()) {
                     $event->stopPropagation();
