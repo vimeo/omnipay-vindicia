@@ -37,16 +37,16 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Vindicia\Gateway', $gateway);
     }
 
-    /**
-     * @return void
-     */
-    public function testUsername()
-    {
-        $username = $this->faker->username();
+    // /**
+    //  * @return void
+    //  */
+    // public function testUsername()
+    // {
+    //     $username = $this->faker->username();
 
-        $this->assertSame($this->gateway, $this->gateway->setUsername($username));
-        $this->assertSame($username, $this->gateway->getUsername());
-    }
+    //     $this->assertSame($this->gateway, $this->gateway->setUsername($username));
+    //     $this->assertSame($username, $this->gateway->getUsername());
+    // }
 
     /**
      * @return void
