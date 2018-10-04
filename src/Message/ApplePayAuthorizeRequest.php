@@ -31,8 +31,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getHeaders()
     {
-        $headers = array();
         //TODO: Add Apple Pay certs here.
+        $headers = array('json' => true);
 
         return $headers;
     }
@@ -44,19 +44,11 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function sendData($data)
     {
-        $headers = array_merge(
-            $this->getHeaders(),
-            array(
-                'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'),
-                'json' => true
-            )
-        );
+        $headers = $this->getHeaders();
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
         $this->response = new Response($this, $httpResponse->json());
-        if ($httpResponse->hasHeader('Request-Id')) {
-            $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
-        }
+
         return $this->response;
     }
 
@@ -74,7 +66,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $curlOptions[CURLOPT_SSLVERSION] = 6;
         $config->set('curl.options', $curlOptions);
         $this->httpClient->setConfig($config);
-        
+
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getEndpoint(),

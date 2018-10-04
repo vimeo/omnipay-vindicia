@@ -7,20 +7,28 @@ use Omnipay\Tests\TestCase;
 
 class ApplePayAuthorizeRequestTest extends TestCase
 {
+   /**
+	* @return void
+	*/
     public function setUp()
     {
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
-                'amount' => '12.00',
-                'currency' => 'USD',
-                'card' => $this->getValidCard(),
-                'description' => 'Order #42',
-                'metadata' => array(
-                    'foo' => 'bar',
-                ),
-                'applicationFee' => '1.00'
+                'validationURL' => 'https://apple-pay-gateway-cert.apple.com/'
             )
         );
+    }
+
+   /**
+	* @return void
+	*/
+    public function testSendSuccess()
+    {
+        //$this->setMockHttpResponse('PurchaseSuccess.txt');
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
     }
 }
