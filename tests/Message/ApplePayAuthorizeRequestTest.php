@@ -28,6 +28,8 @@ class ApplePayAuthorizeRequestTest extends TestCase
         //$this->setMockHttpResponse('PurchaseSuccess.txt');
         $response = $this->request->send();
 
+        var_dump($response);
+
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
     }
