@@ -345,7 +345,7 @@ class RefundRequestTest extends SoapTestCase
             'TRANSACTION_REFERENCE' => $this->transactionReference,
             'REFUND_ID' => $this->refundId,
             'REFUND_REFERENCE' => $this->refundReference,
-            'REFUND_TIMESTAMP' => '2016-08-24T07:52:04-07:00',
+            'REFUND_TIMESTAMP' => $this->faker->timestamp(),
             'REASON' => $this->reason
         ));
 
