@@ -84,6 +84,13 @@ class CalculateSalesTaxRequest extends AbstractRequest
             throw new InvalidRequestException('Either the amount or items parameter is required.');
         }
 
+        if ($this->getCustomerId() === null && $this->getCustomerReference() === null) {
+            // With the Avalara tax engine, a customer ID is required for tax to be calculated
+            // Vindicia's advice is to pass a dummy ID if you just want to calculate tax
+            // without a specific user
+            $this->setCustomerId('Dummy ID for tax calculation');
+        }
+
         // skip card validation since we only need the address info
         return array(
             'transaction' => $this->buildTransaction(),
