@@ -321,7 +321,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         } catch (\RunTimeException $e) {
             $response = array_merge(
                 $statusCodes,
-                []
+                array()
             );
         }
 
