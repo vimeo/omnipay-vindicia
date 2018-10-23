@@ -118,7 +118,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the (epoch) timestamp for the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setTimeStamp($value)
     {
@@ -137,7 +137,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the expiration (epoch) timestamp for the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setExpirationTimeStamp($value)
     {
@@ -156,7 +156,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the merchant ID to be sent with the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setMerchantSessionID($value)
     {
@@ -175,7 +175,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the nonce token from the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setNonceToken($value)
     {
@@ -194,7 +194,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the merchant ID sent with the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setMerchantID($value)
     {
@@ -213,7 +213,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the domain name sent with the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setDomainName($value)
     {
@@ -232,7 +232,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the display name sent with the request
      *
      * @param string $value
-     * @return static
+     * @return null
      */
     public function setDisplayName($value)
     {
