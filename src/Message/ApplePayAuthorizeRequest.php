@@ -245,9 +245,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $httpRequest  = $this->createClientRequest($data);
         $httpResponse = $httpRequest->send();
 
-        $statusCodes = array_merge(
-            ['message' => $httpResponse->getReasonPhrase()],
-            ['statusCode' => $httpResponse->getStatusCode()]
+        $statusCodes = array(
+            'message' => $httpResponse->getReasonPhrase(),
+            'statusCode' => $httpResponse->getStatusCode()
         );
 
         try {
