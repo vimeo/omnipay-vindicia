@@ -15,6 +15,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Default display name for Apple Pay Session.
+     * @TODO: Add displayname to private file and add here.
      *
      * @var string
      */
@@ -44,6 +45,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = array();
 
         // These are from Apple's certificate – they should never change.
+        // @TODO: Add merchantIdentifier and initiativeContext to private file and add here. 
         $data["merchantIdentifier"] = "merchant.com";
         $data["initiative"] = "web";
         $data["initiativeContext"] = "abcd.com";
@@ -341,6 +343,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $config                          = $this->httpClient->getConfig();
         $curlOptions                     = $config->get('curl.options');
         $curlOptions[CURLOPT_SSLVERSION] = 6;
+        // @TODO: Add path to certs and passwords. 
         $curlOptions[CURLOPT_SSLCERT] = "YOUR_CERTS_HERE";
         $curlOptions[CURLOPT_SSLKEY] = "YOUR_CERTS_HERE";
         $curlOptions[CURLOPT_SSLKEYPASSWD] = "PASSWORD";
