@@ -993,6 +993,46 @@ class DataFaker
     }
 
     /**
+     * Return an Apple Pay nonce token
+     *
+     * @return string
+     */
+    public function applePayNonceToken()
+    {
+        return $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 7);
+    }
+
+    /**
+     * Return an Apple Pay merchant session id
+     *
+     * @return string
+     */
+    public function applePayMerchantSessionID()
+    {
+        return 'SSHDC' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
+    }
+
+    /**
+     * Return an Apple Pay signature id
+     *
+     * @return string
+     */
+    public function applePaySignature()
+    {
+        return $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER, 4430);
+    }
+
+    /**
+     * Return a domain name
+     *
+     * @return string
+     */
+    public function domainName()
+    {
+        return $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER, 17) . '.com';
+    }
+
+    /**
      * Return a soap id
      *
      * @return string
