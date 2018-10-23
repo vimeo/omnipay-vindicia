@@ -88,16 +88,22 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     public function getValidationUrl()
     {
         return $this->getParameter('validationURL');
     }
 
-    public function setValidationUrl($value)
+    /**
+     * Set the validation URL for the authorize request
+     *
+     * @param string $url
+     * @return static
+     */
+    public function setValidationUrl($url)
     {
-        return $this->setParameter('validationURL', $value);
+        return $this->setParameter('validationURL', $url);
     }
 
     /**
@@ -108,6 +114,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('epochTimestamp');
     }
 
+    /**
+     * Sets the (epoch) timestamp for the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setTimeStamp($value)
     {
         return $this->setParameter('epochTimestamp', $value);
@@ -121,6 +133,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('expiresAt');
     }
 
+    /**
+     * Sets the expiration (epoch) timestamp for the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setExpirationTimeStamp($value)
     {
         return $this->setParameter('expiresAt', $value);
@@ -134,6 +152,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('merchantSessionIdentifier');
     }
 
+    /**
+     * Sets the merchant ID to be sent with the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setMerchantSessionID($value)
     {
         return $this->setParameter('merchantSessionIdentifier', $value);
@@ -147,6 +171,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('nonce');
     }
 
+    /**
+     * Sets the nonce token from the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setNonceToken($value)
     {
         return $this->setParameter('nonce', $value);
@@ -160,6 +190,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('merchantSessionIdentifier');
     }
 
+    /**
+     * Sets the merchant ID sent with the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setMerchantID($value)
     {
         return $this->setParameter('merchantSessionIdentifier', $value);
@@ -173,6 +209,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('domainName');
     }
 
+    /**
+     * Sets the domain name sent with the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setDomainName($value)
     {
         return $this->setParameter('domainName', $value);
@@ -186,6 +228,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('displayName');
     }
 
+    /**
+     * Sets the display name sent with the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setDisplayName($value)
     {
         return $this->setParameter('displayName', $value);
@@ -199,6 +247,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('signature');
     }
 
+    /**
+     * Sets the signature for the request
+     *
+     * @param string $value
+     * @return static
+     */
     public function setSignatureID($value)
     {
         return $this->setParameter('signature', $value);
@@ -212,7 +266,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('username');
     }
 
-
+    /**
+     * Sets the username
+     *
+     * @param string $value
+     * @return static
+     */
     public function setUsername($value)
     {
         return $this->setParameter('username', $value);
@@ -227,6 +286,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Sets the password
+     *
      * @param string $value
      * @return static
      */
@@ -304,7 +365,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             array('headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json']),
             $data
         );
-
 
         return $httpRequest;
     }
