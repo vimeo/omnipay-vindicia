@@ -59,6 +59,13 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class CalculateSalesTaxRequest extends AbstractRequest
 {
     /**
+     * With the Avalara tax engine, a customer ID is required for tax to be calculated.
+     * Vindicia's advice is to pass a dummy ID if you just want to calculate tax
+     * without a specific user.
+     */
+    const DUMMY_CUSTOMER_ID = 'Dummy ID for tax calculation';
+
+    /**
      * @return string
      */
     protected function getObject()
@@ -85,10 +92,7 @@ class CalculateSalesTaxRequest extends AbstractRequest
         }
 
         if ($this->getCustomerId() === null && $this->getCustomerReference() === null) {
-            // With the Avalara tax engine, a customer ID is required for tax to be calculated
-            // Vindicia's advice is to pass a dummy ID if you just want to calculate tax
-            // without a specific user
-            $this->setCustomerId('Dummy ID for tax calculation');
+            $this->setCustomerId(self::DUMMY_CUSTOMER_ID);
         }
 
         // skip card validation since we only need the address info
