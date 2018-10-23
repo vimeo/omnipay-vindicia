@@ -99,7 +99,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the validation URL for the authorize request
      *
      * @param string $url
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setValidationUrl($url)
     {
@@ -118,7 +118,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the (epoch) timestamp for the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setTimeStamp($value)
     {
@@ -137,7 +137,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the expiration (epoch) timestamp for the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setExpirationTimeStamp($value)
     {
@@ -156,7 +156,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the merchant ID to be sent with the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setMerchantSessionID($value)
     {
@@ -175,7 +175,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the nonce token from the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setNonceToken($value)
     {
@@ -194,7 +194,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the merchant ID sent with the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setMerchantID($value)
     {
@@ -213,7 +213,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the domain name sent with the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setDomainName($value)
     {
@@ -232,7 +232,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the display name sent with the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setDisplayName($value)
     {
@@ -251,7 +251,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the signature for the request
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setSignatureID($value)
     {
@@ -270,7 +270,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the username
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setUsername($value)
     {
@@ -289,7 +289,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the password
      *
      * @param string $value
-     * @return Omnipay\Common\Message\AbstractRequest
+     * @return static
      */
     public function setPassword($value)
     {
