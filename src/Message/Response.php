@@ -12,7 +12,11 @@ class Response extends AbstractResponse
     /**
      * @var array<int>
      */
-    protected static $SUCCESS_CODES = array(200);
+    protected static $SUCCESS_CODES = array(
+        200,
+        202 // Authorize requests can return a 202 if the tax service goes down.
+            // Vindicia will, by default, proceed but use inclusive taxes.
+    );
 
     /**
      * @var ObjectHelper
