@@ -63,7 +63,7 @@ class CalculateSalesTaxRequest extends AbstractRequest
      * Vindicia's advice is to pass a dummy ID if you just want to calculate tax
      * without a specific user.
      */
-    const DUMMY_CUSTOMER_ID = 'Dummy ID for tax calculation';
+    const DUMMY_CUSTOMER_ID_FOR_TAX_CALCULATION = 'dummy_id_for_tax_calculation';
 
     /**
      * @return string
@@ -92,7 +92,7 @@ class CalculateSalesTaxRequest extends AbstractRequest
         }
 
         if ($this->getCustomerId() === null && $this->getCustomerReference() === null) {
-            $this->setCustomerId(self::DUMMY_CUSTOMER_ID);
+            $this->setCustomerId(self::DUMMY_CUSTOMER_ID_FOR_TAX_CALCULATION);
         }
 
         // skip card validation since we only need the address info
