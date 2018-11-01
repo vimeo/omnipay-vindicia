@@ -5,6 +5,21 @@ namespace Omnipay\Vindicia;
 
 class ApplePayGateway extends AbstractVindiciaGateway
 {
+
+    /**
+     * Get the gateway parameters.
+     *
+     * @return array
+     */
+    public function getDefaultParameters()
+    {
+        return array(
+            'username' => '',
+            'password' => '',
+            'testMode' => false,
+        );
+    }
+
     /**
      * Get the gateway name.
      *
@@ -13,6 +28,89 @@ class ApplePayGateway extends AbstractVindiciaGateway
     public function getName()
     {
         return 'Vindicia ApplePay';
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getUsername()
+    {
+        return $this->getParameter('username');
+    }
+
+    /**
+     * @return AbstractVindiciaGateway
+     */
+    public function setUsername($value)
+    {
+        return $this->setParameter('username', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPassword()
+    {
+        return $this->getParameter('password');
+    }
+
+    /**
+     * @return AbstractVindiciaGateway
+     */
+    public function setPassword($value)
+    {
+        return $this->setParameter('password', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPemCertPath()
+    {
+        return $this->getParameter('pemCertPath');
+    }
+
+    /**
+     * @param string $value
+     * @return static
+     */
+    public function setPemCertPath($value)
+    {
+        return $this->setParameter('pemCertPath', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getKeyCertPath()
+    {
+        return $this->getParameter('keyCertPath');
+    }
+
+    /**
+     * @param string $value
+     * @return static
+     */
+    public function setKeyCertPath($value)
+    {
+        return $this->setParameter('keyCertPath', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getKeyCertPassword()
+    {
+        return $this->getParameter('keyCertPassword');
+    }
+
+    /**
+     * @param string $value
+     * @return static
+     */
+    public function setKeyCertPassword($value)
+    {
+        return $this->setParameter('keyCertPassword', $value);
     }
 
     /**

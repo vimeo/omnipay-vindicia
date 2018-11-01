@@ -13,7 +13,7 @@ class ApplePayAuthorizeResponse extends Response
      */
     public function isSuccessful()
     {
-        $statusCode = $this->data['statusCode'];
+        $statusCode = $this->getStatusCode();
         return ($statusCode >= 200 && $statusCode < 300) || $statusCode == 304;
     }
 
@@ -24,9 +24,9 @@ class ApplePayAuthorizeResponse extends Response
      * @return boolean
      * @throws \Omnipay\Common\Exception\InvalidResponseException
      */
-    public function getMessage()
+    public function getReason()
     {
-        return $this->data['message'];
+        return $this->data['reason'];
     }
 
     /**
@@ -36,7 +36,7 @@ class ApplePayAuthorizeResponse extends Response
      * @return boolean
      * @throws \Omnipay\Common\Exception\InvalidResponseException
      */
-    public function getCode()
+    public function getStatusCode()
     {
         return $this->data['statusCode'];
     }

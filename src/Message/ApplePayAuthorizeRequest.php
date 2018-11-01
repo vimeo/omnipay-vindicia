@@ -4,6 +4,55 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
 
+/**
+ * Retrieve an Apple Pay Payment Session object.
+ *
+ * Post a request to Apple Pay server's Payment Session endpoint using two-way TLS.
+ *
+ * Parameters:
+ * - pemCertPath: Path to the cert of the split Merchant Identity certification,
+ * associated with your merchantID needed to make the call.
+ * - keyCertPath: Path to the key cert of the split Merchant Identity certification,
+ * associated with your merchantID needed to make the call.
+ * - keyCertPassword: Key certification password for the key certification.
+ * - validationUrl: Validation URL received from session.onvalidatemerchant on the client.
+ * - merchantIdentifier: Your merchant ID provided by Apple.
+ * - displayName: A name for your store, suitable for display, appears in the touch bar.
+ * - applicationType: The "initiative" parameter depending on the type of application.
+ * For Apple Pay on the web, use "web". For Business Chat, use "messaging".
+ * - applicationUrl: The initive context is based on the value supplied for the applicationType/initiative.
+ * For Apple Pay on the web, provide your fully qualified domain name associated with your
+ * Apple Pay Merchant Identity Certificate. For Business Chat, pass your payment gateway URL.
+ * See @link for more details.
+ *
+ * Example:
+ *
+ * <code>
+ *   // set up the gateway
+ *   $gateway = \Omnipay\Omnipay::create('Vindicia ApplePay');
+ *   $gateway->setUsername('your_username');
+ *   $gateway->setPassword('y0ur_p4ssw0rd');
+ *   $gateway->setPemCertPath('./certs/path_to_cert.crt.pem');
+ *   $gateway->setKeyCertPath('./certs/path_to_key_cert.key.pem');
+ *   $gateway->setKeyCerPassword('y0ur_key_p4ssw0rd');
+ *   $gateway->setTestMode(false);
+ *
+ *   // authorize the request and get an Apple Pay Session object.
+ *   $ApplePaySessionObject = $gateway->authorize(array(
+ *       "validationUrl" => "https://example.com",
+ *       "merchantIdentifier" => "merchant.com.example",
+ *       "displayName" => "MyStore",
+ *       "applicationType" => "type", // initiative: "web" or "messaging"
+ *       "applicationUrl" => "mystore.example.com" // initiativeContext:  domain name or payment gateway URL
+ *       )
+ *   ))->send();
+ *
+ * Pass this object back to the client to validate your merchant and continue with an Apple Pay payment.
+ * </code>
+ *
+ * @see \Omnipay\Stripe\Gateway
+ * @link https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api
+ */
 class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     /**
@@ -14,253 +63,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\ApplePayAuthorizeResponse';
 
     /**
-     * Default display name for Apple Pay Session.
-     * @TODO: Add displayname to private file and add here.
-     *
-     * @var string
-     */
-    const DEFAULT_DISPLAY_NAME = 'DISPLAY_NAME_HERE';
-
-    /**
-     * @param array<string, mixed> $parameters
-     * @return ApplePayAuthorizeRequest
-     */
-    public function initialize(array $parameters = array())
-    {
-        if (!array_key_exists('displayName', $parameters)) {
-            $parameters['displayName'] = self::DEFAULT_DISPLAY_NAME;
-        }
-        parent::initialize($parameters);
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getData()
-    {
-        $this->validate('validationURL');
-
-        $data = array();
-
-        // These are from Apple's certificate – they should never change.
-        // @TODO: Add merchantIdentifier and initiativeContext to private file and add here. 
-        $data["merchantIdentifier"] = "merchant.com";
-        $data["initiative"] = "web";
-        $data["initiativeContext"] = "abcd.com";
-
-        if (isset($this->data['validationURL'])) {
-            $data['validationURL'] = $this->getValidationUrl();
-        }
-
-        if (isset($this->data['epochTimestamp'])) {
-            $data['epochTimestamp'] = $this->getTimeStamp();
-        }
-
-        if (isset($this->data['expiresAt'])) {
-            $data['expiresAt'] = $this->getExpirationTimeStamp();
-        }
-
-        if (isset($this->data['merchantSessionIdentifier'])) {
-            $data['merchantSessionIdentifier'] = $this->getMerchantSessionID();
-        }
-
-        if (isset($this->data['nonce'])) {
-            $data['nonce'] = $this->getNonceToken();
-        }
-
-        if (isset($this->data['merchantSessionIdentifier'])) {
-            $data['merchantSessionIdentifier'] = $this->getMerchantID();
-        }
-
-        if (isset($this->data['domainName'])) {
-            $data['domainName'] = $this->getDomainName();
-        }
-
-        if (isset($this->data['displayName'])) {
-            $data['displayName'] = $this->getDisplayName();
-        }
-
-        if (isset($this->data['signature'])) {
-            $data['signature'] = $this->getSignatureID();
-        }
-
-        return $data;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValidationUrl()
-    {
-        return $this->getParameter('validationURL');
-    }
-
-    /**
-     * Set the validation URL for the authorize request
-     *
-     * @param string $url
-     * @return static
-     */
-    public function setValidationUrl($url)
-    {
-        return $this->setParameter('validationURL', $url);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getTimeStamp()
-    {
-        return $this->getParameter('epochTimestamp');
-    }
-
-    /**
-     * Sets the (epoch) timestamp for the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setTimeStamp($value)
-    {
-        return $this->setParameter('epochTimestamp', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getExpirationTimeStamp()
-    {
-        return $this->getParameter('expiresAt');
-    }
-
-    /**
-     * Sets the expiration (epoch) timestamp for the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setExpirationTimeStamp($value)
-    {
-        return $this->setParameter('expiresAt', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getMerchantSessionID()
-    {
-        return $this->getParameter('merchantSessionIdentifier');
-    }
-
-    /**
-     * Sets the merchant ID to be sent with the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setMerchantSessionID($value)
-    {
-        return $this->setParameter('merchantSessionIdentifier', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getNonceToken()
-    {
-        return $this->getParameter('nonce');
-    }
-
-    /**
-     * Sets the nonce token from the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setNonceToken($value)
-    {
-        return $this->setParameter('nonce', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getMerchantID()
-    {
-        return $this->getParameter('merchantSessionIdentifier');
-    }
-
-    /**
-     * Sets the merchant ID sent with the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setMerchantID($value)
-    {
-        return $this->setParameter('merchantSessionIdentifier', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDomainName()
-    {
-        return $this->getParameter('domainName');
-    }
-
-    /**
-     * Sets the domain name sent with the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setDomainName($value)
-    {
-        return $this->setParameter('domainName', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDisplayName()
-    {
-        return $this->getParameter('displayName');
-    }
-
-    /**
-     * Sets the display name sent with the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setDisplayName($value)
-    {
-        return $this->setParameter('displayName', $value);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getSignatureID()
-    {
-        return $this->getParameter('signature');
-    }
-
-    /**
-     * Sets the signature for the request
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setSignatureID($value)
-    {
-        return $this->setParameter('signature', $value);
-    }
-
-    /**
      * @return null|string
      */
     public function getUsername()
@@ -269,8 +71,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Sets the username
-     *
      * @param string $value
      * @return static
      */
@@ -288,8 +88,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Sets the password
-     *
      * @param string $value
      * @return static
      */
@@ -299,37 +97,182 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Overriding AbstractReuqest::sendData() so that we can make a REST call instead of a SOAP call.
-     * @param array $data
-     * @return Response
+     * @return null|string
      */
-    public function sendData($data)
+    public function getPemCertPath()
     {
-        $httpRequest  = $this->createClientRequest($data);
-        $httpResponse = $httpRequest->send();
+        return $this->getParameter('pemCertPath');
+    }
 
-        $statusCodes = array(
-            'message' => $httpResponse->getReasonPhrase(),
-            'statusCode' => $httpResponse->getStatusCode()
-        );
+    /**
+     * @param string $value
+     * @return static
+     */
+    public function setPemCertPath($value)
+    {
+        return $this->setParameter('pemCertPath', $value);
+    }
 
-        try {
-            $message = $httpResponse->json();
-            $response = array_merge(
-                $statusCodes,
-                $message
-            );
-        // If you try to parse an empty response body, error will be thrown.
-        } catch (\RunTimeException $e) {
-            $response = array_merge(
-                $statusCodes,
-                array()
-            );
-        }
+    /**
+     * @return null|string
+     */
+    public function getKeyCertPath()
+    {
+        return $this->getParameter('keyCertPath');
+    }
 
-        $this->response = new static::$RESPONSE_CLASS($this, $response);
+    /**
+     * @param string $value
+     * @return static
+     */
+    public function setKeyCertPath($value)
+    {
+        return $this->setParameter('keyCertPath', $value);
+    }
 
-        return $this->response;
+    /**
+     * @return null|string
+     */
+    public function getKeyCertPassword()
+    {
+        return $this->getParameter('keyCertPassword');
+    }
+
+    /**
+     * Set the key cert for the request
+     *
+     * @param string $url
+     * @return static
+     */
+    public function setKeyCertPassword($value)
+    {
+        return $this->setParameter('keyCertPassword', $value);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getValidationUrl()
+    {
+        return $this->getParameter('validationUrl');
+    }
+
+    /**
+     * Set the validation URL for the request
+     *
+     * @param string $url
+     * @return static
+     */
+    public function setValidationUrl($url)
+    {
+        return $this->setParameter('validationUrl', $url);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMerchantIdentifier()
+    {
+        return $this->getParameter('merchantIdentifier');
+    }
+
+    /**
+     * Set the merchant identifier for the request
+     *
+     * @param string $url
+     * @return static
+     */
+    public function setMerchantIdentifier($value)
+    {
+        return $this->setParameter('merchantIdentifier', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDisplayName()
+    {
+        return $this->getParameter('displayName');
+    }
+
+    /**
+     * Sets the display name for the request
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setDisplayName($value)
+    {
+        return $this->setParameter('displayName', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getApplicationType()
+    {
+        return $this->getParameter('applicationType');
+    }
+
+    /**
+     * Sets the application type for the request
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setApplicationType($value)
+    {
+        return $this->setParameter('applicationType', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getApplicationUrl()
+    {
+        return $this->getParameter('applicationUrl');
+    }
+
+    /**
+     * Sets the application url for the request
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setApplicationUrl($value)
+    {
+        return $this->setParameter('applicationUrl', $value);
+    }
+
+    /**
+     * Get HTTP Method.
+     *
+     * This is nearly always POST but can be over-ridden in sub classes.
+     *
+     * @return string
+     */
+    public function getHttpMethod()
+    {
+        return 'POST';
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        // We must have the validation URL set. If it isn't, don't make the call.
+        $this->validate('validationUrl');
+        $data = array();
+
+        // Required request parameters for Apple Session object.
+        $data['merchantIdentifier'] = $this->getMerchantIdentifier();
+        $data['displayName'] = $this->getDisplayName();
+        $data['initiative'] = $this->getApplicationType();
+        $data['initiativeContext'] = $this->getApplicationUrl();
+
+        return $data;
     }
 
     /**
@@ -340,14 +283,18 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     protected function createClientRequest($data, array $headers = null)
     {
+        $pemCerts = $this->getPemCertPath();
+        $keyCerts = $this->getKeyCertPath();
+        $keyCertPassword = $this->getKeyCertPassword();
+
+        // Setting options for the request.
         $config                          = $this->httpClient->getConfig();
         $curlOptions                     = $config->get('curl.options');
         $curlOptions[CURLOPT_SSLVERSION] = 6;
-        // @TODO: Add path to certs and passwords. 
-        $curlOptions[CURLOPT_SSLCERT] = "YOUR_CERTS_HERE";
-        $curlOptions[CURLOPT_SSLKEY] = "YOUR_CERTS_HERE";
-        $curlOptions[CURLOPT_SSLKEYPASSWD] = "PASSWORD";
-        $curlOptions[CURLOPT_SSLCERTPASSWD]  = "PASSWORD";
+        $curlOptions[CURLOPT_SSLCERT] = $pemCerts;
+        $curlOptions[CURLOPT_SSLKEY] = $keyCerts;
+        $curlOptions[CURLOPT_SSLKEYPASSWD] = $keyCertPassword;
+        $curlOptions[CURLOPT_POST] = 1;
 
         $config->set('curl.options', $curlOptions);
         $this->httpClient->setConfig($config);
@@ -362,25 +309,54 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             }
         );
 
+        // Creating the request to be sent.
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getValidationUrl(),
-            array('headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json']),
-            $data
+            $headers,
+            // ApplePayJs requires that the data be a json object.
+            json_encode($data)
         );
 
         return $httpRequest;
     }
 
     /**
-     * Get HTTP Method.
-     *
-     * This is nearly always POST but can be over-ridden in sub classes.
-     *
-     * @return string
+     * Overriding AbstractRequest::sendData() so that we can make a REST call instead of a SOAP call.
+     * @param array $data
+     * @return Response
      */
-    public function getHttpMethod()
+    public function sendData($data)
     {
-        return 'POST';
+        $headers = array("Content-Type" => "application/json",
+        "Accept" => "application/json");
+
+        // Create a request object to be sent.
+        $httpRequest  = $this->createClientRequest($data, $headers);
+        $httpResponse = $httpRequest->send();
+
+        $statusCode = array(
+            'statusCode' => $httpResponse->getStatusCode(),
+            // A human readable version of the numeric status code.
+            'reason' => $httpResponse->getReasonPhrase()
+        );
+
+        // Assemble the response..
+        try {
+            $message = $httpResponse->json();
+            $response = array_merge(
+                $statusCode,
+                $message
+            );
+        // If you try to parse an empty response body, error will be thrown.
+        } catch (\RunTimeException $e) {
+            $response = array_merge(
+                $statusCode,
+                array()
+            );
+        }
+
+        $this->response = new static::$RESPONSE_CLASS($this, $response);
+        return $this->response;
     }
 }

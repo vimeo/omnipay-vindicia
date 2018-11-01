@@ -993,6 +993,16 @@ class DataFaker
     }
 
     /**
+     * Return an application type
+     *
+     * @return string
+     */
+    public function applePayApplicationType()
+    {
+        return $this->randomCharacters(self::ALPHABET_LOWER, 5);
+    }
+
+    /**
      * Return an Apple Pay nonce token
      *
      * @return string

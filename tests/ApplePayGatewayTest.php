@@ -17,7 +17,15 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->gateway->setTestMode(true);
         $this->faker = new DataFaker();
 
-        $this->validationURL = $this->faker->url();
+        $this->pemCertPath = $this->faker->password();
+        $this->keyCertPath = $this->faker->password();
+        $this->keyCertPassword = $this->faker->password();
+
+        $this->validationUrl = $this->faker->url();
+        $this->merchantIdentifier = $this->faker->transactionId();
+        $this->displayName = $this->faker->username();
+        $this->applicationType = $this->faker->applePayApplicationType();
+        $this->applicationUrl = $this->faker->domainName();
     }
 
     /**
@@ -72,15 +80,50 @@ class ApplePayGatewayTest extends GatewayTestCase
     /**
      * @return void
      */
+    public function testPemCertPath()
+    {
+        $this->assertSame($this->gateway, $this->gateway->setPemCertPath($this->pemCertPath));
+        $this->assertSame($this->pemCertPath, $this->gateway->getPemCertPath());
+    }
+
+    /**
+     * @return void
+     */
+    public function testKeyCertPath()
+    {
+        $this->assertSame($this->gateway, $this->gateway->setKeyCertPath($this->keyCertPath));
+        $this->assertSame($this->keyCertPath, $this->gateway->getKeyCertPath());
+    }
+
+    /**
+     * @return void
+     */
+    public function testKeyCertPassword()
+    {
+        $this->assertSame($this->gateway, $this->gateway->setKeyCertPassword($this->keyCertPassword));
+        $this->assertSame($this->keyCertPassword, $this->gateway->getKeyCertPassword());
+    }
+
+    /**
+     * @return void
+     */
     public function testAuthorize()
     {
         $request = $this->gateway->authorize(
             array(
-                'validationURL' => $this->validationURL,
+                'validationURL' => $this->validationUrl,
+                'merchantIdentifier' => $this->merchantIdentifier,
+                'displayName' => $this->displayName,
+                'applicationType' => $this->applicationType,
+                'applicationUrl' => $this->applicationUrl
             )
         );
 
         $this->assertInstanceOf('Omnipay\Vindicia\Message\ApplePayAuthorizeRequest', $request);
-        $this->assertSame($this->validationURL, $request->getValidationUrl());
+        $this->assertSame($this->validationUrl, $request->getValidationUrl());
+        $this->assertSame($this->merchantIdentifier, $request->getMerchantIdentifier());
+        $this->assertSame($this->displayName, $request->getDisplayName());
+        $this->assertSame($this->applicationType, $request->getApplicationType());
+        $this->assertSame($this->applicationUrl, $request->getApplicationUrl());
     }
 }
