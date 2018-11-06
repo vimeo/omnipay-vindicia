@@ -1088,13 +1088,14 @@ class DataFaker
     }
 
     /**
-     * Return a payment network.
+     * Return a random payment network.
      *
      * @return string
      */
     public function paymentNetwork()
     {
-        return $this->randomCharacters(self::ALPHABET_UPPER . self::ALPHABET_LOWER, $this->intBetween(4, 16));
+        $paymentNetworks = array('Visa', 'MasterCard', 'Amex');
+        return $paymentNetworks[array_rand($paymentNetworks)];
     }
 
     /**
