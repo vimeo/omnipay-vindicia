@@ -12,7 +12,11 @@ class Response extends AbstractResponse
     /**
      * @var array<int>
      */
-    protected static $SUCCESS_CODES = array(200);
+    protected static $SUCCESS_CODES = array(
+        200,
+        202 // Authorize requests can return a 202 if the tax service goes down.
+            // Vindicia will, by default, proceed but use inclusive taxes.
+    );
 
     /**
      * @var ObjectHelper
@@ -565,6 +569,50 @@ class Response extends AbstractResponse
     {
         if (isset($this->data->score)) {
             return intval($this->data->score);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the invoice references. For use of FetchSubscriptionInvoiceReferences request
+     *
+     * @return null|array<string>
+     */
+    public function getInvoiceReferences()
+    {
+        if (isset($this->data->invoicenum)) {
+            // PHP SOAP parsing may mess up the field if only one invoice num is in the response
+            // so we force it to return an array of string
+            if (is_string($this->data->invoicenum)) {
+                return array($this->data->invoicenum);
+            }
+            return $this->data->invoicenum;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the invoice in HTML text format. For use of FetchSubscriptionInvoice request
+     *
+     * @return null|string
+     */
+    public function getInvoice()
+    {
+        if (isset($this->data->invoice)) {
+            return $this->data->invoice;
+        }
+        return null;
+    }
+
+    /**
+     * Returns summary of an invoice payment, either 'Success', 'Failure', or 'Pending'. For use of MakePayment request
+     *
+     * @return null|string
+     */
+    public function getSummary()
+    {
+        if (isset($this->data->summary)) {
+            return $this->data->summary;
         }
         return null;
     }

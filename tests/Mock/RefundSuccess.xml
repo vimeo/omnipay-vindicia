@@ -151,7 +151,7 @@
         <amount xmlns="" xsi:type="xsd:decimal">[REFUND_AMOUNT]</amount>
         <amountIncludesTax xmlns="" xsi:type="xsd:boolean">0</amountIncludesTax>
         <currency xmlns="" xsi:type="xsd:string">USD</currency>
-        <timestamp xmlns="" xsi:type="xsd:dateTime">2016-08-24T07:52:04-07:00</timestamp>
+        <timestamp xmlns="" xsi:type="xsd:dateTime">[REFUND_TIMESTAMP]</timestamp>
         <note xmlns="" xsi:type="xsd:string">[REASON]</note>
         <tokenAction xmlns="" xsi:type="vin:RefundTokenAction">None</tokenAction>
         <status xmlns="" xsi:type="vin:RefundStatus">Processing</status>

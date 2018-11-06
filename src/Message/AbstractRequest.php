@@ -422,6 +422,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Returns the invoice reference
+     *
+     * @return null|string
+     */
+    public function getInvoiceReference()
+    {
+        return $this->getParameter('invoiceReference');
+    }
+
+    /**
+     * Sets the invoice reference
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setInvoiceReference($value)
+    {
+        return $this->setParameter('invoiceReference', $value);
+    }
+
+    /**
      * @return static
      */
     public function setTaxClassification($value)
