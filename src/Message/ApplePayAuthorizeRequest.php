@@ -92,7 +92,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setUsername($value)
     {
@@ -109,7 +109,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setPassword($value)
     {
@@ -130,7 +130,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * setPemCertPath('./certs/path_to_cert.crt.pem');
      *
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setPemCertPath($value)
     {
@@ -151,7 +151,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * setPemCertPath('./certs/path_to_cert.key.pem');
      *
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setKeyCertPath($value)
     {
@@ -170,7 +170,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Password associated with your key certificate, if applicable.
      *
      * @param string $url
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setKeyCertPassword($value)
     {
@@ -190,7 +190,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the validation URL for the request
      *
      * @param string $url
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setValidationUrl($url)
     {
@@ -209,7 +209,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the merchant identifier for the request
      *
      * @param string $url
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setMerchantIdentifier($value)
     {
@@ -228,7 +228,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the display name for the request
      *
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setDisplayName($value)
     {
@@ -247,7 +247,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the application type or the "initiative" for the request
      *
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setApplicationType($value)
     {
@@ -266,7 +266,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the application url or the "initiativeContext" for the request
      *
      * @param string $value
-     * @return static
+     * @return Omnipay\Common\Message\AbstractRequest
      */
     public function setApplicationUrl($value)
     {
