@@ -8,27 +8,46 @@ use Omnipay\Common\Message\ResponseInterface;
  * Retrieve an Apple Pay Payment Session object.
  *
  * Post a request to Apple Pay server's Payment Session endpoint using two-way TLS.
+ * The response to this request is an Apple Pay session object – it expires after five minutes.
+ * - for Apple Pay on the web, you pass the session object to the completion message
+ * completeMerchantValidation.
+ * - for Apple Pay in Business Chat, you pass the session object to your Customer Service Platform
+ * (CSP), which handles communicating with Business Chat on your behalf.
  *
  * Parameters:
+ * // Set by the gateway.
  * - pemCertPath: Path to the cert of the split Merchant Identity certification,
  * associated with your merchantID needed to make the call.
  * - keyCertPath: Path to the key cert of the split Merchant Identity certification,
  * associated with your merchantID needed to make the call.
  * - keyCertPassword: Key certification password for the key certification.
+ * // Set by this request.
  * - validationUrl: Validation URL received from session.onvalidatemerchant on the client.
  * - merchantIdentifier: Your merchant ID provided by Apple.
  * - displayName: A name for your store, suitable for display, appears in the touch bar.
- * - applicationType: The "initiative" parameter depending on the type of application.
- * For Apple Pay on the web, use "web". For Business Chat, use "messaging".
- * - applicationUrl: The initive context is based on the value supplied for the applicationType/initiative.
- * For Apple Pay on the web, provide your fully qualified domain name associated with your
- * Apple Pay Merchant Identity Certificate. For Business Chat, pass your payment gateway URL.
+ * - applicationType: The "initiative" parameter depending on the type of application:
+ *   For Apple Pay on the web, use "web". For Business Chat, use "messaging".
+ * - applicationUrl: The initiative context is based on the value supplied for the applicationType/initiative:
+ *   For Apple Pay on the web, provide your fully qualified domain name associated with your
+ *   Apple Pay Merchant Identity Certificate. For Business Chat, pass your payment gateway URL.
+ *   Example: $this->setApplicationUrl('example.com');
+ *
+ *
  * See @link for more details.
  *
  * Example:
  *
  * <code>
- *   // set up the gateway
+ *   // In your Javascript frontend code:
+ *      // Validating merchant and retieving validationUrl.
+ *      session.onvalidatemerchant = (event) => {
+ *      const validationURL = event.validationURL;
+ *      // pass your validationUrl to the backend in a function here.
+ *      getApplePaySessionObject(event.validationURL).then(function(response) {
+ *           session.completeMerchantValidation(response);
+ *       });
+ *
+ *   // In your backend getApplePaySessionObject function.
  *   $gateway = \Omnipay\Omnipay::create('Vindicia ApplePay');
  *   $gateway->setUsername('your_username');
  *   $gateway->setPassword('y0ur_p4ssw0rd');
@@ -39,7 +58,8 @@ use Omnipay\Common\Message\ResponseInterface;
  *
  *   // authorize the request and get an Apple Pay Session object.
  *   $ApplePaySessionObject = $gateway->authorize(array(
- *       "validationUrl" => "https://example.com",
+ *       // example validation Url
+ *       "validationUrl" => "https://apple-pay-gateway-cert.apple.com/paymentservices/startSession",
  *       "merchantIdentifier" => "merchant.com.example",
  *       "displayName" => "MyStore",
  *       "applicationType" => "type", // initiative: "web" or "messaging"
@@ -105,6 +125,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * A certificate associated with your merchant ID.
+     * Example:
+     * setPemCertPath('./certs/path_to_cert.crt.pem');
+     *
      * @param string $value
      * @return static
      */
@@ -122,6 +146,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * A certificate associated with your merchant ID.
+     * Example:
+     * setPemCertPath('./certs/path_to_cert.key.pem');
+     *
      * @param string $value
      * @return static
      */
@@ -139,7 +167,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Set the key cert for the request
+     * Password associated with your key certificate, if applicable.
      *
      * @param string $url
      * @return static
@@ -216,7 +244,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Sets the application type for the request
+     * Sets the application type or the "initiative" for the request
      *
      * @param string $value
      * @return static
@@ -235,7 +263,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Sets the application url for the request
+     * Sets the application url or the "initiativeContext" for the request
      *
      * @param string $value
      * @return static
@@ -283,18 +311,18 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     protected function createClientRequest($data, array $headers = null)
     {
-        $pemCerts = $this->getPemCertPath();
-        $keyCerts = $this->getKeyCertPath();
+        $pemCertPath = $this->getPemCertPath();
+        $keyCertPath = $this->getKeyCertPath();
         $keyCertPassword = $this->getKeyCertPassword();
 
         // Setting options for the request.
-        $config                          = $this->httpClient->getConfig();
-        $curlOptions                     = $config->get('curl.options');
-        $curlOptions[CURLOPT_SSLVERSION] = 6;
-        $curlOptions[CURLOPT_SSLCERT] = $pemCerts;
-        $curlOptions[CURLOPT_SSLKEY] = $keyCerts;
+        $config                            = $this->httpClient->getConfig();
+        $curlOptions                       = $config->get('curl.options');
+        $curlOptions[CURLOPT_SSLVERSION]   = 6;
+        $curlOptions[CURLOPT_SSLCERT]      = $pemCertPath;
+        $curlOptions[CURLOPT_SSLKEY]       = $keyCertPath;
         $curlOptions[CURLOPT_SSLKEYPASSWD] = $keyCertPassword;
-        $curlOptions[CURLOPT_POST] = 1;
+        $curlOptions[CURLOPT_POST]         = 1;
 
         $config->set('curl.options', $curlOptions);
         $this->httpClient->setConfig($config);

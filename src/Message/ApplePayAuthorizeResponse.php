@@ -6,23 +6,29 @@ class ApplePayAuthorizeResponse extends Response
 {
     /**
      * Is the response successful?
-     * Throws an exception if there's no code.
      *
-     * @return boolean
-     * @throws \Omnipay\Common\Exception\InvalidResponseException
+     * @return boolean|null
      */
     public function isSuccessful()
     {
         $statusCode = $this->getStatusCode();
-        return ($statusCode >= 200 && $statusCode < 300) || $statusCode == 304;
+        return ($statusCode == 200);
     }
 
     /**
-     * Is the response successful?
-     * Throws an exception if there's no code.
+     * The entire Apple Pay payment session object to be used to validate the merchant.
      *
-     * @return boolean
-     * @throws \Omnipay\Common\Exception\InvalidResponseException
+     * @return string|null
+     */
+    public function getApplePayPaymentSessionObject()
+    {
+        return json_encode($this->data);
+    }
+
+    /**
+     * The human-readable status code.
+     *
+     * @return string|null
      */
     public function getReason()
     {
@@ -30,11 +36,9 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
-     * Is the response successful?
-     * Throws an exception if there's no code.
+     * The numerical status code.
      *
-     * @return boolean
-     * @throws \Omnipay\Common\Exception\InvalidResponseException
+     * @return string|null
      */
     public function getStatusCode()
     {
@@ -42,31 +46,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
-     * Is the response a redirect?
-     * Throws an exception if there's no code.
-     * Successful PayPal purchase responses are always redirects.
+     * The time when Apple responded with the Apple Pay payment session.
      *
-     * @return boolean
-     * @throws \Omnipay\Common\Exception\InvalidResponseException
-     */
-    public function isRedirect()
-    {
-        return $this->isSuccessful();
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getRedirectUrl()
-    {
-        $transaction = $this->getTransaction();
-        if (isset($transaction)) {
-            return $transaction->getPayPalRedirectUrl();
-        }
-        return null;
-    }
-
-    /**
      * @return string|null
      */
     public function getApplePaySessionTimeStamp()
@@ -79,6 +60,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The time when the Apple Pay payment session expires.
+     *
      * @return string|null
      */
     public function getApplePaySessionExpirationTimeStamp()
@@ -91,6 +74,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The merchant session ID for the Apple Pay payment session.
+     *
      * @return string|null
      */
     public function getApplePaySessionMerchantSessionID()
@@ -103,6 +88,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The nonce token for the Apple Pay payment session.
+     *
      * @return string|null
      */
     public function getApplePaySessionNonceToken()
@@ -115,6 +102,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The merchant ID for the Apple Pay payment session.
+     *
      * @return string|null
      */
     public function getApplePaySessionMerchantID()
@@ -127,6 +116,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The domain name for the Apple Pay payment session.
+     *
      * @return string|null
      */
     public function getApplePaySessionDomainName()
@@ -139,6 +130,9 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The display name for the Apple Pay payment session.
+     * This is what's displayed on the mac touch bar.
+     *
      * @return string|null
      */
     public function getApplePaySessionDisplayName()
@@ -151,6 +145,8 @@ class ApplePayAuthorizeResponse extends Response
     }
 
     /**
+     * The unique session signature ID for the Apple Pay payment session.
+     *
      * @return string|null
      */
     public function getApplePaySessionSignature()
