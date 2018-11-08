@@ -226,6 +226,40 @@ class DataFaker
     }
 
     /**
+     * Return an subscription invoice reference
+     *
+     * @return string
+     */
+    public function invoiceReference()
+    {
+        return strval($this->intBetween(1, 99999999));
+    }
+
+    /**
+     * Return an subscription invoice state
+     *
+     * @return string
+     */
+    public function invoiceState()
+    {
+        $invoiceState = array('Open', 'Due', 'Paid', 'Overdue', 'WrittenOff');
+        $index = $this->intBetween(0, 4);
+        return $invoiceState[$index];
+    }
+
+    /**
+     * Return summary of make payment to an overdue invoice
+     *
+     * @return string
+     */
+    public function summary()
+    {
+        $summary = array('Success', 'Failure', 'Pending');
+        $index = $this->intBetween(0, 2);
+        return $summary[$index];
+    }
+
+    /**
      * Return a product id
      *
      * @return string
@@ -1088,17 +1122,33 @@ class DataFaker
     }
 
     /**
-     * Return a payment network.
+     * Return a random payment network.
      *
      * @return string
      */
     public function paymentNetwork()
     {
-        return $this->randomCharacters(self::ALPHABET_UPPER . self::ALPHABET_LOWER, $this->intBetween(4, 16));
+        $paymentNetworks = array('Visa', 'MasterCard', 'Amex');
+        return $paymentNetworks[array_rand($paymentNetworks)];
     }
 
     /**
-     * Return payment data.
+     * Return an Apple Pay transaction reference.
+     *
+     * @return string
+     */
+    public function applePayTransactionReference()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while ($result == 0);
+        return $result;
+    }
+
+    /**
+     * The token receieved from Apple Pay payment sheet.
+     * Includes the country, zip code, expiration date and account holder name.
+     * Need to use json encode so that it is parsed as a string instead of an array to match token object.
      *
      * @return string
      */

@@ -17,19 +17,21 @@
         <VID xmlns="" xsi:type="xsd:string">[CHARGEBACK_REFERENCE]</VID>
         <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
         <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
-        <reasonCode xmlns="" xsi:type="xsd:string" />
         <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
-        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">2016-10-11T08:06:50-07:00</merchantTransactionTimestamp>
+        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</merchantTransactionTimestamp>
         <merchantUserId xmlns="" xsi:type="xsd:string">123456abcdef</merchantUserId>
+        <reasonCode xmlns="" xsi:type="xsd:string">[REASON_CODE]</reasonCode>
+        <caseNumber xmlns="" xsi:type="xsd:string">[CASE_NUMBER]</caseNumber>
       </chargebacks>
       <chargebacks xmlns="" xsi:type="vin:Chargeback">
         <VID xmlns="" xsi:type="xsd:string">abcdef654321abcdef654321abcdef654321</VID>
         <amount xmlns="" xsi:type="xsd:decimal">100</amount>
         <currency xmlns="" xsi:type="xsd:string">USD</currency>
-        <reasonCode xmlns="" xsi:type="xsd:string" />
         <merchantTransactionId xmlns="" xsi:type="xsd:string">XYZ654321</merchantTransactionId>
-        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">2016-10-11T08:06:50-07:00</merchantTransactionTimestamp>
+        <merchantTransactionTimestamp xmlns="" xsi:type="xsd:dateTime">[TIMESTAMP]</merchantTransactionTimestamp>
         <merchantUserId xmlns="" xsi:type="xsd:string">123456abcdef</merchantUserId>
+        <reasonCode xmlns="" xsi:type="xsd:string">123abc</reasonCode>
+        <caseNumber xmlns="" xsi:type="xsd:string">123abc</caseNumber>
       </chargebacks>
     </fetchByMerchantTransactionIdResponse>
   </soap:Body>

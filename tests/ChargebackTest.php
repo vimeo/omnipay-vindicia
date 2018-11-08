@@ -170,4 +170,24 @@ class ChargebackTest extends TestCase
         $this->assertSame($this->chargeback, $this->chargeback->setTransactionReference($transactionReference));
         $this->assertSame($transactionReference, $this->chargeback->getTransactionReference());
     }
+
+    /**
+     * @return void
+     */
+    public function testReasonCode()
+    {
+        $reason_code = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(5, 10));
+        $this->assertSame($this->chargeback, $this->chargeback->setReasonCode($reason_code));
+        $this->assertSame($reason_code, $this->chargeback->getReasonCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCaseNumber()
+    {
+        $case_number = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER, $this->faker->intBetween(5, 10));
+        $this->assertSame($this->chargeback, $this->chargeback->setCaseNumber($case_number));
+        $this->assertSame($case_number, $this->chargeback->getCaseNumber());
+    }
 }
