@@ -27,7 +27,7 @@
                      <paymentNetwork xsi:type="xsd:string">[PAYMENT_NETWORK]</paymentNetwork>
                      <transactionIdentifier xsi:type="xsd:string">[TRANSACTION_IDENTIFIER]</transactionIdentifier>
                      <paymentData xsi:type="xsd:string">[PAYMENT_DATA]</paymentData>
-                     <expirationDate xsi:type="xsd:string">0000001234567890abcdef</expirationDate>
+                     <expirationDate xsi:type="xsd:string">000001234567890abcdef</expirationDate>
                   </applePay>
                   <accountHolderName xsi:type="xsd:string">attributeName</accountHolderName>
                   <billingAddress xsi:type="vin:Address">
