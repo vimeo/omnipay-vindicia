@@ -1110,4 +1110,68 @@ class DataFaker
     {
         return $this->intBetween(-2, 100);
     }
+
+    /**
+     * Return a payment instrument name.
+     *
+     * @return string
+     */
+    public function paymentInstrumentName()
+    {
+        return $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 10));
+    }
+
+    /**
+     * Return a random payment network.
+     *
+     * @return string
+     */
+    public function paymentNetwork()
+    {
+        $paymentNetworks = array('Visa', 'MasterCard', 'Amex');
+        return $paymentNetworks[array_rand($paymentNetworks)];
+    }
+
+    /**
+     * Return an Apple Pay transaction reference.
+     *
+     * @return string
+     */
+    public function applePayTransactionReference()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while ($result == 0);
+        return $result;
+    }
+
+    /**
+     * The token receieved from Apple Pay payment sheet.
+     * Includes the country, zip code, expiration date and account holder name.
+     * Need to use json encode so that it is parsed as a string instead of an array to match token object.
+     *
+     * @return string
+     */
+    public function token()
+    {
+        return json_encode(array(
+            'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
+            'data' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 120)),
+            'signature' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 20)),
+            'header' => array(
+                'ephemeralPublicKey' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 300)
+                ),
+                'publicKeyHash' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 20)
+                ),
+                'transactionId' => $this->randomCharacters(
+                    self::ALPHABET_UPPER . self::DIGITS,
+                    $this->intBetween(4, 30)
+                )
+            )
+        ));
+    }
 }
