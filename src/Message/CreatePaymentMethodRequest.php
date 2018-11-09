@@ -30,6 +30,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * method is validated. Default is false.
  * - skipCvvValidation: If set to true, CVV validation will not be performed when the payment
  * method is validated. Default is false.
+ * - active: If set to false, Vindicia will deactivate the given payment method.
+ * Default is true.
  * - updateSubscriptions: If result is true and this request is an update to an existing payment
  * method on an account, Vindicia will update the payment method details on all subscriptions.
  * Default is true.
@@ -142,6 +144,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
         }
         if (!array_key_exists('skipCvvValidation', $parameters)) {
             $parameters['skipCvvValidation'] = false;
+        }
+        if (!array_key_exists('active', $parameters)) {
+            $parameters['active'] = true;
         }
         if (!array_key_exists('updateSubscriptions', $parameters)) {
             $parameters['updateSubscriptions'] = true;
@@ -267,6 +272,29 @@ class CreatePaymentMethodRequest extends AbstractRequest
     }
 
     /**
+     * If set to false Vindicia will deactivate the given payment method.
+     * Default is true.
+     *
+     * @return null|bool
+     */
+    public function getActive()
+    {
+        return $this->getParameter('active');
+    }
+
+    /**
+     * If set to false Vindicia will deactivate the given payment method.
+     * Default is true.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setActive($value)
+    {
+        return $this->setParameter('active', $value);
+    }
+
+    /**
      * Gets whether the request is invalid if the card parameter is not set.
      *
      * @return bool
@@ -306,11 +334,16 @@ class CreatePaymentMethodRequest extends AbstractRequest
             $this->validate('card');
         }
 
+        $paymentMethod = $this->buildPaymentMethod($paymentMethodType, true);
+        if ($this->getActive() === false) {
+            $paymentMethod->active = false;
+        }
+
         $data = array(
             'action' => $this->getFunction(),
             'ignoreAvsPolicy' => $this->getSkipAvsValidation(),
             'ignoreCvnPolicy' => $this->getSkipCvvValidation(),
-            'paymentMethod' => $this->buildPaymentMethod($paymentMethodType, true)
+            'paymentMethod' => $paymentMethod
         );
 
         if ($this->hasCustomer()) {
