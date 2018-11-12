@@ -165,6 +165,54 @@ class Gateway extends AbstractVindiciaGateway
     }
 
     /**
+     * Fetch the invoice references of a subscription
+     *
+     * See Message\FetchSubscriptionInvoiceReferencesRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceReferencesRequest
+     */
+    public function fetchSubscriptionInvoiceReferences(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceReferencesRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionInvoiceReferencesRequest', $parameters);
+    }
+
+    /**
+     * Fetch the invoice of a subscription given invoice reference
+     *
+     * See Message\FetchSubscriptionInvoiceRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest
+     */
+    public function fetchSubscriptionInvoice(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\FetchSubscriptionInvoiceRequest', $parameters);
+    }
+
+    /**
+     * Make payment to a specific amount or an outstanding invoice for a subscription
+     *
+     * See Message\MakePaymentRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\MakePaymentRequest
+     */
+    public function makePayment(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\MakePaymentRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\MakePaymentRequest', $parameters);
+    }
+
+    /**
      * Create a new payment method.
      *
      * See Message\CreatePaymentMethodRequest for more details.

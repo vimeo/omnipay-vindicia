@@ -3,6 +3,7 @@
 namespace Omnipay\Vindicia;
 
 use Omnipay\Tests\TestCase;
+use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class NonStrippingCreditCardTest extends TestCase
 {
@@ -12,6 +13,7 @@ class NonStrippingCreditCardTest extends TestCase
     public function setUp()
     {
         $this->card = new NonStrippingCreditCard();
+        $this->faker = new DataFaker();
     }
 
     /**
@@ -30,5 +32,45 @@ class NonStrippingCreditCardTest extends TestCase
         $number = '5555555555554444';
         $this->assertSame($this->card, $this->card->setNumber($number));
         $this->assertSame($number, $this->card->getNumber());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPaymentInstrumentName()
+    {
+        $paymentInstrumentName = $this->faker->paymentInstrumentName();
+        $this->assertSame($this->card, $this->card->setPaymentInstrumentName($paymentInstrumentName));
+        $this->assertSame($paymentInstrumentName, $this->card->getPaymentInstrumentName());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPaymentNetwork()
+    {
+        $paymentNetwork = $this->faker->paymentNetwork();
+        $this->assertSame($this->card, $this->card->setPaymentNetwork($paymentNetwork));
+        $this->assertSame($paymentNetwork, $this->card->getPaymentNetwork());
+    }
+
+    /**
+     * @return void
+     */
+    public function testApplePayTransactionReference()
+    {
+        $applePayTransactionReference = $this->faker->applePayTransactionReference();
+        $this->assertSame($this->card, $this->card->setApplePayTransactionReference($applePayTransactionReference));
+        $this->assertSame($applePayTransactionReference, $this->card->getApplePayTransactionReference());
+    }
+
+    /**
+     * @return void
+     */
+    public function testToken()
+    {
+        $token = $this->faker->token();
+        $this->assertSame($this->card, $this->card->setToken($token));
+        $this->assertSame($token, $this->card->getToken());
     }
 }
