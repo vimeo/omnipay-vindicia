@@ -21,6 +21,7 @@ use Omnipay\Common\Message\ResponseInterface;
  * - keyCertPath: Path to the key cert of the split Merchant Identity certification,
  * associated with your merchantID needed to make the call.
  * - keyCertPassword: Key certification password for the key certification.
+ *
  * // Set by this request.
  * - validationUrl: Validation URL received from session.onvalidatemerchant on the client.
  * - merchantIdentifier: Your merchant ID provided by Apple.
@@ -38,7 +39,7 @@ use Omnipay\Common\Message\ResponseInterface;
  * Example:
  *
  * <code>
- *   // In your Javascript frontend code:
+ *   // In your Javascript frontend code (You must do this in order to get the validationUrl):
  *      // Validating merchant and retieving validationUrl.
  *      session.onvalidatemerchant = (event) => {
  *      const validationURL = event.validationURL;
