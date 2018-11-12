@@ -127,15 +127,6 @@ class ApplePayAuthorizeRequestTest extends TestCase
         $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
         $response = $this->request->send();
 
-        $this->assertSame(1234567890, $response->getApplePaySessionTimeStamp());
-        $this->assertSame(123456789000, $response->getApplePaySessionExpirationTimeStamp());
-        $this->assertSame('SSHDC1234567890IJK', $response->getApplePaySessionMerchantID());
-        $this->assertSame('d12345', $response->getApplePaySessionNonceToken());
-        $this->assertSame('SSH1234567890', $response->getApplePaySessionMerchantSessionID());
-        $this->assertSame('abcd.com', $response->getApplePaySessionDomainName());
-        $this->assertSame('Abcd', $response->getApplePaySessionDisplayName());
-        $this->assertSame('1234567890', $response->getApplePaySessionSignature());
-
         $this->assertTrue($response->isSuccessful());
         $this->assertSame('OK', $response->getReason());
         $this->assertSame(200, $response->getStatusCode());
