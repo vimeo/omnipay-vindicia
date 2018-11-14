@@ -93,10 +93,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setUsername($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('username', $value);
     }
 
@@ -110,10 +113,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setPassword($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('password', $value);
     }
 
@@ -131,10 +137,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * setPemCertPath('./certs/path_to_cert.crt.pem');
      *
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setPemCertPath($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('pemCertPath', $value);
     }
 
@@ -152,10 +161,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * setPemCertPath('./certs/path_to_cert.key.pem');
      *
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setKeyCertPath($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('keyCertPath', $value);
     }
 
@@ -171,10 +183,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Password associated with your key certificate, if applicable.
      *
      * @param string $url
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setKeyCertPassword($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('keyCertPassword', $value);
     }
 
@@ -191,10 +206,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the validation URL for the request
      *
      * @param string $url
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setValidationUrl($url)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('validationUrl', $url);
     }
 
@@ -210,10 +228,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set the merchant identifier for the request
      *
      * @param string $url
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setMerchantIdentifier($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('merchantIdentifier', $value);
     }
 
@@ -229,10 +250,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the display name for the request
      *
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setDisplayName($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('displayName', $value);
     }
 
@@ -248,10 +272,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the application type or the "initiative" for the request
      *
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setApplicationType($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('applicationType', $value);
     }
 
@@ -267,10 +294,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Sets the application url or the "initiativeContext" for the request
      *
      * @param string $value
-     * @return ApplePayAuthorizeRequest
+     * @return static
      */
     public function setApplicationUrl($value)
     {
+        /**
+         * @var static
+         */
         return $this->setParameter('applicationUrl', $value);
     }
 
