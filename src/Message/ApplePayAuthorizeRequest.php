@@ -3,52 +3,44 @@
 namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
+use Guzzle\Common\Event;
 
 /**
  * Retrieve an Apple Pay Payment Session object.
  *
  * Post a request to Apple Pay server's Payment Session endpoint using two-way TLS.
  * The response to this request is an Apple Pay session object – it expires after five minutes.
- * - for Apple Pay on the web, you pass the session object to the completion message
- * completeMerchantValidation.
- * - for Apple Pay in Business Chat, you pass the session object to your Customer Service Platform
- * (CSP), which handles communicating with Business Chat on your behalf.
+ * Pass the session object to the completion function completeMerchantValidation in the front end
+ * to verify the merchant.
  *
- * Parameters:
- * // Set by the gateway.
- * - pemCertPath: Path to the cert of the split Merchant Identity certification,
- * associated with your merchantID needed to make the call.
- * - keyCertPath: Path to the key cert of the split Merchant Identity certification,
- * associated with your merchantID needed to make the call.
+ * Parameters set by the gateway:
+ * - pemCertPath: Path to the cert of the split Merchant Identity certification, associated with your
+ * merchantID needed to make the call.
+ * - keyCertPath: Path to the key cert of the split Merchant Identity certification, associated with
+ * your merchantID needed to make the call.
  * - keyCertPassword: Key certification password for the key certification.
  *
- * // Set by this request.
+ * Parameters set by this request:
  * - validationUrl: Validation URL received from session.onvalidatemerchant on the client.
  * - merchantIdentifier: Your merchant ID provided by Apple.
  * - displayName: A name for your store, suitable for display, appears in the touch bar.
  * - applicationType: The "initiative" parameter depending on the type of application:
- *   For Apple Pay on the web, use "web". For Business Chat, use "messaging".
+ *   For Apple Pay on the web, use "web".
  * - applicationUrl: The initiative context is based on the value supplied for the applicationType/initiative:
- *   For Apple Pay on the web, provide your fully qualified domain name associated with your
- *   Apple Pay Merchant Identity Certificate. For Business Chat, pass your payment gateway URL.
- *   Example: $this->setApplicationUrl('example.com');
- *
+ *   Provide your fully qualified domain name associated with your Apple Pay Merchant Identity Certificate.
  *
  * See @link for more details.
  *
  * Example:
  *
- * <code>
- *   // In your Javascript frontend code (You must do this in order to get the validationUrl):
- *      // Validating merchant and retieving validationUrl.
- *      session.onvalidatemerchant = (event) => {
- *      const validationURL = event.validationURL;
- *      // pass your validationUrl to the backend in a function here.
- *      getApplePaySessionObject(event.validationURL).then(function(response) {
- *           session.completeMerchantValidation(response);
- *       });
+ * In the front end, the user initiates an Apple Pay payment. Then the Apple Pay payment
+ * sheet is display and partially loaded. This gateway makes the call to Apple's servers to
+ * request an Apple Pay payment session. Once the session is retrieved you can pass it to the front end
+ * to fully load the payment sheet and accept user payment.
  *
- *   // In your backend getApplePaySessionObject function.
+ * <code>
+ *    // Setup the gateway with your username and password for Vindicia.
+ *    // Include the paths to your Apple Pay Merchant Identity cert, key cert and key cert password.
  *   $gateway = \Omnipay\Omnipay::create('Vindicia ApplePay');
  *   $gateway->setUsername('your_username');
  *   $gateway->setPassword('y0ur_p4ssw0rd');
@@ -57,22 +49,42 @@ use Omnipay\Common\Message\ResponseInterface;
  *   $gateway->setKeyCerPassword('y0ur_key_p4ssw0rd');
  *   $gateway->setTestMode(false);
  *
- *   // authorize the request and get an Apple Pay Session object.
+ *    // To request the payment session pass the required Apple Pay options to the authorize method and send it.
  *   $ApplePaySessionObject = $gateway->authorize(array(
  *       // example validation Url
  *       "validationUrl" => "https://apple-pay-gateway-cert.apple.com/paymentservices/startSession",
  *       "merchantIdentifier" => "merchant.com.example",
  *       "displayName" => "MyStore",
- *       "applicationType" => "type", // initiative: "web" or "messaging"
- *       "applicationUrl" => "mystore.example.com" // initiativeContext:  domain name or payment gateway URL
+ *       "applicationType" => "type", // initiative: "web" for Apple Pay on the web.
+ *       "applicationUrl" => "mystore.example.com" // initiativeContext: the domain name of your site.
  *       )
  *   ))->send();
  *
- * Pass this object back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    // You can ensure the response is successful before sending it to the front end.
+ *    if ($authorizeResponse->isSuccessful()) {
+ *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
+ *        echo "Status Code: " . $authorizeResponse->getStatusCode() . PHP_EOL;
+ *        echo "Expiration time: " . $authorizeResponse->getApplePaySessionExpirationTimeStamp() . PHP_EOL;
+ *        echo "Apple Pay Payment Session Object: " . $authorizeResponse->getApplePayPaymentSessionObject()
+ *          . PHP_EOL;
+ *    } else {
+ *        // Error handling.
+ *        echo "ERROR: Request not successful.";
+ *        echo "Status Code: " . $authorizeResponse->getStatusCode() . PHP_EOL;
+ *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
+ *    }
  * </code>
- *
- * @see \Omnipay\Stripe\Gateway
- * @link https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api
+ * 
+ * Pass ApplePaySessionObject back to the client to validate your merchant and continue with an Apple Pay payment.
+ * If successful, the payment sheet should be fully loaded.
+ * 
+ * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture and
+ * // authorize payments.
+ * 
+ * For further code examples see the *omnipay-example* repository on github.
+ * @see GatewayInterface
+ * For more information on Apple Pay JS API visit:
+ * @link https://developer.apple.com/documentation/apple_pay_on_the_web
  */
 class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -156,9 +168,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * A certificate associated with your merchant ID.
+     * A key certificate associated with your merchant ID.
      * Example:
-     * setPemCertPath('./certs/path_to_cert.key.pem');
+     * setKeyCertPath('./certs/path_to_cert.key.pem');
      *
      * @param string $value
      * @return static
@@ -287,6 +299,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getApplicationUrl()
     {
+        /**
+         * @var null|string
+         */
         return $this->getParameter('applicationUrl');
     }
 
@@ -338,7 +353,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * @param       $data
      * @param array $headers
      *
-     * @return \Guzzle\Http\Message\RequestInterface
+     * @return static
      */
     protected function createClientRequest($data, array $headers = null)
     {
@@ -361,7 +376,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         // don't throw exceptions for 4xx errors
         $this->httpClient->getEventDispatcher()->addListener(
             'request.error',
-            function ($event) {
+            /** @return void */
+            function (Event $event) {
                 if ($event['response']->isClientError()) {
                     $event->stopPropagation();
                 }
@@ -377,26 +393,43 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             json_encode($data)
         );
 
+        /**
+         * @var static
+         */
         return $httpRequest;
     }
 
     /**
      * Overriding AbstractRequest::sendData() so that we can make a REST call instead of a SOAP call.
      * @param array $data
-     * @return Response
+     * @psalm-suppress UndefinedMethod
+     * @return ApplePayAuthorizeResponse
      */
     public function sendData($data)
     {
-        $headers = array("Content-Type" => "application/json",
-        "Accept" => "application/json");
+        $headers = array(
+            "Content-Type" => "application/json",
+            "Accept" => "application/json"
+        );
 
         // Create a request object to be sent.
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
 
-        $statusCode = array(
+        // Retrieve the status code and it's corresponding reason phrase.
+        $status = array(
+            /**
+             * Have to suppres this error since Guzzle is out of scope for Psalm 
+             * 
+             * @psalm-suppress UndefinedMethod
+             */
             'statusCode' => $httpResponse->getStatusCode(),
-            // A human readable version of the numeric status code.
+            /**
+             * A human readable version of the numeric status code.
+             * Have to suppres this error since Guzzle is out of scope for Psalm .
+             * 
+             * @psalm-suppress UndefinedMethod
+             */
             'reason' => $httpResponse->getReasonPhrase()
         );
 
@@ -404,18 +437,40 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         try {
             $message = $httpResponse->json();
             $response = array_merge(
-                $statusCode,
+                $status,
                 $message
             );
         // If you try to parse an empty response body, error will be thrown.
         } catch (\RunTimeException $e) {
             $response = array_merge(
-                $statusCode,
+                $status,
                 array()
             );
         }
 
+        // var_dump($response);
+
+
+        /**
+         * @var ApplePayAuthorizeResponse
+         */
         $this->response = new static::$RESPONSE_CLASS($this, $response);
+        // var_dump($this->response);
+        /**
+         * @var ApplePayAuthorizeResponse
+         */
         return $this->response;
     }
+
+    // /**
+    //  * Overriding to provide a more precise return type
+    //  * @return ResponseInterface
+    //  */
+    // public function send()
+    // {
+    //     /**
+    //      * @var ResponseInterface
+    //      */
+    //     return parent::send();
+    // }
 }

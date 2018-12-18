@@ -5,43 +5,55 @@ namespace Omnipay\Vindicia\Message;
 class ApplePayAuthorizeResponse extends Response
 {
     /**
-     * Is the response successful?
+     * Was the response successful?
      *
-     * @return boolean|null
+     * @return boolean
      */
     public function isSuccessful()
     {
-        $statusCode = $this->getStatusCode();
-        return ($statusCode == 200);
+        /**
+         * @var boolean
+         */
+        return ($this->data['statusCode'] == 200);
     }
 
     /**
      * The entire Apple Pay payment session object to be used to validate the merchant.
+     * This should be passed to the front end.
      *
-     * @return string|null
+     * @return static
      */
-    public function getApplePayPaymentSessionObject()
+    public function getPaymentSessionObject()
     {
+        /**
+         * @var static
+         */
         return json_encode($this->data);
     }
 
     /**
      * The human-readable status code.
      *
-     * @return string|null
+     * @return static
      */
     public function getReason()
     {
+        /**
+         * @var static
+         */
         return $this->data['reason'];
     }
 
     /**
      * The numerical status code.
      *
-     * @return string|null
+     * @return static
      */
     public function getStatusCode()
     {
+        /**
+         * @var static
+         */
         return $this->data['statusCode'];
     }
 }

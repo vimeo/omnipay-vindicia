@@ -17,15 +17,15 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->gateway->setTestMode(true);
         $this->faker = new DataFaker();
 
-        $this->pemCertPath = $this->faker->password();
-        $this->keyCertPath = $this->faker->password();
+        $this->pemCertPath = $this->faker->path();
+        $this->keyCertPath = $this->faker->path();
         $this->keyCertPassword = $this->faker->password();
 
         $this->validationUrl = $this->faker->url();
         $this->merchantIdentifier = $this->faker->transactionId();
         $this->displayName = $this->faker->username();
         $this->applicationType = $this->faker->applePayApplicationType();
-        $this->applicationUrl = $this->faker->domainName();
+        $this->applicationUrl = $this->faker->url();
     }
 
     /**
@@ -35,6 +35,7 @@ class ApplePayGatewayTest extends GatewayTestCase
     {
         $this->assertSame('Vindicia ApplePay', $this->gateway->getName());
     }
+    
     /**
      * @return void
      */

@@ -1025,57 +1025,7 @@ class DataFaker
     {
         return 'B-' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
     }
-
-    /**
-     * Return an application type
-     *
-     * @return string
-     */
-    public function applePayApplicationType()
-    {
-        return $this->randomCharacters(self::ALPHABET_LOWER, 5);
-    }
-
-    /**
-     * Return an Apple Pay nonce token
-     *
-     * @return string
-     */
-    public function applePayNonceToken()
-    {
-        return $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 7);
-    }
-
-    /**
-     * Return an Apple Pay merchant session id
-     *
-     * @return string
-     */
-    public function applePayMerchantSessionID()
-    {
-        return 'SSHDC' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
-    }
-
-    /**
-     * Return an Apple Pay signature id
-     *
-     * @return string
-     */
-    public function applePaySignature()
-    {
-        return $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER, 4430);
-    }
-
-    /**
-     * Return a domain name
-     *
-     * @return string
-     */
-    public function domainName()
-    {
-        return $this->randomCharacters(self::DIGITS . self::ALPHABET_LOWER, 17) . '.com';
-    }
-
+    
     /**
      * Return a soap id
      *
@@ -1088,7 +1038,7 @@ class DataFaker
         } while ($result == 0);
         return $result;
     }
-
+    
     /**
      * Return a refund reason
      *
@@ -1098,7 +1048,7 @@ class DataFaker
     {
         return $this->note();
     }
-
+    
     /**
      * Return a note
      *
@@ -1111,7 +1061,7 @@ class DataFaker
             $this->intBetween(10, 50)
         );
     }
-
+    
     /**
      * Return a status
      *
@@ -1124,7 +1074,7 @@ class DataFaker
             $this->intBetween(3, 10)
         );
     }
-
+    
     /**
      * Return a status code
      *
@@ -1137,7 +1087,7 @@ class DataFaker
             $this->intBetween(2, 4)
         );
     }
-
+    
     /**
      * Return a parameter name passed to a HOA WebSession via name values
      *
@@ -1150,7 +1100,7 @@ class DataFaker
             $this->intBetween(6, 30)
         );
     }
-
+    
     /**
      * Return a risk score
      *
@@ -1160,7 +1110,7 @@ class DataFaker
     {
         return $this->intBetween(-2, 100);
     }
-
+    
     /**
      * Return a payment instrument name.
      *
@@ -1170,7 +1120,7 @@ class DataFaker
     {
         return $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 10));
     }
-
+    
     /**
      * Return a random payment network.
      *
@@ -1195,6 +1145,30 @@ class DataFaker
         return $result;
     }
 
+    /**
+     * Return a path.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return '/'
+        . self::ALPHABET_LOWER
+        . '/'
+        . self::ALPHABET_LOWER
+        . '/';
+    }
+    
+    /**
+     * Return an application type
+     *
+     * @return string
+     */
+    public function applePayApplicationType()
+    {
+        return $this->randomCharacters(self::ALPHABET_LOWER, 5);
+    }
+    
     /**
      * The token receieved from Apple Pay payment sheet.
      * Includes the country, zip code, expiration date and account holder name.
