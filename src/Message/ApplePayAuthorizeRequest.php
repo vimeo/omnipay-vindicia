@@ -60,13 +60,14 @@ use Guzzle\Common\Event;
  *       )
  *   ))->send();
  *
- *    // You can ensure the response is successful before sending it to the front end.
+ *    // You can ensure the response is successful before sending it to the front end. If there is an error the
+ *    // response body will be empty.
  *    if ($authorizeResponse->isSuccessful()) {
- *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
  *        echo "Status Code: " . $authorizeResponse->getStatusCode() . PHP_EOL;
- *        echo "Expiration time: " . $authorizeResponse->getApplePaySessionExpirationTimeStamp() . PHP_EOL;
- *        echo "Apple Pay Payment Session Object: " . $authorizeResponse->getApplePayPaymentSessionObject()
+ *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
+ *        echo "Apple Pay Payment Session Object: " . $authorizeResponse->getPaymentSessionObject()
  *          . PHP_EOL;
+ *        echo "Response: " . $authorizeResponse->getResponse() . PHP_EOL;
  *    } else {
  *        // Error handling.
  *        echo "ERROR: Request not successful.";
@@ -419,18 +420,18 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         // Retrieve the status code and it's corresponding reason phrase.
         $status = array(
             /**
-             * Have to suppres this error since Guzzle is out of scope for Psalm 
+             * Have to suppress this error since Guzzle is out of scope for Psalm 
              * 
              * @psalm-suppress UndefinedMethod
              */
             'statusCode' => $httpResponse->getStatusCode(),
             /**
              * A human readable version of the numeric status code.
-             * Have to suppres this error since Guzzle is out of scope for Psalm .
+             * Have to suppress this error since Guzzle is out of scope for Psalm .
              * 
              * @psalm-suppress UndefinedMethod
              */
-            'reason' => $httpResponse->getReasonPhrase()
+            'reasonPhrase' => $httpResponse->getReasonPhrase()
         );
 
         // Assemble the response..
@@ -438,39 +439,24 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             $message = $httpResponse->json();
             $response = array_merge(
                 $status,
-                $message
+                ['body' => $message]
             );
         // If you try to parse an empty response body, error will be thrown.
         } catch (\RunTimeException $e) {
             $response = array_merge(
                 $status,
-                array()
+                ['body' => '']
             );
         }
-
-        // var_dump($response);
-
 
         /**
          * @var ApplePayAuthorizeResponse
          */
         $this->response = new static::$RESPONSE_CLASS($this, $response);
-        // var_dump($this->response);
+
         /**
          * @var ApplePayAuthorizeResponse
          */
         return $this->response;
     }
-
-    // /**
-    //  * Overriding to provide a more precise return type
-    //  * @return ResponseInterface
-    //  */
-    // public function send()
-    // {
-    //     /**
-    //      * @var ResponseInterface
-    //      */
-    //     return parent::send();
-    // }
 }

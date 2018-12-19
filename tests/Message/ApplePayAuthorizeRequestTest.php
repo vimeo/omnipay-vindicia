@@ -135,16 +135,16 @@ class ApplePayAuthorizeRequestTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-//    /**
-// 	* @return void
-// 	*/
-//     public function testSendFailure()
-//     {
-//         $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
-//         $response = $this->request->send();
+   /**
+	* @return void
+	*/
+    public function testSendFailure()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
+        $response = $this->request->send();
 
-//         $this->assertFalse($response->isSuccessful());
-//         $this->assertSame(400, $response->getStatusCode());
-//         $this->assertSame('Not Found', $response->getReason());
-//     }
+        $this->assertFalse($response->isSuccessful());
+        $this->assertSame(400, $response->getStatusCode());
+        $this->assertSame('Not Found', $response->getReason());
+    }
 }

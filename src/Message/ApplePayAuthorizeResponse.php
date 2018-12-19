@@ -28,7 +28,7 @@ class ApplePayAuthorizeResponse extends Response
         /**
          * @var static
          */
-        return json_encode($this->data);
+        return (empty($this->data['body'])) ? '' : json_encode($this->data['body']);
     }
 
     /**
@@ -41,7 +41,7 @@ class ApplePayAuthorizeResponse extends Response
         /**
          * @var static
          */
-        return $this->data['reason'];
+        return $this->data['reasonPhrase'];
     }
 
     /**
@@ -55,5 +55,18 @@ class ApplePayAuthorizeResponse extends Response
          * @var static
          */
         return $this->data['statusCode'];
+    }
+
+    /**
+     * The entire response with status reason and phrase.
+     *
+     * @return static
+     */
+    public function getResponse()
+    {
+        /**
+         * @var static
+         */
+        return json_encode($this->data);
     }
 }
