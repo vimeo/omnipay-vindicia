@@ -1025,7 +1025,7 @@ class DataFaker
     {
         return 'B-' . $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
     }
-    
+
     /**
      * Return a soap id
      *
