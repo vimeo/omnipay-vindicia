@@ -23,6 +23,11 @@ namespace Omnipay\Vindicia;
  * - keyCertPath: Path to the key cert of the split Merchant Identity certification, associated with
  * your merchantID needed to make the call.
  * - keyCertPassword: Key certification password for the key certification.
+ * 
+ * For further code examples see the *omnipay-example* repository on github.
+ * @see GatewayInterface
+ * For more information on Apple Pay JS API visit:
+ * @link https://developer.apple.com/documentation/apple_pay_on_the_web
  *
  * Example:
  * In the front end, the user initiates an Apple Pay payment. Then the Apple Pay payment sheet is displayed
@@ -80,12 +85,6 @@ namespace Omnipay\Vindicia;
  *     // the front end to fully load the payment sheet. This allows the user to optionally configure their
  *     // payment option and shipping methods (if needed) and submit their payment.
  * </code>
- *
- *
- * For further code examples see the *omnipay-example* repository on github.
- * @see GatewayInterface
- * For more information on Apple Pay JS API visit:
- * @link https://developer.apple.com/documentation/apple_pay_on_the_web
  */
 class ApplePayGateway extends AbstractVindiciaGateway
 {
