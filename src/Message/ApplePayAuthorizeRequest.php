@@ -196,8 +196,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Password associated with your key certificate, if applicable.
-     * If it isn't, it can be left blank.
+     * Password associated with your key certificate.
+     * Can be omitted if a password isn't set.
      *
      * @param string $url
      * @return static
