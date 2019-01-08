@@ -8,20 +8,21 @@ use Omnipay\Tests\TestCase;
 
 class ApplePayAuthorizeRequestTest extends TestCase
 {
-   /**
-	* @return void
-	*/
+    /**
+     * @return void
+     */
     public function setUp()
     {
+        // Gateway parameters.
         $this->faker = new DataFaker();
         $this->pemCertPath = $this->faker->path();
         $this->keyCertPath = $this->faker->path();
         $this->keyCertPassword = $this->faker->password();
 
+        // Request parameters.
         $this->validationUrl = $this->faker->url();
         $this->merchantIdentifier = $this->faker->transactionId();
         $this->displayName = $this->faker->username();
-        $this->applicationType = $this->faker->applePayApplicationType();
         $this->applicationUrl = $this->faker->url();
 
         $this->request = new ApplePayAuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -33,7 +34,6 @@ class ApplePayAuthorizeRequestTest extends TestCase
                 'validationUrl' => $this->validationUrl,
                 'merchantIdentifier' => $this->merchantIdentifier,
                 'displayName' => $this->displayName,
-                'applicationType' => $this->applicationType,
                 'applicationUrl' => $this->applicationUrl
             )
         );
@@ -47,7 +47,7 @@ class ApplePayAuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
         $this->assertSame($this->merchantIdentifier, $data['merchantIdentifier']);
         $this->assertSame($this->displayName, $data['displayName']);
-        $this->assertSame($this->applicationType, $data['initiative']);
+        $this->assertSame('web', $data['initiative']);
         $this->assertSame($this->applicationUrl, $data['initiativeContext']);
     }
 
@@ -101,18 +101,6 @@ class ApplePayAuthorizeRequestTest extends TestCase
     /**
      * @return void
      */
-    public function testApplicationType()
-    {
-        $request = Mocker::mock('\Omnipay\Vindicia\Message\ApplePayAuthorizeRequest')->makePartial();
-        $request->initialize();
-
-        $this->assertSame($request, $request->setApplicationType($this->applicationType));
-        $this->assertSame($this->applicationType, $request->getApplicationType());
-    }
-
-    /**
-     * @return void
-     */
     public function testApplicationUrl()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\ApplePayAuthorizeRequest')->makePartial();
@@ -122,29 +110,67 @@ class ApplePayAuthorizeRequestTest extends TestCase
         $this->assertSame($this->applicationUrl, $request->getApplicationUrl());
     }
 
-   /**
-	* @return void
-	*/
+    /**
+     * @return void
+     */
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertSame('OK', $response->getReason());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('OK', $response->getMessage());
+        $this->assertSame('200', $response->getCode());
     }
 
-   /**
-	* @return void
-	*/
+    /**
+     * @return void
+     */
     public function testSendFailure()
     {
         $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
-        $this->assertSame(400, $response->getStatusCode());
-        $this->assertSame('Not Found', $response->getReason());
+        $this->assertSame('400', $response->getCode());
+        $this->assertSame('Not Found', $response->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetPaymentSessionObjectFailure()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
+        $response = $this->request->send();
+
+        $this->assertEmpty(
+            $response->getPaymentSessionObject()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetPaymentSessionObjectSuccess()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
+        $response = $this->request->send();
+        
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                array(
+                    'epochTimestamp' => 1234567890,
+                    'expiresAt' => 123456789000,
+                    'merchantSessionIdentifier' => 'SSH1234567890',
+                    'nonce' => 'd12345',
+                    'merchantIdentifier' => 'SSHDC1234567890IJK',
+                    'domainName' => 'abcd.com',
+                    'displayName' => 'Abcd',
+                    'signature' => '1234567890'
+                )
+            ),
+            $response->getPaymentSessionObject()
+        );
     }
 }

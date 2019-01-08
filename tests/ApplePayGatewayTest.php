@@ -24,7 +24,6 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->validationUrl = $this->faker->url();
         $this->merchantIdentifier = $this->faker->transactionId();
         $this->displayName = $this->faker->username();
-        $this->applicationType = $this->faker->applePayApplicationType();
         $this->applicationUrl = $this->faker->url();
     }
 
@@ -115,7 +114,6 @@ class ApplePayGatewayTest extends GatewayTestCase
                 'validationURL' => $this->validationUrl,
                 'merchantIdentifier' => $this->merchantIdentifier,
                 'displayName' => $this->displayName,
-                'applicationType' => $this->applicationType,
                 'applicationUrl' => $this->applicationUrl
             )
         );
@@ -124,7 +122,6 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->assertSame($this->validationUrl, $request->getValidationUrl());
         $this->assertSame($this->merchantIdentifier, $request->getMerchantIdentifier());
         $this->assertSame($this->displayName, $request->getDisplayName());
-        $this->assertSame($this->applicationType, $request->getApplicationType());
         $this->assertSame($this->applicationUrl, $request->getApplicationUrl());
     }
 }

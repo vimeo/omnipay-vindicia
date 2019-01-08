@@ -1160,16 +1160,6 @@ class DataFaker
     }
     
     /**
-     * Return an application type
-     *
-     * @return string
-     */
-    public function applePayApplicationType()
-    {
-        return $this->randomCharacters(self::ALPHABET_LOWER, 5);
-    }
-    
-    /**
      * The token receieved from Apple Pay payment sheet.
      * Includes the country, zip code, expiration date and account holder name.
      * Need to use json encode so that it is parsed as a string instead of an array to match token object.

@@ -14,59 +14,46 @@ class ApplePayAuthorizeResponse extends Response
         /**
          * @var boolean
          */
-        return ($this->data['statusCode'] == 200);
+        return ($this->data['code'] == '200');
     }
 
     /**
      * The entire Apple Pay payment session object to be used to validate the merchant.
      * This should be passed to the front end.
      *
-     * @return static
+     * @return string
      */
     public function getPaymentSessionObject()
     {
         /**
-         * @var static
+         * @var string
          */
         return (empty($this->data['body'])) ? '' : json_encode($this->data['body']);
     }
 
     /**
-     * The human-readable status code.
+     * The response message.
      *
-     * @return static
+     * @return string
      */
-    public function getReason()
+    public function getMessage()
     {
         /**
-         * @var static
+         * @var string
          */
-        return $this->data['reasonPhrase'];
+        return $this->data['message'];
     }
 
     /**
-     * The numerical status code.
+     * The response code.
      *
-     * @return static
+     * @return string
      */
-    public function getStatusCode()
+    public function getCode()
     {
         /**
-         * @var static
+         * @var string
          */
-        return $this->data['statusCode'];
-    }
-
-    /**
-     * The entire response with status reason and phrase.
-     *
-     * @return static
-     */
-    public function getResponse()
-    {
-        /**
-         * @var static
-         */
-        return json_encode($this->data);
+        return $this->data['code'];
     }
 }

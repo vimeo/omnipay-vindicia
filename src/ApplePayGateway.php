@@ -7,8 +7,8 @@ namespace Omnipay\Vindicia;
  * This Apple Pay Gateway provides the functionality to authorize, complete authorize and capture
  * Apple Pay payments for Apple Pay on the web.
  * 
- * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture and
- * // authorize payments.
+ * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture
+ * // and authorize payments.
  * 
  * Apple Pay is available on all iOS devices with a Secure Element—an industry-standard, certified
  * chip designed to store payment information safely. On macOS, users must have anApple Pay-capable
@@ -17,7 +17,18 @@ namespace Omnipay\Vindicia;
  *
  * You use the same username and password as you do with the regular Vindicia gateway.
  *
+ * Optional parameters set by this gateway:
+ * - pemCertPath: Path to the cert of the split Merchant Identity certification, associated with your
+ * merchantID needed to make the call.
+ * - keyCertPath: Path to the key cert of the split Merchant Identity certification, associated with
+ * your merchantID needed to make the call.
+ * - keyCertPassword: Key certification password for the key certification.
+ *
  * Example:
+ * In the front end, the user initiates an Apple Pay payment. Then the Apple Pay payment sheet is displayed
+ * and partially loaded. The Apple Pay gateway makes the call to Apple's servers using the ApplePayAuthorizeRequest
+ * object to retrieve an Apple Pay payment session from Apple's servers. Once the session is retrieved
+ * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
@@ -34,34 +45,40 @@ namespace Omnipay\Vindicia;
  *    // can validate your merchant identity and you can receive a session object to fully load the
  *    // payment sheet to accept payment.
  *
- *    // To request the payment session pass the required Apple Pay options to the authorize method and send it.
+ *    // To request the payment session pass the required Apple Pay options to the authorize method
+ *    // and send the request. An AbstractResponse object will be returned.
  *    $authorizeResponse = $gateway->authorize(array(
- *        'validationURL' => 'validationURL_from_frontend',
- *        'displayName' => 'name_of_product',
+ *        // sandbox validation Url
+ *        'validationURL' => 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
  *        'merchantIdentifier' => 'merchant.com.example',
- *        'applicationType' => 'web',
- *        'applicationUrl' => 'mystore.com'
+ *        'displayName' => 'MyStore',
+ *        'applicationUrl' => 'mystore.com' // initiativeContext: the domain name of your site.
  *    ))->send();
  *
- *     // You can ensure the response is successful before sending it to the front end.
+ *    // getApplePayPaymentSessionObject() can then be called to retrieve the ApplePayPaymentSession object.
+ *    // You can ensure the response is successful before sending it to the front end. If there is an error the
+ *    // response body will be empty.
  *    if ($authorizeResponse->isSuccessful()) {
- *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
- *        echo "Status Code: " . $authorizeResponse->getStatusCode() . PHP_EOL;
- *        echo "Expiration time: " . $authorizeResponse->getApplePaySessionExpirationTimeStamp() . PHP_EOL;
- *        echo "Apple Pay Payment Session Object: " . $authorizeResponse->getApplePayPaymentSessionObject() 
+ *        echo 'Status Code: ' . $authorizeResponse->getMessage() . PHP_EOL;
+ *        echo 'Status Reason: ' . $authorizeResponse->getMessage() . PHP_EOL;
+ *        echo 'Apple Pay Payment Session Object: ' . $authorizeResponse->getPaymentSessionObject()
  *          . PHP_EOL;
+ *        echo 'Response: ' . $authorizeResponse->getResponse() . PHP_EOL;
  *    } else {
  *        // Error handling.
- *        echo "ERROR: Request not successful.";
- *        echo "Status Code: " . $authorizeResponse->getStatusCode() . PHP_EOL;
- *        echo "Status Reason: " . $authorizeResponse->getReason() . PHP_EOL;
+ *        echo 'ERROR: Request not successful.';
+ *        echo 'Status Code: ' . $authorizeResponse->getCode() . PHP_EOL;
+ *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
+ *
+ *    //Pass ApplePaySessionObject back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    //If successful, the payment sheet should be fully loaded.
+ *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  *
  *     // TODO: Add functionality for completeAuthorize() and capture().
  *     // An opaque Apple Pay Session is returned as a response (expires after 5 mins) and it can be sent to
  *     // the front end to fully load the payment sheet. This allows the user to optionally configure their
  *     // payment option and shipping methods (if needed) and submit their payment.
- *     $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  * </code>
  *
  *
@@ -92,6 +109,10 @@ class ApplePayGateway extends AbstractVindiciaGateway
     }
 
     /**
+     * A certificate associated with your merchant ID.
+     * Example:
+     * setPemCertPath('./certs/path_to_cert.crt.pem');
+     * 
      * @param string $value
      * @return static
      */
@@ -109,6 +130,10 @@ class ApplePayGateway extends AbstractVindiciaGateway
     }
 
     /**
+     * A key certificate associated with your merchant ID.
+     * Example:
+     * setKeyCertPath('./certs/path_to_cert.key.pem');
+     * 
      * @param string $value
      * @return static
      */
@@ -126,6 +151,9 @@ class ApplePayGateway extends AbstractVindiciaGateway
     }
 
     /**
+     * Password associated with your key certificate.
+     * Can be omitted if a password isn't set.
+     * 
      * @param string $value
      * @return static
      */
