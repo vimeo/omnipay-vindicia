@@ -14,7 +14,7 @@ class ApplePayAuthorizeResponse extends Response
         /**
          * @var boolean
          */
-        return ($this->data['code'] == '200');
+        return ($this->getCode() == '200');
     }
 
     /**

@@ -12,12 +12,11 @@ namespace Omnipay\Vindicia;
  * 
  * Apple Pay is available on all iOS devices with a Secure Element—an industry-standard, certified
  * chip designed to store payment information safely. On macOS, users must have anApple Pay-capable
- * iPhone or Apple Watch to authorize the payment, or a MacBook Pro
- * with Touch ID.
+ * iPhone or Apple Watch to authorize the payment, or a MacBook Pro with Touch ID.
  *
  * You use the same username and password as you do with the regular Vindicia gateway.
  *
- * Optional parameters set by this gateway:
+ * Parameters set by this gateway:
  * - pemCertPath: Path to the cert of the split Merchant Identity certification, associated with your
  * merchantID needed to make the call.
  * - keyCertPath: Path to the key cert of the split Merchant Identity certification, associated with
@@ -76,7 +75,7 @@ namespace Omnipay\Vindicia;
  *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
  *
- *    //Pass ApplePaySessionObject back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    //Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
  *    //If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  *

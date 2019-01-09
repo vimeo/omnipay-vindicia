@@ -13,7 +13,7 @@ use Guzzle\Common\Event;
  * Pass the session object to the completion function completeMerchantValidation in the front end
  * to verify the merchant.
  *
- * Optional parameters set by the gateway and this class:
+ * Parameters set by the gateway and this class:
  * - pemCertPath: Path to the cert of the split Merchant Identity certification, associated with your
  * merchantID needed to make the call.
  * - keyCertPath: Path to the key cert of the split Merchant Identity certification, associated with
@@ -55,7 +55,7 @@ use Guzzle\Common\Event;
  *
  *    // To request the payment session, pass the required Apple Pay options to the authorize method in this class
  *    // and send the request. An AbstractResponse object will be returned.
- *   $ApplePaySessionObject = $gateway->authorize(array(
+ *   $authorizeResponse = $gateway->authorize(array(
  *       // sandbox validation Url
  *       'validationUrl' => 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
  *       'merchantIdentifier' => 'merchant.com.example',
@@ -80,7 +80,7 @@ use Guzzle\Common\Event;
  *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
  * 
- *    //Pass ApplePaySessionObject back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    //Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
  *    //If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  * 

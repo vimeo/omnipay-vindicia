@@ -1038,7 +1038,7 @@ class DataFaker
         } while ($result == 0);
         return $result;
     }
-    
+
     /**
      * Return a refund reason
      *

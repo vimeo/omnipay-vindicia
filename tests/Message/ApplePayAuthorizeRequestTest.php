@@ -121,42 +121,6 @@ class ApplePayAuthorizeRequestTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame('200', $response->getCode());
-    }
-
-    /**
-     * @return void
-     */
-    public function testSendFailure()
-    {
-        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
-        $response = $this->request->send();
-
-        $this->assertFalse($response->isSuccessful());
-        $this->assertSame('400', $response->getCode());
-        $this->assertSame('Not Found', $response->getMessage());
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetPaymentSessionObjectFailure()
-    {
-        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
-        $response = $this->request->send();
-
-        $this->assertEmpty(
-            $response->getPaymentSessionObject()
-        );
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetPaymentSessionObjectSuccess()
-    {
-        $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
-        $response = $this->request->send();
-        
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 array(
@@ -170,6 +134,22 @@ class ApplePayAuthorizeRequestTest extends TestCase
                     'signature' => '1234567890'
                 )
             ),
+            $response->getPaymentSessionObject()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testSendFailure()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertSame('400', $response->getCode());
+        $this->assertSame('Not Found', $response->getMessage());
+        $this->assertEmpty(
             $response->getPaymentSessionObject()
         );
     }
