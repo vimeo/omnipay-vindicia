@@ -424,13 +424,13 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             $message = $httpResponse->json();
             $response = array_merge(
                 $status,
-                ['body' => $message]
+                array('body' => $message)
             );
         // If you try to parse an empty response body, error will be thrown.
         } catch (\RunTimeException $e) {
             $response = array_merge(
                 $status,
-                ['body' => '']
+                array('body' => '')
             );
         }
 
