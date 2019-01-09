@@ -1048,7 +1048,7 @@ class DataFaker
     {
         return $this->note();
     }
-    
+
     /**
      * Return a note
      *
@@ -1061,7 +1061,7 @@ class DataFaker
             $this->intBetween(10, 50)
         );
     }
-    
+
     /**
      * Return a status
      *
@@ -1074,7 +1074,7 @@ class DataFaker
             $this->intBetween(3, 10)
         );
     }
-    
+
     /**
      * Return a status code
      *
@@ -1087,7 +1087,7 @@ class DataFaker
             $this->intBetween(2, 4)
         );
     }
-    
+
     /**
      * Return a parameter name passed to a HOA WebSession via name values
      *
@@ -1100,7 +1100,7 @@ class DataFaker
             $this->intBetween(6, 30)
         );
     }
-    
+
     /**
      * Return a risk score
      *
@@ -1110,7 +1110,7 @@ class DataFaker
     {
         return $this->intBetween(-2, 100);
     }
-    
+
     /**
      * Return a payment instrument name.
      *
@@ -1120,7 +1120,7 @@ class DataFaker
     {
         return $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(4, 10));
     }
-    
+
     /**
      * Return a random payment network.
      *
@@ -1158,7 +1158,7 @@ class DataFaker
         . self::ALPHABET_LOWER
         . '/';
     }
-    
+
     /**
      * The token receieved from Apple Pay payment sheet.
      * Includes the country, zip code, expiration date and account holder name.
