@@ -1146,21 +1146,21 @@ class DataFaker
     }
 
     /**
-     * Return a path.
+     * Return a random file path.
      *
      * @return string
      */
     public function path()
     {
         return '/'
-        . self::ALPHABET_LOWER
-        . '/'
-        . self::ALPHABET_LOWER
-        . '/';
+            . self::ALPHABET_LOWER
+            . '/'
+            . self::ALPHABET_LOWER
+            . '/';
     }
 
     /**
-     * The token receieved from Apple Pay payment sheet.
+     * The token received from Apple Pay payment sheet.
      * Includes the country, zip code, expiration date and account holder name.
      * Need to use json encode so that it is parsed as a string instead of an array to match token object.
      *

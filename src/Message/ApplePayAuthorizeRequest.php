@@ -244,7 +244,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Set the merchant identifier for the request
      *
-     * @param string $url
+     * @param string $value
      * @return static
      */
     public function setMerchantIdentifier($value)
@@ -319,7 +319,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getData()
     {
-        // We must have the validation URL set. If it isn't, don't make the call.
+        // This ensures that the validation URL set. If it isn't, the request call won't be sent.
         $this->validate('validationUrl');
         $data = array();
 
