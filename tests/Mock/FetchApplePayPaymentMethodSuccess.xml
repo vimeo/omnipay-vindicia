@@ -16,7 +16,7 @@
             <account xsi:type="vin:Account">
                <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
                <merchantAccountId xsi:type="xsd:string">vin_test_acct_1234567890</merchantAccountId>
-               <emailAddress xsi:type="xsd:string">smangal@vindicia.com</emailAddress>
+               <emailAddress xsi:type="xsd:string">abcdef@vindicia.com</emailAddress>
                <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
                <name xsi:type="xsd:string">1234567890abcdef</name>
                <paymentMethods xsi:type="vin:PaymentMethod">

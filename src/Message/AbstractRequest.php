@@ -73,6 +73,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var string
      */
     protected static $WEB_SESSION_OBJECT = 'WebSession';
+    /**
+     * @var string
+     */
+    protected static $VINDICIA_EXPIRATION_DATE_FORMAT = 'Ym';
 
     /**
      * Default amount of time to wait for connection or response, in seconds
@@ -1076,7 +1080,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
                 $creditCard = new stdClass();
                 $creditCard->account = $card->getNumber();
-                $creditCard->expirationDate = $card->getExpiryDate('Ym');
+                $creditCard->expirationDate = $card->getExpiryDate($VINDICIA_EXPIRATION_DATE_FORMAT);
 
                 $paymentMethod->creditCard = $creditCard;
             }
@@ -1109,7 +1113,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->paymentNetwork = $card->getPaymentNetwork();
             $applePay->paymentData = $card->getToken();
             $applePay->transactionIdentifier = $card->getTransactionIdentifier();
-            $applePay->expirationDate = $card->getExpiryDate('Ym');
+            $applePay->expirationDate = $card->getExpiryDate($VINDICIA_EXPIRATION_DATE_FORMAT);
 
             $paymentMethod->applePay = $applePay;
 
