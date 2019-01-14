@@ -115,6 +115,7 @@ class ApplePayAuthorizeRequestTest extends TestCase
      */
     public function testSendSuccess()
     {
+        // We use a .txt file since the entire response isn't json, only the message.
         $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
         $response = $this->request->send();
 
@@ -143,6 +144,7 @@ class ApplePayAuthorizeRequestTest extends TestCase
      */
     public function testSendFailure()
     {
+        // We use a .txt file since the entire response isn't json, only the message.
         $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
         $response = $this->request->send();
 
