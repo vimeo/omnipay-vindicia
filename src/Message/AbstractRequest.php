@@ -33,6 +33,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const API_VERSION = '18.0';
     const LIVE_ENDPOINT = 'https://soap.vindicia.com';
     const TEST_ENDPOINT = 'https://soap.prodtest.sj.vindicia.com';
+    const VINDICIA_EXPIRATION_DATE_FORMAT = 'Ym';
 
     /**
      * Object names used in the Vindicia API
@@ -73,10 +74,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var string
      */
     protected static $WEB_SESSION_OBJECT = 'WebSession';
-    /**
-     * @var string
-     */
-    protected static $VINDICIA_EXPIRATION_DATE_FORMAT = 'Ym';
 
     /**
      * Default amount of time to wait for connection or response, in seconds
@@ -1080,7 +1077,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
                 $creditCard = new stdClass();
                 $creditCard->account = $card->getNumber();
-                $creditCard->expirationDate = $card->getExpiryDate($VINDICIA_EXPIRATION_DATE_FORMAT);
+                $creditCard->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
 
                 $paymentMethod->creditCard = $creditCard;
             }
@@ -1112,8 +1109,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
             $applePay->paymentNetwork = $card->getPaymentNetwork();
             $applePay->paymentData = $card->getToken();
-            $applePay->transactionIdentifier = $card->getTransactionIdentifier();
-            $applePay->expirationDate = $card->getExpiryDate($VINDICIA_EXPIRATION_DATE_FORMAT);
+            $applePay->transactionIdentifier = $card->getApplePayTransactionReference();
+            $applePay->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
 
             $paymentMethod->applePay = $applePay;
 
