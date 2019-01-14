@@ -10,7 +10,7 @@ namespace Omnipay\Vindicia;
  * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture
  * // and authorize payments.
  * 
- * Apple Pay is available on all iOS devices with a Secure Element—an industry-standard, certified
+ * Apple Pay is available on all iOS devices with a Secure Element —– an industry-standard, certified
  * chip designed to store payment information safely. On macOS, users must have anApple Pay-capable
  * iPhone or Apple Watch to authorize the payment, or a MacBook Pro with Touch ID.
  *
