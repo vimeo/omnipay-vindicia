@@ -1051,7 +1051,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL, 
      *                                        self::PAYMENT_METHOD_APPLE_PAY, 
-     *                                         null autodetects or sets nothing if no specifying data provided)
+     *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
