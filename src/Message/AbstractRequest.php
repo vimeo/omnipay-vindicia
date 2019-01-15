@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
+use Omnipay\Common\NonStrippingCreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -32,6 +33,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const API_VERSION = '18.0';
     const LIVE_ENDPOINT = 'https://soap.vindicia.com';
     const TEST_ENDPOINT = 'https://soap.prodtest.sj.vindicia.com';
+    const VINDICIA_EXPIRATION_DATE_FORMAT = 'Ym';
 
     /**
      * Object names used in the Vindicia API
@@ -93,6 +95,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var string
      */
     const PAYMENT_METHOD_PAYPAL = 'PayPal';
+    const PAYMENT_METHOD_APPLE_PAY = 'ApplePay';
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
 
     /**
@@ -1046,7 +1049,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD or self::PAYMENT_METHOD_PAYPAL,
+     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL, 
+     *                                        self::PAYMENT_METHOD_APPLE_PAY, 
      *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
      * @return stdClass
@@ -1073,7 +1077,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
                 $creditCard = new stdClass();
                 $creditCard->account = $card->getNumber();
-                $creditCard->expirationDate = $card->getExpiryDate('Ym');
+                $creditCard->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
 
                 $paymentMethod->creditCard = $creditCard;
             }
@@ -1095,6 +1099,24 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // never change the type on an update
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
+            }
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
+            $applePay = new stdClass();
+
+            /**
+             * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
+             */
+            $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
+            $applePay->paymentNetwork = $card->getPaymentNetwork();
+            $applePay->paymentData = $card->getToken();
+            $applePay->transactionReference = $card->getApplePayTransactionReference();
+            $applePay->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
+
+            $paymentMethod->applePay = $applePay;
+
+            // never change the type on an update
+            if (!$this->isUpdate()) {
+                $paymentMethod->type = self::PAYMENT_METHOD_APPLE_PAY;
             }
         } elseif ($paymentMethodType !== null) {
             throw new InvalidArgumentException('Unknown payment method type.');

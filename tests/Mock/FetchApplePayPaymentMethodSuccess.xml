@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v21_0/Vindicia"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+   <soap:Body>
+      <authCaptureResponse xmlns="http://soap.vindicia.com/v21_0/Transaction">
+         <return xmlns="" xsi:type="vin:Return">
+            <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+            <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+            <returnString xsi:type="xsd:string">OK</returnString>
+         </return>
+            <account xsi:type="vin:Account">
+               <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+               <merchantAccountId xsi:type="xsd:string">vin_test_acct_1234567890</merchantAccountId>
+               <emailAddress xsi:type="xsd:string">abcdef@vindicia.com</emailAddress>
+               <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
+               <name xsi:type="xsd:string">1234567890abcdef</name>
+               <paymentMethods xsi:type="vin:PaymentMethod">
+                  <VID xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+                  <type xsi:type="vin:PaymentMethodType">ApplePay</type>
+                  <applePay xsi:type="vin:ApplePay">
+                     <paymentInstrumentName xsi:type="xsd:string">[PAYMENT_INSTRUMENT_NAME]</paymentInstrumentName>
+                     <paymentNetwork xsi:type="xsd:string">[PAYMENT_NETWORK]</paymentNetwork>
+                     <transactionIdentifier xsi:type="xsd:string">[TRANSACTION_REFERENCE]</transactionIdentifier>
+                     <paymentData xsi:type="xsd:string">[PAYMENT_DATA]</paymentData>
+                     <expirationDate xsi:type="xsd:string">000001234567890abcdef</expirationDate>
+                  </applePay>
+                  <accountHolderName xsi:type="xsd:string">attributeName</accountHolderName>
+                  <billingAddress xsi:type="vin:Address">
+                     <VID xsi:type="xsd:string">999888777666555444333322211100000</VID>
+                     <addr1 xsi:type="xsd:string">attributeAddress1</addr1>
+                     <city xsi:type="xsd:string">attributeCity</city>
+                     <district xsi:type="xsd:string">attributeDistrict</district>
+                     <postalCode xsi:type="xsd:string">[POSTCODE]</postalCode>
+                     <country xsi:type="xsd:string">[COUNTRY]</country>
+                  </billingAddress>
+                  <merchantPaymentMethodId xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+                  <sortOrder xsi:type="xsd:int">0</sortOrder>
+                  <active xsi:type="xsd:boolean">1</active>
+               </paymentMethods>
+            </account>
+         <score xmlns="" xsi:type="xsd:int">-1</score>
+      </authCaptureResponse>
+   </soap:Body>
+</soap:Envelope>
