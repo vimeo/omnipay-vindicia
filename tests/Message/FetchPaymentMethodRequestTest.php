@@ -20,7 +20,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->paymentInstrumentName = $this->faker->paymentInstrumentName();
         $this->paymentNetwork = $this->faker->paymentNetwork();
         $this->paymentData = $this->faker->token();
-        $this->transactionIdentifier = $this->faker->transactionId();
+        $this->transactionReference = $this->faker->transactionId();
 
         $this->request = new FetchPaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -249,7 +249,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             'PAYMENT_METHOD_REFERENCE' => $this->paymentMethodReference,
             'PAYMENT_INSTRUMENT_NAME' => $this->paymentInstrumentName,
             'PAYMENT_NETWORK' => $this->paymentNetwork,
-            'TRANSACTION_IDENTIFIER' => $this->transactionIdentifier,
+            'TRANSACTION_REFERENCE' => $this->transactionReference,
             'PAYMENT_DATA' => $this->paymentData,
             'COUNTRY' => $this->card['country'],
             'POSTCODE' => $this->card['postcode']
