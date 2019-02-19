@@ -117,7 +117,9 @@ class ObjectHelper
             'statusChangedTime' => isset($object->statusChangedTimestamp) ? $object->statusChangedTimestamp : null,
             'processorReceivedTime' => isset($object->processorReceivedTimestamp)
                                      ? $object->processorReceivedTimestamp
-                                     : null
+                                     : null,
+            'reasonCode' => isset($object->reasonCode) ? $object->reasonCode : null,
+            'caseNumber' => isset($object->caseNumber) ? $object->caseNumber : null
         ));
     }
 

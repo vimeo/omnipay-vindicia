@@ -322,4 +322,52 @@ class Chargeback
     {
         return $this->setParameter('transactionReference', $value);
     }
+
+    /**
+     * Get the reason code
+     * 
+     * The reason code reported by your bank for this Chargeback object. 
+     * It's a 2-to-4-digit alphanumeric code provided by the issuing bank involved in a chargeback,
+     * For example, reason code 'F14' is No Cardmember Authorization from Amex
+     *
+     * @return null|string
+     */
+    public function getReasonCode()
+    {
+        return $this->getParameter('reasonCode');
+    }
+
+    /**
+     * Set the reason code
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setReasonCode($value)
+    {
+        return $this->setParameter('reasonCode', $value);
+    }
+
+    /**
+     * Get the case number
+     * 
+     * Your bank’s case number for this Chargeback object, if any.
+     *
+     * @return null|string
+     */
+    public function getCaseNumber()
+    {
+        return $this->getParameter('caseNumber');
+    }
+
+    /**
+     * Set the case number
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCaseNumber($value)
+    {
+        return $this->setParameter('caseNumber', $value);
+    }
 }

@@ -350,7 +350,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         // Setting options for the request.
         $config                            = $this->httpClient->getConfig();
         $curlOptions                       = $config->get('curl.options');
-        $curlOptions[CURLOPT_CAINFO]       = './certs/cacert.pem';
         $curlOptions[CURLOPT_SSLVERSION]   = 6;
         $curlOptions[CURLOPT_SSLCERT]      = $pemCertPath;
         $curlOptions[CURLOPT_SSLKEY]       = $keyCertPath;
