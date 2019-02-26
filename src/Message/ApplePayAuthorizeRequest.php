@@ -324,9 +324,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = array();
 
         // Required request parameters for Apple Session object.
-        $data['validationUrl'] = $this->getValidationUrl();
-        $data['displayName'] = $this->getDisplayName();
         $data['merchantIdentifier'] = $this->getMerchantIdentifier();
+        $data['displayName'] = $this->getDisplayName();
         // Default parameter for Apple Pay on the Web.
         $data['initiative'] = 'web';
         $data['initiativeContext'] = $this->getApplicationUrl();
@@ -341,7 +340,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * @param array $headers
      *
      * @return static
-     * @psalm-suppress UndefinedMethod
+     * @psalm-suppress UndefinedMethod because Guzzle\Client::setDefaultOption() is actually defined.
      */
     protected function createClientRequest($data, array $headers = null)
     {
