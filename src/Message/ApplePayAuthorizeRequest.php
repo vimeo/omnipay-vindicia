@@ -340,6 +340,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * @param array $headers
      *
      * @return static
+     * @psalm-suppress UndefinedMethod because Guzzle\Client::setDefaultOption() is actually defined.
      */
     protected function createClientRequest($data, array $headers = null)
     {
@@ -358,6 +359,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $config->set('curl.options', $curlOptions);
         $this->httpClient->setConfig($config);
+        $this->httpClient->setDefaultOption('verify', \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
 
         // don't throw exceptions for 4xx errors
         $this->httpClient->getEventDispatcher()->addListener(
