@@ -341,6 +341,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * @param array $headers
      *
      * @return static
+     * @psalm-suppress UndefinedMethod
      */
     protected function createClientRequest($data, array $headers = null)
     {
