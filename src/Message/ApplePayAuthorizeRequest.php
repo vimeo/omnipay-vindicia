@@ -324,8 +324,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = array();
 
         // Required request parameters for Apple Session object.
-        $data['merchantIdentifier'] = $this->getMerchantIdentifier();
+        $data['validationUrl'] = $this->getValidationUrl();
         $data['displayName'] = $this->getDisplayName();
+        $data['merchantIdentifier'] = $this->getMerchantIdentifier();
         // Default parameter for Apple Pay on the Web.
         $data['initiative'] = 'web';
         $data['initiativeContext'] = $this->getApplicationUrl();
