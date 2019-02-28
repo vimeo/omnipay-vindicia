@@ -124,4 +124,35 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->assertSame($this->displayName, $request->getDisplayName());
         $this->assertSame($this->applicationUrl, $request->getApplicationUrl());
     }
+
+    /**
+     * @return void
+     */
+    public function testUpdatePaymentMethod()
+    {
+        $card = $this->faker->card();
+        $customerId = $this->faker->customerId();
+
+        $request = $this->gateway->updatePaymentMethod(
+            array(
+                'card' => $card,
+                'customerId' => $customerId
+            )
+        );
+
+        // update uses create's request since they're the same
+        $this->assertInstanceOf('Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $request);
+        $this->assertSameCard($card, $request->getCard());
+        $this->assertSame($customerId, $request->getCustomerId());
+    }
+
+    /**
+     * @return void
+     */
+    protected function assertSameCard($card, $requestCard)
+    {
+        $this->assertSame($card['number'], $requestCard->getNumber());
+        $this->assertSame(intval($card['expiryMonth']), $requestCard->getExpiryMonth());
+        $this->assertSame(intval($card['expiryYear']), $requestCard->getExpiryYear());
+    }
 }
