@@ -203,5 +203,21 @@ class ApplePayGateway extends AbstractVindiciaGateway
         return $this->createRequest('\Omnipay\Vindicia\Message\CaptureRequest', $parameters);
     }
 
+    /**
+     * Update a payment method.
+     *
+     * See Message\CreatePaymentMethodRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+     */
+    public function updatePaymentMethod(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
+    }
+
     // see AbstractVindiciaGateway for more functions and documentation
 }
