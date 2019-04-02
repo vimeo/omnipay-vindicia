@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 4786
+Date: Wed, 10 Oct 2018 13:32:51 GMT
+Set-Cookie: 12343567890;Version=1;Max-Age=120;path=/;secure;httponly
+
+{
+  "epochTimestamp": 1234567890,
+  "expiresAt": 123456789000,
+  "merchantSessionIdentifier": "SSH1234567890",
+  "nonce": "d12345",
+  "merchantIdentifier": "SSHDC1234567890IJK",
+  "domainName": "abcd.com",
+  "displayName": "Abcd",
+  "signature": "1234567890"
+}
