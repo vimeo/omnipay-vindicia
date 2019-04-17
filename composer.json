@@ -24,6 +24,7 @@
         }
     },
     "require": {
+        "vimeo/payment-gateway-logger": "^1.0",
         "omnipay/common": "~2.0",
         "composer/ca-bundle": "^1.1"
     },
