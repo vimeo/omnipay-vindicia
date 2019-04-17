@@ -2,6 +2,7 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
 use Omnipay\Vindicia\AttributeBag;
@@ -891,7 +892,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param array $data
-     * @return Response
+     *
+     * @return ResponseInterface
+     * @throws SoapFault
      */
     public function sendData($data)
     {
