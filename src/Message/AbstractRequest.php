@@ -8,8 +8,13 @@ use Omnipay\Vindicia\AttributeBag;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\PriceBag;
 use Omnipay\Common\Exception\InvalidRequestException;
+use PaymentGatewayLogger\Event\Constants;
+use PaymentGatewayLogger\Event\ErrorEvent;
+use PaymentGatewayLogger\Event\RequestEvent;
+use PaymentGatewayLogger\Event\ResponseEvent;
 use SoapFault;
 use stdClass;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
@@ -29,6 +34,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var bool
      */
     protected $isUpdate;
+
+    /**
+     * @var EventDispatcherInterface|null
+     */
+    protected $eventDispatcher;
 
     const API_VERSION = '18.0';
     const LIVE_ENDPOINT = 'https://soap.vindicia.com';
@@ -126,6 +136,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         parent::__construct($httpClient, $httpRequest);
 
         $this->isUpdate = $isUpdate;
+        $this->eventDispatcher = $httpClient->getEventDispatcher();
     }
 
     /**
@@ -910,6 +921,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $params = array();
         $params['parameters'] = $data;
 
+        if ($this->eventDispatcher) {
+            // Log the request before it is sent.
+            $this->eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_BEFORE_SEND, new RequestEvent($this));
+        }
+
         try {
             $client = new TestableSoapClient(
                 $this->getEndpoint(),
@@ -927,6 +943,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             );
             $response = $client->__soapCall($action, $params);
         } catch (SoapFault $exception) {
+            if ($this->eventDispatcher) {
+                // Log any errors.
+                $this->eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+            }
+
             throw $exception;
         }
 
@@ -936,6 +957,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         ini_set('default_socket_timeout', $originalSocketTimeout);
 
         $this->response = new static::$RESPONSE_CLASS($this, $response);
+        if ($this->eventDispatcher) {
+            // Log successful request responses.
+            $this->eventDispatcher->dispatch(Constants::OMNIPAY_RESPONSE_SUCCESS, new ResponseEvent($this->response));
+        }
+
         return $this->response;
     }
 
@@ -1049,8 +1075,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL, 
-     *                                        self::PAYMENT_METHOD_APPLE_PAY, 
+     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL,
+     *                                        self::PAYMENT_METHOD_APPLE_PAY,
      *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
      * @return stdClass
