@@ -396,7 +396,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
      * Overriding AbstractRequest::sendData() so that we can make a REST call instead of a SOAP call.
      *
      * @param array $data
-     * @return ApplePayAuthorizeResponse
+     * @return ResponseInterface
      * @psalm-suppress UndefinedMethod
      */
     public function sendData($data)
