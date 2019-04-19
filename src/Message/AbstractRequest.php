@@ -110,7 +110,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
 
     /**
-     * If chargeback probabilty from risk scoring is greater than this,
+     * If chargeback probability from risk scoring is greater than this,
      * the transaction will fail. By default, every transaction will
      * succeed.
      *
@@ -648,7 +648,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Get minimum chargeback probability.
-     * If chargeback probabilty from risk scoring is greater than the
+     * If chargeback probability from risk scoring is greater than the
      * this value, the transaction will fail. If the value is 100,
      * all transactions will succeed.
      *
@@ -661,7 +661,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Set minimum chargeback probability.
-     * If chargeback probabilty from risk scoring is greater than the
+     * If chargeback probability from risk scoring is greater than the
      * set value, the transaction will fail. If the value is 100,
      * all transactions will succeed.
      *
