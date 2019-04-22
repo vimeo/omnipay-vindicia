@@ -2,10 +2,8 @@
 
 namespace Omnipay\Vindicia;
 
-use Guzzle\Common\HasDispatcherInterface;
 use Guzzle\Http\Client;
-use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Vindicia\Message\AuthorizeRequest;
+use Guzzle\Http\ClientInterface;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\TestFramework\TestSubscriber;
@@ -13,11 +11,16 @@ use PaymentGatewayLogger\Event\Constants;
 use PaymentGatewayLogger\Event\ErrorEvent;
 use PaymentGatewayLogger\Event\RequestEvent;
 use PaymentGatewayLogger\Event\ResponseEvent;
+use SoapFault;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventEmitterTest extends SoapTestCase
 {
-    /** @var HasDispatcherInterface */
+    /** @var ClientInterface */
     protected $customHttpClient;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     /**
      * @return void
@@ -31,47 +34,22 @@ class EventEmitterTest extends SoapTestCase
         $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount($this->currency);
         $this->customerId = $this->faker->customerId();
-        $this->customerReference = $this->faker->customerReference();
         $this->card = $this->faker->card();
         $this->paymentMethodId = $this->faker->paymentMethodId();
-        $this->paymentMethodReference = $this->faker->paymentMethodReference();
         $this->transactionId = $this->faker->transactionId();
         $this->transactionReference = $this->faker->transactionReference();
         $this->riskScore = $this->faker->riskScore();
-        $this->name = $this->faker->name();
-        $this->email = $this->faker->email();
-        $this->statementDescriptor = $this->faker->statementDescriptor();
-        $this->ip = $this->faker->ipAddress();
-        $this->attributes = $this->faker->attributesAsArray();
-        $this->taxClassification = $this->faker->taxClassification();
-        $this->minChargebackProbability = $this->faker->chargebackProbability();
 
         $this->customHttpClient = new Client('', array('redirect.disable' => true));
-        $this->customHttpClient->getEventDispatcher()->addSubscriber(new TestSubscriber());
+        $this->eventDispatcher = $this->customHttpClient->getEventDispatcher();
 
-        $this->request = new AuthorizeRequest($this->customHttpClient, $this->getHttpRequest());
-        $this->request->initialize(
-            array(
-                'amount' => $this->amount,
-                'currency' => $this->currency,
-                'card' => $this->card,
-                'paymentMethodId' => $this->paymentMethodId,
-                'paymentMethodReference' => $this->paymentMethodReference,
-                'customerId' => $this->customerId,
-                'customerReference' => $this->customerReference,
-                'name' => $this->name,
-                'email' => $this->email,
-                'statementDescriptor' => $this->statementDescriptor,
-                'ip' => $this->ip,
-                'attributes' => $this->attributes,
-                'taxClassification' => $this->taxClassification,
-                'minChargebackProbability' => $this->minChargebackProbability
-            )
-        );
+        $this->eventDispatcher->addSubscriber(new TestSubscriber());
     }
 
     /**
-     * #ret
+     * Ensures that 'Request' and 'Response' events are emitted when issuing a request.
+     *
+     * @return void
      */
     public function testSuccessfulResponseEmitted()
     {
@@ -91,49 +69,87 @@ class EventEmitterTest extends SoapTestCase
         ));
 
         $class = $this;
-        $this->customHttpClient
-            ->getEventDispatcher()
-            ->addListener(Constants::OMNIPAY_REQUEST_BEFORE_SEND, function(RequestEvent $event) use ($class) {
-                $request = $event['request'];
-                $class->assertInstanceOf('\Omnipay\Vindicia\Message\AuthorizeRequest', $request);
-            }
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_REQUEST_BEFORE_SEND,
+                /** @return void */
+                function (RequestEvent $event) use ($class) {
+                    $request = $event['request'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\AuthorizeRequest', $request);
+                }
+            );
+
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_RESPONSE_SUCCESS,
+                /** @return void */
+                function (ResponseEvent $event) use ($class) {
+                    $response = $event['response'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\Response', $response);
+                }
+            );
+
+        $gateway = new Gateway($this->customHttpClient, $this->getHttpRequest());
+        $gateway->setTestMode(true);
+        $request = $gateway->authorize(
+            array(
+                'amount' => $this->amount,
+                'currency' => $this->currency,
+                'card' => $this->card,
+                'customerId' => $this->customerId
+            )
         );
-
-        $this->customHttpClient
-            ->getEventDispatcher()
-            ->addListener(Constants::OMNIPAY_RESPONSE_SUCCESS, function(ResponseEvent $event) use ($class) {
-                $response = $event['response'];
-                $class->assertInstanceOf('\Omnipay\Vindicia\Message\Response', $response);
-        });
-
-        $response = $this->request->send();
+        $response = $request->send();
         $this->assertTrue($response->isSuccessful());
     }
 
     /**
+     * Ensures that 'Request' and 'Error' events are emitted when issuing an improper request.
+     *
+     * @psalm-suppress UndefinedMethod
+     * @return void
+     * @expectedException SoapFault
      */
     public function testErrorEventEmitted()
     {
-        $this->setMockSoapResponse('AuthorizeFailure.xml');
-
         $class = $this;
-        $this->customHttpClient
-            ->getEventDispatcher()
-            ->addListener(Constants::OMNIPAY_REQUEST_BEFORE_SEND, function(RequestEvent $event) use ($class) {
-                $request = $event['request'];
-                $class->assertInstanceOf('\Omnipay\Vindicia\Message\AuthorizeRequest', $request);
-            }
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_REQUEST_BEFORE_SEND,
+                /** @return void */
+                function (RequestEvent $event) use ($class) {
+                    $request = $event['request'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\AuthorizeRequest', $request);
+                }
+            );
+
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_REQUEST_ERROR,
+                /** @return void */
+                function (ErrorEvent $event) use ($class) {
+                    $error = $event['error'];
+                    $class->assertInstanceOf('\SoapFault', $error);
+                }
+            );
+
+        // By mocking the 'getObject' method to return an invalid object value, we will cause the SOAP client to throw
+        // a SoapFault exception.
+        $mockRequest = $this->getMock(
+            '\Omnipay\Vindicia\Message\AuthorizeRequest',
+            array('getObject'),
+            array($this->customHttpClient, $this->getHttpRequest())
         );
 
-        $this->customHttpClient
-            ->getEventDispatcher()
-            ->addListener(Constants::OMNIPAY_REQUEST_ERROR, function(ErrorEvent $event) use ($class) {
-                $error = $event['error'];
-                $class->assertInstanceOf('\Exception', $error);
-            }
+        $mockRequest->method('getObject')->willReturn('invalid_object');
+        $mockRequest->initialize(
+            array(
+                'amount' => $this->amount,
+                'currency' => $this->currency,
+                'card' => $this->card,
+                'customerId' => $this->customerId
+            )
         );
-
-        $response = $this->request->send();
-        $this->assertFalse($response->isSuccessful());
+        $mockRequest->send();
     }
 }
