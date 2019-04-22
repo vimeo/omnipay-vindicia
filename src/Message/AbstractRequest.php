@@ -2,6 +2,7 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Omnipay\Common\Exception\InvalidCreditCardException;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
@@ -953,7 +954,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
             throw $exception;
         }
-
         // reset to how they were before
         ini_set('soap.wsdl_cache_enabled', $originalWsdlCacheEnabled);
         ini_set('soap.wsdl_cache_ttl', $originalWsdlCacheTtl);
@@ -995,7 +995,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $validateCard to false to skip card validation.
      *
      * @param string $paymentMethodType default null
+     *
      * @return stdClass
+     * @throws InvalidRequestException
+     * @throws InvalidCreditCardException
      */
     protected function buildTransaction($paymentMethodType = null)
     {
@@ -1082,8 +1085,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *                                        self::PAYMENT_METHOD_APPLE_PAY,
      *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
+     *
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
+     * @throws InvalidCreditCardException
      */
     protected function buildPaymentMethod($paymentMethodType, $addAttributes = false)
     {
@@ -1211,6 +1216,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Builds the value for Vindicia's prices field
      *
      * @return array of stdClass
+     * @throws InvalidRequestException
      */
     protected function makePricesForVindicia()
     {
