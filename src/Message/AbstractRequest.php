@@ -138,6 +138,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         parent::__construct($httpClient, $httpRequest);
 
         $this->isUpdate = $isUpdate;
+
+        // Used to fire events before and after executing a request.
         $this->eventDispatcher = $httpClient->getEventDispatcher();
     }
 
@@ -998,7 +1000,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @return stdClass
      * @throws InvalidRequestException
-     * @throws InvalidCreditCardException
+     * @throws InvalidCreditCardException If unable to build the payment method specified by $paymentMethodType.
      */
     protected function buildTransaction($paymentMethodType = null)
     {
