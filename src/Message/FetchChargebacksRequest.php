@@ -19,6 +19,14 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - endTime: The end of the date range for which chargebacks should be fetched.
  * If fetching by date range, startTime and endTime are required and a transaction cannot be
  * specified. Example: 2016-06-02T12:30:00-04:00 means June 2, 2016 @ 12:30 PM, GMT - 4 hours
+ * - pageSize: The number of results to return. Will attempt to return up to 10000 if this
+ * parameter is not specified. This request will likely time out if there are that many records
+ * to return. Note: This only applies if fetching by time range. If fetching by transaction,
+ * all chargebacks will be returned.
+ * - page: The page number to return. Starts at 0. For example, if pageSize is 10 and page is
+ * 0, returns the first 10 results. If page is 1, returns the second 10 results. Defaults to 0.
+ * Note: This only applies if fetching by time range. If fetching by transaction, all
+ * chargebacks will be returned.
  *
  * Example:
  * <code>
@@ -74,7 +82,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   // Alternatively, we could fetch the chargebacks by date range
  *   $fetchResponse = $gateway->fetchChargebacks(array(
  *       'startTime' => '2016-06-01T12:30:00-04:00',
- *       'endTime' => '2016-07-01T12:30:00-04:00'
+ *       'endTime' => '2016-07-01T12:30:00-04:00',
+ *       'page' => 0,
+ *       'pageSize' => 100
  *   ))->send();
  *
  *   if ($fetchResponse->isSuccessful()) {
@@ -82,7 +92,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   }
  * </code>
  */
-class FetchChargebacksRequest extends AbstractRequest
+class FetchChargebacksRequest extends AbstractPageableRequest
 {
     /**
      * The name of the function to be called in Vindicia's API
@@ -135,6 +145,8 @@ class FetchChargebacksRequest extends AbstractRequest
         } else {
             $data['timestamp'] = $startTime;
             $data['endTimestamp'] = $endTime;
+            $data['page'] = $this->getPage() ?: 0;
+            $data['pageSize'] = $this->getPageSize() ?: self::DEFAULT_PAGE_SIZE;
         }
 
         return $data;
