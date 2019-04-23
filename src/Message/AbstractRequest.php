@@ -2,14 +2,21 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Omnipay\Common\Exception\InvalidCreditCardException;
+use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Vindicia\TestableSoapClient;
 use Omnipay\Vindicia\VindiciaItemBag;
 use Omnipay\Vindicia\AttributeBag;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\PriceBag;
 use Omnipay\Common\Exception\InvalidRequestException;
+use PaymentGatewayLogger\Event\Constants;
+use PaymentGatewayLogger\Event\ErrorEvent;
+use PaymentGatewayLogger\Event\RequestEvent;
+use PaymentGatewayLogger\Event\ResponseEvent;
 use SoapFault;
 use stdClass;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
@@ -29,6 +36,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @var bool
      */
     protected $isUpdate;
+
+    /**
+     * @var EventDispatcherInterface|null
+     */
+    protected $eventDispatcher;
 
     const API_VERSION = '18.0';
     const LIVE_ENDPOINT = 'https://soap.vindicia.com';
@@ -99,7 +111,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
 
     /**
-     * If chargeback probabilty from risk scoring is greater than this,
+     * If chargeback probability from risk scoring is greater than this,
      * the transaction will fail. By default, every transaction will
      * succeed.
      *
@@ -126,6 +138,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         parent::__construct($httpClient, $httpRequest);
 
         $this->isUpdate = $isUpdate;
+
+        // Used to fire events before and after executing a request.
+        $this->eventDispatcher = $httpClient->getEventDispatcher();
     }
 
     /**
@@ -636,7 +651,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Get minimum chargeback probability.
-     * If chargeback probabilty from risk scoring is greater than the
+     * If chargeback probability from risk scoring is greater than the
      * this value, the transaction will fail. If the value is 100,
      * all transactions will succeed.
      *
@@ -649,7 +664,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Set minimum chargeback probability.
-     * If chargeback probabilty from risk scoring is greater than the
+     * If chargeback probability from risk scoring is greater than the
      * set value, the transaction will fail. If the value is 100,
      * all transactions will succeed.
      *
@@ -880,7 +895,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param array $data
-     * @return Response
+     *
+     * @return ResponseInterface
+     * @throws SoapFault
      */
     public function sendData($data)
     {
@@ -910,6 +927,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $params = array();
         $params['parameters'] = $data;
 
+        if ($this->eventDispatcher) {
+            // Log the request before it is sent.
+            $this->eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_BEFORE_SEND, new RequestEvent($this));
+        }
+
         try {
             $client = new TestableSoapClient(
                 $this->getEndpoint(),
@@ -927,15 +949,24 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             );
             $response = $client->__soapCall($action, $params);
         } catch (SoapFault $exception) {
+            if ($this->eventDispatcher) {
+                // Log any errors.
+                $this->eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+            }
+
             throw $exception;
         }
-
         // reset to how they were before
         ini_set('soap.wsdl_cache_enabled', $originalWsdlCacheEnabled);
         ini_set('soap.wsdl_cache_ttl', $originalWsdlCacheTtl);
         ini_set('default_socket_timeout', $originalSocketTimeout);
 
         $this->response = new static::$RESPONSE_CLASS($this, $response);
+        if ($this->eventDispatcher) {
+            // Log successful request responses.
+            $this->eventDispatcher->dispatch(Constants::OMNIPAY_RESPONSE_SUCCESS, new ResponseEvent($this->response));
+        }
+
         return $this->response;
     }
 
@@ -966,7 +997,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $validateCard to false to skip card validation.
      *
      * @param string $paymentMethodType default null
+     *
      * @return stdClass
+     * @throws InvalidRequestException
+     * @throws InvalidCreditCardException If unable to build the payment method specified by $paymentMethodType.
      */
     protected function buildTransaction($paymentMethodType = null)
     {
@@ -1049,12 +1083,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Set $addAttributes to true if the request attributes should be added to the payment
      * method
      *
-     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL, 
-     *                                        self::PAYMENT_METHOD_APPLE_PAY, 
+     * @param string|null $paymentMethodType (self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_PAYPAL,
+     *                                        self::PAYMENT_METHOD_APPLE_PAY,
      *                                        null autodetects or sets nothing if no specifying data provided)
      * @param bool $addAttributes default false
+     *
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
+     * @throws InvalidCreditCardException
      */
     protected function buildPaymentMethod($paymentMethodType, $addAttributes = false)
     {
@@ -1182,6 +1218,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Builds the value for Vindicia's prices field
      *
      * @return array of stdClass
+     * @throws InvalidRequestException
      */
     protected function makePricesForVindicia()
     {

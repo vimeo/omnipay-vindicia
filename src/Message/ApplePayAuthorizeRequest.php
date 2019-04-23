@@ -2,8 +2,14 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Exception;
 use Omnipay\Common\Message\ResponseInterface;
 use Guzzle\Common\Event;
+use PaymentGatewayLogger\Event\Constants;
+use PaymentGatewayLogger\Event\ErrorEvent;
+use PaymentGatewayLogger\Event\RequestEvent;
+use PaymentGatewayLogger\Event\ResponseEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Retrieve an Apple Pay Payment Session object.
@@ -26,7 +32,7 @@ use Guzzle\Common\Event;
  * - displayName: A name for your store, suitable for display, appears in the touch bar.
  * - applicationUrl: Provide your fully qualified domain name associated with your Apple Pay
  *   Merchant Identity Certificate
- * 
+ *
  * For further code examples see the *omnipay-example* repository on github.
  * @see GatewayInterface
  * For more information on Apple Pay JS API visit:
@@ -48,7 +54,7 @@ use Guzzle\Common\Event;
  *   $gateway->setKeyCertPath('./certs/path_to_key_cert.key.pem');
  *   $gateway->setKeyCerPassword('y0ur_key_p4ssw0rd');
  *   $gateway->setTestMode(false);
- * 
+ *
  *    // User clicks or taps an Apple Pay button. The payment sheet is partially loaded. So now Apple
  *    // can validate your merchant identity and you can receive a session object to fully load the
  *    // payment sheet to accept payment.
@@ -79,11 +85,11 @@ use Guzzle\Common\Event;
  *        echo 'Status Code: ' . $authorizeResponse->getCode() . PHP_EOL;
  *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
- * 
+ *
  *    //Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
  *    //If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
- * 
+ *
  *    // TODO: Add functionality for completeAuthorize() and capture().
  *    // An opaque Apple Pay Session is returned as a response (expires after 5 mins) and it can be sent to
  *    // the front end to fully load the payment sheet. This allows the user to optionally configure their
@@ -316,6 +322,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
@@ -336,7 +343,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Assembles the HTTP request to be sent.
-     * 
+     *
      * @param       $data
      * @param array $headers
      *
@@ -390,9 +397,9 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Overriding AbstractRequest::sendData() so that we can make a REST call instead of a SOAP call.
-     * 
+     *
      * @param array $data
-     * @return ApplePayAuthorizeResponse
+     * @return ResponseInterface
      * @psalm-suppress UndefinedMethod
      */
     public function sendData($data)
@@ -402,24 +409,42 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             "Accept" => "application/json"
         );
 
-        // Create a request object to be sent.
-        $httpRequest  = $this->createClientRequest($data, $headers);
-        $httpResponse = $httpRequest->send();
+        /** @var EventDispatcherInterface|null $eventDispatcher */
+        $eventDispatcher = $this->httpClient->getEventDispatcher();
+
+        if ($eventDispatcher) {
+            // Log the ApplePay request before it is sent.
+            $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_BEFORE_SEND, new RequestEvent($this));
+        }
+
+        $httpResponse = null;
+        try {
+            // Create a request object to be sent.
+            $httpRequest  = $this->createClientRequest($data, $headers);
+            $httpResponse = $httpRequest->send();
+        } catch (Exception $exception) {
+            if ($eventDispatcher) {
+                // Log any errors with the request.
+                $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+            }
+
+            throw $exception;
+        }
 
         // Retrieve the status code and it's corresponding status message.
         $status = array(
             /**
              * Have to suppress this error since Guzzle is out of scope for Psalm.
-             * Casting to a string so that it matches the return type of 
+             * Casting to a string so that it matches the return type of
              * Omnipay\Common\Message\ResponseInterface::getCode().
-             * 
+             *
              * @psalm-suppress UndefinedMethod
              */
             'code' => (string)$httpResponse->getStatusCode(),
             /**
              * A human readable version of the numeric status code.
              * Have to suppress this error since Guzzle is out of scope for Psalm.
-             * 
+             *
              * @psalm-suppress UndefinedMethod
              */
             'message' => $httpResponse->getReasonPhrase()
@@ -444,6 +469,12 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
          * @var ApplePayAuthorizeResponse
          */
         $this->response = new static::$RESPONSE_CLASS($this, $response);
+
+        if ($eventDispatcher) {
+            // Log successful request responses.
+            $eventDispatcher->dispatch(Constants::OMNIPAY_RESPONSE_SUCCESS, new ResponseEvent($this->response));
+        }
+
         return $this->response;
     }
 }
