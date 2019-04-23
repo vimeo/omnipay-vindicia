@@ -12,6 +12,7 @@ use PaymentGatewayLogger\Event\Constants;
 use PaymentGatewayLogger\Event\ErrorEvent;
 use PaymentGatewayLogger\Event\RequestEvent;
 use PaymentGatewayLogger\Event\ResponseEvent;
+use PaymentGatewayLogger\Test\Framework\TestLogger;
 use SoapFault;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -47,7 +48,7 @@ class EventEmitterTest extends SoapTestCase
         $this->customHttpClient = new Client('', array('redirect.disable' => true));
         $this->eventDispatcher = $this->customHttpClient->getEventDispatcher();
 
-        $this->testSubscriber = new TestSubscriber();
+        $this->testSubscriber = new TestSubscriber($this->faker->name(), new TestLogger());
         $this->eventDispatcher->addSubscriber($this->testSubscriber);
     }
 
@@ -108,9 +109,9 @@ class EventEmitterTest extends SoapTestCase
         $this->assertTrue($response->isSuccessful());
 
         $eventsDispatched = $this->testSubscriber->eventsDispatched;
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
-        $this->assertEquals(1, $eventsDispatched['omnipay.response.success']);
-        $this->assertArrayNotHasKey('omnipay.request.error', $eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_BEFORE_SEND]);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_RESPONSE_SUCCESS]);
+        $this->assertArrayNotHasKey(Constants::OMNIPAY_REQUEST_ERROR, $eventsDispatched);
     }
 
     /**
@@ -170,9 +171,9 @@ class EventEmitterTest extends SoapTestCase
 
         // A SoapFault exception will always be expected. Therefore $eventsDispatched should never be empty.
         $this->assertNotEmpty($eventsDispatched);
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.error']);
-        $this->assertArrayNotHasKey('omnipay.response.success', $eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_BEFORE_SEND]);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_ERROR]);
+        $this->assertArrayNotHasKey(Constants::OMNIPAY_RESPONSE_SUCCESS, $eventsDispatched);
     }
 
     /**
@@ -217,9 +218,9 @@ class EventEmitterTest extends SoapTestCase
         $request->send();
 
         $eventsDispatched = $this->testSubscriber->eventsDispatched;
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
-        $this->assertEquals(1, $eventsDispatched['omnipay.response.success']);
-        $this->assertArrayNotHasKey('omnipay.request.error', $eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_BEFORE_SEND]);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_RESPONSE_SUCCESS]);
+        $this->assertArrayNotHasKey(Constants::OMNIPAY_REQUEST_ERROR, $eventsDispatched);
     }
 
     /**
@@ -281,8 +282,8 @@ class EventEmitterTest extends SoapTestCase
 
         // An exception will always be expected. Therefore $eventsDispatched should never be empty.
         $this->assertNotEmpty($eventsDispatched);
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
-        $this->assertEquals(1, $eventsDispatched['omnipay.request.error']);
-        $this->assertArrayNotHasKey('omnipay.response.success', $eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_BEFORE_SEND]);
+        $this->assertEquals(1, $eventsDispatched[Constants::OMNIPAY_REQUEST_ERROR]);
+        $this->assertArrayNotHasKey(Constants::OMNIPAY_RESPONSE_SUCCESS, $eventsDispatched);
     }
 }

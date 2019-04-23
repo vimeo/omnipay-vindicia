@@ -4,12 +4,9 @@ namespace Omnipay\Vindicia\TestFramework;
 
 use Guzzle\Common\Event;
 use PaymentGatewayLogger\Event\Constants;
-use PaymentGatewayLogger\Event\ErrorEvent;
-use PaymentGatewayLogger\Event\RequestEvent;
-use PaymentGatewayLogger\Event\ResponseEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PaymentGatewayLogger\Event\Subscriber\OmnipayGatewayRequestSubscriber;
 
-class TestSubscriber implements EventSubscriberInterface
+class TestSubscriber extends OmnipayGatewayRequestSubscriber
 {
     const PRIORITY = 0;
 
@@ -17,45 +14,18 @@ class TestSubscriber implements EventSubscriberInterface
     public $eventsDispatched = array();
 
     /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * array('eventName' => 'methodName')
-     *  * array('eventName' => array('methodName', $priority))
-     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2')))
-     *
-     * @return array The event names to listen to
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            Constants::OMNIPAY_REQUEST_BEFORE_SEND  => array('onOmnipayRequestBeforeSend', self::PRIORITY),
-            Constants::OMNIPAY_RESPONSE_SUCCESS => array('onOmnipayResponseSuccess', self::PRIORITY),
-            Constants::OMNIPAY_REQUEST_ERROR    => array('onOmnipayRequestError', self::PRIORITY),
-        );
-    }
-
-        /**
      * Triggers a log write before a request is sent.
      *
      * The event will be converted to an array before being logged. It will contain the following properties:
      *     array(
      *         'request' => \Omnipay\Common\Message\AbstractRequest
      *     )
-     * @param RequestEvent $event
+     * @param Event $event
      * @return void
      */
-    public function onOmnipayRequestBeforeSend(RequestEvent $event)
+    public function onOmnipayRequestBeforeSend(Event $event)
     {
-        $this->incrementEventCount($event->getType());
+        $this->incrementEventCount(Constants::OMNIPAY_REQUEST_BEFORE_SEND);
     }
 
     /**
@@ -65,12 +35,12 @@ class TestSubscriber implements EventSubscriberInterface
      *     array(
      *         'response' => \Omnipay\Common\Message\AbstractResponse
      *     )
-     * @param ResponseEvent $event
+     * @param Event $event
      * @return void
      */
-    public function onOmnipayResponseSuccess(ResponseEvent $event)
+    public function onOmnipayResponseSuccess(Event $event)
     {
-        $this->incrementEventCount($event->getType());
+        $this->incrementEventCount(Constants::OMNIPAY_RESPONSE_SUCCESS);
     }
 
     /**
@@ -80,12 +50,12 @@ class TestSubscriber implements EventSubscriberInterface
      *     array(
      *         'error' => Exception
      *     )
-     * @param ErrorEvent $event
+     * @param Event $event
      * @return void
      */
-    public function onOmnipayRequestError(ErrorEvent $event)
+    public function onOmnipayRequestError(Event $event)
     {
-        $this->incrementEventCount($event->getType());
+        $this->incrementEventCount(Constants::OMNIPAY_REQUEST_ERROR);
     }
 
     /**
