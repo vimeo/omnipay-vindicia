@@ -2,12 +2,14 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Exception;
 use Omnipay\Common\Message\ResponseInterface;
 use Guzzle\Common\Event;
 use PaymentGatewayLogger\Event\Constants;
 use PaymentGatewayLogger\Event\ErrorEvent;
 use PaymentGatewayLogger\Event\RequestEvent;
 use PaymentGatewayLogger\Event\ResponseEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Retrieve an Apple Pay Payment Session object.
@@ -320,6 +322,7 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
@@ -406,9 +409,27 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             "Accept" => "application/json"
         );
 
-        // Create a request object to be sent.
-        $httpRequest  = $this->createClientRequest($data, $headers);
-        $httpResponse = $httpRequest->send();
+        /** @var EventDispatcherInterface|null $eventDispatcher */
+        $eventDispatcher = $this->httpClient->getEventDispatcher();
+
+        if ($eventDispatcher) {
+            // Log the ApplePay request before it is sent.
+            $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_BEFORE_SEND, new RequestEvent($this));
+        }
+
+        $httpResponse = null;
+        try {
+            // Create a request object to be sent.
+            $httpRequest  = $this->createClientRequest($data, $headers);
+            $httpResponse = $httpRequest->send();
+        } catch (Exception $exception) {
+            if ($eventDispatcher) {
+                // Log any errors with the request.
+                $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+            }
+
+            throw $exception;
+        }
 
         // Retrieve the status code and it's corresponding status message.
         $status = array(
@@ -429,11 +450,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             'message' => $httpResponse->getReasonPhrase()
         );
 
-        $eventDispatcher = $this->httpClient->getEventDispatcher();
-
-        // Log the request before it is sent.
-        $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_BEFORE_SEND, new RequestEvent($this));
-
         // Assemble the response..
         try {
             $message = $httpResponse->json();
@@ -443,9 +459,6 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
             );
         // If you try to parse an empty response body, error will be thrown.
         } catch (\RunTimeException $e) {
-            // Log any errors.
-            $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($e));
-
             $response = array_merge(
                 $status,
                 array('body' => '')
@@ -457,8 +470,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
          */
         $this->response = new static::$RESPONSE_CLASS($this, $response);
 
-        // Log successful request responses.
-        $eventDispatcher->dispatch(Constants::OMNIPAY_RESPONSE_SUCCESS, new ResponseEvent($this->response));
+        if ($eventDispatcher) {
+            // Log successful request responses.
+            $eventDispatcher->dispatch(Constants::OMNIPAY_RESPONSE_SUCCESS, new ResponseEvent($this->response));
+        }
 
         return $this->response;
     }

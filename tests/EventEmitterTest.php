@@ -2,6 +2,7 @@
 
 namespace Omnipay\Vindicia;
 
+use Exception;
 use Guzzle\Http\Client;
 use Guzzle\Http\ClientInterface;
 use Omnipay\Vindicia\TestFramework\DataFaker;
@@ -163,10 +164,122 @@ class EventEmitterTest extends SoapTestCase
         try {
             $mockRequest->send();
         } catch (SoapFault $exception) {
+            // We want to resume program execution to check $eventsDispatched.
             $eventsDispatched = $this->testSubscriber->eventsDispatched;
         }
 
         // A SoapFault exception will always be expected. Therefore $eventsDispatched should never be empty.
+        $this->assertNotEmpty($eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.error']);
+        $this->assertArrayNotHasKey('omnipay.response.success', $eventsDispatched);
+    }
+
+    /**
+     * @return void
+     */
+    public function testAppleAuthorizeRequestSuccessfulResponseEmitted()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestSuccess.txt');
+
+        $class = $this;
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_REQUEST_BEFORE_SEND,
+                /** @return void */
+                function (RequestEvent $event) use ($class) {
+                    $request = $event['request'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\ApplePayAuthorizeRequest', $request);
+                }
+            );
+
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_RESPONSE_SUCCESS,
+                /** @return void */
+                function (ResponseEvent $event) use ($class) {
+                    $response = $event['response'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\Response', $response);
+                }
+            );
+
+        $gateway = new ApplePayGateway($this->customHttpClient, $this->getHttpRequest());
+        $gateway->setTestMode(true);
+
+        $request = $gateway->authorize(
+            array(
+                'validationURL' => $this->faker->url(),
+                'merchantIdentifier' => $this->faker->transactionId(),
+                'displayName' => $this->faker->username(),
+                'applicationUrl' => $this->faker->url()
+            )
+        );
+        $request->send();
+
+        $eventsDispatched = $this->testSubscriber->eventsDispatched;
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
+        $this->assertEquals(1, $eventsDispatched['omnipay.response.success']);
+        $this->assertArrayNotHasKey('omnipay.request.error', $eventsDispatched);
+    }
+
+    /**
+     * @psalm-suppress UndefinedMethod
+     * @return void
+     */
+    public function testAppleAuthorizeRequestErrorEmitted()
+    {
+        $this->setMockHttpResponse('ApplePayAuthorizeRequestFailure.txt');
+
+        $class = $this;
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_REQUEST_BEFORE_SEND,
+                /** @return void */
+                function (RequestEvent $event) use ($class) {
+                    $request = $event['request'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\ApplePayAuthorizeRequest', $request);
+                }
+            );
+
+        $this->eventDispatcher
+            ->addListener(
+                Constants::OMNIPAY_RESPONSE_SUCCESS,
+                /** @return void */
+                function (ResponseEvent $event) use ($class) {
+                    $response = $event['response'];
+                    $class->assertInstanceOf('\Omnipay\Vindicia\Message\Response', $response);
+                }
+            );
+
+        // By mocking the 'getObject' method to return an invalid object value, we will cause the SOAP client to throw
+        // a SoapFault exception.
+        $mockRequest = $this->getMock(
+            '\Omnipay\Vindicia\Message\ApplePayAuthorizeRequest',
+            array('getValidationUrl'),
+            array($this->customHttpClient, $this->getHttpRequest())
+        );
+
+        $mockRequest->method('getValidationUrl')->willReturn('invalid_url');
+        $mockRequest->initialize(
+            array(
+                'pemCertPath' => $this->faker->path(),
+                'keyCertPath' => $this->faker->path(),
+                'keyCertPassword' => $this->faker->password(),
+                'validationUrl' => $this->faker->url(),
+                'merchantIdentifier' => $this->faker->transactionId(),
+                'displayName' => $this->faker->username(),
+                'applicationUrl' => $this->faker->url()
+            )
+        );
+
+        $eventsDispatched = array();
+        try {
+            $mockRequest->send();
+        } catch (Exception $exception) {
+            $eventsDispatched = $this->testSubscriber->eventsDispatched;
+        }
+
+        // An exception will always be expected. Therefore $eventsDispatched should never be empty.
         $this->assertNotEmpty($eventsDispatched);
         $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
         $this->assertEquals(1, $eventsDispatched['omnipay.request.error']);
