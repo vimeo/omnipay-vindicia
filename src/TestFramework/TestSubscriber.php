@@ -4,11 +4,17 @@ namespace Omnipay\Vindicia\TestFramework;
 
 use Guzzle\Common\Event;
 use PaymentGatewayLogger\Event\Constants;
+use PaymentGatewayLogger\Event\ErrorEvent;
+use PaymentGatewayLogger\Event\RequestEvent;
+use PaymentGatewayLogger\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TestSubscriber implements EventSubscriberInterface
 {
     const PRIORITY = 0;
+
+    /** @var array */
+    public $eventsDispatched = array();
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
@@ -44,11 +50,12 @@ class TestSubscriber implements EventSubscriberInterface
      *     array(
      *         'request' => \Omnipay\Common\Message\AbstractRequest
      *     )
-     * @param Event $event
+     * @param RequestEvent $event
      * @return void
      */
-    public function onOmnipayRequestBeforeSend(Event $event)
+    public function onOmnipayRequestBeforeSend(RequestEvent $event)
     {
+        $this->incrementEventCount($event->getType());
     }
 
     /**
@@ -58,11 +65,12 @@ class TestSubscriber implements EventSubscriberInterface
      *     array(
      *         'response' => \Omnipay\Common\Message\AbstractResponse
      *     )
-     * @param Event $event
+     * @param ResponseEvent $event
      * @return void
      */
-    public function onOmnipayResponseSuccess(Event $event)
+    public function onOmnipayResponseSuccess(ResponseEvent $event)
     {
+        $this->incrementEventCount($event->getType());
     }
 
     /**
@@ -72,10 +80,25 @@ class TestSubscriber implements EventSubscriberInterface
      *     array(
      *         'error' => Exception
      *     )
-     * @param Event $event
+     * @param ErrorEvent $event
      * @return void
      */
-    public function onOmnipayRequestError(Event $event)
+    public function onOmnipayRequestError(ErrorEvent $event)
     {
+        $this->incrementEventCount($event->getType());
+    }
+
+    /**
+     * Increments event occurrences.
+     * @param string $event_name
+     * @return void
+     */
+    protected function incrementEventCount($event_name)
+    {
+        if (isset($this->eventsDispatched[$event_name])) {
+            $this->eventsDispatched[$event_name]++;
+        } else {
+            $this->eventsDispatched[$event_name] = 1;
+        }
     }
 }

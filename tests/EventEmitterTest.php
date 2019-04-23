@@ -22,6 +22,9 @@ class EventEmitterTest extends SoapTestCase
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
+    /** @var TestSubscriber */
+    protected $testSubscriber;
+
     /**
      * @return void
      */
@@ -43,7 +46,8 @@ class EventEmitterTest extends SoapTestCase
         $this->customHttpClient = new Client('', array('redirect.disable' => true));
         $this->eventDispatcher = $this->customHttpClient->getEventDispatcher();
 
-        $this->eventDispatcher->addSubscriber(new TestSubscriber());
+        $this->testSubscriber = new TestSubscriber();
+        $this->eventDispatcher->addSubscriber($this->testSubscriber);
     }
 
     /**
@@ -51,7 +55,7 @@ class EventEmitterTest extends SoapTestCase
      *
      * @return void
      */
-    public function testSuccessfulResponseEmitted()
+    public function testAuthorizeRequestSuccessfulResponseEmitted()
     {
         $this->setMockSoapResponse('AuthorizeSuccess.xml', array(
             'CURRENCY' => $this->currency,
@@ -101,6 +105,11 @@ class EventEmitterTest extends SoapTestCase
         );
         $response = $request->send();
         $this->assertTrue($response->isSuccessful());
+
+        $eventsDispatched = $this->testSubscriber->eventsDispatched;
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
+        $this->assertEquals(1, $eventsDispatched['omnipay.response.success']);
+        $this->assertArrayNotHasKey('omnipay.request.error', $eventsDispatched);
     }
 
     /**
@@ -108,9 +117,8 @@ class EventEmitterTest extends SoapTestCase
      *
      * @psalm-suppress UndefinedMethod
      * @return void
-     * @expectedException SoapFault
      */
-    public function testErrorEventEmitted()
+    public function testAuthorizeRequestErrorEventEmitted()
     {
         $class = $this;
         $this->eventDispatcher
@@ -150,6 +158,18 @@ class EventEmitterTest extends SoapTestCase
                 'customerId' => $this->customerId
             )
         );
-        $mockRequest->send();
+
+        $eventsDispatched  = array();
+        try {
+            $mockRequest->send();
+        } catch (SoapFault $exception) {
+            $eventsDispatched = $this->testSubscriber->eventsDispatched;
+        }
+
+        // A SoapFault exception will always be expected. Therefore $eventsDispatched should never be empty.
+        $this->assertNotEmpty($eventsDispatched);
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.before_send']);
+        $this->assertEquals(1, $eventsDispatched['omnipay.request.error']);
+        $this->assertArrayNotHasKey('omnipay.response.success', $eventsDispatched);
     }
 }
