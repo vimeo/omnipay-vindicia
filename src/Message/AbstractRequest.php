@@ -951,7 +951,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         } catch (SoapFault $exception) {
             if ($this->eventDispatcher) {
                 // Log any errors.
-                $this->eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+                $this->eventDispatcher->dispatch(
+                    Constants::OMNIPAY_REQUEST_ERROR,
+                    new ErrorEvent($exception, $this)
+                );
             }
 
             throw $exception;
