@@ -425,7 +425,10 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
         } catch (Exception $exception) {
             if ($eventDispatcher) {
                 // Log any errors with the request.
-                $eventDispatcher->dispatch(Constants::OMNIPAY_REQUEST_ERROR, new ErrorEvent($exception));
+                $eventDispatcher->dispatch(
+                    Constants::OMNIPAY_REQUEST_ERROR,
+                    new ErrorEvent($exception, $this)
+                );
             }
 
             throw $exception;

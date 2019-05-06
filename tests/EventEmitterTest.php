@@ -117,7 +117,11 @@ class EventEmitterTest extends SoapTestCase
     /**
      * Ensures that 'Request' and 'Error' events are emitted when issuing an improper request.
      *
-     * @psalm-suppress UndefinedMethod
+     * The @ variables below are required in order to correctly mock the TestableSoapClient client.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
      * @return void
      */
     public function testAuthorizeRequestErrorEventEmitted()
@@ -143,16 +147,9 @@ class EventEmitterTest extends SoapTestCase
                 }
             );
 
-        // By mocking the 'getObject' method to return an invalid object value, we will cause the SOAP client to throw
-        // a SoapFault exception.
-        $mockRequest = $this->getMock(
-            '\Omnipay\Vindicia\Message\AuthorizeRequest',
-            array('getObject'),
-            array($this->customHttpClient, $this->getHttpRequest())
-        );
-
-        $mockRequest->method('getObject')->willReturn('invalid_object');
-        $mockRequest->initialize(
+        $gateway = new Gateway($this->customHttpClient, $this->getHttpRequest());
+        $gateway->setTestMode(true);
+        $request = $gateway->authorize(
             array(
                 'amount' => $this->amount,
                 'currency' => $this->currency,
@@ -161,9 +158,17 @@ class EventEmitterTest extends SoapTestCase
             )
         );
 
+        $test_fault_code = 'TEST_FAULT_CODE';
+        $error = new SoapFault($test_fault_code, 1);
+
+        // Overload the __soapCall method to throw an exception in order for the request to fire off an ErrorEvent
+        \Mockery::mock('overload:' . 'Omnipay\Vindicia\TestableSoapClient')
+            ->shouldReceive('__soapCall')
+            ->andThrow($error);
+
         $eventsDispatched  = array();
         try {
-            $mockRequest->send();
+            $request->send();
         } catch (SoapFault $exception) {
             // We want to resume program execution to check $eventsDispatched.
             $eventsDispatched = $this->testSubscriber->eventsDispatched;
