@@ -34,6 +34,11 @@ namespace Omnipay\Vindicia;
  * object to retrieve an Apple Pay payment session from Apple's servers. Once the session is retrieved
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
+ * After the payment sheet is fully loaded, the user can authorize a payment using either Touch or Face ID.
+ * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment –– no money will be transferred 
+ * during this step. If the response is successful, the gateway then makes a capture call to capture a payment and money
+ * will be received.
+ *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
  *    // Include the paths to your Apple Pay Merchant Identity cert, key cert and key cert password.
@@ -79,10 +84,45 @@ namespace Omnipay\Vindicia;
  *    //If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  *
- *     // TODO: Add functionality for completeAuthorize() and capture().
  *     // An opaque Apple Pay Session is returned as a response (expires after 5 mins) and it can be sent to
  *     // the front end to fully load the payment sheet. This allows the user to optionally configure their
  *     // payment option and shipping methods (if needed) and submit their payment.
+ *
+ *    //After the user authorizes an Apple Pay payment on the payment sheet using Touch or Face ID, parse the 
+ *    //ApplePayPayment object to retrieve the token. Pass the token to completeAuthorize to authorize a transaction.
+ *    //You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
+ *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
+ *        //Other params needed to authorize a payment can go here as well.
+ *        'token' => $apple_pay_payment_session_object['token'];
+ *    ))->send();
+ *
+ *    if ($completeAuthorizeResponse->isSuccessful()) {
+ *        // Note: Your transaction ID begins with a prefix you specified in your initial
+ *        // Vindicia configuration. The ID is automatically assigned by Vindicia.
+ *        echo "Transaction id: " . $completeAuthorizeResponse->getTransactionId() . PHP_EOL;
+ *        echo "Transaction reference: " . $completeAuthorizeResponse->getTransactionReference() . PHP_EOL;
+ *        echo "The transaction risk score is: " . $completeAuthorizeResponse->getRiskScore();
+ *    } else {
+ *       // error handling
+ *    }
+ *
+ *    // If the authorization is successful, you may now capture a payment using the transaction ID.
+ *    // Money is transferred during this call.
+ *    $captureResponse = $gateway->capture(array(
+ *        // You can identify the transaction by the transactionId or transactionReference
+ *        // obtained from the authorize response
+ *        'transactionId' => $completeAuthorizeResponse->getTransactionId(),
+ *    ))->send();
+ *
+ *   if ($captureResponse->isSuccessful()) {
+ *        // these are the same as they were on the authorize response, because it is the
+ *        // same transaction
+ *        echo "Transaction id: " . $captureResponse->getTransactionId() . PHP_EOL;
+ *        echo "Transaction reference: " . $captureResponse->getTransactionReference() . PHP_EOL;
+ *    } else {
+ *        // error handling
+ *    }
+ *
  * </code>
  */
 class ApplePayGateway extends AbstractVindiciaGateway
