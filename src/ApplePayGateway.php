@@ -217,16 +217,17 @@ class ApplePayGateway extends AbstractVindiciaGateway
 
     /**
      * Authorize an Apple Pay purchase.
+     * See ApplePayCompleteAuthorizeRequest for parameter examples.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest
      */
     public function completeAuthorize(array $parameters = array())
     {
         /**
-         * @var  \Omnipay\Vindicia\Message\AuthorizeRequest
+         * @var  \Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest
          */
-        return $this->createRequest('\Omnipay\Vindicia\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest', $parameters);
     }
 
     /**
@@ -257,6 +258,24 @@ class ApplePayGateway extends AbstractVindiciaGateway
          * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
          */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
+    }
+
+    /**
+     * Voids, or cancels, a previously authorized transaction. Will not work if the transaction
+     * has already been captured, either by the capture function or purchase function. This is
+     * identical to a regular void request.
+     *
+     * See Message\VoidRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\VoidRequest
+     */
+    public function void(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\VoidRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
     }
 
     // see AbstractVindiciaGateway for more functions and documentation
