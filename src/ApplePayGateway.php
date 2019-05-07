@@ -232,6 +232,7 @@ class ApplePayGateway extends AbstractVindiciaGateway
 
     /**
      * Capture an Apple Pay purchase.
+     * See CaptureRequest for parameter examples.
      *
      * @param array $parameters
      * @return \Omnipay\Vindicia\Message\CaptureRequest

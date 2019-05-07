@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
-use Omnipay\Common\NonStrippingCreditCard;
+use Omnipay\Vindicia\NonStrippingCreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -1139,17 +1139,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
             }
-        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
             $applePay = new stdClass();
 
-            /**
-             * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
-             */
-            $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
-            $applePay->paymentNetwork = $card->getPaymentNetwork();
-            $applePay->paymentData = $card->getToken();
-            $applePay->transactionReference = $card->getApplePayTransactionReference();
-            $applePay->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
+            $token = $this->getToken();
+            $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
+            $applePay->paymentNetwork = $token['paymentMethod']['network'];
+            $applePay->paymentData = $token['paymentData'];
+            $applePay->transactionIdentifier = $token['transactionIdentifier'];
 
             $paymentMethod->applePay = $applePay;
 
