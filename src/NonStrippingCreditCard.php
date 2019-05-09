@@ -104,8 +104,7 @@ class NonStrippingCreditCard extends CreditCard
     }
 
     /**
-     * Sets the token receieved from Apple Pay payment sheet.
-     * Includes the country, zip code, expiration date and account holder name.
+     * Sets the payment token.
      *
      * @param string $value
      * @return static
@@ -119,8 +118,7 @@ class NonStrippingCreditCard extends CreditCard
     }
 
     /**
-     * Gets the token receieved from Apple Pay payment sheet.
-     * Includes the country, zip code, expiration date and account holder name.
+     * Gets the payment token.
      *
      * @return string|null
      */
