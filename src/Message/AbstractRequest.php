@@ -1145,8 +1145,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $token = $this->getToken();
             $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
             $applePay->paymentNetwork = $token['paymentMethod']['network'];
-            $applePay->paymentData = $token['paymentData'];
             $applePay->transactionIdentifier = $token['transactionIdentifier'];
+            $applePay->paymentData = $token['paymentData'];
 
             $paymentMethod->applePay = $applePay;
 
