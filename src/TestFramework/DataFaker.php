@@ -1160,13 +1160,14 @@ class DataFaker
     }
 
     /**
-     * The token received from Apple Pay payment sheet.
-     * Includes the country, zip code, expiration date and account holder name.
-     * Need to use json encode so that it is parsed as a string instead of an array to match token object.
+     * The paymentData portion of the token taken from the ApplePayPayment object received from
+     * the Apple Pay payment sheet.
+     * We need to use json encode it so that its parsed as a string instead of an array to
+     *  match token object.
      *
      * @return string
      */
-    public function token()
+    public function applePayPaymentData()
     {
         return json_encode(array(
             'version' => $this->randomCharacters(self::ALPHABET_UPPER . self::DIGITS, $this->intBetween(1, 5)),
