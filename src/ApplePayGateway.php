@@ -35,9 +35,9 @@ namespace Omnipay\Vindicia;
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
  * After the payment sheet is fully loaded, the user can authorize a payment using either Touch or Face ID.
- * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment –– no money will be transferred 
- * during this step. If the response is successful, the gateway then makes a capture call to capture a payment and money
- * will be received.
+ * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment –– no money will be
+ * transferred during this step. If the response is successful, the gateway then makes a capture call to 
+ * capture a payment and money will be received.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
