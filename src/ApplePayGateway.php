@@ -31,10 +31,11 @@ namespace Omnipay\Vindicia;
  * object to retrieve an Apple Pay payment session from Apple's servers. Once the session is retrieved
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
- * After the payment sheet is fully loaded, the user can authorize a payment using either Touch or Face ID.
- * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment using the ApplePayPaymentToken
- * –– no money will be transferred during this step. If the response is successful, the gateway then makes
- * a capture call to capture a payment and money will be received.
+ * After the Apple Pay payment sheet is fully loaded on the frontend. The user can authorize a payment using
+ * Touch or Face ID –– this will grant access to the ApplePayPaymentToken. The Apple Pay gateway can authorize 
+ * a payment using the ApplePayCompleteAuthorizeRequest with the ApplePayPaymentToken passed in –– no money will 
+ * be transferred during this step. If the response is successful, the gateway then makes a capture call using 
+ * CaptureRequest to capture a payment and money will be received.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.

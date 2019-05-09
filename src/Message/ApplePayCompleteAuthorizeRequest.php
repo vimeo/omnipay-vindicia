@@ -3,10 +3,11 @@
 namespace Omnipay\Vindicia\Message;
 
 /**
- * Authorize a transaction using an ApplePayPayment object from the Apple Pay payment sheet on frontend.
- * No money will be transferred during authorization. After authorizing a transaction, call capture to 
- * complete the transaction and transfer the money. If you want to do authorize and 
- * capture in one step, use the purchase function, if available.
+ * After the Apple Pay payment sheet is fully loaded on the frontend. The user can authorize a payment 
+ * using Touch or Face ID –– this will grant access to the ApplePayPaymentToken. You can then authorize a payment
+ *  using this request with the ApplePayPaymentToken as a parameter along with other information needed for
+ *  an authorization (see AuthorizeRequest). No money will be transferred during authorization.
+ * After authorizing a transaction, call capture to complete the transaction and transfer the money.
  *
  * You may use other fields from the ApplePayPayment object to fill out billing info.
  * This request only requires the 'token' field from the ApplePayPaymentToken extracted from the ApplePayPayment object.
@@ -59,7 +60,7 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
 {
 
     /**
-     * Sets the token received from the parsed ApplePayPayment object.
+     * Sets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
      *
      * @param string $value
      * @return static
