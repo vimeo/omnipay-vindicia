@@ -9,7 +9,7 @@ namespace Omnipay\Vindicia\Message;
  * capture in one step, use the purchase function, if available.
  *
  * You may use other fields from the ApplePayPayment object to fill out billing info.
- * This request only requires the 'token' field from the ApplePayPayment object.
+ * This request only requires the 'token' field from the ApplePayPaymentToken extracted from the ApplePayPayment object.
  * 
  * Example:
  * <code>
@@ -36,11 +36,11 @@ namespace Omnipay\Vindicia\Message;
  *       'attributes' => array(
  *           'location' => 'FL'
  *       )
- *       //ApplePayPayment token extracted from ApplePayPayment object.
+ *       //ApplePayPaymentToken extracted from ApplePayPayment object.
  *       //You retrieve the ApplePayPayment object when a user authorizes a payment
  *       //using the ApplePsy payment sheet.
  *       'token' => array(
- *           //ApplePayPayment token info
+ *           //ApplePayPaymentToken object fields
  *       )
  *   ))->send();
  *
@@ -73,7 +73,7 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
     }
 
     /**
-     * Gets the token received from the parsed ApplePayPayment object.
+     * Gets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
      *
      * @return string|null
      */

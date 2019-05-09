@@ -7,9 +7,6 @@ namespace Omnipay\Vindicia;
  * This Apple Pay Gateway provides the functionality to authorize, complete authorize and capture
  * Apple Pay payments for Apple Pay on the web.
  * 
- * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture
- * // and authorize payments.
- * 
  * Apple Pay is available on all iOS devices with a Secure Element —– an industry-standard, certified
  * chip designed to store payment information safely. On macOS, users must have anApple Pay-capable
  * iPhone or Apple Watch to authorize the payment, or a MacBook Pro with Touch ID.
@@ -35,9 +32,9 @@ namespace Omnipay\Vindicia;
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
  * After the payment sheet is fully loaded, the user can authorize a payment using either Touch or Face ID.
- * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment –– no money will be
- * transferred during this step. If the response is successful, the gateway then makes a capture call to 
- * capture a payment and money will be received.
+ * The Apple Pay gateway can then use ApplePayCompleteAuthorize to authorize a payment using the ApplePayPaymentToken
+ * –– no money will be transferred during this step. If the response is successful, the gateway then makes
+ * a capture call to capture a payment and money will be received.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
