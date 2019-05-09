@@ -1193,7 +1193,7 @@ class DataFaker
     /**
      * The token portion of the ApplePayPayment object received from the Apple Pay payment sheet.
      *
-     * @return string
+     * @return array
      */
     public function token()
     {
@@ -1201,12 +1201,12 @@ class DataFaker
             // payment data to be decrypted by payment gateway
             'paymentData' => $this->applePayPaymentData(),
             // card info
-            'paymentMethod' => [
+            'paymentMethod' => array(
                 // card brand and last four of credit card - i.e 'MasterCard 1234'
                 'displayName' => $this->paymentNetwork() . ' ' . $this->intBetween(1000, 9999),
                 'network'     => $this->paymentNetwork(),
                 'type'        => 'debit'
-            ],
+            ),
             'transactionIdentifier' => $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17)
         );
     }

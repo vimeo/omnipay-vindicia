@@ -62,7 +62,7 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
     /**
      * Sets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
      *
-     * @param string $value
+     * @param array $value
      * @return static
      */
     public function setToken($value)
@@ -76,7 +76,7 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
     /**
      * Gets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
      *
-     * @return string|null
+     * @return array|null
      */
     public function getToken()
     {
@@ -88,17 +88,5 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
         $this->validate('token');
 
         return parent::getData(self::PAYMENT_METHOD_APPLE_PAY);
-    }
-
-    /**
-     * Overriding to provide a more precise return type
-     * @return AbstractResponse
-     */
-    public function send()
-    {
-        /**
-         * @var AbstractResponse
-         */
-        return parent::send();
     }
 }
