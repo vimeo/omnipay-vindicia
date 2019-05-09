@@ -19,8 +19,8 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
         $this->keyCertPassword = $this->faker->password();
 
         // Request parameters.
-        // Apple Pay token.
-        $this->token = $this->faker->token();
+        // Apple Pay Payment token.
+        $this->token = $this->faker->applePayToken();
         // Params needed to initialize AuthorizeRequest.
         $this->currency = $this->faker->currency();
         $this->amount = $this->faker->monetaryAmount($this->currency);
@@ -40,7 +40,7 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
         $this->request = new ApplePayCompleteAuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
-                'token' => $this->token,
+                'applePayToken' => $this->token,
                 'amount' => $this->amount,
                 'currency' => $this->currency,
                 'card' => $this->card,
@@ -64,7 +64,7 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
      */
     public function testToken()
     {
-        $data = $this->request->getToken();
+        $data = $this->request->getApplePayToken();
         $this->assertSame($this->token, $data);
     }
 
@@ -73,7 +73,7 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
      */
     public function testGetData()
     {
-        $this->request->setToken($this->token);
+        $this->request->setApplePayToken($this->token);
         $data = $this->request->getData();
 
         $this->assertSame($this->token['paymentMethod']['displayName'], $data['transaction']->sourcePaymentMethod->applePay->paymentInstrumentName);

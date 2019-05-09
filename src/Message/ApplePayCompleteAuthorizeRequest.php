@@ -40,8 +40,8 @@ namespace Omnipay\Vindicia\Message;
  *       //ApplePayPaymentToken extracted from ApplePayPayment object.
  *       //You retrieve the ApplePayPayment object when a user authorizes a payment
  *       //using the ApplePsy payment sheet.
- *       'token' => array(
- *           //ApplePayPaymentToken object fields
+ *       'applePayToken' => array(
+ *           //ApplePayPaymentToken fields
  *       )
  *   ))->send();
  *
@@ -65,12 +65,12 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
      * @param array $value
      * @return static
      */
-    public function setToken($value)
+    public function setApplePayToken($value)
     {
         /**
          * @var static
          */
-        return $this->setParameter('token', $value);
+        return $this->setParameter('applePayToken', $value);
     }
 
     /**
@@ -78,14 +78,14 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
      *
      * @return array|null
      */
-    public function getToken()
+    public function getApplePayToken()
     {
-        return $this->getParameter('token');
+        return $this->getParameter('applePayToken');
     }
 
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
-        $this->validate('token');
+        $this->validate('applePayToken');
 
         return parent::getData(self::PAYMENT_METHOD_APPLE_PAY);
     }

@@ -1195,7 +1195,7 @@ class DataFaker
      *
      * @return array
      */
-    public function token()
+    public function applePayToken()
     {
         return array(
             // payment data to be decrypted by payment gateway

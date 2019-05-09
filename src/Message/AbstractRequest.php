@@ -867,6 +867,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Gets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
+     *
+     * @return array|null
+     */
+    public function getApplePayToken()
+    {
+        return $this->getParameter('applePayToken');
+    }
+
+    /**
      * The object type on which the API call will be made
      *
      * @return string
@@ -1094,6 +1104,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
      * @throws InvalidCreditCardException
+     * @psalm-suppress PossiblyInvalidArrayOffset for applePayToken object
+     * @psalm-suppress PossiblyNullArrayAccess for applePayToken object
      */
     protected function buildPaymentMethod($paymentMethodType, $addAttributes = false)
     {
@@ -1142,7 +1154,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
             $applePay = new stdClass();
 
-            $token = $this->getToken();
+            $token = $this->getApplePayToken();
             $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
             $applePay->paymentNetwork = $token['paymentMethod']['network'];
             $applePay->transactionIdentifier = $token['transactionIdentifier'];

@@ -91,7 +91,7 @@ namespace Omnipay\Vindicia;
  *    //You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
  *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
  *        //Other params needed to authorize a payment can go here as well.
- *        'token' => $apple_pay_payment_session_object['token'];
+ *        'applePayToken' => $apple_pay_payment_session_object['token'];
  *    ))->send();
  *
  *    if ($completeAuthorizeResponse->isSuccessful()) {
