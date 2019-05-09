@@ -1160,6 +1160,16 @@ class DataFaker
     }
 
     /**
+     * Returns a card token
+     *
+     * @return string
+     */
+    public function token()
+    {
+        return $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17);
+    }
+
+    /**
      * The paymentData portion of the token taken from the ApplePayPayment object received from
      * the Apple Pay payment sheet.
      * We need to use json encode it so that its parsed as a string instead of an array to
