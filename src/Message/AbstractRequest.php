@@ -1158,7 +1158,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
             $applePay->paymentNetwork = $token['paymentMethod']['network'];
             $applePay->transactionIdentifier = $token['transactionIdentifier'];
-            $applePay->paymentData = $token['paymentData'];
+            // Vindicia expects the paymentData to be a string
+            $applePay->paymentData = json_encode($token['paymentData']);
 
             $paymentMethod->applePay = $applePay;
 
