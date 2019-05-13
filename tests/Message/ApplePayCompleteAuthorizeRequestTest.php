@@ -79,6 +79,6 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
         $this->assertSame($this->token['paymentMethod']['displayName'], $data['transaction']->sourcePaymentMethod->applePay->paymentInstrumentName);
         $this->assertSame($this->token['paymentMethod']['network'], $data['transaction']->sourcePaymentMethod->applePay->paymentNetwork);
         $this->assertSame($this->token['transactionIdentifier'], $data['transaction']->sourcePaymentMethod->applePay->transactionIdentifier);
-        $this->assertSame($this->token['paymentData'], $data['transaction']->sourcePaymentMethod->applePay->paymentData);
+        $this->assertSame(json_encode($this->token['paymentData']), $data['transaction']->sourcePaymentMethod->applePay->paymentData);
     }
 }

@@ -87,8 +87,9 @@ namespace Omnipay\Vindicia;
  *     // payment option and shipping methods (if needed) and submit their payment.
  *
  *    // After the user authorizes an Apple Pay payment on the payment sheet using Touch or Face ID on the front end, 
- *    // parse the ApplePayPayment object to retrieve the token. Pass the extracted 'token' to the 'applePayToken' 
- *    // parameter of this class. You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
+ *    // parse the ApplePayPayment object to retrieve the token.
+ *    // Pass the extracted 'token' to the 'applePayToken' parameter of the ApplePayCompleteAuthorizeRequest class.
+ *    // You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
  *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
  *        'applePayToken' => $apple_pay_payment_session_object['token'];
  *        // Params needed to authorize a payment can go here as well.
