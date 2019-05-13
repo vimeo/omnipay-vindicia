@@ -78,20 +78,40 @@ namespace Omnipay\Vindicia;
  *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
  *
- *    //Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
- *    //If successful, the payment sheet should be fully loaded.
+ *    // Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    // If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  *
  *     // An opaque Apple Pay Session is returned as a response (expires after 5 mins) and it can be sent to
  *     // the front end to fully load the payment sheet. This allows the user to optionally configure their
  *     // payment option and shipping methods (if needed) and submit their payment.
  *
- *    //After the user authorizes an Apple Pay payment on the payment sheet using Touch or Face ID, parse the 
- *    //ApplePayPayment object to retrieve the token. Pass the token to completeAuthorize to authorize a transaction.
- *    //You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
+ *    // After the user authorizes an Apple Pay payment on the payment sheet using Touch or Face ID on the front end, 
+ *    // parse the ApplePayPayment object to retrieve the token. Pass the extracted 'token' to the 'applePayToken' 
+ *    // parameter of this class. You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
  *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
- *        //Other params needed to authorize a payment can go here as well.
  *        'applePayToken' => $apple_pay_payment_session_object['token'];
+ *        // Params needed to authorize a payment can go here as well.
+ *        'items' => array(
+ *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
+ *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
+ *       ),
+ *       'amount' => '23.48', // not necessary since items are provided
+ *       'currency' => 'USD',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
+ *       'card' => array(
+ *          'address1'   => $data->getAddress1(),
+            'address2'   => $data->getAddress2(),
+            'city'       => $data->getCity(),
+            'state'      => $data->getState(),
+            'postcode'   => $data->getPostalCode(),
+            'country'    => $data->getCountry()
+ *       ),
+ *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
+ *                                         // be attached to the customer's account
+ *       'attributes' => array(
+ *           'location' => 'FL'
+ *       )
  *    ))->send();
  *
  *    if ($completeAuthorizeResponse->isSuccessful()) {

@@ -5,12 +5,13 @@ namespace Omnipay\Vindicia\Message;
 /**
  * After the Apple Pay payment sheet is fully loaded on the frontend. The user can authorize a payment 
  * using Touch or Face ID –– this will grant access to the ApplePayPaymentToken. You can then authorize a payment
- *  using this request with the ApplePayPaymentToken as a parameter along with other information needed for
- *  an authorization (see AuthorizeRequest). No money will be transferred during authorization.
+ * using this request with the ApplePayPaymentToken as a parameter along with other information needed for
+ * an authorization (see AuthorizeRequest). No money will be transferred during authorization.
  * After authorizing a transaction, call capture to complete the transaction and transfer the money.
  *
  * You may use other fields from the ApplePayPayment object to fill out billing info.
- * This request only requires the 'token' field from the ApplePayPaymentToken extracted from the ApplePayPayment object.
+ * This request only requires the 'token' field from the ApplePayPaymentToken extracted from the ApplePayPayment
+ * object on the front end. Pass the extracted 'token' to the 'applePayToken' parameter of this class.
  * 
  * Example:
  * <code>
@@ -22,6 +23,13 @@ namespace Omnipay\Vindicia\Message;
  *
  *   // authorize the transaction
  *   $authorizeResponse = $gateway->completeAuthorize(array(
+ *  *    // ApplePayPaymentToken extracted from ApplePayPayment object.
+ *       // You retrieve the ApplePayPayment object when a user authorizes a payment
+ *       // using the ApplePay payment sheet.
+ *       'applePayToken' => array(
+ *           //ApplePayPaymentToken fields
+ *       )
+ *       // Params needed to authorize a payment can go here as well.
  *       'items' => array(
  *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
  *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
@@ -33,15 +41,9 @@ namespace Omnipay\Vindicia\Message;
  *           'postcode' => '12345'
  *       ),
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
- *        // be attached to the customer's account
+ *                                         // be attached to the customer's account
  *       'attributes' => array(
  *           'location' => 'FL'
- *       )
- *       //ApplePayPaymentToken extracted from ApplePayPayment object.
- *       //You retrieve the ApplePayPayment object when a user authorizes a payment
- *       //using the ApplePsy payment sheet.
- *       'applePayToken' => array(
- *           //ApplePayPaymentToken fields
  *       )
  *   ))->send();
  *
