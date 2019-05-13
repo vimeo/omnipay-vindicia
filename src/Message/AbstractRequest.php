@@ -1154,6 +1154,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
             $applePay = new stdClass();
 
+            // 'applePayToken' is validated to ensure it's set before reaching here.
             $token = $this->getApplePayToken();
             $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
             $applePay->paymentNetwork = $token['paymentMethod']['network'];
