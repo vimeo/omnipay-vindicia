@@ -102,11 +102,11 @@ namespace Omnipay\Vindicia;
  *       'customerId' => '123456', // will be created if it doesn't already exist
  *       'card' => array(
  *          'address1'   => $data->getAddress1(),
-            'address2'   => $data->getAddress2(),
-            'city'       => $data->getCity(),
-            'state'      => $data->getState(),
-            'postcode'   => $data->getPostalCode(),
-            'country'    => $data->getCountry()
+ *          'address2'   => $data->getAddress2(),
+ *          'city'       => $data->getCity(),
+ *          'state'      => $data->getState(),
+ *          'postcode'   => $data->getPostalCode(),
+ *          'country'    => $data->getCountry()
  *       ),
  *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
  *                                         // be attached to the customer's account

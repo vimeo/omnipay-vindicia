@@ -82,7 +82,7 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
      * @throws InvalidRequestException
      * @throws InvalidCreditCardException
      */
-    public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
+    public function getData($paymentMethodType = self::PAYMENT_METHOD_APPLE_PAY)
     {
         $this->validate('applePayToken');
 
