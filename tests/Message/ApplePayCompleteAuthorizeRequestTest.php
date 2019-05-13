@@ -62,7 +62,7 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
     /**
      * @return void
      */
-    public function testToken()
+    public function testApplePayToken()
     {
         $data = $this->request->getApplePayToken();
         $this->assertSame($this->token, $data);

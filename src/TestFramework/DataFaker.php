@@ -1162,8 +1162,8 @@ class DataFaker
     /**
      * The paymentData portion of the token taken from the ApplePayPayment object received from
      * the Apple Pay payment sheet.
-     * We need to use json encode it so that its parsed as a string instead of an array to
-     *  match token object.
+     * We need to json encode it so that it's parsed as a string instead of an array to
+     * match token object.
      *
      * @return string
      */

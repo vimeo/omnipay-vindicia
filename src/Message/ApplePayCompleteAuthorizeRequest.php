@@ -56,6 +56,9 @@ namespace Omnipay\Vindicia\Message;
  *   } else {
  *       // error handling
  *   }
+ * 
+ * See ApplePayJS API for more documentation:
+ * @link https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api
  */
 
 class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
@@ -76,16 +79,10 @@ class ApplePayCompleteAuthorizeRequest extends AuthorizeRequest
     }
 
     /**
-     * Gets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
-     *
-     * @return array|null
+     * @throws InvalidRequestException
+     * @throws InvalidCreditCardException
      */
-    public function getApplePayToken()
-    {
-        return $this->getParameter('applePayToken');
-    }
-
-    public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
+    public function getData()
     {
         $this->validate('applePayToken');
 
