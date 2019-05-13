@@ -102,28 +102,4 @@ class NonStrippingCreditCard extends CreditCard
     {
         return $this->getParameter('applePayTransactionReference');
     }
-
-    /**
-     * Sets the payment token.
-     *
-     * @param string $value
-     * @return static
-     */
-    public function setToken($value)
-    {
-        /**
-         * @var static
-         */
-        return $this->setParameter('token', $value);
-    }
-
-    /**
-     * Gets the payment token.
-     *
-     * @return string|null
-     */
-    public function getToken()
-    {
-        return $this->getParameter('token');
-    }
 }
