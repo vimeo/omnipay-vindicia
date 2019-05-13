@@ -7,9 +7,6 @@ namespace Omnipay\Vindicia;
  * This Apple Pay Gateway provides the functionality to authorize, complete authorize and capture
  * Apple Pay payments for Apple Pay on the web.
  * 
- * // TODO: Add documentation about functionality for capture and completeAuthorize methods to capture
- * // and authorize payments.
- * 
  * Apple Pay is available on all iOS devices with a Secure Element —– an industry-standard, certified
  * chip designed to store payment information safely. On macOS, users must have anApple Pay-capable
  * iPhone or Apple Watch to authorize the payment, or a MacBook Pro with Touch ID.
@@ -33,6 +30,12 @@ namespace Omnipay\Vindicia;
  * and partially loaded. The Apple Pay gateway makes the call to Apple's servers using the ApplePayAuthorizeRequest
  * object to retrieve an Apple Pay payment session from Apple's servers. Once the session is retrieved
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
+ *
+ * After the Apple Pay payment sheet is fully loaded on the frontend, the user can authorize a payment using
+ * Touch or Face ID –– this will grant access to the ApplePayPaymentToken. The Apple Pay gateway can authorize 
+ * a payment using the ApplePayCompleteAuthorizeRequest with the ApplePayPaymentToken and AuthorizeRequest parameters 
+ * passed in –– no money will be transferred during this step. If the response is successful, the gateway then 
+ * makes a capture call using CaptureRequest to capture a payment and money will be received.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
@@ -75,14 +78,70 @@ namespace Omnipay\Vindicia;
  *        echo 'Status Message: ' . $authorizeResponse->getMessage() . PHP_EOL;
  *    }
  *
- *    //Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
- *    //If successful, the payment sheet should be fully loaded.
+ *    // Pass authorizeResponse back to the client to validate your merchant and continue with an Apple Pay payment.
+ *    // If successful, the payment sheet should be fully loaded.
  *    $apple_pay_session = $authorizeResponse->getPaymentSessionObject();
  *
- *     // TODO: Add functionality for completeAuthorize() and capture().
  *     // An opaque Apple Pay Session is returned as a response (expires after 5 mins) and it can be sent to
  *     // the front end to fully load the payment sheet. This allows the user to optionally configure their
  *     // payment option and shipping methods (if needed) and submit their payment.
+ *
+ *    // After the user authorizes an Apple Pay payment on the payment sheet using Touch or Face ID on the front end, 
+ *    // parse the ApplePayPayment object to retrieve the token.
+ *    // Pass the extracted 'token' to the 'applePayToken' parameter of the ApplePayCompleteAuthorizeRequest class.
+ *    // You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
+ *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
+ *        'applePayToken' => $apple_pay_token;
+ *        // For a successful transaction, parameters for an AuthorizeRequest are needed as well.
+ *        'items' => array(
+ *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
+ *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
+ *       ),
+ *       'amount' => '23.48', // not necessary since items are provided
+ *       'currency' => 'USD',
+ *       'customerId' => '123456', // will be created if it doesn't already exist
+ *       'card' => array(
+ *          'address1'   => $data->getAddress1(),
+ *          'address2'   => $data->getAddress2(),
+ *          'city'       => $data->getCity(),
+ *          'state'      => $data->getState(),
+ *          'postcode'   => $data->getPostalCode(),
+ *          'country'    => $data->getCountry()
+ *       ),
+ *       'paymentMethodId' => 'cc-123456', // this ID will be assigned to the card, which will
+ *                                         // be attached to the customer's account
+ *       'attributes' => array(
+ *           'location' => 'FL'
+ *       )
+ *    ))->send();
+ *
+ *    if ($completeAuthorizeResponse->isSuccessful()) {
+ *        // Note: Your transaction ID begins with a prefix you specified in your initial
+ *        // Vindicia configuration. The ID is automatically assigned by Vindicia.
+ *        echo "Transaction id: " . $completeAuthorizeResponse->getTransactionId() . PHP_EOL;
+ *        echo "Transaction reference: " . $completeAuthorizeResponse->getTransactionReference() . PHP_EOL;
+ *        echo "The transaction risk score is: " . $completeAuthorizeResponse->getRiskScore();
+ *    } else {
+ *       // error handling
+ *    }
+ *
+ *    // If the authorization is successful, you may now capture a payment using the transaction ID.
+ *    // Money is transferred during this call.
+ *    $captureResponse = $gateway->capture(array(
+ *        // You can identify the transaction by the transactionId or transactionReference
+ *        // obtained from the authorize response
+ *        'transactionId' => $completeAuthorizeResponse->getTransactionId(),
+ *    ))->send();
+ *
+ *   if ($captureResponse->isSuccessful()) {
+ *        // these are the same as they were on the authorize response, because it is the
+ *        // same transaction
+ *        echo "Transaction id: " . $captureResponse->getTransactionId() . PHP_EOL;
+ *        echo "Transaction reference: " . $captureResponse->getTransactionReference() . PHP_EOL;
+ *    } else {
+ *        // error handling
+ *    }
+ *
  * </code>
  */
 class ApplePayGateway extends AbstractVindiciaGateway
@@ -177,20 +236,22 @@ class ApplePayGateway extends AbstractVindiciaGateway
 
     /**
      * Authorize an Apple Pay purchase.
+     * See ApplePayCompleteAuthorizeRequest for parameter examples.
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest
      */
     public function completeAuthorize(array $parameters = array())
     {
         /**
-         * @var  \Omnipay\Vindicia\Message\AuthorizeRequest
+         * @var  \Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest
          */
-        return $this->createRequest('\Omnipay\Vindicia\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest', $parameters);
     }
 
     /**
      * Capture an Apple Pay purchase.
+     * See CaptureRequest for parameter examples.
      *
      * @param array $parameters
      * @return \Omnipay\Vindicia\Message\CaptureRequest
@@ -217,6 +278,24 @@ class ApplePayGateway extends AbstractVindiciaGateway
          * @var \Omnipay\Vindicia\Message\CreatePaymentMethodRequest
          */
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
+    }
+
+    /**
+     * Voids, or cancels, a previously authorized transaction. Will not work if the transaction
+     * has already been captured, either by the capture function or purchase function. This is
+     * identical to a regular void request.
+     *
+     * See Message\VoidRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\VoidRequest
+     */
+    public function void(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\VoidRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\VoidRequest', $parameters);
     }
 
     // see AbstractVindiciaGateway for more functions and documentation

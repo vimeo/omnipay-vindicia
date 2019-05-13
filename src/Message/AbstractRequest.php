@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Guzzle\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
-use Omnipay\Common\NonStrippingCreditCard;
+use Omnipay\Vindicia\NonStrippingCreditCard;
 
 /**
  * Vindicia Abstract Request
@@ -867,6 +867,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Gets the ApplePayPaymentToken received from the parsed ApplePayPayment object.
+     *
+     * @return array|null
+     */
+    public function getApplePayToken()
+    {
+        return $this->getParameter('applePayToken');
+    }
+
+    /**
      * The object type on which the API call will be made
      *
      * @return string
@@ -1094,6 +1104,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @return stdClass
      * @throws InvalidArgumentException if $paymentMethodType is not supported
      * @throws InvalidCreditCardException
+     * @psalm-suppress PossiblyInvalidArrayOffset for applePayToken object
+     * @psalm-suppress PossiblyNullArrayAccess for applePayToken object
      */
     protected function buildPaymentMethod($paymentMethodType, $addAttributes = false)
     {
@@ -1139,17 +1151,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
             }
-        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card !== null) {
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card) {
+            // $card parameter is needed for successful authorization.
             $applePay = new stdClass();
 
-            /**
-             * @var \Omnipay\Vindicia\NonStrippingCreditCard $card
-             */
-            $applePay->paymentInstrumentName = $card->getPaymentInstrumentName();
-            $applePay->paymentNetwork = $card->getPaymentNetwork();
-            $applePay->paymentData = $card->getToken();
-            $applePay->transactionReference = $card->getApplePayTransactionReference();
-            $applePay->expirationDate = $card->getExpiryDate(self::VINDICIA_EXPIRATION_DATE_FORMAT);
+            // 'applePayToken' is validated to ensure it's set before reaching here.
+            $token = $this->getApplePayToken();
+            $applePay->paymentInstrumentName = $token['paymentMethod']['displayName'];
+            $applePay->paymentNetwork = $token['paymentMethod']['network'];
+            $applePay->transactionIdentifier = $token['transactionIdentifier'];
+            // Vindicia expects the paymentData to be a string
+            $applePay->paymentData = json_encode($token['paymentData']);
 
             $paymentMethod->applePay = $applePay;
 

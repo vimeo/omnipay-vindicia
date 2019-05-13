@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <authCaptureResponse xmlns="http://soap.vindicia.com/v21_0/Transaction">
+            <return xmlns="" xsi:type="vin:Return">
+                <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+                <soapId xsi:type="xsd:string">1234567890abcdef1234567890abcdef</soapId>
+                <returnString xsi:type="xsd:string">OK</returnString>
+            </return>
+            <transaction xmlns="" xsi:type="vin:Transaction">
+                <VID xmlns="" xsi:type="xsd:string">1234567890abcdef1234567890abcdef</VID>
+                <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+                <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+                <divisionNumber xmlns="" xsi:type="xsd:string">12345</divisionNumber>
+                <merchantTransactionId xmlns="" xsi:type="xsd:string">[TRANSACTION_ID]</merchantTransactionId>
+                <timestamp xmlns="" xsi:type="xsd:dateTime">2016-11-08T07:41:58-08:00</timestamp>
+                <account xsi:type="vin:Account">
+                    <VID xmlns="" xsi:type="xsd:string">9876543210fedcba9876543210fedcba</VID>
+                    <merchantAccountId xmlns="" xsi:type="xsd:string">[CUSTOMER_ID]</merchantAccountId>
+                    <emailAddress xsi:type="xsd:string">vin_Account_emailAddress</emailAddress>
+                    <emailTypePreference xsi:type="vin:EmailPreference">html</emailTypePreference>
+                    <name xsi:type="xsd:string">Abcdefg Abcdefg</name>
+                    <paymentMethods xsi:type="vin:PaymentMethod">
+                        <VID xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_REFERENCE]</VID>
+                        <type xsi:type="vin:PaymentMethodType">ApplePay</type>
+                        <applePay xsi:type="vin:ApplePay">
+                            <paymentInstrumentName xsi:type="xsd:string">[PAYMENT_INSTRUMENT_NAME]</paymentInstrumentName>
+                            <paymentNetwork xsi:type="xsd:string">[PAYMENT_NETWORK]</paymentNetwork>
+                            <transactionIdentifier xsi:type="xsd:string">[TRANSACTION_REFERENCE]</transactionIdentifier>
+                            <paymentData xsi:type="xsd:string">[PAYMENT_DATA]</paymentData>
+                            <expirationDate xsi:type="xsd:string">000001234567890abcdef</expirationDate>
+                        </applePay>
+                        <accountHolderName xsi:type="xsd:string">attributeName</accountHolderName>
+                        <billingAddress xsi:type="vin:Address">
+                            <VID xmlns="" xsi:type="xsd:string">fdecba9876543210fdecba9876543210</VID>
+                            <addr1 xsi:type="xsd:string">123 Abcd Ave</addr1>
+                            <city xsi:type="xsd:string">Abcd</city>
+                            <district xsi:type="xsd:string">AB</district>
+                            <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+                            <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+                        </billingAddress>
+                        <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+                        <sortOrder xsi:type="xsd:int">0</sortOrder>
+                        <active xsi:type="xsd:boolean">1</active>
+                    </paymentMethods>
+                </account>
+                <sourcePaymentMethod xsi:type="vin:PaymentMethod">
+                    <VID xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+                    <type xsi:type="vin:PaymentMethodType">ApplePay</type>
+                    <applePay xsi:type="vin:ApplePay">
+                        <paymentInstrumentName xsi:type="xsd:string">[PAYMENT_INSTRUMENT_NAME]</paymentInstrumentName>
+                        <paymentNetwork xsi:type="xsd:string">[PAYMENT_NETWORK]</paymentNetwork>
+                        <transactionIdentifier xsi:type="xsd:string">[TRANSACTION_REFERENCE]</transactionIdentifier>
+                        <paymentData xsi:type="xsd:string">[PAYMENT_DATA]</paymentData>
+                        <expirationDate xsi:type="xsd:string">000001234567890abcdef</expirationDate>
+                    </applePay>
+                    <accountHolderName xsi:type="xsd:string">attributeName</accountHolderName>
+                    <billingAddress xsi:type="vin:Address">
+                        <VID xsi:type="xsd:string">0123456789fedcba0123456789fedcba</VID>
+                        <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+                        <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+                    </billingAddress>
+                    <merchantPaymentMethodId xmlns="" xsi:type="xsd:string">[PAYMENT_METHOD_ID]</merchantPaymentMethodId>
+                    <sortOrder xsi:type="xsd:int">0</sortOrder>
+                    <active xsi:type="xsd:boolean">0</active>
+                </sourcePaymentMethod>
+                <statusLog xsi:type="vin:TransactionStatus">
+               <status xsi:type="vin:TransactionStatusType">Authorized</status>
+               <timestamp xsi:type="xsd:dateTime">2018-07-26T09:42:47-07:00</timestamp>
+               <paymentMethodType xsi:type="vin:PaymentMethodType">ApplePay</paymentMethodType>
+               <applePayStatus xsi:type="vin:TransactionStatusApplePay">
+                  <authCode xsi:type="xsd:string">000</authCode>
+               </applePayStatus>
+               <vinAVS xsi:type="vin:AVSMatchType">FullMatch</vinAVS>
+            </statusLog>
+            <statusLog xsi:type="vin:TransactionStatus">
+               <status xsi:type="vin:TransactionStatusType">New</status>
+               <timestamp xsi:type="xsd:dateTime">2018-07-26T09:42:46-07:00</timestamp>
+               <paymentMethodType xsi:type="vin:PaymentMethodType">ApplePay</paymentMethodType>
+               <applePayStatus xsi:type="vin:TransactionStatusApplePay">
+                  <authCode xsi:type="xsd:string">000</authCode>
+               </applePayStatus>
+            </statusLog>
+                <paymentProcessor xsi:type="xsd:string">ProcessorName</paymentProcessor>
+                <paymentProcessorTransactionId xsi:type="xsd:string">123XYZ</paymentProcessorTransactionId>
+                <transactionItems xsi:type="vin:TransactionItem">
+                    <sku xmlns="" xsi:type="xsd:string">[SKU]</sku>
+                    <indexNumber xsi:type="xsd:int">1</indexNumber>
+                    <itemType xsi:type="vin:TransactionItemType">Purchase</itemType>
+                    <name xsi:type="xsd:string">For Validation Only - no charge to you</name>
+                    <price xmlns="" xsi:type="xsd:decimal">[AMOUNT]</price>
+                    <quantity xsi:type="xsd:decimal">1</quantity>
+                    <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
+                    <taxType xsi:type="xsd:string">Exclusive Sales</taxType>
+                    <subtotal xmlns="" xsi:type="xsd:decimal">[AMOUNT]</subtotal>
+                    <total xmlns="" xsi:type="xsd:decimal">[AMOUNT]</total>
+                </transactionItems>
+                <transactionItems xsi:type="vin:TransactionItem">
+                    <sku xsi:type="xsd:string">Total Tax</sku>
+                    <indexNumber xsi:type="xsd:int">2</indexNumber>
+                    <itemType xsi:type="vin:TransactionItemType">Purchase</itemType>
+                    <name xsi:type="xsd:string">Total Tax</name>
+                    <price xsi:type="xsd:decimal">0</price>
+                    <quantity xsi:type="xsd:decimal">1</quantity>
+                    <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
+                    <taxType xsi:type="xsd:string">Exclusive Sales</taxType>
+                    <discount xsi:type="xsd:decimal">0</discount>
+                    <subtotal xsi:type="xsd:decimal">0</subtotal>
+                    <total xsi:type="xsd:decimal">0</total>
+                </transactionItems>
+                <salesTaxAddress xsi:type="vin:Address">
+                    <VID xmlns="" xsi:type="xsd:string">fdecba9876543210fdecba9876543210</VID>
+                    <postalCode xmlns="" xsi:type="xsd:string">[POSTCODE]</postalCode>
+                    <country xmlns="" xsi:type="xsd:string">[COUNTRY]</country>
+                </salesTaxAddress>
+              <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_1_VALUE]</value>
+              </nameValues>
+            <nameValues xmlns="" xsi:type="vin:NameValuePair">
+                <name xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_NAME]</name>
+                <value xmlns="" xsi:type="xsd:string">[ATTRIBUTE_2_VALUE]</value>
+            </nameValues>
+            </transaction>
+            <score xmlns="" xsi:type="xsd:int">-1</score>
+        </authCaptureResponse>
+    </soap:Body>
+</soap:Envelope>

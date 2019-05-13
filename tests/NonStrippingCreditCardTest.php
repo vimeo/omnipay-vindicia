@@ -63,14 +63,4 @@ class NonStrippingCreditCardTest extends TestCase
         $this->assertSame($this->card, $this->card->setApplePayTransactionReference($applePayTransactionReference));
         $this->assertSame($applePayTransactionReference, $this->card->getApplePayTransactionReference());
     }
-
-    /**
-     * @return void
-     */
-    public function testToken()
-    {
-        $token = $this->faker->token();
-        $this->assertSame($this->card, $this->card->setToken($token));
-        $this->assertSame($token, $this->card->getToken());
-    }
 }

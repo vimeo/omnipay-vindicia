@@ -19,7 +19,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->paymentMethodId = $this->faker->paymentMethodId();
         $this->paymentInstrumentName = $this->faker->paymentInstrumentName();
         $this->paymentNetwork = $this->faker->paymentNetwork();
-        $this->paymentData = $this->faker->token();
+        $this->paymentData = $this->faker->applePayPaymentData();
         $this->transactionReference = $this->faker->transactionId();
 
         $this->request = new FetchPaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
