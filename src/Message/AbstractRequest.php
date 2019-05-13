@@ -1151,7 +1151,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             if (!$this->isUpdate()) {
                 $paymentMethod->type = self::PAYMENT_METHOD_PAYPAL;
             }
-        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY) {
+        } elseif ($paymentMethodType === self::PAYMENT_METHOD_APPLE_PAY && $card) {
+            // $card parameter is needed for successful authorization.
             $applePay = new stdClass();
 
             // 'applePayToken' is validated to ensure it's set before reaching here.
