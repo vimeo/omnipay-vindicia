@@ -25,6 +25,7 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->merchantIdentifier = $this->faker->transactionId();
         $this->displayName = $this->faker->username();
         $this->applicationUrl = $this->faker->url();
+        $this->token = $this->faker->applePayToken();
     }
 
     /**
@@ -128,6 +129,21 @@ class ApplePayGatewayTest extends GatewayTestCase
     /**
      * @return void
      */
+    public function testCompleteAuthorize()
+    {
+        $request = $this->gateway->completeAuthorize(
+            array(
+                'applePayToken' => $this->token
+            )
+        );
+
+        $this->assertInstanceOf('Omnipay\Vindicia\Message\ApplePayCompleteAuthorizeRequest', $request);
+        $this->assertSame($this->token, $request->getApplePayToken());
+    }
+
+    /**
+     * @return void
+     */
     public function testUpdatePaymentMethod()
     {
         $card = $this->faker->card();
@@ -144,6 +160,23 @@ class ApplePayGatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $request);
         $this->assertSameCard($card, $request->getCard());
         $this->assertSame($customerId, $request->getCustomerId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testVoid()
+    {
+        $transactionId = $this->faker->transactionId();
+
+        $request = $this->gateway->void(
+            array(
+                'transactionId' => $transactionId
+            )
+        );
+
+        $this->assertInstanceOf('Omnipay\Vindicia\Message\VoidRequest', $request);
+        $this->assertSame($transactionId, $request->getTransactionId());
     }
 
     /**
