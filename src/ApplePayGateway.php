@@ -31,11 +31,11 @@ namespace Omnipay\Vindicia;
  * object to retrieve an Apple Pay payment session from Apple's servers. Once the session is retrieved
  * (via the response object) you can pass it to the front end to fully load the payment sheet and accept user payment.
  *
- * After the Apple Pay payment sheet is fully loaded on the frontend. The user can authorize a payment using
+ * After the Apple Pay payment sheet is fully loaded on the frontend, the user can authorize a payment using
  * Touch or Face ID –– this will grant access to the ApplePayPaymentToken. The Apple Pay gateway can authorize 
- * a payment using the ApplePayCompleteAuthorizeRequest with the ApplePayPaymentToken passed in –– no money will 
- * be transferred during this step. If the response is successful, the gateway then makes a capture call using 
- * CaptureRequest to capture a payment and money will be received.
+ * a payment using the ApplePayCompleteAuthorizeRequest with the ApplePayPaymentToken and AuthorizeRequest parameters 
+ * passed in –– no money will be transferred during this step. If the response is successful, the gateway then 
+ * makes a capture call using CaptureRequest to capture a payment and money will be received.
  *
  * <code>
  *    // Setup the gateway with your username and password for Vindicia.
@@ -91,8 +91,8 @@ namespace Omnipay\Vindicia;
  *    // Pass the extracted 'token' to the 'applePayToken' parameter of the ApplePayCompleteAuthorizeRequest class.
  *    // You may use other fields in the ApplePayPayment object to fill out billing or shipping info.
  *    $completeAuthorizeResponse = $gateway->completeAuthorize(array(
- *        'applePayToken' => $apple_pay_payment_session_object['token'];
- *        // Params needed to authorize a payment can go here as well.
+ *        'applePayToken' => $apple_pay_token;
+ *        // For a successful transaction, parameters for an AuthorizeRequest are needed as well.
  *        'items' => array(
  *           array('name' => 'Item 1', 'sku' => '1', 'price' => '3.50', 'quantity' => 1),
  *           array('name' => 'Item 2', 'sku' => '2', 'price' => '9.99', 'quantity' => 2)
