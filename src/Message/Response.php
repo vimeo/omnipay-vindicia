@@ -546,14 +546,15 @@ class Response extends AbstractResponse
     /**
      * Return the soap ID from the soap response.
      *
-     * @return string
+     * @return string|null
      */
     public function getSoapId()
     {
         if (isset($this->data->return)) {
             return $this->data->return->soapId;
         }
-        throw new InvalidResponseException('Response has no soap id.');
+
+        return null;
     }
 
     /**
