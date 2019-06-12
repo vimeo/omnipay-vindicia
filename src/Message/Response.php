@@ -546,7 +546,7 @@ class Response extends AbstractResponse
     /**
      * Return the soap ID from the soap response.
      *
-     * @return string
+     * @return string|null
      */
     public function getSoapId()
     {
