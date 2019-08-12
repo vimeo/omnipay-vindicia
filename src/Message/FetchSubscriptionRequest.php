@@ -78,6 +78,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   if ($subscriptionResponse->isSuccessful()) {
  *       echo "Subscription id: " . $subscriptionResponse->getSubscriptionId() . PHP_EOL;
  *       echo "Subscription reference: " . $subscriptionResponse->getSubscriptionReference() . PHP_EOL;
+ *       echo "Subscription cancel reason: " . $subscriptionResponse->getSubscriptionCancelReason() . PHP_EOL;
  *   } else {
  *       // error handling
  *   }

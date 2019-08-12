@@ -23,13 +23,15 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         }
         $this->customerId = $this->faker->customerId();
         $this->customerReference = $this->faker->customerReference();
+        $this->cancelReason = $this->faker->subscriptionCancelReason();
 
         $this->request = new CancelSubscriptionsRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
                 'customerId' => $this->customerId,
                 'customerReference' => $this->customerReference,
-                'subscriptionIds' => $this->subscriptionIds
+                'subscriptionIds' => $this->subscriptionIds,
+                'cancelReason' => $this->cancelReason
             )
         );
 
@@ -90,6 +92,18 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testCancelReason()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setCancelReason($this->cancelReason));
+        $this->assertSame($this->cancelReason, $request->getCancelReason());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -104,7 +118,7 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('stopAutoBilling', $data['action']);
         $this->assertFalse($data['disentitle']);
         $this->assertTrue($data['force']);
-        $this->assertNull($data['cancelReasonCode']);
+        $this->assertSame($this->cancelReason, $data['cancelReasonCode']);
     }
 
     /**
@@ -126,7 +140,7 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('stopAutoBilling', $data['action']);
         $this->assertFalse($data['disentitle']);
         $this->assertTrue($data['force']);
-        $this->assertNull($data['cancelReasonCode']);
+        $this->assertSame($this->cancelReason, $data['cancelReasonCode']);
     }
 
     /**
@@ -145,7 +159,7 @@ class CancelSubscriptionsRequestTest extends SoapTestCase
         $this->assertSame('stopAutoBilling', $data['action']);
         $this->assertFalse($data['disentitle']);
         $this->assertTrue($data['force']);
-        $this->assertNull($data['cancelReasonCode']);
+        $this->assertSame($this->cancelReason, $data['cancelReasonCode']);
     }
 
     /**

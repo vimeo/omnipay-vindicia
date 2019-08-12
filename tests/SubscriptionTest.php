@@ -257,6 +257,16 @@ class SubscriptionTest extends TestCase
     /**
      * @return void
      */
+    public function testCancelReason()
+    {
+        $cancelReason = $this->faker->subscriptionCancelReason();
+        $this->assertSame($this->subscription, $this->subscription->setCancelReason($cancelReason));
+        $this->assertSame($cancelReason, $this->subscription->getCancelReason());
+    }
+
+    /**
+     * @return void
+     */
     public function testBillingDay()
     {
         $billingDay = $this->faker->intBetween(1, 31);

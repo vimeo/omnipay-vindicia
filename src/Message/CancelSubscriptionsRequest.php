@@ -22,6 +22,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - subscriptionReferences: Array of references (the gateway's identifiers) of the
  * subscriptions to be canceled. If neither subscriptionIds nor subscriptionReferences are
  * provided, ALL of the user's subscriptions will be canceled.
+ * - cancelReason: The reason that the subscriptions were canceled (optional). Possible values are
+ * documented by Vindicia here. Only the reason code needs to be specified:
+ * https://www.vindicia.com/documents/2500ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
+ * _with.htm%3FTocPath%3DCashBox2500ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
+ * Canceling%2520AutoBills%7C_____1
  *
  * Example:
  * <code>
@@ -175,6 +180,27 @@ class CancelSubscriptionsRequest extends AbstractRequest
         return $this->setParameter('subscriptionReferences', $value);
     }
 
+    /**
+     * Gets the reason the subscription was canceled
+     *
+     * @return null|string
+     */
+    public function getCancelReason()
+    {
+        return $this->getParameter('cancelReason');
+    }
+
+    /**
+     * Set the reason the subscription was canceled
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCancelReason($value)
+    {
+        return $this->setParameter('cancelReason', $value);
+    }
+
     public function getData()
     {
         $customerId = $this->getCustomerId();
@@ -212,7 +238,7 @@ class CancelSubscriptionsRequest extends AbstractRequest
             'action' => $this->getFunction(),
             'force' => true,
             'disentitle' => false,
-            'cancelReasonCode' => null
+            'cancelReasonCode' => $this->getCancelReason()
         );
     }
 }
