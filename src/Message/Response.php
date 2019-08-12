@@ -626,7 +626,7 @@ class Response extends AbstractResponse
      * _with.htm%3FTocPath%3DCashBox2500ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
      * Canceling%2520AutoBills%7C_____1
      *
-     * The value can be set by Vindicia or by the merchant.
+     * The value can be set by Vindicia or by the merchant. If it is not set, null will be returned.
      *
      * @return string|null
      */
