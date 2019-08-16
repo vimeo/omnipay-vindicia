@@ -24,8 +24,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * provided, ALL of the user's subscriptions will be canceled.
  * - cancelReason: The reason that the subscriptions were canceled (optional). Possible values are
  * documented by Vindicia here. Only the reason code needs to be specified:
- * https://www.vindicia.com/documents/2500ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
- * _with.htm%3FTocPath%3DCashBox2500ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
+ * https://www.vindicia.com/documents/1800ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
+ * _with.htm%3FTocPath%3DCashBox1800ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
  * Canceling%2520AutoBills%7C_____1
  *
  * Example:
