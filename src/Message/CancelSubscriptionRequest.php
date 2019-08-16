@@ -14,10 +14,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * - subscriptionReference: The gateway's identifier for the subscription to be canceled. Either
  * subscriptionId or subscriptionReference is required.
  * - cancelReason: The reason that the subscription was canceled (optional). Possible values are
- * documented by Vindicia here. Only the reason code needs to be specified:
- * https://www.vindicia.com/documents/1800ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
- * _with.htm%3FTocPath%3DCashBox1800ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
- * Canceling%2520AutoBills%7C_____1
+ * documented by Vindicia, @see setCancelReason.
  *
  * Example:
  * <code>
@@ -117,6 +114,14 @@ class CancelSubscriptionRequest extends AbstractRequest
 
     /**
      * Set the reason the subscription was canceled
+     *
+     * Possible values:
+     *
+     * https://www.vindicia.com/documents/1800ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
+     * _with.htm%3FTocPath%3DCashBox1800ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520 \
+     * Canceling%2520AutoBills%7C_____1
+     *
+     * Only the "reason code" should be specified.
      *
      * @param string $value
      * @return static

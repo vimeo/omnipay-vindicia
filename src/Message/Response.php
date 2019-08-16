@@ -621,10 +621,8 @@ class Response extends AbstractResponse
     /**
      * Get the reason the subscription was canceled
      *
-     * One of the reason codes documented here by Vindicia will be returned:
-     * https://www.vindicia.com/documents/1800ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
-     * _with.htm%3FTocPath%3DCashBox1800ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520\
-     * Canceling%2520AutoBills%7C_____1
+     * One of the reason codes documented by Vindicia will be returned.
+     * @see CancelSubscriptionRequest::setCancelReason.
      *
      * The value can be set by Vindicia or by the merchant. If it is not set, null will be returned.
      *
