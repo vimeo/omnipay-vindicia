@@ -82,7 +82,7 @@
           <index xmlns="" xsi:type="xsd:int">0</index>
           <product xmlns="" xsi:type="vin:Product">
             <VID xmlns="" xsi:type="xsd:string">fabcdef12340987651234098765fabcdef</VID>
-            <merchantProductId xmlns="" xsi:type="xsd:string">999999</merchantProductId>
+            <merchantProductId xmlns="" xsi:type="xsd:string">[PRODUCT_ID]</merchantProductId>
             <status xmlns="" xsi:type="vin:ProductStatus">Active</status>
             <taxClassification xmlns="" xsi:type="xsd:string">TaxExempt</taxClassification>
             <defaultBillingPlan xmlns="" xsi:type="vin:BillingPlan">
