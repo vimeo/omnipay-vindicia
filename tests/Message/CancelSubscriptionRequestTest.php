@@ -18,12 +18,14 @@ class CancelSubscriptionRequestTest extends SoapTestCase
 
         $this->subscriptionId = $this->faker->subscriptionId();
         $this->subscriptionReference = $this->faker->subscriptionReference();
+        $this->cancelReason = $this->faker->subscriptionCancelReason();
 
         $this->request = new CancelSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
                 'subscriptionId' => $this->subscriptionId,
-                'subscriptionReference' => $this->subscriptionReference
+                'subscriptionReference' => $this->subscriptionReference,
+                'cancelReason' => $this->cancelReason
             )
         );
 
@@ -65,6 +67,18 @@ class CancelSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testCancelReason()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setCancelReason($this->cancelReason));
+        $this->assertSame($this->cancelReason, $request->getCancelReason());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetData()
     {
         $data = $this->request->getData();
@@ -75,7 +89,7 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->assertTrue($data['force']);
         $this->assertFalse($data['settle']);
         $this->assertFalse($data['sendCancellationNotice']);
-        $this->assertNull($data['cancelReasonCode']);
+        $this->assertSame($this->cancelReason, $data['cancelReasonCode']);
     }
 
     /**
@@ -108,7 +122,8 @@ class CancelSubscriptionRequestTest extends SoapTestCase
             'EXPIRY_YEAR' => $this->card['expiryYear'],
             'PAYMENT_METHOD_ID' => $this->paymentMethodId,
             'STATEMENT_DESCRIPTOR' => $this->statementDescriptor,
-            'IP_ADDRESS' => $this->ip
+            'IP_ADDRESS' => $this->ip,
+            'CANCEL_REASON' => $this->cancelReason
         ));
 
         $response = $this->request->send();
@@ -120,6 +135,7 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
         $this->assertSame('Pending Cancel', $response->getSubscriptionStatus());
+        $this->assertSame($this->cancelReason, $response->getSubscriptionCancelReason());
 
         $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }

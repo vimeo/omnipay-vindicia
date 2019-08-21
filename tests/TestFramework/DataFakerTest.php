@@ -824,4 +824,14 @@ class DataFakerTest extends TestCase
         $this->assertGreaterThanOrEqual(-2, $score);
         $this->assertLessThanOrEqual(100, $score);
     }
+
+    /**
+     * @return void
+     */
+    public function testCancelReason()
+    {
+        $cancelReason = $this->faker->subscriptionCancelReason();
+        $this->assertTrue(is_string($cancelReason));
+        $this->assertGreaterThanOrEqual(0, (int) $cancelReason);
+    }
 }

@@ -345,6 +345,7 @@ class ObjectHelper
             'billingState' => isset($object->billingState) ? $object->billingState : null,
             'startTime' => isset($object->startTimestamp) ? $object->startTimestamp : null,
             'endTime' => isset($object->endTimestamp) ? $object->endTimestamp : null,
+            'cancelReason' => isset($object->cancelReason->reason_code) ? $object->cancelReason->reason_code : null,
             'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
         ));
     }

@@ -619,6 +619,25 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the reason the subscription was canceled
+     *
+     * One of the reason codes documented by Vindicia will be returned.
+     * @see CancelSubscriptionRequest::setCancelReason.
+     *
+     * The value can be set by Vindicia or by the merchant. If it is not set, null will be returned.
+     *
+     * @return string|null
+     */
+    public function getSubscriptionCancelReason()
+    {
+        $subscription = $this->getSubscription();
+        if ($subscription) {
+            return $subscription->getCancelReason();
+        }
+        return null;
+    }
+
+    /**
      * Override to set return type correctly
      *
      * @return AbstractRequest

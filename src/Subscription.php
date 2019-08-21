@@ -577,6 +577,27 @@ class Subscription
     }
 
     /**
+     * Gets the reason the subscription was canceled
+     *
+     * @return null|string
+     */
+    public function getCancelReason()
+    {
+        return $this->getParameter('cancelReason');
+    }
+
+    /**
+     * Set the reason the subscription was canceled
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCancelReason($value)
+    {
+        return $this->setParameter('cancelReason', $value);
+    }
+
+    /**
      * A list of attributes
      *
      * @return AttributeBag|null

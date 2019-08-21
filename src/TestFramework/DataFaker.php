@@ -1112,6 +1112,16 @@ class DataFaker
     }
 
     /**
+     * Return a subscription cancel reason
+     *
+     * @return string
+     */
+    public function subscriptionCancelReason()
+    {
+        return (string) $this->intBetween(0, 9999);
+    }
+
+    /**
      * Return a payment instrument name.
      *
      * @return string

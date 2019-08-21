@@ -130,6 +130,10 @@
         </nameValues>
         <subscriptionBalance xmlns="" xsi:type="xsd:decimal">0</subscriptionBalance>
         <statementFormat xmlns="" xsi:type="vin:StatementFormat">DoNotSend</statementFormat>
+        <cancelReason xmlns="" xsi:type="vin:CancelReason">
+          <reason_code xmlns="" xsi:type="xsd:string">[CANCEL_REASON]</reason_code>
+          <description xmlns="" xsi:type="xsd:string">Merchant:  Generic Cancel (Other)</description>
+        </cancelReason>
       </autobill>
     </cancelResponse>
   </soap:Body>

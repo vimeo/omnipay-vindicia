@@ -13,6 +13,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * or subscriptionReference is required.
  * - subscriptionReference: The gateway's identifier for the subscription to be canceled. Either
  * subscriptionId or subscriptionReference is required.
+ * - cancelReason: The reason that the subscription was canceled (optional). Possible values are
+ * documented by Vindicia, @see setCancelReason.
  *
  * Example:
  * <code>
@@ -101,6 +103,35 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class CancelSubscriptionRequest extends AbstractRequest
 {
     /**
+     * Gets the reason the subscription was canceled
+     *
+     * @return null|string
+     */
+    public function getCancelReason()
+    {
+        return $this->getParameter('cancelReason');
+    }
+
+    /**
+     * Set the reason the subscription was canceled
+     *
+     * Possible values:
+     *
+     * https://www.vindicia.com/documents/1800ProgGuideHTML5/Default.htm#ProgGuide/Canceling_AutoBills\
+     * _with.htm%3FTocPath%3DCashBox1800ProgGuide%7C5%2520Working%2520with%2520AutoBills%7C5.3%2520 \
+     * Canceling%2520AutoBills%7C_____1
+     *
+     * Only the "reason code" should be specified.
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setCancelReason($value)
+    {
+        return $this->setParameter('cancelReason', $value);
+    }
+
+    /**
      * The name of the function to be called in Vindicia's API
      *
      * @vreturn string
@@ -136,7 +167,7 @@ class CancelSubscriptionRequest extends AbstractRequest
             'force' => true,
             'settle' => false,
             'sendCancellationNotice' => false,
-            'cancelReasonCode' => null
+            'cancelReasonCode' => $this->getCancelReason()
         );
     }
 }
