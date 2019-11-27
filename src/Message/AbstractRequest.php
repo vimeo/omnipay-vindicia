@@ -144,7 +144,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Initialize request with parameters
+     * Initialize request with parameters.
+     * For new products, the default TAX_CLASSIFICATION is Tax Exempt
      *
      * @param array<string, mixed> $parameters
      * @return static
@@ -154,7 +155,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         if (!array_key_exists('timeout', $parameters)) {
             $parameters['timeout'] = self::DEFAULT_TIMEOUT;
         }
-        if (!array_key_exists('taxClassification', $parameters)) {
+        if (!$this->isUpdate() && !array_key_exists('taxClassification', $parameters)) {
             $parameters['taxClassification'] = self::DEFAULT_TAX_CLASSIFICATION;
         }
 
