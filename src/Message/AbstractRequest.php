@@ -145,7 +145,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Initialize request with parameters.
-     * For new products, the default TAX_CLASSIFICATION is Tax Exempt
+     * For new products, the default tax classification is Tax Exempt
      *
      * @param array<string, mixed> $parameters
      * @return static
