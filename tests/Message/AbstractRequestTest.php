@@ -425,9 +425,9 @@ class AbstractRequestTest extends SoapTestCase
      */
     public function testDefaultParameterOnCreate()
     {
-      $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
-      $request->initialize();
-      $this->assertSame(AbstractRequest::DEFAULT_TAX_CLASSIFICATION, $request->getTaxClassification());
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
+        $request->initialize();
+        $this->assertSame(AbstractRequest::DEFAULT_TAX_CLASSIFICATION, $request->getTaxClassification());
     }
 
     /**
@@ -435,10 +435,10 @@ class AbstractRequestTest extends SoapTestCase
      */
     public function testDefaultParameterOnUpdate()
     {
-      $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
-      $request->shouldReceive('isUpdate')->andReturn(true);
-      $request->initialize();
-      $this->assertNull($request->getTaxClassification());
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
+        $request->shouldReceive('isUpdate')->andReturn(true);
+        $request->initialize();
+        $this->assertNull($request->getTaxClassification());
     }
 
     /**
