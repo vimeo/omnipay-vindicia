@@ -423,6 +423,27 @@ class AbstractRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testDefaultParameterOnCreate()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
+        $request->initialize();
+        $this->assertSame(AbstractRequest::DEFAULT_TAX_CLASSIFICATION, $request->getTaxClassification());
+    }
+
+    /**
+     * @return void
+     */
+    public function testDefaultParameterOnUpdate()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
+        $request->shouldReceive('isUpdate')->andReturn(true);
+        $request->initialize();
+        $this->assertNull($request->getTaxClassification());
+    }
+
+    /**
+     * @return void
+     */
     public function testSendData()
     {
         $object = $this->faker->randomCharacters(DataFaker::ALPHABET_LOWER . DataFaker::ALPHABET_UPPER, $this->faker->intBetween(5, 10));
