@@ -92,6 +92,7 @@ class PurchaseRequest extends AuthorizeRequest
 
     /**
      * @param bool $ignore
+     * @return static
      */
     public function setIgnoreAvsPolicy($ignore)
     {
@@ -108,6 +109,7 @@ class PurchaseRequest extends AuthorizeRequest
 
     /**
      * @param bool $ignore
+     * @return static
      */
     public function setIgnoreCvnPolicy($ignore)
     {
