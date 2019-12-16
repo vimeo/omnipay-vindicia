@@ -6,7 +6,11 @@ namespace Omnipay\Vindicia\Message;
  * Purchase something! Money will be transferred. Calling purchase is the equivalent of
  * calling authorize and then calling capture.
  *
- * Takes the same parameters as authorize. See Message\AuthorizeRequest.
+ * Takes the same parameters as authorize, plus those listed below. See Message\AuthorizeRequest.
+ *
+ * Parameters:
+ * - ignoreAvsPolicy: Determines whether to check AVS validation on payment method. Default value is false.
+ * - ignoreCvnPolicy: Determines whether to check CVN validation on payment method. Default value is false.
  *
  * Example:
  * <code>
@@ -62,13 +66,53 @@ class PurchaseRequest extends AuthorizeRequest
         return 'authCapture';
     }
 
+    /**
+     * @param string $paymentMethodType
+     * @return array
+     */
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $data = parent::getData($paymentMethodType);
 
-        $data['ignoreAvsPolicy'] = false;
-        $data['ignoreCvnPolicy'] = false;
+        $ignore_avs = $this->getIgnoreAvsPolicy();
+        $ignore_cvn = $this->getIgnoreCvnPolicy();
+        $data['ignoreAvsPolicy'] = $ignore_avs ? $ignore_avs : false;
+        $data['ignoreCvnPolicy'] = $ignore_cvn ? $ignore_cvn : false;
 
         return $data;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getIgnoreAvsPolicy()
+    {
+        return $this->getParameter('ignoreAvsPolicy');
+    }
+
+    /**
+     * @param bool $ignore
+     * @return static
+     */
+    public function setIgnoreAvsPolicy($ignore)
+    {
+        return $this->setParameter('ignoreAvsPolicy', $ignore);
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getIgnoreCvnPolicy()
+    {
+        return $this->getParameter('ignoreCvnPolicy');
+    }
+
+    /**
+     * @param bool $ignore
+     * @return static
+     */
+    public function setIgnoreCvnPolicy($ignore)
+    {
+        return $this->setParameter('ignoreCvnPolicy', $ignore);
     }
 }
