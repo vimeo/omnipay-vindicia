@@ -6,7 +6,11 @@ namespace Omnipay\Vindicia\Message;
  * Purchase something! Money will be transferred. Calling purchase is the equivalent of
  * calling authorize and then calling capture.
  *
- * Takes the same parameters as authorize. See Message\AuthorizeRequest.
+ * Takes the same parameters as authorize, plus those listed below. See Message\AuthorizeRequest.
+ *
+ * Parameters:
+ * - ignoreAvsPolicy: Determines whether to check AVS validation on payment method. Default value is false.
+ * - ignoreCvnPolicy: Determines whether to check CVN validation on payment method. Default value is false.
  *
  * Example:
  * <code>
