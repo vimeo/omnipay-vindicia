@@ -96,7 +96,7 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function setIgnoreAvsPolicy($ignore)
     {
-        $this->setParameter('ignoreAvsPolicy', $ignore);
+        return $this->setParameter('ignoreAvsPolicy', $ignore);
     }
 
     /**
@@ -113,6 +113,6 @@ class PurchaseRequest extends AuthorizeRequest
      */
     public function setIgnoreCvnPolicy($ignore)
     {
-        $this->setParameter('ignoreCvnPolicy', $ignore);
+        return $this->setParameter('ignoreCvnPolicy', $ignore);
     }
 }
