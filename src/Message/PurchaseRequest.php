@@ -62,13 +62,39 @@ class PurchaseRequest extends AuthorizeRequest
         return 'authCapture';
     }
 
-    public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
+    public function getData(string $paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
         $data = parent::getData($paymentMethodType);
 
-        $data['ignoreAvsPolicy'] = false;
-        $data['ignoreCvnPolicy'] = false;
+        $data['ignoreAvsPolicy'] = $this->getIgnoreAvsPolicy();
+        $data['ignoreCvnPolicy'] = $this->getIgnoreCvnPolicy();
 
         return $data;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getIgnoreAvsPolicy()
+    {
+        return $this->getParameter('ignoreAvsPolicy');
+    }
+
+    public function setIgnoreAvsPolicy(bool $ignore)
+    {
+        $this->setParameter('ignoreAvsPolicy', $ignore);
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getIgnoreCvnPolicy()
+    {
+        return $this->getParameter('ignoreCvnPolicy');
+    }
+
+    public function setIgnoreCvnPolicy(bool $ignore)
+    {
+        $this->setParameter('ignoreCvnPolicy', $ignore);
     }
 }
