@@ -66,8 +66,10 @@ class PurchaseRequest extends AuthorizeRequest
     {
         $data = parent::getData($paymentMethodType);
 
-        $data['ignoreAvsPolicy'] = $this->getIgnoreAvsPolicy();
-        $data['ignoreCvnPolicy'] = $this->getIgnoreCvnPolicy();
+        $ignore_avs = $this->getIgnoreAvsPolicy();
+        $ignore_cvn = $this->getIgnoreCvnPolicy();
+        $data['ignoreAvsPolicy'] = $ignore_avs ? $ignore_avs : false;
+        $data['ignoreCvnPolicy'] = $ignore_cvn ? $ignore_cvn : false;
 
         return $data;
     }
