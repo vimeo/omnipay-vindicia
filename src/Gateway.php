@@ -244,5 +244,21 @@ class Gateway extends AbstractVindiciaGateway
         return $this->createRequest('\Omnipay\Vindicia\Message\CreatePaymentMethodRequest', $parameters, true);
     }
 
+    /**
+     * Update a payment method.
+     *
+     * See Message\CreatePaymentMethodRequest for more details.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Vindicia\Message\ChargebackRequest
+     */
+    public function chargeback(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\ChargebackRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\ChargebackRequest', $parameters, true);
+    }
+
     // see AbstractVindiciaGateway for more functions and documentation
 }
