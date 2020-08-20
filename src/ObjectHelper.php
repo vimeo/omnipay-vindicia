@@ -2,7 +2,6 @@
 
 namespace Omnipay\Vindicia;
 
-use Omnipay\Vindicia\NonStrippingCreditCard;
 use stdClass;
 
 class ObjectHelper
@@ -152,7 +151,7 @@ class ObjectHelper
 
     /**
      * @param stdClass $object raw payment object
-     * @param stdClass $salesTaxAddress salesTaxAddress info from fetch transaction response
+     * @param stdClass|null $salesTaxAddress salesTaxAddress info from fetch transaction response
      * @return \Omnipay\Vindicia\PaymentMethod
      */
     public function buildPaymentMethod(stdClass $object, stdClass $salesTaxAddress = null)
@@ -172,16 +171,51 @@ class ObjectHelper
             }
         }
 
+        return new PaymentMethod(array(
+            'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
+            'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
+            'type' => isset($object->type) ? $object->type : null,
+            // NonStrippingCreditCard won't remove the X's that Vindicia masks with
+            'card' => $this->buildCreditCard($object, $salesTaxAddress, $cvv),
+            'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null
+        ));
+    }
+
+    /**
+     * @param stdClass      $object
+     * @param stdClass|null $salesTaxAddress
+     * @param string|null   $cvv
+     *
+     * @return \Omnipay\Vindicia\NonStrippingCreditCard
+     */
+    public function buildCreditCard(stdClass $object, stdClass $salesTaxAddress = null, $cvv = null)
+    {
+        $is_apple_pay = isset($object->applePay);
+        $expiryMonth = null;
+        $expiryYear = null;
+
+        $expiration_date = null;
+        if ($is_apple_pay && isset($object->applePay->expirationDate)) {
+            $expiration_date = $object->applePay->expirationDate;
+        } elseif (isset($object->creditCard->expirationDate)) {
+            $expiration_date = $object->creditCard->expirationDate;
+        }
+
+        $number = null;
+        if ($is_apple_pay && isset($object->applePay->paymentInstrumentName)) {
+            $number = explode(' ', $object->applePay->paymentInstrumentName, 2);
+            $number = isset($number[1]) ? $number[1] : null;
+        } elseif (isset($object->creditCard->account)) {
+            $number = $object->creditCard->account;
+        }
+
         $card_info = array(
             'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
-            'number' => isset($object->creditCard->account) ? $object->creditCard->account : null,
-            'expiryMonth' => isset($object->creditCard->expirationDate)
-                           ? substr($object->creditCard->expirationDate, 4)
-                           : null,
-            'expiryYear' => isset($object->creditCard->expirationDate)
-                          ? substr($object->creditCard->expirationDate, 0, 4)
-                          : null,
-            'cvv' => $cvv
+            'paymentNetwork' => $is_apple_pay ? $object->applePay->paymentNetwork : null,
+            'number' => $number,
+            'expiryMonth' => isset($expiration_date) ? substr($expiration_date, 4) : null,
+            'expiryYear' => isset($expiration_date) ? substr($expiration_date, 0, 4) : null,
+            'cvv' => $cvv,
         );
 
         $address_info = null;
@@ -213,15 +247,7 @@ class ObjectHelper
             );
         }
         $card_info = array_merge($card_info, $address_info);
-
-        return new PaymentMethod(array(
-            'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
-            'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
-            'type' => isset($object->type) ? $object->type : null,
-            // NonStrippingCreditCard won't remove the X's that Vindicia masks with
-            'card' => new NonStrippingCreditCard($card_info),
-            'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null
-        ));
+        return new NonStrippingCreditCard($card_info);
     }
 
     /**
