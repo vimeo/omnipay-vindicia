@@ -203,15 +203,23 @@ class ObjectHelper
 
         $number = null;
         if ($is_apple_pay && isset($object->applePay->paymentInstrumentName)) {
-            $number = explode(' ', $object->applePay->paymentInstrumentName, 2);
-            $number = isset($number[1]) ? $number[1] : null;
+            /**
+             * We pass this value to Vindicia from Apple's response. However Apple cannot guarantee that this value
+             * will always exist and in the same format.
+             *
+             * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentmethod/1916110-displayname
+             */
+            $name_info = explode(' ', $object->applePay->paymentInstrumentName, 2);
+            $number = isset($name_info[1]) && is_numeric($name_info[1]) ? $name_info[1] : null;
         } elseif (isset($object->creditCard->account)) {
             $number = $object->creditCard->account;
         }
 
         $card_info = array(
             'name' => isset($object->accountHolderName) ? $object->accountHolderName : null,
-            'paymentNetwork' => $is_apple_pay ? $object->applePay->paymentNetwork : null,
+            'paymentNetwork' => $is_apple_pay && isset($object->applePay->paymentNetwork)
+                ? $object->applePay->paymentNetwork
+                : null,
             'number' => $number,
             'expiryMonth' => isset($expiration_date) ? substr($expiration_date, 4) : null,
             'expiryYear' => isset($expiration_date) ? substr($expiration_date, 0, 4) : null,
