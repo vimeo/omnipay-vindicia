@@ -207,7 +207,8 @@ class ObjectHelper
              * We pass this value to Vindicia from Apple's response. However Apple cannot guarantee that this value
              * will always exist and in the same format.
              *
-             * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentmethod/1916110-displayname
+             * Refer to the following Apple Pay doc for more info:
+             * https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypaymentmethod/1916110-displayname
              */
             $name_info = explode(' ', $object->applePay->paymentInstrumentName, 2);
             $number = isset($name_info[1]) && is_numeric($name_info[1]) ? $name_info[1] : null;
