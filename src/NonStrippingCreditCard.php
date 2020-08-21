@@ -109,7 +109,7 @@ class NonStrippingCreditCard extends CreditCard
      * For ApplePay payment methods, this should be contained in 'paymentNetwork' parameter. Otherwise the parent
      * method is used to determine the brand type for non-ApplePay payment methods.
      *
-     * @return string|null
+     * @return string
      */
     public function getBrand()
     {
