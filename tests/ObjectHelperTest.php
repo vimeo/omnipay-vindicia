@@ -41,6 +41,9 @@ class ObjectHelperTest extends SoapTestCase
         self::assertSame($expected_results['expiry_year'], $card->getExpiryYear());
     }
 
+    /**
+     * @return array[][]
+     */
     public function provideBuildCreditCard()
     {
         $faker = new DataFaker();
