@@ -95,11 +95,30 @@ class NonStrippingCreditCard extends CreditCard
     /**
      * Gets Apple Pay's transaction reference.
      * Apple Pay calls this a transactionIdentifier.
-     * 
+     *
      * @return string|null
      */
     public function getApplePayTransactionReference()
     {
         return $this->getParameter('applePayTransactionReference');
+    }
+
+    /**
+     * Determines the credit cart payment merchant.
+     *
+     * For ApplePay payment methods, this should be contained in 'paymentNetwork' parameter. Otherwise the parent
+     * method is used to determine the brand type for non-ApplePay payment methods.
+     *
+     * @return string|null
+     */
+    public function getBrand()
+    {
+        $payment_network = $this->getPaymentNetwork();
+        if (isset($payment_network)) {
+            // ApplePay specific
+            return $payment_network;
+        }
+
+        return parent::getBrand();
     }
 }
