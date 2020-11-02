@@ -85,10 +85,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       // error handling
  *   }
  *
- *   // now we want to cancel the subscription
+ *   // now we want to cancel the subscription, we can choose to coerce the gateway to force cancel the subscription.
  *   $cancelResponse = $gateway->cancelSubscription(array(
  *       // identify the subscription to cancel. could do this by subscriptionReference as well
- *       'subscriptionId' => $subscriptionResponse->getSubscriptionId()
+ *       'subscriptionId' => $subscriptionResponse->getSubscriptionId(),
+ *       'coerce'         => $false // optional: coerce the gateway to force cancel the subscription.
  *   ))->send();
  *
  *   if ($cancelResponse->isSuccessful()) {
@@ -113,6 +114,27 @@ class CancelSubscriptionRequest extends AbstractRequest
     }
 
     /**
+     * Set the option to force cancel a subscription.
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function setCoercion($value)
+    {
+        return $this->setParameter('coerce', $value);
+    }
+
+    /**
+     * Gets the option to force cancel a subscription.
+     *
+     * @return null|bool
+     */
+    public function getCoercion()
+    {
+        return $this->getParameter('coerce');
+    }
+
+    /**
      * Set the reason the subscription was canceled
      *
      * Possible values:
@@ -134,7 +156,6 @@ class CancelSubscriptionRequest extends AbstractRequest
     /**
      * The name of the function to be called in Vindicia's API
      *
-     * @vreturn string
      * @return  string
      */
     protected function getFunction()
@@ -160,14 +181,28 @@ class CancelSubscriptionRequest extends AbstractRequest
             throw new InvalidRequestException('Either the subscription id or reference is required.');
         }
 
-        return array(
+        $data = array(
             'autobill' => $subscription,
             'action' => $this->getFunction(),
-            'disentitle' => false,
-            'force' => true,
             'settle' => false,
             'sendCancellationNotice' => false,
             'cancelReasonCode' => $this->getCancelReason()
         );
+
+        $coerce = $this->getCoercion();
+        if ($coerce) {
+            array_push($data, [
+                'force'      => true,
+                'disentitle' => true
+            ]);
+        } else {
+            // Default values for a subscription cancellation request.
+            array_push($data, [
+                'force'      => true,
+                'disentitle' => false
+            ]);
+        }
+
+        return $data;
     }
 }
