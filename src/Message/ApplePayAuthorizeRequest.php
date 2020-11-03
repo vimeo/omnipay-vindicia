@@ -460,8 +460,8 @@ class ApplePayAuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
                 $status,
                 array('body' => $message)
             );
-        // If you try to parse an empty response body, error will be thrown.
         } catch (\RunTimeException $e) {
+            // If you try to parse an empty response body, error will be thrown.
             $response = array_merge(
                 $status,
                 array('body' => '')
