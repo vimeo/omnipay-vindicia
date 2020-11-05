@@ -186,21 +186,15 @@ class CancelSubscriptionRequest extends AbstractRequest
             'action' => $this->getFunction(),
             'settle' => false,
             'sendCancellationNotice' => false,
-            'cancelReasonCode' => $this->getCancelReason()
+            'cancelReasonCode' => $this->getCancelReason(),
+            'force' => true,
+            'disentitle' => false
         );
 
         $coerce = $this->getCoercion();
         if ($coerce) {
-            array_push($data, [
-                'force'      => true,
-                'disentitle' => true
-            ]);
-        } else {
-            // Default values for a subscription cancellation request.
-            array_push($data, [
-                'force'      => true,
-                'disentitle' => false
-            ]);
+            $data['force'] = true;
+            $data['disentitle'] = true;
         }
 
         return $data;

@@ -86,8 +86,8 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
         $request->initialize();
 
-        $this->assertSame($request, $request->setCoerce($this->coerce));
-        $this->assertSame($this->subscriptionId, $request->getCoerce());
+        $this->assertSame($request, $request->setCoercion($this->coerce));
+        $this->assertSame($this->coerce, $request->getCoercion());
     }
 
     /**

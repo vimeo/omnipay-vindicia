@@ -1228,6 +1228,6 @@ class DataFaker
      */
     public function coerce(): bool
     {
-        return (bool) $this->faker->boolean();
+        return $this->bool();
     }
 }
