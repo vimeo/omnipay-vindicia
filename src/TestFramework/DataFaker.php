@@ -1220,4 +1220,14 @@ class DataFaker
             'transactionIdentifier' => $this->randomCharacters(self::DIGITS . self::ALPHABET_UPPER, 17)
         );
     }
+
+    /**
+     * Return a bool for whether we want to coerce the gateway to force cancel a subscription or not
+     *
+     * @return bool
+     */
+    public function coerce()
+    {
+        return $this->bool();
+    }
 }

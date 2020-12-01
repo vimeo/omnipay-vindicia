@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
-    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia" 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+    soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
         <authCaptureResponse xmlns="http://soap.vindicia.com/v21_0/Transaction">

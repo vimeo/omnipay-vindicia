@@ -19,13 +19,15 @@ class CancelSubscriptionRequestTest extends SoapTestCase
         $this->subscriptionId = $this->faker->subscriptionId();
         $this->subscriptionReference = $this->faker->subscriptionReference();
         $this->cancelReason = $this->faker->subscriptionCancelReason();
+        $this->coerce = $this->faker->coerce();
 
         $this->request = new CancelSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
                 'subscriptionId' => $this->subscriptionId,
                 'subscriptionReference' => $this->subscriptionReference,
-                'cancelReason' => $this->cancelReason
+                'cancelReason' => $this->cancelReason,
+                'coerce' => $this->coerce
             )
         );
 
@@ -74,6 +76,18 @@ class CancelSubscriptionRequestTest extends SoapTestCase
 
         $this->assertSame($request, $request->setCancelReason($this->cancelReason));
         $this->assertSame($this->cancelReason, $request->getCancelReason());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCoerce()
+    {
+        $request = Mocker::mock('\Omnipay\Vindicia\Message\CancelSubscriptionRequest')->makePartial();
+        $request->initialize();
+
+        $this->assertSame($request, $request->setCoercion($this->coerce));
+        $this->assertSame($this->coerce, $request->getCoercion());
     }
 
     /**
