@@ -10,7 +10,7 @@ namespace Omnipay\Vindicia;
  * your PCI compliance burden.
  *
  * Note that if you are using test mode, you will need a different username and password.
- * Test mode uses the https://soap.prodtest.sj.vindicia.com endpoint automatically.
+ * Test mode uses the https://soap.staging.us-west.vindicia.com endpoint automatically.
  *
  * Example:
  * <code>
