@@ -183,7 +183,7 @@ class FetchRefundsRequestTest extends SoapTestCase
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
         }
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -206,7 +206,7 @@ class FetchRefundsRequestTest extends SoapTestCase
         $this->assertSame(1, count($refunds));
         $this->assertNotNull($refunds[0]->getId());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Refund.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Refund.wsdl', $this->getLastEndpoint());
     }
 
     /**

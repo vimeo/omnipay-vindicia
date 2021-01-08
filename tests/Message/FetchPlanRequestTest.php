@@ -123,7 +123,7 @@ class FetchPlanRequestTest extends SoapTestCase
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
         }
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -146,7 +146,7 @@ class FetchPlanRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $response->getPlanId());
         $this->assertSame($this->planReference, $response->getPlanReference());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/BillingPlan.wsdl', $this->getLastEndpoint());
     }
 
     /**

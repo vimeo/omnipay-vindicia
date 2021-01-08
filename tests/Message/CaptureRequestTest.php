@@ -67,7 +67,7 @@ class CaptureRequestTest extends SoapTestCase
         $this->assertSame('Ok', $response->getMessage());
         $this->assertSame($this->transactionId, $response->getTransactionId());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
     /**

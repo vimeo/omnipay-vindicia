@@ -177,7 +177,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
         }
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -200,7 +200,7 @@ class FetchSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->subscriptionId, $response->getSubscriptionId());
         $this->assertSame($this->subscriptionReference, $response->getSubscriptionReference());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**

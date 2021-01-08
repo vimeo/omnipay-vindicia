@@ -44,7 +44,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     const API_VERSION = '18.0';
     const LIVE_ENDPOINT = 'https://soap.vindicia.com';
-    const TEST_ENDPOINT = 'https://soap.prodtest.sj.vindicia.com';
+    const TEST_ENDPOINT = 'https://soap.staging.us-west.vindicia.com';
+
     const VINDICIA_EXPIRATION_DATE_FORMAT = 'Ym';
 
     /**

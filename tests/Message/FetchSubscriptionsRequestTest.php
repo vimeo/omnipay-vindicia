@@ -192,7 +192,7 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertNotNull($subscriptions[0]->getId());
         $this->assertNotNull($subscriptions[1]->getId());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -214,7 +214,7 @@ class FetchSubscriptionsRequestTest extends SoapTestCase
         $this->assertNotNull($subscriptions[0]->getId());
         $this->assertNotNull($subscriptions[1]->getId());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**

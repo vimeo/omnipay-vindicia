@@ -111,7 +111,7 @@ class FetchSubscriptionInvoiceReferencesRequestTest extends SoapTestCase
         $this->assertEquals(2, count($invoice_references_array));
         $this->assertSame($this->invoiceReference, $invoice_references_array[0]);
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**

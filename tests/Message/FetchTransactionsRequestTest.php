@@ -191,7 +191,7 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertEquals($this->timestamp, $transactions[0]->getTimestamp());
         $this->assertEquals($this->timestamp, $transactions[1]->getTimestamp());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -217,7 +217,7 @@ class FetchTransactionsRequestTest extends SoapTestCase
         $this->assertEquals($this->timestamp, $transactions[0]->getTimestamp());
         $this->assertEquals($this->timestamp, $transactions[1]->getTimestamp());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
     /**

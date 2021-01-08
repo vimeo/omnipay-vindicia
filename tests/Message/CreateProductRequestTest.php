@@ -324,7 +324,7 @@ class CreateProductRequestTest extends SoapTestCase
         $this->assertSame($this->productId, $response->getProductId());
         $this->assertSame($this->productReference, $response->getProductReference());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Product.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Product.wsdl', $this->getLastEndpoint());
     }
 
     /**
