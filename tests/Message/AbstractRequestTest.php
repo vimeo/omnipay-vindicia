@@ -465,7 +465,7 @@ class AbstractRequestTest extends SoapTestCase
             )
         );
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/' . $object . '.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/' . $object . '.wsdl', $this->getLastEndpoint());
         $this->assertSame(
             array(
                 'style'              => SOAP_DOCUMENT,

@@ -419,7 +419,7 @@ class PayPalPurchaseRequestTest extends SoapTestCase
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . $this->payPalToken, $response->getRedirectUrl());
         $this->assertSame($this->riskScore, $response->getRiskScore());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Transaction.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Transaction.wsdl', $this->getLastEndpoint());
     }
 
     /**

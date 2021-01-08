@@ -137,7 +137,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
         }
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -160,7 +160,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
         $this->assertSame($this->paymentMethodReference, $response->getPaymentMethodReference());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -236,7 +236,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
             $this->assertInstanceOf('\Omnipay\Vindicia\Attribute', $attribute);
         }
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -261,7 +261,7 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('OK', $response->getMessage());
-        
+
         $paymentMethod = $response->getPaymentMethod();
         $this->assertInstanceOf('\Omnipay\Vindicia\PaymentMethod', $paymentMethod);
         $this->assertSame($this->paymentMethodId, $response->getPaymentMethodId());
@@ -274,6 +274,6 @@ class FetchPaymentMethodRequestTest extends SoapTestCase
         $this->assertSame($this->card['country'], $card->getCountry());
         $this->assertSame($this->card['postcode'], $card->getPostcode());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/PaymentMethod.wsdl', $this->getLastEndpoint());
     }
 }

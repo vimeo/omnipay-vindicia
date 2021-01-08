@@ -217,7 +217,7 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertSame($this->caseNumber, $chargeback->getCaseNumber());
         $this->assertSame($this->reasonCode, $chargeback->getReasonCode());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
 
     /**
@@ -241,7 +241,7 @@ class FetchChargebacksRequestTest extends SoapTestCase
         $this->assertNotNull($chargebacks[0]->getTransactionId());
         $this->assertNotNull($chargebacks[1]->getTransactionId());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/Chargeback.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/Chargeback.wsdl', $this->getLastEndpoint());
     }
 
     /**

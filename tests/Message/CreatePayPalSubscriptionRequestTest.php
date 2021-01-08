@@ -418,7 +418,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
         $this->assertSame('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . $this->payPalToken, $response->getRedirectUrl());
         $this->assertSame($this->riskScore, $response->getRiskScore());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/AutoBill.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/AutoBill.wsdl', $this->getLastEndpoint());
     }
 
     /**

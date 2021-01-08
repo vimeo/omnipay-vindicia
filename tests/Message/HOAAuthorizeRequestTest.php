@@ -460,7 +460,7 @@ class HOAAuthorizeRequestTest extends SoapTestCase
         $this->assertSame('OK', $response->getMessage());
         $this->assertSame($this->webSessionReference, $response->getWebSessionReference());
 
-        $this->assertSame('https://soap.prodtest.sj.vindicia.com/18.0/WebSession.wsdl', $this->getLastEndpoint());
+        $this->assertSame(AbstractRequest::TEST_ENDPOINT . '/18.0/WebSession.wsdl', $this->getLastEndpoint());
     }
 
     /**
