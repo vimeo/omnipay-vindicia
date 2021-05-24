@@ -204,6 +204,7 @@ class RefundRequest extends AbstractRequest
         $amount = $this->getAmount();
 
         $refund = new stdClass();
+        $refund->merchantRefundId = $this->getRefundId();
         $refund->amount = $this->getAmount();
         $refund->currency = $this->getCurrency();
         $refund->note = $this->getReason();
