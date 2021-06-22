@@ -327,7 +327,8 @@ class ObjectHelper
             'transactionId' => isset($transaction) ? $transaction->getTransactionId() : null,
             'transactionReference' => isset($transaction) ? $transaction->getTransactionReference() : null,
             'items' => isset($items) ? $items : null,
-            'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null
+            'attributes' => isset($object->nameValues) ? $this->buildAttributes($object->nameValues) : null,
+            'status' => isset($object->status) ? $object->status : null,
         ));
     }
 
