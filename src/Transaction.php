@@ -502,6 +502,25 @@ class Transaction
     }
 
     /**
+     * @param string $value
+     * @return bool
+     */
+    public function statusWasEver($value)
+    {
+        $status_log = $this->getStatusLog();
+        if (is_null($status_log)) {
+            return false;
+        }
+
+        foreach ($status_log as $status) {
+            if ($status->getStatus() === $value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Set the status log
      *
      * @param array<TransactionStatus> $value

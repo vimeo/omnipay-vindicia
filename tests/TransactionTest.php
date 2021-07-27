@@ -267,6 +267,58 @@ class TransactionTest extends TestCase
     }
 
     /**
+     * @dataProvider provideStatusWasEver
+     * @param array<string> $status_log
+     * @param array<string, bool> $was_ever
+     * @return void
+     */
+    public function testStatusWasEver($status_log, $was_ever)
+    {
+        if (!is_null($status_log)) {
+            $tx_statuses = [];
+            foreach ($status_log as $status) {
+                $tx_status = new TransactionStatus(array(
+                    'status' => $status
+                ));
+                $tx_statuses[] = $tx_status;
+            }
+            $this->transaction->setStatusLog($tx_statuses);
+        } else {
+            $this->transaction->setStatusLog(null);
+        }
+
+        foreach ($was_ever as $status => $expected_was_ever) {
+            $this->assertEquals($expected_was_ever, $this->transaction->statusWasEver($status));
+        }
+    }
+
+    public function provideStatusWasEver()
+    {
+        return [
+            [
+                'status_log' => ['New', 'Captured', 'Refunded'],
+                'was_ever' => [
+                    'New' => true,
+                    'new' => false,
+                    'Authorized' => false,
+                    'Refunded' => true,
+                    'Captured' => true,
+                    '' => false,
+                ],
+            ],
+            [
+                'status_log' => null,
+                'was_ever' => [
+                    '' => false,
+                    'New' => false,
+                    'Refunded' => false,
+                    'Captured' => false,
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @return void
      */
     public function testAttributes()
