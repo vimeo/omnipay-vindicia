@@ -418,6 +418,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->getParameter('quantity');
+    }
+
+    /**
+     * @return static
+     */
+    public function setQuantity($value)
+    {
+        return $this->setParameter('quantity', $value);
+    }
+
+    /**
      * @return static
      */
     public function setProductId($value)

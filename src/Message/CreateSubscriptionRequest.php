@@ -278,6 +278,7 @@ class CreateSubscriptionRequest extends AuthorizeRequest
             $item = new stdClass();
             $item->index = 0; //set the item index
             $item->product = $product;
+            $item->quantity = $this->getQuantity();
             $subscription->items = array($item);
         }
 
