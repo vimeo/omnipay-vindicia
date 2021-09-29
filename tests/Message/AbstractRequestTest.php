@@ -433,6 +433,16 @@ class AbstractRequestTest extends SoapTestCase
     /**
      * @return void
      */
+    public function testQuantity()
+    {
+        $quantity = mt_rand(1);
+        $this->assertSame($this->request, $this->request->setQuantity($quantity));
+        $this->assertSame($quantity, $this->request->getQuantity());
+    }
+
+    /**
+     * @return void
+     */
     public function testDefaultParameterOnUpdate()
     {
         $request = Mocker::mock('\Omnipay\Vindicia\Message\AbstractRequest')->makePartial()->shouldAllowMockingProtectedMethods();
