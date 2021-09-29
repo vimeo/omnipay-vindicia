@@ -435,7 +435,7 @@ class AbstractRequestTest extends SoapTestCase
      */
     public function testQuantity()
     {
-        $quantity = mt_rand(1);
+        $quantity = mt_rand(1, mt_getrandmax());
         $this->assertSame($this->request, $this->request->setQuantity($quantity));
         $this->assertSame($quantity, $this->request->getQuantity());
     }
