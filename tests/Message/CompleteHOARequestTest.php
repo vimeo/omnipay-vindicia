@@ -2,6 +2,7 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Mockery;
 use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
@@ -358,5 +359,63 @@ class CompleteHOARequestTest extends SoapTestCase
         $this->assertSame(CompleteHOAResponse::METHOD_FAILURE, $response->getFailureType());
         $this->assertTrue($response->isMethodFailure());
         $this->assertTrue($response->isCvvValidationFailure());
+    }
+
+    /**
+     * @dataProvider provideTestGetFormValue
+     * @param string $test_name
+     * @param array $form_values
+     * @param string|null $expected
+     */
+    public function testGetFormValue($test_name, $form_values, $expected)
+    {
+        $response = Mockery::mock(CompleteHOAResponse::class)->makePartial();
+        $response
+            ->shouldReceive('getFormValues')
+            ->andReturn($form_values);
+        $actual = $response->getFormValue($test_name);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function provideTestGetFormValue()
+    {
+        return array(
+            array(
+                'test_name' => 'name2',
+                'form_values' => array(
+                    array(
+                        'name' => 'name1',
+                        'value' => 'value1'
+                    ),
+                    array(
+                        'name' => 'name2',
+                        'value' => 'value2'
+                    ),
+                    array(
+                        'name' => 'name3',
+                        'value' => 'value3'
+                    )
+                ),
+                'expected' => 'value2'
+            ),
+            array(
+                'test_name' => 'name4',
+                'form_values' => array(
+                    array(
+                        'name' => 'name1',
+                        'value' => 'value1'
+                    ),
+                    array(
+                        'name' => 'name2',
+                        'value' => 'value2'
+                    ),
+                    array(
+                        'name' => 'name3',
+                        'value' => 'value3'
+                    )
+                ),
+                'expected' => null
+            )
+        );
     }
 }
