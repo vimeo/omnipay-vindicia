@@ -274,6 +274,22 @@ class CompleteHOAResponse extends Response
     }
 
     /**
+     * Gets the value set on the HOA form associated with the specified name.
+     *
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getFormValue($name)
+    {
+        foreach ($this->getFormValues() as $form_value) {
+            if ($form_value['name'] === $name) {
+                return $form_value['value'];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets the risk score for the transaction, that is, the estimated probability that
      * this transaction will result in a chargeback. This number ranges from 0 (best) to
      * 100 (worst). It can also be -1, meaning that Vindicia has no opinion. (-1 indicates
