@@ -383,17 +383,23 @@ class CompleteHOARequestTest extends SoapTestCase
             array(
                 'test_name' => 'name2',
                 'form_values' => array(
-                    array(
-                        'name' => 'name1',
-                        'value' => 'value1'
+                    new Attribute(
+                        array(
+                            'name' => 'name1',
+                            'value' => 'value1'
+                        )
                     ),
-                    array(
-                        'name' => 'name2',
-                        'value' => 'value2'
+                    new Attribute(
+                        array(
+                            'name' => 'name2',
+                            'value' => 'value2'
+                        )
                     ),
-                    array(
-                        'name' => 'name3',
-                        'value' => 'value3'
+                    new Attribute(
+                        array(
+                            'name' => 'name3',
+                            'value' => 'value3'
+                        )
                     )
                 ),
                 'expected' => 'value2'
@@ -401,17 +407,23 @@ class CompleteHOARequestTest extends SoapTestCase
             array(
                 'test_name' => 'name4',
                 'form_values' => array(
-                    array(
-                        'name' => 'name1',
-                        'value' => 'value1'
+                    new Attribute(
+                        array(
+                            'name' => 'name1',
+                            'value' => 'value1'
+                        )
                     ),
-                    array(
-                        'name' => 'name2',
-                        'value' => 'value2'
+                    new Attribute(
+                        array(
+                            'name' => 'name2',
+                            'value' => 'value2'
+                        )
                     ),
-                    array(
-                        'name' => 'name3',
-                        'value' => 'value3'
+                    new Attribute(
+                        array(
+                            'name' => 'name3',
+                            'value' => 'value3'
+                        )
                     )
                 ),
                 'expected' => null

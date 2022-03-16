@@ -282,8 +282,8 @@ class CompleteHOAResponse extends Response
     public function getFormValue($name)
     {
         foreach ($this->getFormValues() as $form_value) {
-            if ($form_value['name'] === $name) {
-                return $form_value['value'];
+            if ($form_value->getName() === $name) {
+                return $form_value->getValue();
             }
         }
         return null;
