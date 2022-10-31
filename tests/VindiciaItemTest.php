@@ -115,6 +115,17 @@ class VindiciaItemTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testAutoBillItemVid()
+    {
+        $item = new VindiciaItem();
+        $autobillItemVid = $this->faker->autobillItemVid();
+        $this->assertSame($item, $item->setAutoBillItemVid($autobillItemVid));
+        $this->assertSame($autobillItemVid, $item->getAutoBillItemVid());
+    }
+
+    /**
      * @expectedException        \Omnipay\Vindicia\Exception\InvalidItemException
      * @expectedExceptionMessage Item is missing name.
      * @return                   void

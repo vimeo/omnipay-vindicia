@@ -120,6 +120,26 @@ class VindiciaItem extends Item
     }
 
     /**
+     * Get the item autobill item VID
+     *
+     * @return null|string
+     */
+    public function getAutoBillItemVid()
+    {
+        return $this->getParameter('autoBillItemVid');
+    }
+
+    /**
+     * Set the item autobill item VID
+     *
+     * @return null|string
+     */
+    public function setAutoBillItemVid($value)
+    {
+        return $this->setParameter('autoBillItemVid', $value);
+    }
+
+    /**
      * @return void
      */
     public function validate()
