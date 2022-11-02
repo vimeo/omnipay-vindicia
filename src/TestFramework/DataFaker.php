@@ -97,6 +97,19 @@ class DataFaker
     }
 
     /**
+     * Return autobill item vid
+     *
+     * @return string
+     */
+    public function autobillItemVid()
+    {
+        do {
+            $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
+        } while ($result == 0);
+        return $result;
+    }
+
+    /**
      * Return a customer id
      *
      * @return string
@@ -616,7 +629,8 @@ class DataFaker
             'quantity' => $this->intBetween(1, 15),
             'price' => $this->monetaryAmount($currency),
             'sku' => $this->sku(),
-            'taxClassification' => $this->taxClassification()
+            'taxClassification' => $this->taxClassification(),
+            'autoBillItemVid' => $this->autobillItemVid()
         );
     }
 
