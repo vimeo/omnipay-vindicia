@@ -120,9 +120,9 @@ class VindiciaItemTest extends TestCase
     public function testAutoBillItemVid()
     {
         $item = new VindiciaItem();
-        $autobillItemVid = $this->faker->autobillItemVid();
-        $this->assertSame($item, $item->setAutoBillItemVid($autobillItemVid));
-        $this->assertSame($autobillItemVid, $item->getAutoBillItemVid());
+        $autoBillItemVid = $this->faker->autoBillItemVid();
+        $this->assertSame($item, $item->setAutoBillItemVid($autoBillItemVid));
+        $this->assertSame($autoBillItemVid, $item->getAutoBillItemVid());
     }
 
     /**

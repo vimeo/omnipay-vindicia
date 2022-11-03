@@ -4,6 +4,7 @@ namespace Omnipay\Vindicia;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\Message\FetchPaymentMethodRequest;
+use Omnipay\Vindicia\Message\FetchTransactionRequest;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 
@@ -100,6 +101,91 @@ class ObjectHelperTest extends SoapTestCase
                     'last_four' => substr($card['number'], -4),
                     'expiry_month' => (int) $card['expiryMonth'],
                     'expiry_year' => (int) $card['expiryYear']
+                )
+            )
+        );
+    }
+
+    /**
+     * @dataProvider provideBuildTransaction
+     * @return void
+     */
+    public function testBuildTransaction(array $response_info, array $expected_results)
+    {
+        $request = new FetchTransactionRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request->initialize(
+            array(
+                'transactionId' => $response_info['params']['TRANSACTION_ID']
+            )
+        );
+        $this->setMockSoapResponse($response_info['file'], $response_info['params']);
+
+        $response = $request->send();
+        $data = $response->getData();
+
+        $objectHelper = new ObjectHelper();
+        $transaction = $objectHelper->buildTransaction($data->transaction);
+
+        self::assertInstanceOf('\Omnipay\Vindicia\Transaction', $transaction);
+        self::assertSame($expected_results['transaction_id'], $transaction->getTransactionId());
+        self::assertSame($expected_results['timestamp'], $transaction->getTimestamp());
+        $items = $transaction->getItems();
+        $this->assertSame(2, count($items));
+        foreach ($items as $i => $item) {
+            $this->assertInstanceOf('\Omnipay\Vindicia\VindiciaItem', $item);
+            if ($i == 0) {
+                $this->assertSame($item->getAutoBillItemVid(), $expected_results['autobill_item_vid']);
+                $this->assertSame($expected_results['price'], $item->getPrice());
+            } else if ($i === 1) {
+                $this->assertSame('Total Tax', $item->getSku());
+                $this->assertSame('0', $item->getPrice());
+            }
+        }
+    }
+
+    public function provideBuildTransaction()
+    {
+        $faker = new DataFaker();
+
+        $transactionId = $faker->transactionId();
+        $transactionReference = $faker->transactionReference();
+        $timestamp = date('Y-m-d\T12:00:00-04:00');
+        $autoBillItemVid = $faker->autoBillItemVid();
+
+        return array(
+            array(
+                'response_info' => array(
+                    'file' => 'FetchTransactionByReferenceSuccess.xml',
+                    'params' => array(
+                        'TRANSACTION_ID' => $transactionId,
+                        'TRANSACTION_REFERENCE' => $transactionReference,
+                        'TIMESTAMP' => $timestamp,
+                        'AUTOBILL_ITEM_VID' => $autoBillItemVid
+                    ),
+                ),
+                'expected_info' => array(
+                    'transaction_id' => $transactionId,
+                    'timestamp' => $timestamp,
+                    'price' => '200',
+                    'autobill_item_vid' => $autoBillItemVid
+                )
+            ),
+            array(
+                'response_info' => array(
+                    'file' => 'FetchTransactionSuccess.xml',
+                    'params' => array(
+                        'TRANSACTION_ID' => $transactionId,
+                        'TRANSACTION_REFERENCE' => $transactionReference,
+                        'TIMESTAMP' => $timestamp,
+                        'TAX_AMOUNT' => 0,
+                        'AMOUNT' => 200
+                    ),
+                ),
+                'expected_info' => array(
+                    'transaction_id' => $transactionId,
+                    'timestamp' => $timestamp,
+                    'price' => '200',
+                    'autobill_item_vid' => null
                 )
             )
         );

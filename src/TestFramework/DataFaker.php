@@ -101,7 +101,7 @@ class DataFaker
      *
      * @return string
      */
-    public function autobillItemVid()
+    public function autoBillItemVid()
     {
         do {
             $result = $this->randomCharacters(self::HEX_CHARACTERS, 40);
@@ -630,7 +630,7 @@ class DataFaker
             'price' => $this->monetaryAmount($currency),
             'sku' => $this->sku(),
             'taxClassification' => $this->taxClassification(),
-            'autoBillItemVid' => $this->autobillItemVid()
+            'autoBillItemVid' => $this->autoBillItemVid()
         );
     }
 
