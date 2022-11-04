@@ -103,6 +103,7 @@
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
           <subtotal xmlns="" xsi:type="xsd:decimal">200</subtotal>
           <total xmlns="" xsi:type="xsd:decimal">200</total>
+          <autoBillItemVid xmlns="" xsi:type="xsd:string">[AUTOBILL_ITEM_VID]</autoBillItemVid>
         </transactionItems>
         <transactionItems xmlns="" xsi:type="vin:TransactionItem">
           <sku xmlns="" xsi:type="xsd:string">Total Tax</sku>

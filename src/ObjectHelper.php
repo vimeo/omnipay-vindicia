@@ -35,7 +35,8 @@ class ObjectHelper
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'quantity' => isset($item->quantity) ? $item->quantity : null,
                     'name' => isset($item->name) ? $item->name : null,
-                    'taxClassification' => isset($item->taxClassification) ? $item->taxClassification : null
+                    'taxClassification' => isset($item->taxClassification) ? $item->taxClassification : null,
+                    'autoBillItemVid' => isset($item->autoBillItemVid) ? $item->autoBillItemVid : null
                 ));
             }
         }
@@ -306,7 +307,7 @@ class ObjectHelper
             $items = array();
             foreach ($object->refundItems as $item) {
                 $items[] = new VindiciaRefundItem(array(
-                    'amount' => isset($item->amount) ? $item->amount: null,
+                    'amount' => isset($item->amount) ? $item->amount : null,
                     'sku' => isset($item->sku) ? $item->sku : null,
                     'transactionItemIndexNumber' => isset($item->transactionItemIndexNumber)
                                                   ? $item->transactionItemIndexNumber
