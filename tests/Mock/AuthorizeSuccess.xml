@@ -107,7 +107,7 @@
           <itemType xmlns="" xsi:type="vin:TransactionItemType">Purchase</itemType>
           <name xmlns="" xsi:type="xsd:string">Item Name</name>
           <price xmlns="" xsi:type="xsd:decimal">10</price>
-          <quantity xmlns="" xsi:type="xsd:decimal">1</quantity>
+          <quantity xmlns="" xsi:type="xsd:decimal">[QUANTITY]</quantity>
           <taxClassification xmlns="" xsi:type="xsd:string">[TAX_CLASSIFICATION]</taxClassification>
           <taxType xmlns="" xsi:type="xsd:string">Exclusive Sales</taxType>
           <subtotal xmlns="" xsi:type="xsd:decimal">10</subtotal>
