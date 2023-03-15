@@ -2,7 +2,7 @@
 
 namespace Omnipay\Vindicia\Message;
 
-class PayPalPurchaseRequest extends AuthorizeRequest
+class PayPalAuthRequest extends AuthorizeRequest
 {
     /**
      * The class to use for the response.
