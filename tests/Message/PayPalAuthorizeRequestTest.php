@@ -5,7 +5,6 @@ namespace Omnipay\Vindicia\Message;
 use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\AttributeBag;
 use Omnipay\Vindicia\Message\PayPalAuthorizeRequest;
-use Omnipay\Vindicia\Message\PayPalPurchaseRequest;
 use Omnipay\Vindicia\NameValue;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\Mocker;
