@@ -394,7 +394,7 @@ class PayPalAuthorizeRequestTest extends SoapTestCase
      */
     public function testSendSuccess()
     {
-        $this->setMockSoapResponse('PayPalPurchaseSuccess.xml', array(
+        $this->setMockSoapResponse('PayPalAuthorizeSuccess.xml', array(
             'CURRENCY' => $this->currency,
             'AMOUNT' => $this->amount,
             'CUSTOMER_ID' => $this->customerId,
@@ -428,7 +428,7 @@ class PayPalAuthorizeRequestTest extends SoapTestCase
      */
     public function testSendFailure()
     {
-        $this->setMockSoapResponse('PayPalPurchaseFailure.xml');
+        $this->setMockSoapResponse('PayPalAuthorizeFailure.xml');
 
         $response = $this->request->send();
 
@@ -436,7 +436,7 @@ class PayPalAuthorizeRequestTest extends SoapTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertFalse($response->isPending());
         $this->assertSame('400', $response->getCode());
-        $this->assertSame('Must specify line items in transaction to calculate sales tax for auth!', $response->getMessage());
+        $this->assertSame('Authorization failed.', $response->getMessage());
 
         $this->assertNull($response->getTransactionId());
         $this->assertNull($response->getTransactionReference());
