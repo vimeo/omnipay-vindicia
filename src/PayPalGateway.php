@@ -75,6 +75,19 @@ class PayPalGateway extends AbstractVindiciaGateway
     }
 
     /**
+     * Authorize a transaction. No money will actually be transferred.
+     * 
+     * @return PayPalAuthorizeRequest
+     */
+    public function authorize($parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\PayPalAuthorizeRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\PayPalAuthorizeRequest', $parameters);
+    }
+
+    /**
      * Begin a PayPal purchase. A redirect URL will be returned to send the user to PayPal's
      * website.
      *

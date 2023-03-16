@@ -71,6 +71,35 @@ class PayPalGatewayTest extends GatewayTestCase
     /**
      * @return void
      */
+    public function testAuthorize()
+    {
+        $currency = $this->faker->currency();
+        $amount = $this->faker->monetaryAmount($currency);
+        $customerId = $this->faker->customerId();
+        $returnUrl = $this->faker->url();
+        $cancelUrl = $this->faker->url();
+
+        $request = $this->gateway->authorize(
+            array(
+                'amount' => $amount,
+                'currency' => $currency,
+                'customerId' => $customerId,
+                'returnUrl' => $returnUrl,
+                'cancelUrl' => $cancelUrl
+            )
+        );
+
+        $this->assertInstanceOf('Omnipay\Vindicia\Message\PayPalAuthorizeRequest', $request);
+        $this->assertSame($amount, $request->getAmount());
+        $this->assertSame($currency, $request->getCurrency());
+        $this->assertSame($customerId, $request->getCustomerId());
+        $this->assertSame($returnUrl, $request->getReturnUrl());
+        $this->assertSame($cancelUrl, $request->getCancelUrl());
+    }
+
+    /**
+     * @return void
+     */
     public function testPurchase()
     {
         $currency = $this->faker->currency();
