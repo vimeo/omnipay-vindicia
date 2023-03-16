@@ -9,7 +9,7 @@ class PayPalAuthorizeRequest extends AuthorizeRequest
      *
      * @var string
      */
-    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\PayPalPurchaseResponse';
+    protected static $RESPONSE_CLASS = '\Omnipay\Vindicia\Message\PayPalAuthorizeResponse';
 
     public function getData($paymentMethodType = self::PAYMENT_METHOD_CREDIT_CARD)
     {
@@ -20,12 +20,12 @@ class PayPalAuthorizeRequest extends AuthorizeRequest
 
     /**
      * Overriding to provide a more precise return type
-     * @return PayPalPurchaseResponse
+     * @return PayPalAuthorizeResponse
      */
     public function send()
     {
         /**
-         * @var PayPalPurchaseResponse
+         * @var PayPalAuthorizeResponse
          */
         return parent::send();
     }
