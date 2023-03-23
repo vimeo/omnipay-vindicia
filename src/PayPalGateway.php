@@ -79,7 +79,7 @@ class PayPalGateway extends AbstractVindiciaGateway
      * 
      * @return \Omnipay\Vindicia\Message\PayPalAuthorizeRequest
      */
-    public function authorize($parameters = array())
+    public function authorize(array $parameters = array())
     {
         /**
          * @var \Omnipay\Vindicia\Message\PayPalAuthorizeRequest
