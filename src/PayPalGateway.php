@@ -77,7 +77,7 @@ class PayPalGateway extends AbstractVindiciaGateway
     /**
      * Authorize a transaction. No money will actually be transferred.
      * 
-     * @return PayPalAuthorizeRequest
+     * @return \Omnipay\Vindicia\Message\PayPalAuthorizeRequest
      */
     public function authorize($parameters = array())
     {
