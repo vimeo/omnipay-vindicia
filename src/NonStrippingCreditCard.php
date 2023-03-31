@@ -12,6 +12,8 @@ use Omnipay\Common\CreditCard;
 class NonStrippingCreditCard extends CreditCard
 {
     /**
+     * 
+     * Test change
      * Set Card Number
      *
      * Unlike the parent class, non-numeric characters are NOT stripped out of
