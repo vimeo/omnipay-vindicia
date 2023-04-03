@@ -16,11 +16,11 @@
  */
 namespace Omnipay\Vindicia;
 
-use Omnipay\Common\Exception\BadMethodCallException;
-use SoapClient;
-use SplQueue;
 use DOMDocument;
 use Omnipay\Common\Exception\OmnipayException;
+use Omnipay\Vindicia\RecordedSoapCall;
+use SoapClient;
+use SplQueue;
 
 class TestableSoapClient extends SoapClient
 {
@@ -48,6 +48,17 @@ class TestableSoapClient extends SoapClient
      * @var array<mixed>
      */
     protected static $lastArguments = array();
+
+    /**
+     * @var bool
+     */
+    protected static $isRecordingAllSoapCalls = false;
+
+    /**
+     * @var array<RecordedSoapCall>
+     */
+    protected static $recordedSoapCalls = array();
+
 
     public function __construct($wsdl, array $options = array())
     {
@@ -79,6 +90,9 @@ class TestableSoapClient extends SoapClient
         &$output_headers = array()
     ) {
         if (!self::$nextResponseOverrideQueue->isEmpty()) {
+            if (self::$isRecordingAllSoapCalls) {
+                self::$recordedSoapCalls[] = new RecordedSoapCall($function_name, $arguments);
+            }
             self::$lastArguments = $arguments;
             self::$lastFunctionName = $function_name;
 
@@ -87,6 +101,24 @@ class TestableSoapClient extends SoapClient
         }
 
         return parent::__soapCall($function_name, $arguments);
+    }
+
+    public static function clearRecordedSoapCalls(): void
+    {
+        self::$recordedSoapCalls = [];
+    }
+
+    public static function setIsRecordingAllSoapCalls(bool $value): void
+    {
+        self::$isRecordingAllSoapCalls = $value;
+    }
+
+    /**
+     * @return array<RecordedSoapCall>
+     */
+    public static function getRecordedSoapCalls(): array
+    {
+        return self::$recordedSoapCalls;
     }
 
     /**
