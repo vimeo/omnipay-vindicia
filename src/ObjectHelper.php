@@ -50,7 +50,9 @@ class ObjectHelper
                     'time' => isset($logEntry->timestamp) ? $logEntry->timestamp : null,
                     'authorizationCode' => isset($logEntry->creditCardStatus->authCode)
                                          ? $logEntry->creditCardStatus->authCode
-                                         : null
+                                         : (isset($logEntry->payPalStatus->authCode)
+                                            ? $logEntry->payPalStatus->authCode
+                                            : null)
                 ));
             }
         }
@@ -82,7 +84,9 @@ class ObjectHelper
             'ip' => isset($object->sourceIp) ? $object->sourceIp : null,
             'authorizationCode' => isset($object->statusLog[0]->creditCardStatus->authCode)
                                  ? $object->statusLog[0]->creditCardStatus->authCode
-                                 : null,
+                                 : (isset($object->statusLog[0]->payPalStatus->authCode)
+                                    ? $object->statusLog[0]->payPalStatus->authCode
+                                    : null),
             'avsCode' => isset($object->statusLog[0]->creditCardStatus->avsCode)
                        ? $object->statusLog[0]->creditCardStatus->avsCode
                        : null,
