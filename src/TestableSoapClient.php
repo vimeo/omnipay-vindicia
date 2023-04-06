@@ -96,8 +96,11 @@ class TestableSoapClient extends SoapClient
             self::$lastArguments = $arguments;
             self::$lastFunctionName = $function_name;
 
-            $return = self::$nextResponseOverrideQueue->dequeue();
-            return $return;
+            $response = self::$nextResponseOverrideQueue->dequeue();
+            if ($response instanceof \Throwable) {
+                throw $response;
+            }
+            return $response;
         }
 
         return parent::__soapCall($function_name, $arguments);
