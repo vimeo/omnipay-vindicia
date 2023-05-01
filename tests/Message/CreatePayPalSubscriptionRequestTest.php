@@ -5,10 +5,6 @@ namespace Omnipay\Vindicia\Message;
 use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
-use Omnipay\Vindicia\NameValue;
-use Omnipay\Vindicia\VindiciaItemBag;
-use Omnipay\Common\CreditCard;
-use Omnipay\Vindicia\AttributeBag;
 
 class CreatePayPalSubscriptionRequestTest extends SoapTestCase
 {
@@ -346,7 +342,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
 
     /**
      * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage Either the productId or productReference parameter is required.
+     * @expectedExceptionMessage Either the productId, productReference, or items parameter is required.
      * @return                   void
      */
     public function testProductIdOrReferenceRequired()

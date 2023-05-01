@@ -426,9 +426,12 @@ class GatewayTest extends GatewayTestCase
     }
 
     /**
+     * @dataProvider provideHasItems
+     *
+     * @param bool $has_items
      * @return void
      */
-    public function testCreateSubscription()
+    public function testCreateSubscription($has_items)
     {
         $subscriptionId = $this->faker->subscriptionId();
         $planId = $this->faker->planId();
@@ -440,6 +443,7 @@ class GatewayTest extends GatewayTestCase
         $startTime = $this->faker->timestamp();
         $card = $this->faker->card();
         $paymentMethodId = $this->faker->paymentMethodId();
+        $items = $has_items ? $this->faker->items($currency) : null;
 
         $request = $this->gateway->createSubscription(
             array(
@@ -450,6 +454,7 @@ class GatewayTest extends GatewayTestCase
                 'statementDescriptor' => $statementDescriptor,
                 'currency' => $currency,
                 'ip' => $ip,
+                'items' => $items,
                 'startTime' => $startTime,
                 'card' => $card,
                 'paymentMethodId' => $paymentMethodId
@@ -466,7 +471,23 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame($ip, $request->getIp());
         $this->assertSame($startTime, $request->getStartTime());
         $this->assertSame($paymentMethodId, $request->getPaymentMethodId());
+        $this->assertSame($items, $request->getItems());
         $this->assertSameCard($card, $request->getCard());
+    }
+
+    /**
+     * @return void
+     */
+    public function provideHasItems()
+    {
+        return [
+            [
+                'has_items' => false,
+            ],
+            [
+                'has_items' => true,
+            ],
+        ];
     }
 
     /**

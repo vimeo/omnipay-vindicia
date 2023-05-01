@@ -4,9 +4,9 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Vindicia\TestFramework\Mocker;
 use Omnipay\Vindicia\TestFramework\DataFaker;
-use Omnipay\Vindicia\Price;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\NameValue;
+use Omnipay\Vindicia\VindiciaItem;
 
 class CreateSubscriptionRequestTest extends SoapTestCase
 {
@@ -42,6 +42,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->shouldAuthorize = $this->faker->bool();
         $this->retryIfInvalidPaymentMethod = $this->faker->bool();
         $this->attributes = $this->faker->attributesAsArray();
+        $this->items = $this->faker->items($this->currency);
 
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
@@ -303,19 +304,38 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
+     * @dataProvider provideHasItems
+     *
+     * @param bool $has_items
      * @return void
      */
-    public function testGetData()
+    public function testGetData(bool $has_items)
     {
+        if ($has_items) {
+            $this->request->setProductId(null);
+            $this->request->setProductReference(null);
+            $this->request->setItems($this->items);
+        }
         $data = $this->request->getData();
 
         $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
         $this->assertSame($this->planId, $data['autobill']->billingPlan->merchantBillingPlanId);
         $this->assertSame($this->subscriptionReference, $data['autobill']->VID);
         $this->assertSame($this->planReference, $data['autobill']->billingPlan->VID);
-        $this->assertSame(1, count($data['autobill']->items));
-        $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
-        $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        $this->assertSame($has_items ? $this->items->count() : 1, count($data['autobill']->items));
+        if ($has_items) {
+            $i = 0;
+            foreach ($this->items as $item) {
+                /** @var VindiciaItem $item */
+                $actual_item = $data['autobill']->items[$i++];
+                $actual_product = $actual_item->product;
+                $this->assertSame($item->getSku(), $actual_product->merchantProductId);
+                $this->assertSame($item->getQuantity(), $actual_item->quantity);
+            }
+        } else {
+            $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
+            $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        }
         $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
         $this->assertSame($this->name, $data['autobill']->account->name);
         $this->assertSame($this->email, $data['autobill']->account->emailAddress);
@@ -358,10 +378,18 @@ class CreateSubscriptionRequestTest extends SoapTestCase
     }
 
     /**
+     * @dataProvider provideHasItems
+     *
+     * @param bool $has_items
      * @return void
      */
-    public function testGetDataNoCard()
+    public function testGetDataNoCard(bool $has_items)
     {
+        if ($has_items) {
+            $this->request->setProductId(null);
+            $this->request->setProductReference(null);
+            $this->request->setItems($this->items);
+        }
         $this->request->setCard(null);
         $data = $this->request->getData();
 
@@ -369,9 +397,20 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertSame($this->planId, $data['autobill']->billingPlan->merchantBillingPlanId);
         $this->assertSame($this->subscriptionReference, $data['autobill']->VID);
         $this->assertSame($this->planReference, $data['autobill']->billingPlan->VID);
-        $this->assertSame(1, count($data['autobill']->items));
-        $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
-        $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        $this->assertSame($has_items ? $this->items->count() : 1, count($data['autobill']->items));
+        if ($has_items) {
+            $i = 0;
+            foreach ($this->items as $item) {
+                /** @var VindiciaItem $item */
+                $actual_item = $data['autobill']->items[$i++];
+                $actual_product = $actual_item->product;
+                $this->assertSame($item->getSku(), $actual_product->merchantProductId);
+                $this->assertSame($item->getQuantity(), $actual_item->quantity);
+            }
+        } else {
+            $this->assertSame($this->productId, $data['autobill']->items[0]->product->merchantProductId);
+            $this->assertSame($this->productReference, $data['autobill']->items[0]->product->VID);
+        }
         $this->assertSame($this->customerId, $data['autobill']->account->merchantAccountId);
         $this->assertSame($this->name, $data['autobill']->account->name);
         $this->assertSame($this->email, $data['autobill']->account->emailAddress);
@@ -470,13 +509,37 @@ class CreateSubscriptionRequestTest extends SoapTestCase
 
     /**
      * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage Either the productId or productReference parameter is required.
+     * @expectedExceptionMessage Either the productId, productReference, or items parameter is required.
      * @return                   void
      */
-    public function testProductIdOrReferenceRequired()
+    public function testProductIdOrReferenceOrItemsRequired()
     {
         $this->request->setProductId(null);
         $this->request->setProductReference(null);
+        $this->request->setItems(null);
+        $this->request->getData();
+    }
+
+    /**
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage Cannot specify items and productId.
+     * @return                   void
+     */
+    public function testProductIdXorItemsRequired()
+    {
+        $this->request->setItems($this->items);
+        $this->request->getData();
+    }
+
+    /**
+     * @expectedException        \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage Cannot specify items and productReference.
+     * @return                   void
+     */
+    public function testProductReferenceXorItemsRequired()
+    {
+        $this->request->setItems($this->items);
+        $this->request->setProductId(null);
         $this->request->getData();
     }
 
@@ -561,5 +624,20 @@ class CreateSubscriptionRequestTest extends SoapTestCase
 
         $this->assertNull($response->getSubscriptionId());
         $this->assertNull($response->getSubscriptionReference());
+    }
+
+    /**
+     * @return void
+     */
+    public function provideHasItems()
+    {
+        return [
+            [
+                'has_items' => false,
+            ],
+            [
+                'has_items' => true,
+            ],
+        ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Omnipay\Vindicia\Message;
 
+use Omnipay\Vindicia\VindiciaItem;
+use Omnipay\Vindicia\VindiciaItemBag;
 use stdClass;
 use Omnipay\Common\Exception\InvalidRequestException;
 
@@ -230,8 +232,20 @@ class CreateSubscriptionRequest extends AuthorizeRequest
 
         $productId = $this->getProductId();
         $productReference = $this->getProductReference();
-        if (!$this->isUpdate() && !$productId && !$productReference) {
-            throw new InvalidRequestException('Either the productId or productReference parameter is required.');
+        /** @var VindiciaItemBag $items */
+        $items = $this->getItems();
+        if (!$this->isUpdate()) {
+            if (!$productId && !$productReference && !$items) {
+                throw new InvalidRequestException('Either the productId, productReference, or items parameter is required.');
+            }
+            if ($items) {
+                if ($productId) {
+                    throw new InvalidRequestException('Cannot specify items and productId.');
+                }
+                if ($productReference) {
+                    throw new InvalidRequestException('Cannot specify items and productReference.');
+                }
+            }
         }
 
         $customerId = $this->getCustomerId();
@@ -270,7 +284,24 @@ class CreateSubscriptionRequest extends AuthorizeRequest
             $subscription->billingPlan = $plan;
         }
 
-        if ($productId !== null || $productReference !== null) {
+        if ($items) {
+            $subscription->items = array();
+            $idx = 0;
+            foreach ($items as $item_data) {
+                /** @var VindiciaItem $item_data */
+
+                $product = new stdClass();
+                $product->merchantProductId = $item_data->getSku();
+                $product->VID = $item_data->getItemReference();
+
+                $request_item = new stdClass();
+                $request_item->index = $idx++;
+                $request_item->product = $product;
+                $request_item->quantity = $item_data->getQuantity();
+
+                array_push($subscription->items, $request_item);
+            }
+        } elseif ($productId !== null || $productReference !== null) {
             $product = new stdClass();
             $product->merchantProductId = $productId;
             $product->VID = $productReference;
