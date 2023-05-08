@@ -141,6 +141,110 @@ class TestableSoapClient extends SoapClient
         self::$nextResponseOverrideQueue->enqueue($response);
     }
 
+     /**
+     * Set the response that should be returned by the next SOAP request by string.
+     * Copy of setNextResponseFromFile, the only difference is instead of reading from
+     * the file for the content, we can directly pass the string/xml which would simplify 
+     * testing.
+     *
+     * @param  string $soapResponse
+     * @throws Omnipay\Common\Exception\BadMethodCallException
+     * @return void
+     */
+    public static function setNextResponseByString($soapResponse)
+    {
+        $responseDom = new DOMDocument();
+        $responseDom->loadXML($soapResponse);
+        $simpleXmlResponse = simplexml_import_dom(
+            $responseDom->documentElement->childNodes->item(1)->childNodes->item(1)
+        );
+        // convert SimpleXMLElement to normal object
+        $responseObject = json_decode(json_encode($simpleXmlResponse));
+
+        // When SOAP fields are supposed to be arrays but they only have one element in them,
+        // the above method of parsing the XML just returns an object instead of a one element
+        // array. The following code is a hack to restore the one element array structure for
+        // the affected fields.
+        $fields = array();
+        if (isset($responseObject->results)) {
+            $fields[] = &$responseObject->results;
+        }
+        if (isset($responseObject->account->paymentMethods)) {
+            $fields[] = &$responseObject->account->paymentMethods;
+        }
+        if (isset($responseObject->refunds)) {
+            $fields[] = &$responseObject->refunds;
+        }
+        if (isset($responseObject->transaction->items)) {
+            $fields[] = &$responseObject->transaction->items;
+        }
+        if (isset($responseObject->billingPlan->periods)) {
+            $fields[] = &$responseObject->billingPlan->periods;
+        }
+        if (isset($responseObject->billingPlan->nameValues)) {
+            $fields[] = &$responseObject->billingPlan->nameValues;
+        }
+        if (isset($responseObject->product->prices)) {
+            $fields[] = &$responseObject->product->prices;
+        }
+        if (isset($responseObject->product->nameValues)) {
+            $fields[] = &$responseObject->product->nameValues;
+        }
+        if (isset($responseObject->product->defaultBillingPlan->periods)) {
+            $fields[] = &$responseObject->product->defaultBillingPlan->periods;
+        }
+        if (isset($responseObject->product->defaultBillingPlan->nameValues)) {
+            $fields[] = &$responseObject->product->defaultBillingPlan->nameValues;
+        }
+        if (isset($responseObject->autobill->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobill->billingPlan->periods;
+        }
+        if (isset($responseObject->autobill->items->product->defaultBillingPlan->periods)) {
+            $fields[] = &$responseObject->autobill->items->product->defaultBillingPlan->periods;
+        }
+        if (isset($responseObject->autobills->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills->billingPlan->periods;
+        }
+        if (isset($responseObject->autobills[0]->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills[0]->billingPlan->periods;
+        }
+        if (isset($responseObject->autobills[1]->billingPlan->periods)) {
+            $fields[] = &$responseObject->autobills[1]->billingPlan->periods;
+        }
+        if (isset($responseObject->autobill->items)) {
+            $fields[] = &$responseObject->autobill->items;
+        }
+        if (isset($responseObject->autobills->items)) {
+            $fields[] = &$responseObject->autobills->items;
+        }
+        if (isset($responseObject->autobills[0]->items)) {
+            $fields[] = &$responseObject->autobills[0]->items;
+        }
+        if (isset($responseObject->autobills[1]->items)) {
+            $fields[] = &$responseObject->autobills[1]->items;
+        }
+        if (isset($responseObject->autobills)) {
+            $fields[] = &$responseObject->autobills;
+        }
+        if (isset($responseObject->autobill->nameValues)) {
+            $fields[] = &$responseObject->autobill->nameValues;
+        }
+        if (isset($responseObject->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods)) {
+            $fields[] = &$responseObject->session->apiReturnValues->accountUpdatePaymentMethod->account->paymentMethods;
+        }
+
+        // also affects the payment methods on the accounts on the transactions in the refunds, but
+        // then we have to hack through all the refunds and we don't need that field anyway
+
+        foreach ($fields as &$field) {
+            if (is_object($field)) {
+                $field = array($field);
+            }
+        }
+
+        self::setNextResponse($responseObject);
+    }
+
     /**
      * Set the response that should be returned by the next SOAP request.
      * `$filename` is the name of the XML file in the tests/Mock directory
