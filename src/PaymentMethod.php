@@ -218,4 +218,25 @@ class PaymentMethod
     {
         return $this->setParameter('attributes', $attributes);
     }
+
+    /**
+     * Get the email associated with PayPal account
+     *
+     * @return null|string
+     */
+    public function getPayPalEmail()
+    {
+        return $this->getParameter('payPalEmail');
+    }
+
+    /**
+     * Sets the payment method payPalEmail
+     *
+     * @param string $value
+     * @return static
+     */
+    public function setPayPalEmail($value)
+    {
+        return $this->setParameter('payPalEmail', $value);
+    }
 }
