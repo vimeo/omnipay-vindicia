@@ -13,12 +13,24 @@ class ObjectHelper
     {
         $customer = isset($object->account) ? $this->buildCustomer($object->account) : null;
 
+        // Vindicia made a small typo in the response field of PayPal email used in PayPal checkout
+        // they return 'paypalEmail' instead of camel case 'payPalEmail' in fetch transaction response
+        // Also there is a discrepancy between Vindicia document and actual response regarding 'paypalEmail'field
+        // PayPal email field is documented under Payment Method object, but it's under Transaction Statuslog actually
+        // we should deal with "payPalEmail" and "paypalEmail" in case they fix the camel case typo on their side
+        $paypalEmail = null;
+        if (isset($object->statusLog[0]->payPalStatus->payPalEmail)) {
+            $paypalEmail = $object->statusLog[0]->payPalStatus->payPalEmail;
+        } elseif (isset($object->statusLog[0]->payPalStatus->paypalEmail)) {
+            $paypalEmail = $object->statusLog[0]->payPalStatus->paypalEmail;
+        }
+
         // fetch transaction response may have salesTaxAddress field as shipping address
         // we should dump this info into the card and use it when creating transaction record
         $paymentMethod = null;
         if (isset($object->sourcePaymentMethod)) {
             $sales_tax_address = isset($object->salesTaxAddress) ? $object->salesTaxAddress : null;
-            $paymentMethod = $this->buildPaymentMethod($object->sourcePaymentMethod, $sales_tax_address);
+            $paymentMethod = $this->buildPaymentMethod($object->sourcePaymentMethod, $sales_tax_address, $paypalEmail);
         }
 
         $items = null;
@@ -55,18 +67,6 @@ class ObjectHelper
                                             : null)
                 ));
             }
-        }
-
-        // Vindicia made a small typo in the response field of PayPal email used in PayPal checkout
-        // they return 'paypalEmail' instead of camel case 'payPalEmail' in fetch transaction response
-        // Also there is a discrepancy between Vindicia document and actual response regarding 'paypalEmail'field
-        // PayPal email field is documented under Payment Method object, but it's under Transaction Statuslog actually
-        // we should deal with "payPalEmail" and "paypalEmail" in case they fix the camel case typo on their side
-        $paypalEmail = null;
-        if (isset($object->statusLog[0]->payPalStatus->payPalEmail)) {
-            $paypalEmail = $object->statusLog[0]->payPalStatus->payPalEmail;
-        } elseif (isset($object->statusLog[0]->payPalStatus->paypalEmail)) {
-            $paypalEmail = $object->statusLog[0]->payPalStatus->paypalEmail;
         }
 
         return new Transaction(array(
@@ -157,9 +157,10 @@ class ObjectHelper
     /**
      * @param stdClass $object raw payment object
      * @param stdClass|null $salesTaxAddress salesTaxAddress info from fetch transaction response
+     * @param string|null $payPalEmail email associated with PayPal account
      * @return \Omnipay\Vindicia\PaymentMethod
      */
-    public function buildPaymentMethod(stdClass $object, stdClass $salesTaxAddress = null)
+    public function buildPaymentMethod(stdClass $object, stdClass $salesTaxAddress = null, string $payPalEmail = null)
     {
         $cvv = null;
         $nameValues = null;
@@ -182,7 +183,8 @@ class ObjectHelper
             'type' => isset($object->type) ? $object->type : null,
             // NonStrippingCreditCard won't remove the X's that Vindicia masks with
             'card' => $this->buildCreditCard($object, $salesTaxAddress, $cvv),
-            'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null
+            'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null,
+            'payPalEmail' => $payPalEmail
         ));
     }
 
