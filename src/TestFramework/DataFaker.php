@@ -1244,4 +1244,14 @@ class DataFaker
     {
         return $this->bool();
     }
+
+    public function uuid(): string
+    {
+        return uniqid();
+    }
+
+    public function today(): string
+    {
+        return date("Y-m-d H:i:s");
+    }
 }

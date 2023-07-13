@@ -123,7 +123,20 @@ class ObjectHelper
                                      ? $object->processorReceivedTimestamp
                                      : null,
             'reasonCode' => isset($object->reasonCode) ? $object->reasonCode : null,
-            'caseNumber' => isset($object->caseNumber) ? $object->caseNumber : null
+            'caseNumber' => isset($object->caseNumber) ? $object->caseNumber : null,
+            'divisionNumber' => isset($object->divisionNumber) ? $object->divisionNumber : null,
+            'merchantNumber' => isset($object->merchantNumber) ? $object->merchantNumber : null,
+            'merchantTransactionId' => isset($object->merchantTransactionId) ? $object->merchantTransactionId : null,
+            'merchantTransactionTimestamp' => isset($object->merchantTransactionTimestamp) ? $object->merchantTransactionTimestamp : null,
+            'merchantUserId' => isset($object->merchantUserId) ? $object->merchantUserId : null,
+            'note' => isset($object->note) ? $object->note : null,
+            'presentmentAmount' => isset($object->presentmentAmount) ? $object->presentmentAmount : null,
+            'presentmentCurrency' => isset($object->presentmentCurrency) ? $object->presentmentCurrency : null,
+            'postedTimestamp' => isset($object->postedTimestamp) ? $object->postedTimestamp : null,
+            'processorReceivedTimestamp' => isset($object->processorReceivedTimestamp) ? $object->processorReceivedTimestamp : null,
+            'referenceNumber' => isset($object->referenceNumber) ? $object->referenceNumber : null,
+            'statusChangedTimestamp' => isset($object->statusChangedTimestamp) ? $object->statusChangedTimestamp : null,
+            'VID' => isset($object->VID) ? $object->VID : null,
         ));
     }
 

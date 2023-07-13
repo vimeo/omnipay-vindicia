@@ -4,6 +4,7 @@ namespace Omnipay\Vindicia\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Vindicia\Chargeback;
 use Omnipay\Vindicia\ObjectHelper;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -61,7 +62,7 @@ class Response extends AbstractResponse
      */
     protected $subscriptions;
     /**
-     * @var array<\Omnipay\Vindicia\Chargeback>
+     * @var array<Chargeback>
      */
     protected $chargebacks;
     /**
@@ -72,6 +73,10 @@ class Response extends AbstractResponse
      * @var int
      */
     protected $billingDay;
+    /**
+     * @var Chargeback
+     */
+    protected $chargeback;
 
     /**
      * Constructor
@@ -502,7 +507,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return null|array<\Omnipay\Vindicia\Chargeback>
+     * @return null|array<Chargeback>
      */
     public function getChargebacks()
     {
@@ -514,6 +519,17 @@ class Response extends AbstractResponse
             $this->chargebacks = $chargebacks;
         }
         return isset($this->chargebacks) ? $this->chargebacks : null;
+    }
+
+    /**
+     * @return null|Chargeback
+     */
+    public function getChargeback()
+    {
+        if (!isset($this->chargeback) && isset($this->data->chargeback)) {
+            $this->chargeback = $this->objectHelper->buildChargeback($this->data->chargeback);
+        }
+        return $this->chargeback ?? null;
     }
 
     /**

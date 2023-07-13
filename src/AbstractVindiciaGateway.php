@@ -418,6 +418,22 @@ abstract class AbstractVindiciaGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Vindicia\Message\CalculateSalesTaxRequest', $parameters);
     }
 
+    public function createChargeback(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateChargebackRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\CreateChargebackRequest', $parameters);
+    }
+
+    public function updateChargeback(array $parameters = array())
+    {
+        /**
+         * @var \Omnipay\Vindicia\Message\CreateChargebackRequest
+         */
+        return $this->createRequest('\Omnipay\Vindicia\Message\CreateChargebackRequest', $parameters);
+    }
+
     /**
      * Method override to support $isUpdate flag and default min chargeback probability.
      *

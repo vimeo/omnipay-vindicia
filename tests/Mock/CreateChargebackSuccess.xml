@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+  soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Body>
+    <updateResponse xmlns="http://soap.vindicia.com/v18_0/Chargeback">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">200</returnCode>
+        <soapId xsi:type="xsd:string">eff74c809a3ee2988b06212803d17961219089e4</soapId>
+        <returnString xsi:type="xsd:string">OK</returnString>
+      </return>
+
+      <chargeback xmlns="" xsi:type="vin:Chargeback">
+        <VID xmlns="" xsi:type="xsd:string">[VID]</VID>
+        <amount xmlns="" xsi:type="xsd:decimal">[AMOUNT]</amount>
+        <currency xmlns="" xsi:type="xsd:string">[CURRENCY]</currency>
+        <reasonCode xmlns="" xsi:type="xsd:string">[REASON_CODE]</reasonCode>
+        <referenceNumber xmlns="" xsi:type="xsd:string">[REFERENCE_NUMBER]</referenceNumber>
+        <merchantTransactionId xmlns="" xsi:type="xsd:string">[MERCHANT_TRANSACTION_ID]</merchantTransactionId>
+        <status xmlns="" xsi:type="vin:ChargebackStatus">[STATUS]</status>
+        <merchantUserId xmlns="" xsi:type="xsd:string">[MERCHANT_USER_ID]</merchantUserId>
+      </chargeback>
+
+      <created xmlns="" xsi:type="xsd:boolean">1</created>
+    </updateResponse>
+  </soap:Body>
+</soap:Envelope>
+

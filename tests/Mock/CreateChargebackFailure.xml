@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+  soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:vin="http://soap.vindicia.com/v18_0/Vindicia"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Body>
+    <updateResponse xmlns="http://soap.vindicia.com/v18_0/Chargeback">
+      <return xmlns="" xsi:type="vin:Return">
+        <returnCode xsi:type="vin:ReturnCode">400</returnCode>
+        <soapId xsi:type="xsd:string">964f95b68d8a6ed8e5f05812f89210fa4e96913f</soapId>
+        <returnString xsi:type="xsd:string">Chargeback must have an amount</returnString>
+      </return>
+
+      <created xmlns="" xsi:type="xsd:boolean">1</created>
+    </updateResponse>
+  </soap:Body>
+</soap:Envelope>
