@@ -325,8 +325,8 @@ class Chargeback
 
     /**
      * Get the reason code
-     * 
-     * The reason code reported by your bank for this Chargeback object. 
+     *
+     * The reason code reported by your bank for this Chargeback object.
      * It's a 2-to-4-digit alphanumeric code provided by the issuing bank involved in a chargeback,
      * For example, reason code 'F14' is No Cardmember Authorization from Amex
      *
@@ -350,7 +350,7 @@ class Chargeback
 
     /**
      * Get the case number
-     * 
+     *
      * Your bank’s case number for this Chargeback object, if any.
      *
      * @return null|string
@@ -369,5 +369,135 @@ class Chargeback
     public function setCaseNumber($value)
     {
         return $this->setParameter('caseNumber', $value);
+    }
+
+    public function getDivisionNumber(): ?string
+    {
+        return $this->getParameter('divisionNumber');
+    }
+
+    public function setDivisionNumber($value): self
+    {
+        return $this->setParameter('divisionNumber', $value);
+    }
+
+    public function getMerchantNumber(): ?string
+    {
+        return $this->getParameter('merchantNumber');
+    }
+
+    public function setMerchantNumber($value): self
+    {
+        return $this->setParameter('merchantNumber', $value);
+    }
+
+    public function getMerchantTransactionId(): ?string
+    {
+        return $this->getParameter('merchantTransactionId');
+    }
+
+    public function setMerchantTransactionId($value): self
+    {
+        return $this->setParameter('merchantTransactionId', $value);
+    }
+
+    public function getMerchantTransactionTimestamp(): ?string
+    {
+        return $this->getParameter('merchantTransactionTimestamp');
+    }
+
+    public function setMerchantTransactionTimestamp($value): self
+    {
+        return $this->setParameter('merchantTransactionTimestamp', $value);
+    }
+
+    public function getMerchantUserId(): ?string
+    {
+        return $this->getParameter('merchantUserId');
+    }
+
+    public function setMerchantUserId($value): self
+    {
+        return $this->setParameter('merchantUserId', $value);
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->getParameter('note');
+    }
+
+    public function setNote($value): self
+    {
+        return $this->setParameter('note', $value);
+    }
+
+    public function getPresentmentAmount(): ?float
+    {
+        return $this->getParameter('presentmentAmount');
+    }
+
+    public function setPresentmentAmount($value): self
+    {
+        return $this->setParameter('presentmentAmount', $value);
+    }
+
+    public function getPresentmentCurrency(): ?string
+    {
+        return $this->getParameter('presentmentCurrency');
+    }
+
+    public function setPresentmentCurrency($value): self
+    {
+        return $this->setParameter('presentmentCurrency', $value);
+    }
+
+    public function getPostedTimestamp(): ?string
+    {
+        return $this->getParameter('postedTimestamp');
+    }
+
+    public function setPostedTimestamp($value): self
+    {
+        return $this->setParameter('postedTimestamp', $value);
+    }
+
+    public function getProcessorReceivedTimestamp(): ?string
+    {
+        return $this->getParameter('processorReceivedTimestamp');
+    }
+
+    public function setProcessorReceivedTimestamp($value): self
+    {
+        return $this->setParameter('processorReceivedTimestamp', $value);
+    }
+
+    public function getReferenceNumber(): ?string
+    {
+        return $this->getParameter('referenceNumber');
+    }
+
+    public function setReferenceNumber($value): self
+    {
+        return $this->setParameter('referenceNumber', $value);
+    }
+
+    public function getStatusChangedTimestamp(): ?string
+    {
+        return $this->getParameter('statusChangedTimestamp');
+    }
+
+    public function setStatusChangedTimestamp($value): self
+    {
+        return $this->setParameter('statusChangedTimestamp', $value);
+    }
+
+    public function getVID(): ?string
+    {
+        return $this->getParameter('VID');
+    }
+
+    public function setVID($value): self
+    {
+        return $this->setParameter('VID', $value);
     }
 }
