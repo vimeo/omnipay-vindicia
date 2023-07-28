@@ -5,6 +5,7 @@ namespace Omnipay\Vindicia;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Tests\TestCase;
 use Omnipay\Common\CreditCard;
+use Omnipay\Vindicia\EcpAccount;
 
 class PaymentMethodTest extends TestCase
 {
@@ -120,5 +121,12 @@ class PaymentMethodTest extends TestCase
         $attributes = array($this->faker->attribute());
         $this->assertSame($this->paymentMethod, $this->paymentMethod->setAttributes($attributes));
         $this->assertSame($attributes, $this->paymentMethod->getAttributes());
+    }
+
+    public function testEcpAccount(): void
+    {
+        $ecp = new EcpAccount();
+        $this->assertSame($this->paymentMethod, $this->paymentMethod->setEcpAccount($ecp));
+        $this->assertSame($ecp, $this->paymentMethod->getEcpAccount());
     }
 }

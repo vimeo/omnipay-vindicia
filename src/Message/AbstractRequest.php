@@ -110,6 +110,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const PAYMENT_METHOD_PAYPAL = 'PayPal';
     const PAYMENT_METHOD_APPLE_PAY = 'ApplePay';
     const PAYMENT_METHOD_CREDIT_CARD = 'CreditCard';
+    const PAYMENT_METHOD_ECP = 'ECP';
 
     /**
      * If chargeback probability from risk scoring is greater than this,
@@ -335,6 +336,21 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setPaymentMethodReference($value)
     {
         return $this->setParameter('paymentMethodReference', $value);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPaymentMethodType()
+    {
+        return $this->getParameter('paymentMethodType');
+    }
+
+    /**
+     * @return static
+     */
+    public function setPaymentMethodType($value) {
+        return $this->setParameter('paymentMethodType', $value);
     }
 
     /**
@@ -1135,7 +1151,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $card = $this->getCard();
 
-        if ($paymentMethodType === self::PAYMENT_METHOD_CREDIT_CARD
+        if (in_array($paymentMethodType, [self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_ECP])
             || ($paymentMethodType === null && $card)
         ) {
             if ($card) {
@@ -1153,7 +1169,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
             // never change the type on an update
             if (!$this->isUpdate()) {
-                $paymentMethod->type = self::PAYMENT_METHOD_CREDIT_CARD;
+                $paymentMethod->type = $paymentMethodType;
             }
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_PAYPAL
                   || ($paymentMethodType === null && $this->getReturnUrl())

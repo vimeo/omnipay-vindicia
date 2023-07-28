@@ -507,4 +507,11 @@ class AbstractRequestTest extends SoapTestCase
             TestableSoapClient::getLastArguments()
         );
     }
+
+    public function testPaymentMethodType(): void
+    {
+        $paymentMethodType = AbstractRequest::PAYMENT_METHOD_ECP;
+        $this->assertSame($this->request, $this->request->setPaymentMethodType($paymentMethodType));
+        $this->assertSame($paymentMethodType, $this->request->getPaymentMethodType());
+    }
 }

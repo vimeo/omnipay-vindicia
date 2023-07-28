@@ -5,6 +5,7 @@ namespace Omnipay\Vindicia;
 use Omnipay\Common\Helper;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Omnipay\Common\CreditCard;
+use Omnipay\Vindicia\EcpAccount;
 
 /**
  * Generic representation of a payment method object returned by a gateway.
@@ -175,6 +176,16 @@ class PaymentMethod
     public function setCard($value)
     {
         return $this->setParameter('card', $value);
+    }
+
+    public function getEcpAccount(): ?EcpAccount
+    {
+        return $this->getParameter('ecpAccount');
+    }
+
+    public function setEcpAccount(EcpAccount $value): self
+    {
+        return $this->setParameter('ecpAccount', $value);
     }
 
     /**
