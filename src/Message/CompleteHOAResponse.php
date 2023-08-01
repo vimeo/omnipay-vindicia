@@ -198,10 +198,35 @@ class CompleteHOAResponse extends Response
                 return null;
             }
 
+            if ($vindiciaPaymentMethod->type === AbstractRequest::PAYMENT_METHOD_ECP) {
+                $vindiciaPaymentMethod->ecp->account = $this->getMaskedEcpAccountNumber();
+            }
+
             $this->paymentMethod = $this->objectHelper->buildPaymentMethod($vindiciaPaymentMethod);
         }
 
         return isset($this->paymentMethod) ? $this->paymentMethod : null;
+    }
+
+    private function getMaskedEcpAccountNumber(): ?string
+    {
+        $account_length = null;
+        $last_digits = null;
+        foreach ($this->data->session->postValues as $post_value) {
+            switch($post_value->name) {
+                case 'vin_PaymentMethod_ecp_lastDigits':
+                    $last_digits = $post_value->value;
+                    break;
+                case 'vin_PaymentMethod_ecp_accountLength':
+                    $account_length = $post_value->value;
+                    break;
+            }
+        }
+
+        if ($account_length !== null && $last_digits !== null) {
+            return str_repeat('X', $account_length - strlen($last_digits)) . $last_digits;
+        }
+        return null;
     }
 
     /**

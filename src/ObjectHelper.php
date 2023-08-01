@@ -190,15 +190,21 @@ class ObjectHelper
             }
         }
 
-        return new PaymentMethod(array(
+        $payment_method_args = [
             'paymentMethodId' => isset($object->merchantPaymentMethodId) ? $object->merchantPaymentMethodId : null,
             'paymentMethodReference' => isset($object->VID) ? $object->VID : null,
             'type' => isset($object->type) ? $object->type : null,
-            // NonStrippingCreditCard won't remove the X's that Vindicia masks with
-            'card' => $this->buildCreditCard($object, $salesTaxAddress, $cvv),
             'attributes' => isset($nameValues) ? $this->buildAttributes($nameValues) : null,
             'payPalEmail' => $payPalEmail
-        ));
+        ];
+        if ($object->type === AbstractRequest::PAYMENT_METHOD_ECP) {
+            $payment_method_args['ecpAccount'] = $this->buildEcpAccount($object);
+        } else {
+            // NonStrippingCreditCard won't remove the X's that Vindicia masks with
+            $payment_method_args['card'] = $this->buildCreditCard($object, $salesTaxAddress, $cvv);
+        }
+
+        return new PaymentMethod($payment_method_args);
     }
 
     /**
@@ -277,6 +283,18 @@ class ObjectHelper
         }
         $card_info = array_merge($card_info, $address_info);
         return new NonStrippingCreditCard($card_info);
+    }
+
+    public function buildEcpAccount(stdClass $object): EcpAccount
+    {
+        $ecp_info = [
+            'maskedAccountNumber' => $object->ecp->account,
+            'routingNumber' => $object->ecp->routingNumber,
+            'accountType' => $object->ecp->accountType,
+            'billingpostcode' => $object->billingAddress->postalCode,
+            'billingcountry' => $object->billingAddress->country,
+        ];
+        return new EcpAccount($ecp_info);
     }
 
     /**
