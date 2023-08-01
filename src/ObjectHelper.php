@@ -2,6 +2,8 @@
 
 namespace Omnipay\Vindicia;
 
+use Omnipay\Vindicia\EcpAccount;
+use Omnipay\Vindicia\Message\AbstractRequest;
 use stdClass;
 
 class ObjectHelper

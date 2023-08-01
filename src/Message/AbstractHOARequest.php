@@ -181,8 +181,9 @@ abstract class AbstractHOARequest extends AbstractRequest
         $values = array();
         $objectParamNames = $this->getObjectParamNames();
 
+        $payment_method_type = $this->getParameter('paymentMethodType');
         foreach ($objectParamNames as $object_name => $param_name) {
-            $data = $this->regularRequest->getData();
+            $data = $this->regularRequest->getData($payment_method_type);
             $object = $data[$param_name];
             $values = array_merge($values, $this->buildPrivateFormValues('vin_' . $object_name, $object));
         }
