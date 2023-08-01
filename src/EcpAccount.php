@@ -1,5 +1,7 @@
 <?php
 
+namespace Omnipay\Vindicia;
+
 use Omnipay\Common\Helper;
 use Symfony\Component\HttpFoundation\ParameterBag;
 

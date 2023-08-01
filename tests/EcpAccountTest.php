@@ -2,8 +2,8 @@
 
 namespace Omnipay\Vindicia;
 
-use EcpAccount;
 use Omnipay\Tests\TestCase;
+use Omnipay\Vindicia\EcpAccount;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 
 class EcpAccountTest extends TestCase
