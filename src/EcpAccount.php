@@ -37,7 +37,10 @@ class EcpAccount
         return $this->parameters->all();
     }
 
-    protected function getParameter($key): mixed
+    /**
+     * @return mixed
+     */
+    protected function getParameter($key)
     {
         return $this->parameters->get($key);
     }
@@ -49,9 +52,9 @@ class EcpAccount
         return $this;
     }
 
-    public function getMaskedAccountNumber(): self
+    public function getMaskedAccountNumber(): string
     {
-        return $this->getParameter('maskedAccountNumber');
+        return (string)$this->getParameter('maskedAccountNumber');
     }
 
     public function setMaskedAccountNumber(string $value): self
@@ -59,9 +62,9 @@ class EcpAccount
         return $this->setParameter('maskedAccountNumber', $value);
     }
 
-    public function getRoutingNumber(): self
+    public function getRoutingNumber(): string
     {
-        return $this->getParameter('routingNumber');
+        return (string)$this->getParameter('routingNumber');
     }
 
     public function setRoutingNumber(string $value): self
@@ -69,9 +72,9 @@ class EcpAccount
         return $this->setParameter('routingNumber', $value);
     }
 
-    public function getAccountType(): self
+    public function getAccountType(): string
     {
-        return $this->getParameter('accountType');
+        return (string)$this->getParameter('accountType');
     }
 
     public function setAccountType(string $value): self
@@ -79,9 +82,9 @@ class EcpAccount
         return $this->setParameter('accountType', $value);
     }
 
-    public function getBillingPostcode(): self
+    public function getBillingPostcode(): string
     {
-        return $this->getParameter('billingPostcode');
+        return (string)$this->getParameter('billingPostcode');
     }
 
     public function setBillingPostcode(string $value): self
@@ -89,9 +92,9 @@ class EcpAccount
         return $this->setParameter('billingPostcode', $value);
     }
 
-    public function getBillingCountry(): self
+    public function getBillingCountry(): string
     {
-        return $this->getParameter('billingCountry');
+        return (string)$this->getParameter('billingCountry');
     }
 
     public function setBillingCountry(string $value): self
