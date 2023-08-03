@@ -181,7 +181,7 @@ abstract class AbstractHOARequest extends AbstractRequest
         $values = array();
         $objectParamNames = $this->getObjectParamNames();
 
-        $payment_method_type = $this->getParameter('paymentMethodType');
+        $payment_method_type = $this->getParameter('paymentMethodType') ?? self::PAYMENT_METHOD_CREDIT_CARD;;
         foreach ($objectParamNames as $object_name => $param_name) {
             $data = $this->regularRequest->getData($payment_method_type);
             $object = $data[$param_name];
