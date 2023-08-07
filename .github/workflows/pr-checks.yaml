@@ -6,16 +6,28 @@ on:
       - master
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  run:
+    name: Run Tests on ${{ matrix.operating-system }} with PHP ${{ matrix.php-versions }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['7.2', '7.4']
+        phpunit-versions: ['4.8.36']
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker
-        run: docker build . --tag omnipay-vindicia
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit:${{ matrix.phpunit-versions }}
+          coverage: none
 
-      - name: Test
-        run: docker run --rm omnipay-vindicia make test
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run tests
+        run: phpunit
