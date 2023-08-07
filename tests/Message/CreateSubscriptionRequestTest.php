@@ -316,7 +316,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             $this->request->setProductReference(null);
             $this->request->setItems($this->items);
         }
-        $data = $this->request->getData();
+        $data = $this->request->getData(AbstractRequest::PAYMENT_METHOD_CREDIT_CARD);
 
         $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
         $this->assertSame($this->planId, $data['autobill']->billingPlan->merchantBillingPlanId);
@@ -354,7 +354,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
         $this->assertTrue(in_array(new NameValue('CVN', $this->card['cvv']), $data['autobill']->paymentMethod->nameValues));
         $this->assertSame($this->card['postcode'], $data['autobill']->paymentMethod->billingAddress->postalCode);
         $this->assertSame($this->card['country'], $data['autobill']->paymentMethod->billingAddress->country);
-        $this->assertSame('CreditCard', $data['autobill']->paymentMethod->type);
+        $this->assertSame(AbstractRequest::PAYMENT_METHOD_CREDIT_CARD, $data['autobill']->paymentMethod->type);
 
         $numAttributes = count($this->attributes);
         $this->assertSame($numAttributes, count($data['autobill']->nameValues));
