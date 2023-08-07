@@ -1151,7 +1151,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $card = $this->getCard();
 
-        if (in_array($paymentMethodType, [self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_ECP])
+        if (in_array($paymentMethodType, [self::PAYMENT_METHOD_CREDIT_CARD, self::PAYMENT_METHOD_ECP], true)
             || ($paymentMethodType === null && $card)
         ) {
             if ($card) {
@@ -1169,7 +1169,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
             // never change the type on an update
             if (!$this->isUpdate()) {
-                $paymentMethod->type = $paymentMethodType;
+                $paymentMethod->type = $paymentMethodType === self::PAYMENT_METHOD_CREDIT_CARD || $card
+                    ? self::PAYMENT_METHOD_CREDIT_CARD
+                    : self::PAYMENT_METHOD_ECP;
             }
         } elseif ($paymentMethodType === self::PAYMENT_METHOD_PAYPAL
                   || ($paymentMethodType === null && $this->getReturnUrl())
