@@ -316,7 +316,7 @@ class CreateSubscriptionRequestTest extends SoapTestCase
             $this->request->setProductReference(null);
             $this->request->setItems($this->items);
         }
-        $data = $this->request->getData(AbstractRequest::PAYMENT_METHOD_CREDIT_CARD);
+        $data = $this->request->getData();
 
         $this->assertSame($this->subscriptionId, $data['autobill']->merchantAutoBillId);
         $this->assertSame($this->planId, $data['autobill']->billingPlan->merchantBillingPlanId);
