@@ -37,8 +37,8 @@ class Mocker extends Mockery
      *
      * @psalm-variadic
      */
-    public static function mock()
+    public static function mock(...$args)
     {
-        return call_user_func_array('parent::mock', func_get_args());
+        return call_user_func_array('parent::mock', $args);
     }
 }
