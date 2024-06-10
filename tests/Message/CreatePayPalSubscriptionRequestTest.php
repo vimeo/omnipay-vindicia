@@ -11,7 +11,7 @@ class CreatePayPalSubscriptionRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
 

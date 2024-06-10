@@ -10,7 +10,7 @@ class AttributeBagTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->bag = new AttributeBag();
         $this->faker = new DataFaker();

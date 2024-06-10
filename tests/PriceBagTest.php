@@ -11,7 +11,7 @@ class PriceBagTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->bag = new PriceBag();
         $this->faker = new DataFaker();

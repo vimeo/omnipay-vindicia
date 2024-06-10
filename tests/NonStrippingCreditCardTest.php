@@ -10,7 +10,7 @@ class NonStrippingCreditCardTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->card = new NonStrippingCreditCard();
         $this->faker = new DataFaker();

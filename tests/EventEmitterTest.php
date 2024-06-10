@@ -3,8 +3,8 @@
 namespace Omnipay\Vindicia;
 
 use Exception;
-use Guzzle\Http\Client;
-use Guzzle\Http\ClientInterface;
+use Omnipay\Common\Http\Client;
+use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Vindicia\TestFramework\DataFaker;
 use Omnipay\Vindicia\TestFramework\SoapTestCase;
 use Omnipay\Vindicia\TestFramework\TestSubscriber;
@@ -30,7 +30,7 @@ class EventEmitterTest extends SoapTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('Europe/London');
 
@@ -45,7 +45,7 @@ class EventEmitterTest extends SoapTestCase
         $this->transactionReference = $this->faker->transactionReference();
         $this->riskScore = $this->faker->riskScore();
 
-        $this->customHttpClient = new Client('', array('redirect.disable' => true));
+        $this->customHttpClient = new Client();
         $this->eventDispatcher = $this->customHttpClient->getEventDispatcher();
 
         $this->testSubscriber = new TestSubscriber($this->faker->name(), new TestLogger());

@@ -10,7 +10,7 @@ class VindiciaRefundItemBagTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->bag = new VindiciaRefundItemBag();
         $this->faker = new DataFaker();
