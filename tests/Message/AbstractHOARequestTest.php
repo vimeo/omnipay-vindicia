@@ -13,7 +13,7 @@ class AbstractHOARequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = Mocker::mockHOARequest('\Omnipay\Vindicia\Message\AbstractHOARequest')->shouldAllowMockingProtectedMethods();
         $this->request->initialize();

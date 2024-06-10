@@ -10,7 +10,7 @@ class TransactionStatusTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
         $this->transactionStatus = new TransactionStatus();

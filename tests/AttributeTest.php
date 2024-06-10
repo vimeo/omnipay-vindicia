@@ -10,7 +10,7 @@ class AttributeTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->attribute = new Attribute();
         $this->faker = new DataFaker();
