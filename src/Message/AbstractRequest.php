@@ -16,9 +16,10 @@ use PaymentGatewayLogger\Event\RequestEvent;
 use PaymentGatewayLogger\Event\ResponseEvent;
 use SoapFault;
 use stdClass;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Guzzle\Http\ClientInterface;
+use Omnipay\Common\Http\ClientInterface;
 use InvalidArgumentException;
 use Omnipay\Common\CreditCard;
 use Omnipay\Vindicia\NonStrippingCreditCard;
@@ -142,7 +143,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $this->isUpdate = $isUpdate;
 
         // Used to fire events before and after executing a request.
-        $this->eventDispatcher = $httpClient->getEventDispatcher();
+        $this->eventDispatcher = new EventDispatcher();
     }
 
     /**
