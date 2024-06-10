@@ -33,7 +33,7 @@
         "vimeo/payment-gateway-logger": "^1.1.1"
     },
     "require-dev": {
-        "http-interop/http-factory-guzzle": "^1.2",
+        "http-interop/http-factory-guzzle": "^1.1",
         "omnipay/tests": "^4.0"
     },
     "config": {
