@@ -10,7 +10,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
         $this->product = new Product();

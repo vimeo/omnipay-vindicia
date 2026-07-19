@@ -13,7 +13,7 @@ class TransactionTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
         $this->transaction = new Transaction();

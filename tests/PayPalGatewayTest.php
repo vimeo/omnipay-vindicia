@@ -11,7 +11,7 @@ class PayPalGatewayTest extends GatewayTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->gateway = new PayPalGateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setTestMode(true);

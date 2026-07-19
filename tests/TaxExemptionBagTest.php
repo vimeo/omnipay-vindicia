@@ -10,7 +10,7 @@ class TaxExemptionBagTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->bag = new TaxExemptionBag();
         $this->faker = new DataFaker();

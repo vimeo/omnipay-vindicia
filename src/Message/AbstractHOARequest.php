@@ -6,7 +6,7 @@ use stdClass;
 use ReflectionClass;
 use ReflectionMethod;
 use Omnipay\Vindicia\NameValue;
-use Guzzle\Http\ClientInterface;
+use Omnipay\Common\Http\ClientInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Omnipay\Vindicia\AttributeBag;
 

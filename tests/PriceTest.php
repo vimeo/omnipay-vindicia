@@ -10,7 +10,7 @@ class PriceTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->price = new Price();
         $this->faker = new DataFaker();

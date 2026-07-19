@@ -13,7 +13,7 @@ class SubscriptionTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
         $this->subscription = new Subscription();

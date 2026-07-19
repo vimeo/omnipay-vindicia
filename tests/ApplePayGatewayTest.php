@@ -11,7 +11,7 @@ class ApplePayGatewayTest extends GatewayTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->gateway = new ApplePayGateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setTestMode(true);

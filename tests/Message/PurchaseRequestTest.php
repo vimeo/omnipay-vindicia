@@ -15,7 +15,7 @@ class PurchaseRequestTest extends SoapTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('Europe/London');
         $this->faker = new DataFaker();

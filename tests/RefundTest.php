@@ -13,7 +13,7 @@ class RefundTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = new DataFaker();
         $this->refund = new Refund();

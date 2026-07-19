@@ -10,7 +10,7 @@ class ApplePayCompleteAuthorizeRequestTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         // Gateway parameters.
         $this->faker = new DataFaker();
